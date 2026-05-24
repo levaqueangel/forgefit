@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const G = {
   dark:"#0A0A0A", dark2:"#111111", dark3:"#181818",
@@ -7,351 +7,207 @@ const G = {
   text:"#F0EDE8", muted:"#555555", mut2:"#888888",
 };
 
-const CHIPS = {
-  obj:     ["Perdre du poids","Prise de masse","Remise en forme","Tonification","Performance"],
-  niv:     ["Débutant","Intermédiaire","Avancé"],
-  lieu:    ["Salle de sport","Maison avec matériel","Maison sans matériel","Extérieur"],
-  seances: ["2","3","4","5+"],
-  duree:   ["30 min","45 min","1h","1h30+"],
-  regime:  ["Omnivore","Végétarien","Vegan","Sans gluten"],
-};
+const css = `
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  .card-hover{transition:all 0.2s ease}
+  .card-hover:hover{border-color:#C9A84C!important;transform:translateY(-3px)}
+  .btn-hover{transition:opacity 0.2s}
+  .btn-hover:hover{opacity:0.85}
+`;
 
-function Label({ children }) {
-  return (
-    <div style={{fontSize:10,letterSpacing:"3px",textTransform:"uppercase",
-      color:G.muted,marginBottom:7,fontFamily:"'Syne',sans-serif"}}>
-      {children}
-    </div>
-  );
-}
-
-function Chip({ label, active, onClick }) {
-  return (
-    <button onClick={onClick} style={{
-      padding:"7px 13px", border:`0.5px solid ${active ? G.gold : G.border}`,
-      borderRadius:2, fontSize:12, cursor:"pointer",
-      background: active ? "rgba(201,168,76,0.1)" : "transparent",
-      color: active ? G.goldL : G.mut2,
-      fontFamily:"'Syne',sans-serif", fontWeight: active ? 600 : 400,
-      letterSpacing:"0.3px", transition:"all 0.15s",
-    }}>{label}</button>
-  );
-}
-
-function Spinner() {
-  return <span style={{width:14,height:14,border:`2px solid ${G.border}`,
-    borderTopColor:G.gold,borderRadius:"50%",display:"inline-block",
-    animation:"spin 0.7s linear infinite"}}/>;
-}
-
-function GoldBtn({ onClick, disabled, loading, children, ghost }) {
-  return (
-    <button onClick={onClick} disabled={disabled||loading} style={{
-      padding:"13px 28px", border:`0.5px solid ${ghost ? G.border : G.gold}`,
-      background: ghost ? "transparent" : (disabled||loading) ? G.dark3
-        : `linear-gradient(135deg,${G.gold},#A67C2E)`,
-      color: ghost ? G.muted : (disabled||loading) ? G.muted : G.dark,
-      fontFamily:"'Syne',sans-serif", fontSize:12, fontWeight:700,
-      letterSpacing:"3px", textTransform:"uppercase",
-      cursor:(disabled||loading)?"not-allowed":"pointer",
-      display:"flex", alignItems:"center", gap:8, transition:"opacity 0.2s",
-    }}>
-      {loading && <Spinner/>}
-      {children}
-    </button>
-  );
-}
+const PLANS = [
+  {
+    id:"starter", name:"Starter", price:49, tag:null,
+    desc:"Idéal pour démarrer avec une base solide.",
+    features:["Bilan morphologique complet","Programme 4 semaines sur mesure","Plan nutritionnel de base","Livraison par email sous 48h"],
+  },
+  {
+    id:"forge", name:"Forge", price:129, tag:"⚡ Populaire",
+    desc:"Le plan complet avec suivi sur 3 mois.",
+    features:["Tout le plan Starter","Suivi mensuel personnalisé","Réévaluation & ajustements","Messagerie directe coach","Vidéos techniques incluses"],
+  },
+  {
+    id:"elite", name:"Elite", price:249, tag:null,
+    desc:"Accompagnement premium sur 6 mois.",
+    features:["Tout le plan Forge","Appels visio hebdomadaires","Suivi nutrition avancé","Réponse prioritaire 24h","Programme salle + maison"],
+  },
+];
 
 export default function Home() {
-  const [step,   setStep]   = useState(1);
-  const [form,   setForm]   = useState({prenom:"",age:"",email:"",genre:"",poids:"",taille:"",contraintes:"",motivation:""});
-  const [sel,    setSel]    = useState({});
-  const [prog,   setProg]   = useState("");
-  const [status, setStatus] = useState("idle");
-  const [errMsg, setErrMsg] = useState("");
-
-  const inp  = k => e => setForm(f=>({...f,[k]:e.target.value}));
-  const pick = (k,v) => setSel(s=>({...s,[k]:v}));
-  const pct  = Math.round((step/6)*100);
-
-  const inputStyle = {
-    width:"100%", background:G.dark2, border:`0.5px solid ${G.border}`,
-    color:G.text, fontFamily:"'Syne',sans-serif", fontSize:13,
-    padding:"10px 14px", outline:"none", borderRadius:0,
-  };
-
-  async function handleGenerate() {
-    setStatus("generating"); setErrMsg(""); setProg("");
-    try {
-      // 1. Générer le programme
-      const genRes = await fetch("/api/generate", {
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body: JSON.stringify({...form,...sel}),
-      });
-      const genData = await genRes.json();
-      if (genData.error) throw new Error(genData.error);
-      const programme = genData.programme;
-      setProg(programme);
-
-      // 2. Envoyer l'email
-      setStatus("sending");
-      const mailRes = await fetch("/api/send-email", {
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body: JSON.stringify({ to:form.email, nom:form.prenom, plan:sel.obj||"personnalisé", programme }),
-      });
-      const mailData = await mailRes.json();
-      if (mailData.error) throw new Error(mailData.error);
-
-      setStatus("done");
-      setStep(6);
-    } catch(e) {
-      setErrMsg(e.message);
-      setStatus("error");
-    }
-  }
-
-  const chipBlock = (key, label) => (
-    <div style={{background:G.dark2,padding:"14px 16px",border:`0.5px solid ${G.border}`}}>
-      <Label>{label}</Label>
-      <div style={{display:"flex",flexWrap:"wrap",gap:6,marginTop:4}}>
-        {CHIPS[key].map(v=><Chip key={v} label={v} active={sel[key]===v} onClick={()=>pick(key,v)}/>)}
-      </div>
-    </div>
-  );
-
-  const fieldBlock = (id, label, ph, type="text") => (
-    <div style={{background:G.dark2,padding:"14px 16px",border:`0.5px solid ${G.border}`}}>
-      <Label>{label}</Label>
-      <input style={inputStyle} type={type} placeholder={ph} value={form[id]} onChange={inp(id)}/>
-    </div>
-  );
+  const router = useRouter();
 
   return (
-    <div style={{background:G.dark,color:G.text,minHeight:"100vh",fontFamily:"'Syne',sans-serif"}}>
-      <style>{`
-        @keyframes spin{to{transform:rotate(360deg)}}
-        @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-        .fade-up{animation:fadeUp 0.4s ease forwards}
-        input::placeholder,textarea::placeholder{color:#2E2E2E}
-        input:focus,textarea:focus,select:focus{border-color:${G.gold}!important;outline:none}
-        * { box-sizing:border-box; }
-      `}</style>
+    <div style={{background:"#0A0A0A",color:"#F0EDE8",minHeight:"100vh",fontFamily:"'Syne',sans-serif"}}>
+      <style>{css}</style>
 
       {/* Nav */}
-      <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",
-        padding:"18px 28px",borderBottom:`0.5px solid ${G.border}`}}>
-        <div style={{fontSize:20,fontWeight:800,letterSpacing:5}}>
-          FORGE<span style={{color:G.gold}}>FIT</span>
+      <nav style={{display:"flex",alignItems:"center",justifyContent:"space-between",
+        padding:"20px 32px",borderBottom:"0.5px solid #242424",
+        position:"sticky",top:0,background:"#0A0A0A",zIndex:100}}>
+        <div style={{fontSize:22,fontWeight:800,letterSpacing:5}}>
+          FORGE<span style={{color:"#C9A84C"}}>FIT</span>
         </div>
-        <div style={{fontSize:11,color:G.muted,fontFamily:"'DM Mono',monospace",letterSpacing:"1px"}}>
-          Étape {step} / 6
+        <div style={{display:"flex",gap:"2rem",fontSize:13,letterSpacing:"1px",color:"#555"}}>
+          <span style={{cursor:"pointer"}} onClick={()=>document.getElementById("offres").scrollIntoView({behavior:"smooth"})}>Programmes</span>
+          <span style={{cursor:"pointer"}} onClick={()=>document.getElementById("methode").scrollIntoView({behavior:"smooth"})}>Méthode</span>
+          <span style={{cursor:"pointer"}} onClick={()=>document.getElementById("offres").scrollIntoView({behavior:"smooth"})}>Tarifs</span>
+        </div>
+        <button className="btn-hover" onClick={()=>document.getElementById("offres").scrollIntoView({behavior:"smooth"})} style={{
+          background:"linear-gradient(135deg,#C9A84C,#A67C2E)",border:"none",color:"#0A0A0A",
+          padding:"10px 24px",fontFamily:"'Syne',sans-serif",fontSize:12,fontWeight:700,
+          letterSpacing:"2px",textTransform:"uppercase",cursor:"pointer"}}>
+          Commencer
+        </button>
+      </nav>
+
+      {/* Hero */}
+      <section style={{display:"grid",gridTemplateColumns:"1fr 1fr",minHeight:"520px",borderBottom:"0.5px solid #242424"}}>
+        <div style={{padding:"5rem 3rem",display:"flex",flexDirection:"column",justifyContent:"center",borderRight:"0.5px solid #242424"}}>
+          <div style={{fontSize:11,letterSpacing:"4px",textTransform:"uppercase",color:"#C9A84C",marginBottom:"1.5rem"}}>— Coaching sur mesure</div>
+          <h1 style={{fontFamily:"'Cormorant Garamond',serif",fontSize:72,fontWeight:600,lineHeight:0.95,marginBottom:"1.5rem"}}>
+            Ton corps.<br/><em style={{fontStyle:"italic",color:"#C9A84C",fontSize:64}}>Ton plan.</em><br/>Tes règles.
+          </h1>
+          <p style={{fontFamily:"'Cormorant Garamond',serif",fontSize:18,color:"#555",lineHeight:1.7,maxWidth:380,marginBottom:"2.5rem"}}>
+            Des programmes de musculation et remise en forme conçus uniquement pour toi.
+          </p>
+          <div style={{display:"flex",gap:"1rem",alignItems:"center"}}>
+            <button className="btn-hover" onClick={()=>document.getElementById("offres").scrollIntoView({behavior:"smooth"})} style={{
+              background:"linear-gradient(135deg,#C9A84C,#A67C2E)",border:"none",color:"#0A0A0A",
+              padding:"14px 32px",fontFamily:"'Syne',sans-serif",fontSize:13,fontWeight:700,
+              letterSpacing:"2px",textTransform:"uppercase",cursor:"pointer"}}>
+              Obtenir mon plan ↗
+            </button>
+            <button onClick={()=>document.getElementById("methode").scrollIntoView({behavior:"smooth"})} style={{
+              background:"none",border:"none",color:"#555",fontFamily:"'Syne',sans-serif",
+              fontSize:12,letterSpacing:"1px",cursor:"pointer"}}>
+              Voir la méthode →
+            </button>
+          </div>
+        </div>
+        <div style={{display:"grid",gridTemplateRows:"1fr 1fr",background:"#111"}}>
+          {[["100%","Personnalisé pour toi"],["+340","Clients transformés"]].map(([num,label])=>(
+            <div key={label} style={{padding:"2.5rem",borderBottom:"0.5px solid #242424",display:"flex",flexDirection:"column",justifyContent:"flex-end"}}>
+              <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:80,fontWeight:600,lineHeight:1,color:"#C9A84C"}}>{num}</div>
+              <div style={{fontSize:12,letterSpacing:"3px",textTransform:"uppercase",color:"#555",marginTop:6}}>{label}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Strip */}
+      <div style={{overflow:"hidden",borderBottom:"0.5px solid #242424",background:"#C9A84C",padding:"12px 0"}}>
+        <div style={{display:"flex",gap:"3rem",animation:"marquee 18s linear infinite",whiteSpace:"nowrap"}}>
+          {["Musculation","Perte de poids","Remise en forme","Prise de masse","Cardio ciblé","Tonification","Mobilité",
+            "Musculation","Perte de poids","Remise en forme","Prise de masse","Cardio ciblé","Tonification","Mobilité"].map((t,i)=>(
+            <span key={i} style={{fontSize:12,fontWeight:700,letterSpacing:"3px",textTransform:"uppercase",color:"#0A0A0A"}}>{t}</span>
+          ))}
         </div>
       </div>
 
-      {/* Barre de progression */}
-      <div style={{height:2,background:G.dark3}}>
-        <div style={{height:2,width:`${pct}%`,
-          background:`linear-gradient(90deg,${G.gold},${G.goldL})`,
-          transition:"width 0.4s ease"}}/>
-      </div>
-
-      <div style={{padding:"28px 28px 60px",maxWidth:640,margin:"0 auto"}}>
-
-        {/* ── ÉTAPE 1 — Identité ── */}
-        {step===1 && (
-          <div className="fade-up">
-            <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:34,fontWeight:600,marginBottom:6}}>
-              Qui es-<em style={{color:G.gold,fontStyle:"italic"}}>tu ?</em>
-            </div>
-            <div style={{fontSize:12,color:G.muted,marginBottom:24}}>
-              Quelques infos pour personnaliser ton programme.
-            </div>
-            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:1,marginBottom:1}}>
-              {fieldBlock("prenom","Prénom","ex. Sarah")}
-              {fieldBlock("age","Âge","ex. 28","number")}
-            </div>
-            {fieldBlock("email","Email","ton@email.com","email")}
-            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:1,marginTop:1}}>
-              <div style={{background:G.dark2,padding:"14px 16px",border:`0.5px solid ${G.border}`}}>
-                <Label>Genre</Label>
-                <select style={{...inputStyle,cursor:"pointer"}} value={form.genre} onChange={inp("genre")}>
-                  <option value="">—</option>
-                  <option>Homme</option><option>Femme</option><option>Autre</option>
-                </select>
-              </div>
-              {fieldBlock("poids","Poids (kg)","ex. 68","number")}
-            </div>
-            <div style={{marginTop:1}}>{fieldBlock("taille","Taille (cm)","ex. 165","number")}</div>
-            <div style={{display:"flex",justifyContent:"flex-end",marginTop:20}}>
-              <GoldBtn onClick={()=>{
-                if(!form.prenom||!form.email){alert("Prénom et email requis");return;}
-                setStep(2);
-              }}>Suivant →</GoldBtn>
-            </div>
+      {/* Méthode */}
+      <section id="methode" style={{display:"grid",gridTemplateColumns:"1fr 1fr",borderBottom:"0.5px solid #242424"}}>
+        <div style={{padding:"4rem 3rem",borderRight:"0.5px solid #242424"}}>
+          <div style={{fontSize:11,letterSpacing:"4px",textTransform:"uppercase",color:"#C9A84C",marginBottom:"0.5rem"}}>— Comment ça marche</div>
+          <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:42,fontWeight:600,lineHeight:1.1,marginBottom:"2rem"}}>
+            4 étapes vers ta<br/><em style={{fontStyle:"italic",color:"#555"}}>version optimale</em>
           </div>
-        )}
-
-        {/* ── ÉTAPE 2 — Objectifs ── */}
-        {step===2 && (
-          <div className="fade-up">
-            <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:34,fontWeight:600,marginBottom:6}}>
-              Ton <em style={{color:G.gold,fontStyle:"italic"}}>objectif</em>
-            </div>
-            <div style={{fontSize:12,color:G.muted,marginBottom:24}}>Qu'est-ce que tu veux accomplir ?</div>
-            <div style={{display:"flex",flexDirection:"column",gap:1}}>
-              {chipBlock("obj","Objectif principal")}
-              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:1}}>
-                {chipBlock("seances","Séances / semaine")}
-                {chipBlock("duree","Durée par séance")}
+          {[
+            ["01","Choisis ton plan","Sélectionne la formule qui correspond à tes objectifs."],
+            ["02","Remplis ton bilan","Un questionnaire complet sur ton corps et tes objectifs."],
+            ["03","Reçois ton programme","L'IA génère ton plan et tu le reçois par email sous 48h."],
+            ["04","Progresse & évolue","Suis ton programme et reviens pour l'adapter."],
+          ].map(([num,title,desc])=>(
+            <div key={num} style={{display:"flex",gap:"1.5rem",padding:"1.5rem 0",borderBottom:"0.5px solid #242424"}}>
+              <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:48,fontWeight:600,color:"#242424",lineHeight:1,minWidth:52}}>{num}</div>
+              <div>
+                <div style={{fontSize:16,fontWeight:700,textTransform:"uppercase",letterSpacing:"1px",marginBottom:6}}>{title}</div>
+                <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:15,color:"#555",lineHeight:1.6}}>{desc}</div>
               </div>
             </div>
-            <div style={{display:"flex",justifyContent:"space-between",marginTop:20}}>
-              <GoldBtn ghost onClick={()=>setStep(1)}>← Retour</GoldBtn>
-              <GoldBtn onClick={()=>setStep(3)}>Suivant →</GoldBtn>
+          ))}
+        </div>
+        <div style={{padding:"4rem 3rem",background:"#111",display:"flex",flexDirection:"column",gap:"2rem",justifyContent:"center"}}>
+          <div style={{fontSize:11,letterSpacing:"4px",textTransform:"uppercase",color:"#C9A84C"}}>— Ils témoignent</div>
+          {[
+            ["En 3 mois avec le plan Forge, j'ai perdu 9 kg tout en gagnant en force.","Sarah M. — Plan Forge"],
+            ["Le bilan initial a tout changé — j'avais juste besoin d'un plan fait pour MOI.","Thomas K. — Plan Elite"],
+            ["Simple, efficace. J'ai enfin un programme que je peux tenir sur la durée.","Camille D. — Plan Starter"],
+          ].map(([quote,author])=>(
+            <div key={author} style={{padding:"1.5rem",borderLeft:"3px solid #C9A84C"}}>
+              <p style={{fontFamily:"'Cormorant Garamond',serif",fontSize:16,fontStyle:"italic",color:"#888",lineHeight:1.7,marginBottom:"0.75rem"}}>{quote}</p>
+              <div style={{fontSize:11,letterSpacing:"2px",textTransform:"uppercase",color:"#C9A84C"}}>{author}</div>
             </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Offres */}
+      <section id="offres" style={{padding:"4rem 3rem",borderBottom:"0.5px solid #242424"}}>
+        <div style={{textAlign:"center",marginBottom:"3rem"}}>
+          <div style={{fontSize:11,letterSpacing:"4px",textTransform:"uppercase",color:"#C9A84C",marginBottom:"0.5rem"}}>— Nos formules</div>
+          <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:48,fontWeight:600,lineHeight:1}}>
+            Choisis ton niveau<br/><em style={{fontStyle:"italic",color:"#555"}}>d'engagement</em>
           </div>
-        )}
-
-        {/* ── ÉTAPE 3 — Entraînement ── */}
-        {step===3 && (
-          <div className="fade-up">
-            <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:34,fontWeight:600,marginBottom:6}}>
-              Ton <em style={{color:G.gold,fontStyle:"italic"}}>entraînement</em>
-            </div>
-            <div style={{fontSize:12,color:G.muted,marginBottom:24}}>Ton niveau et ton environnement.</div>
-            <div style={{display:"flex",flexDirection:"column",gap:1}}>
-              {chipBlock("niv","Niveau actuel")}
-              {chipBlock("lieu","Lieu d'entraînement")}
-              <div style={{background:G.dark2,padding:"14px 16px",border:`0.5px solid ${G.border}`}}>
-                <Label>Blessures / contraintes (optionnel)</Label>
-                <textarea style={{...inputStyle,minHeight:64,resize:"vertical"}}
-                  value={form.contraintes} onChange={inp("contraintes")}
-                  placeholder="ex. douleur genou gauche, pas de sauts..."/>
-              </div>
-            </div>
-            <div style={{display:"flex",justifyContent:"space-between",marginTop:20}}>
-              <GoldBtn ghost onClick={()=>setStep(2)}>← Retour</GoldBtn>
-              <GoldBtn onClick={()=>setStep(4)}>Suivant →</GoldBtn>
-            </div>
-          </div>
-        )}
-
-        {/* ── ÉTAPE 4 — Mode de vie ── */}
-        {step===4 && (
-          <div className="fade-up">
-            <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:34,fontWeight:600,marginBottom:6}}>
-              Mode de <em style={{color:G.gold,fontStyle:"italic"}}>vie</em>
-            </div>
-            <div style={{fontSize:12,color:G.muted,marginBottom:24}}>Pour un programme qui s'adapte à ta réalité.</div>
-            <div style={{display:"flex",flexDirection:"column",gap:1}}>
-              {chipBlock("regime","Alimentation")}
-              <div style={{background:G.dark2,padding:"14px 16px",border:`0.5px solid ${G.border}`}}>
-                <Label>Ta motivation profonde (optionnel)</Label>
-                <textarea style={{...inputStyle,minHeight:64,resize:"vertical"}}
-                  value={form.motivation} onChange={inp("motivation")}
-                  placeholder="ex. me sentir bien dans mon corps, être en forme pour mes enfants..."/>
-              </div>
-            </div>
-            <div style={{display:"flex",justifyContent:"space-between",marginTop:20}}>
-              <GoldBtn ghost onClick={()=>setStep(3)}>← Retour</GoldBtn>
-              <GoldBtn onClick={()=>setStep(5)}>Voir le récap →</GoldBtn>
-            </div>
-          </div>
-        )}
-
-        {/* ── ÉTAPE 5 — Récapitulatif ── */}
-        {step===5 && (
-          <div className="fade-up">
-            <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:34,fontWeight:600,marginBottom:6}}>
-              Tout est <em style={{color:G.gold,fontStyle:"italic"}}>prêt</em>
-            </div>
-            <div style={{fontSize:12,color:G.muted,marginBottom:24}}>Vérifie tes infos avant de générer.</div>
-
-            {[
-              {title:"Identité",    rows:[["Prénom",form.prenom],["Âge",form.age+" ans"],["Email",form.email],["Genre",form.genre]]},
-              {title:"Programme",  rows:[["Objectif",sel.obj],["Niveau",sel.niv],["Lieu",sel.lieu],["Séances",sel.seances+" / sem"],["Durée",sel.duree]]},
-              {title:"Mode de vie",rows:[["Régime",sel.regime],["Contraintes",form.contraintes||"—"],["Motivation",form.motivation||"—"]]},
-            ].map(section=>(
-              <div key={section.title} style={{background:G.dark2,border:`0.5px solid ${G.border}`,padding:"16px",marginBottom:1}}>
-                <div style={{fontSize:10,letterSpacing:"3px",textTransform:"uppercase",color:G.gold,marginBottom:12}}>{section.title}</div>
-                {section.rows.filter(r=>r[1]).map(([k,v])=>(
-                  <div key={k} style={{display:"flex",justifyContent:"space-between",padding:"6px 0",
-                    borderBottom:`0.5px solid ${G.border}`,fontSize:13}}>
-                    <span style={{color:G.muted}}>{k}</span>
-                    <span style={{color:G.text,fontWeight:500,maxWidth:"55%",textAlign:"right"}}>{v}</span>
+        </div>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:1,background:"#242424"}}>
+          {PLANS.map(plan=>(
+            <div key={plan.id} className="card-hover" style={{
+              background:plan.tag?"#181818":"#111",padding:"2.5rem 2rem",
+              border:`0.5px solid ${plan.tag?"#C9A84C":"#242424"}`,
+              display:"flex",flexDirection:"column",position:"relative",overflow:"hidden"}}>
+              {plan.tag&&<div style={{position:"absolute",top:0,right:0,background:"#C9A84C",color:"#0A0A0A",
+                fontSize:10,fontWeight:700,letterSpacing:"2px",padding:"5px 14px",textTransform:"uppercase"}}>{plan.tag}</div>}
+              <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:36,fontWeight:600,
+                color:plan.tag?"#E8C87A":"#F0EDE8",marginBottom:4}}>{plan.name}</div>
+              <div style={{fontSize:12,color:"#555",marginBottom:"1.5rem"}}>{plan.desc}</div>
+              <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:56,fontWeight:600,color:"#C9A84C",lineHeight:1,marginBottom:4}}>{plan.price}€</div>
+              <div style={{fontSize:11,letterSpacing:"1px",color:"#555",marginBottom:"1.5rem"}}>paiement unique</div>
+              <div style={{flex:1,marginBottom:"2rem"}}>
+                {plan.features.map((f,i)=>(
+                  <div key={i} style={{display:"flex",alignItems:"flex-start",gap:10,padding:"8px 0",
+                    borderBottom:"0.5px solid #242424",fontSize:13,color:"#888"}}>
+                    <span style={{color:"#C9A84C"}}>·</span>{f}
                   </div>
                 ))}
               </div>
-            ))}
-
-            <div style={{background:G.dark3,border:`0.5px solid ${G.gold}`,
-              padding:"14px 16px",marginTop:1,fontSize:12,color:G.muted}}>
-              📧 Le programme sera envoyé à <strong style={{color:G.goldL}}>{form.email}</strong>
+              <button className="btn-hover" onClick={()=>router.push(`/bilan?plan=${plan.id}&price=${plan.price}`)} style={{
+                width:"100%",padding:"13px 0",
+                background:plan.tag?"linear-gradient(135deg,#C9A84C,#A67C2E)":"transparent",
+                border:`0.5px solid ${plan.tag?"#C9A84C":"#242424"}`,
+                color:plan.tag?"#0A0A0A":"#888",
+                fontFamily:"'Syne',sans-serif",fontSize:12,fontWeight:700,
+                letterSpacing:"2px",textTransform:"uppercase",cursor:"pointer"}}>
+                Choisir {plan.name}
+              </button>
             </div>
+          ))}
+        </div>
+      </section>
 
-            <div style={{display:"flex",justifyContent:"space-between",marginTop:20}}>
-              <GoldBtn ghost onClick={()=>setStep(4)}>← Modifier</GoldBtn>
-              <GoldBtn
-                onClick={handleGenerate}
-                loading={status==="generating"||status==="sending"}
-              >
-                {status==="generating" ? "Génération IA..." :
-                 status==="sending"    ? "Envoi email..."   :
-                 "⚡ Générer & Envoyer"}
-              </GoldBtn>
-            </div>
+      {/* CTA */}
+      <section style={{padding:"5rem 3rem",textAlign:"center",background:"#C9A84C"}}>
+        <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:64,fontWeight:600,color:"#0A0A0A",lineHeight:1,marginBottom:"1rem"}}>
+          Prêt à te<br/>forger ?
+        </div>
+        <p style={{fontFamily:"'Cormorant Garamond',serif",fontSize:18,color:"#6B5F3A",marginBottom:"2.5rem"}}>
+          Commence par choisir ton plan. Sans engagement.
+        </p>
+        <button className="btn-hover" onClick={()=>document.getElementById("offres").scrollIntoView({behavior:"smooth"})} style={{
+          background:"#0A0A0A",color:"#C9A84C",padding:"16px 48px",
+          fontFamily:"'Syne',sans-serif",fontSize:14,fontWeight:700,
+          letterSpacing:"3px",textTransform:"uppercase",border:"none",cursor:"pointer"}}>
+          Voir les plans →
+        </button>
+      </section>
 
-            {errMsg && (
-              <div style={{marginTop:16,padding:"12px 16px",background:"#1A0808",
-                border:"0.5px solid #5A1A1A",color:"#E07070",fontSize:13,
-                fontFamily:"'DM Mono',monospace"}}>
-                ✕ {errMsg}
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* ── ÉTAPE 6 — Succès ── */}
-        {step===6 && status==="done" && (
-          <div className="fade-up" style={{textAlign:"center",paddingTop:20}}>
-            <div style={{width:56,height:56,
-              background:`linear-gradient(135deg,${G.gold},#A67C2E)`,
-              borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",
-              margin:"0 auto 20px",fontSize:24}}>
-              ✓
-            </div>
-            <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:36,fontWeight:600,marginBottom:8}}>
-              Programme <em style={{color:G.gold,fontStyle:"italic"}}>envoyé !</em>
-            </div>
-            <div style={{fontSize:13,color:G.muted,marginBottom:32,lineHeight:1.8}}>
-              {form.prenom}, ton programme a été envoyé à<br/>
-              <strong style={{color:G.goldL}}>{form.email}</strong>
-            </div>
-
-            <div style={{background:G.dark2,border:`0.5px solid ${G.border}`,
-              padding:"20px",textAlign:"left",marginBottom:24}}>
-              <div style={{fontSize:10,letterSpacing:"3px",textTransform:"uppercase",
-                color:G.gold,marginBottom:12}}>Aperçu du programme</div>
-              <div style={{fontFamily:"'DM Mono',monospace",fontSize:12,lineHeight:2,
-                color:G.mut2,whiteSpace:"pre-wrap",maxHeight:300,overflow:"auto"}}>
-                {prog}
-              </div>
-            </div>
-
-            <button onClick={()=>{
-              setStep(1); setProg(""); setStatus("idle"); setErrMsg("");
-              setForm({prenom:"",age:"",email:"",genre:"",poids:"",taille:"",contraintes:"",motivation:""});
-              setSel({});
-            }} style={{background:"transparent",border:`0.5px solid ${G.border}`,
-              color:G.muted,fontFamily:"'Syne',sans-serif",fontSize:12,
-              letterSpacing:"2px",textTransform:"uppercase",padding:"11px 24px",cursor:"pointer"}}>
-              Nouveau client →
-            </button>
-          </div>
-        )}
-      </div>
+      {/* Footer */}
+      <footer style={{padding:"2rem 3rem",display:"flex",justifyContent:"space-between",
+        alignItems:"center",borderTop:"0.5px solid #242424"}}>
+        <div style={{fontSize:18,fontWeight:800,letterSpacing:5}}>FORGE<span style={{color:"#C9A84C"}}>FIT</span></div>
+        <div style={{fontSize:11,letterSpacing:"2px",color:"#555",textTransform:"uppercase"}}>© 2026 ForgeFit — Coaching personnalisé</div>
+      </footer>
     </div>
   );
 }
