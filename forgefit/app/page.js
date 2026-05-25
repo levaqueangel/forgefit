@@ -207,6 +207,7 @@ export default function Home() {
         alignItems:"center",borderTop:"0.5px solid #242424"}}>
         <div style={{fontSize:18,fontWeight:800,letterSpacing:5}}>APXFIT<span style={{color:"#C9A84C"}}>NESS</span></div>
         <div style={{fontSize:11,letterSpacing:"2px",color:"#555",textTransform:"uppercase"}}>© 2026 APXFITNESS — Coaching personnalisé</div>
+        <span style={{cursor:"pointer",fontSize:11,letterSpacing:"2px",color:"#555",textTransform:"uppercase",textDecoration:"underline"}} onClick={()=>router.push("/mentions-legales")}>Mentions légales & CGV</span>
       </footer>
     </div>
   );
