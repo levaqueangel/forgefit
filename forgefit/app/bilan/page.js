@@ -120,7 +120,7 @@ function BilanForm() {
       <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",
         padding:"18px 28px",borderBottom:"0.5px solid #242424"}}>
         <div style={{fontSize:20,fontWeight:800,letterSpacing:5,cursor:"pointer"}} onClick={()=>router.push("/")}>
-          FORGE<span style={{color:"#C9A84C"}}>FIT</span>
+          APXFIT<span style={{color:"#C9A84C"}}>NESS</span>
         </div>
         <div style={{display:"flex",alignItems:"center",gap:12}}>
           <div style={{fontSize:11,letterSpacing:"2px",textTransform:"uppercase",
