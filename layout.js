@@ -24,6 +24,9 @@ export const metadata = {
   alternates: {
     canonical: "https://apxfitness.vercel.app",
   },
+  verification: {
+    google: "xfrTOInrUrA35W0OBd-BQHoeB5rKu64Urs5pa_Wo59s",
+  },
 };
 
 export default function RootLayout({ children }) {
