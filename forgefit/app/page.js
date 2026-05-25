@@ -47,7 +47,7 @@ export default function Home() {
         padding:"20px 32px",borderBottom:"0.5px solid #242424",
         position:"sticky",top:0,background:"#0A0A0A",zIndex:100}}>
         <div style={{fontSize:22,fontWeight:800,letterSpacing:5}}>
-          FORGE<span style={{color:"#C9A84C"}}>FIT</span>
+          APXFIT<span style={{color:"#C9A84C"}}>NESS</span>
         </div>
         <div style={{display:"flex",gap:"2rem",fontSize:13,letterSpacing:"1px",color:"#555"}}>
           <span style={{cursor:"pointer"}} onClick={()=>document.getElementById("offres").scrollIntoView({behavior:"smooth"})}>Programmes</span>
@@ -205,8 +205,8 @@ export default function Home() {
       {/* Footer */}
       <footer style={{padding:"2rem 3rem",display:"flex",justifyContent:"space-between",
         alignItems:"center",borderTop:"0.5px solid #242424"}}>
-        <div style={{fontSize:18,fontWeight:800,letterSpacing:5}}>FORGE<span style={{color:"#C9A84C"}}>FIT</span></div>
-        <div style={{fontSize:11,letterSpacing:"2px",color:"#555",textTransform:"uppercase"}}>© 2026 ForgeFit — Coaching personnalisé</div>
+        <div style={{fontSize:18,fontWeight:800,letterSpacing:5}}>APXFIT<span style={{color:"#C9A84C"}}>NESS</span></div>
+        <div style={{fontSize:11,letterSpacing:"2px",color:"#555",textTransform:"uppercase"}}>© 2026 APXFITNESS — Coaching personnalisé</div>
       </footer>
     </div>
   );
