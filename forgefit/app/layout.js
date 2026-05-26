@@ -27,6 +27,7 @@ export const metadata = {
   verification: {
     google: "xfrTOInrUrA35W0OBd-BQHoeB5rKu64Urs5pa_Wo59s",
   },
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({ children }) {
@@ -37,7 +38,16 @@ export default function RootLayout({ children }) {
         <meta name="theme-color" content="#0A0A0A" />
         <link rel="icon" href="/favicon.ico" />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <script dangerouslySetInnerHTML={{__html: `
+          if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+              navigator.serviceWorker.register('/sw.js');
+            });
+          }
+        `}} />
+      </body>
     </html>
   );
 }
