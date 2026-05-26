@@ -114,7 +114,18 @@ function BilanForm() {
 
   return (
     <div style={{background:"#0A0A0A",color:"#F0EDE8",minHeight:"100vh",fontFamily:"'Syne',sans-serif"}}>
-      <style>{`@keyframes spin{to{transform:rotate(360deg)}} @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}} .fade-up{animation:fadeUp 0.4s ease forwards} input::placeholder,textarea::placeholder{color:#2E2E2E} input:focus,textarea:focus,select:focus{border-color:#C9A84C!important;outline:none} *{box-sizing:border-box}`}</style>
+      <style>{`@keyframes spin{to{transform:rotate(360deg)}}
+  @media(max-width:768px){
+    .bilan-grid-2{grid-template-columns:1fr!important}
+    .bilan-pad{padding:20px 16px 60px!important}
+    .bilan-title{font-size:28px!important}
+    .bilan-nav{padding:14px 16px!important}
+    .chip-row-wrap{gap:8px!important}
+    .chip-btn{padding:8px 12px!important;font-size:11px!important}
+    .gold-btn{padding:12px 20px!important;font-size:11px!important}
+    .recap-row{font-size:12px!important}
+  }
+ @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}} .fade-up{animation:fadeUp 0.4s ease forwards} input::placeholder,textarea::placeholder{color:#2E2E2E} input:focus,textarea:focus,select:focus{border-color:#C9A84C!important;outline:none} *{box-sizing:border-box}`}</style>
 
       {/* Nav */}
       <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",
@@ -146,7 +157,7 @@ function BilanForm() {
               Qui es-<em style={{color:"#C9A84C",fontStyle:"italic"}}>tu ?</em>
             </div>
             <div style={{fontSize:12,color:"#555",marginBottom:24}}>Quelques infos pour personnaliser ton programme.</div>
-            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:1,marginBottom:1}}>
+            <div className="bilan-grid-2" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:1,marginBottom:1}}>
               <div style={{background:"#111",padding:"14px 16px",border:"0.5px solid #242424"}}>
                 <Label>Prénom</Label><input style={inputStyle} placeholder="ex. Sarah" value={form.prenom} onChange={inp("prenom")}/>
               </div>
@@ -157,7 +168,7 @@ function BilanForm() {
             <div style={{background:"#111",padding:"14px 16px",border:"0.5px solid #242424",marginBottom:1}}>
               <Label>Email</Label><input style={inputStyle} type="email" placeholder="ton@email.com" value={form.email} onChange={inp("email")}/>
             </div>
-            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:1,marginBottom:1}}>
+            <div className="bilan-grid-2" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:1,marginBottom:1}}>
               <div style={{background:"#111",padding:"14px 16px",border:"0.5px solid #242424"}}>
                 <Label>Genre</Label>
                 <select style={{...inputStyle,cursor:"pointer"}} value={form.genre} onChange={inp("genre")}>
