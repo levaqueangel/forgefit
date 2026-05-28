@@ -77,12 +77,18 @@ function BilanForm() {
       if (genData.error) throw new Error(genData.error);
       setProg(genData.programme);
       setStatus("sending");
+      // Envoyer l'email programme
       const mailRes = await fetch("/api/send-email", {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ to: form.email, nom: form.prenom, plan: planId, programme: genData.programme }),
       });
       const mailData = await mailRes.json();
       if (mailData.error) throw new Error(mailData.error);
+      // Créer le compte client + envoyer les identifiants
+      await fetch("/api/create-client", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: form.email, nom: form.prenom, plan: planId, programme: genData.programme }),
+      });
       setStatus("done"); setStep(5);
     } catch (e) {
       setErrMsg(e.message); setStatus("error");
@@ -282,9 +288,17 @@ function BilanForm() {
               <div style={{ fontSize: 10, letterSpacing: "3px", textTransform: "uppercase", color: "#C9A84C", marginBottom: 12 }}>{tb.success.preview}</div>
               <div style={{ fontFamily: "monospace", fontSize: 12, lineHeight: 2, color: "#888", whiteSpace: "pre-wrap", maxHeight: 300, overflow: "auto" }}>{prog}</div>
             </div>
-            <button onClick={() => router.push("/")} style={{ background: "transparent", border: "0.5px solid #242424", color: "#555", fontFamily: "'Syne',sans-serif", fontSize: 12, letterSpacing: "2px", textTransform: "uppercase", padding: "11px 24px", cursor: "pointer" }}>
-              {tb.success.backHome}
-            </button>
+            <div style={{ display: "flex", gap: 8, justifyContent: "center", flexWrap: "wrap" }}>
+              <button onClick={() => router.push("/client")} style={{
+                background: "linear-gradient(135deg,#C9A84C,#A67C2E)", border: "none", color: "#0A0A0A",
+                fontFamily: "'Syne',sans-serif", fontSize: 12, letterSpacing: "2px", textTransform: "uppercase",
+                padding: "13px 24px", cursor: "pointer", fontWeight: 700 }}>
+                Accéder à mon espace →
+              </button>
+              <button onClick={() => router.push("/")} style={{ background: "transparent", border: "0.5px solid #242424", color: "#555", fontFamily: "'Syne',sans-serif", fontSize: 12, letterSpacing: "2px", textTransform: "uppercase", padding: "11px 24px", cursor: "pointer" }}>
+                {tb.success.backHome}
+              </button>
+            </div>
           </div>
         )}
       </div>
