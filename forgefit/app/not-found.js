@@ -1,5 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
+import Head from "next/head";
 import { useEffect, useState, useRef } from "react";
 
 export default function NotFound() {
@@ -110,5 +111,6 @@ export default function NotFound() {
         <div style={{ fontSize: 11, letterSpacing: "2px", color: "#333", textTransform: "uppercase" }}>© 2026 APXFITNESS</div>
       </footer>
     </div>
+    </>
   );
 }
