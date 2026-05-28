@@ -307,7 +307,7 @@ function BilanForm() {
                 </span>
               )}
             </div>
-            <div style={{ fontSize: 13, color: "#555", marginBottom: 32, lineHeight: 1.8
+            <div style={{ fontSize: 13, color: "#555", marginBottom: 32, lineHeight: 1.8 }}>
             </div>
             <div style={{ background: "#111", border: "0.5px solid #242424", padding: "20px", textAlign: "left", marginBottom: 24 }}>
               <div style={{ fontSize: 10, letterSpacing: "3px", textTransform: "uppercase", color: "#C9A84C", marginBottom: 12 }}>{tb.success.preview}</div>
