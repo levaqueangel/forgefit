@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
+import { signInWithEmailAndPassword, signOut, onAuthStateChanged, updatePassword, EmailAuthProvider, reauthenticateWithCredential } from "firebase/auth";
 import { collection, query, where, orderBy, onSnapshot, addDoc, serverTimestamp, doc, getDoc } from "firebase/firestore";
 import { auth, db } from "../firebase";
 import { useLang } from "../useLang";
@@ -95,6 +95,11 @@ export default function ClientPage() {
   const [sending, setSending] = useState(false);
   const [activeTab, setActiveTab] = useState("messages");
   const bottomRef = useRef(null);
+  const [showPwdModal, setShowPwdModal] = useState(false);
+  const [pwdForm, setPwdForm] = useState({ current: "", next: "", confirm: "" });
+  const [pwdError, setPwdError] = useState("");
+  const [pwdSuccess, setPwdSuccess] = useState(false);
+  const [pwdLoading, setPwdLoading] = useState(false);
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, async (u) => {
@@ -124,6 +129,25 @@ export default function ClientPage() {
     });
     return () => unsub();
   }, [user]);
+
+  const handleChangePassword = async () => {
+    setPwdError(""); setPwdSuccess(false);
+    if (pwdForm.next.length < 6) { setPwdError("Mot de passe trop court (6 caractères minimum)"); return; }
+    if (pwdForm.next !== pwdForm.confirm) { setPwdError("Les mots de passe ne correspondent pas"); return; }
+    setPwdLoading(true);
+    try {
+      const credential = EmailAuthProvider.credential(user.email, pwdForm.current);
+      await reauthenticateWithCredential(user, credential);
+      await updatePassword(user, pwdForm.next);
+      setPwdSuccess(true);
+      setPwdForm({ current: "", next: "", confirm: "" });
+      setTimeout(() => { setShowPwdModal(false); setPwdSuccess(false); }, 2000);
+    } catch (e) {
+      if (e.code === "auth/wrong-password" || e.code === "auth/invalid-credential") setPwdError("Mot de passe actuel incorrect");
+      else setPwdError("Erreur : " + e.message);
+    }
+    setPwdLoading(false);
+  };
 
   const sendMessage = async () => {
     if (!newMsg.trim() || sending) return;
@@ -171,11 +195,49 @@ export default function ClientPage() {
         <div style={{display:"flex",alignItems:"center",gap:16}}>
           {clientData && <div style={{fontSize:11,letterSpacing:"2px",textTransform:"uppercase",background:"rgba(201,168,76,0.1)",border:"0.5px solid #C9A84C",color:"#C9A84C",padding:"4px 12px"}}>Plan {clientData.plan}</div>}
           <LangSelector lang={lang} setLang={setLang} LANGS={LANGS} />
+          <button onClick={()=>setShowPwdModal(true)} style={{background:"transparent",border:"0.5px solid #242424",color:"#555",fontFamily:"'Syne',sans-serif",fontSize:11,letterSpacing:"2px",textTransform:"uppercase",padding:"7px 16px",cursor:"pointer"}}>
+            🔑 Mot de passe
+          </button>
           <button onClick={()=>signOut(auth)} style={{background:"transparent",border:"0.5px solid #242424",color:"#555",fontFamily:"'Syne',sans-serif",fontSize:11,letterSpacing:"2px",textTransform:"uppercase",padding:"7px 16px",cursor:"pointer"}}>
             Déconnexion
           </button>
         </div>
       </nav>
+
+      {/* Modale changement mot de passe */}
+      {showPwdModal && (
+        <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.85)",zIndex:200,display:"flex",alignItems:"center",justifyContent:"center",padding:"1rem"}}>
+          <div style={{background:"#111",border:"0.5px solid #242424",padding:"2rem",width:"100%",maxWidth:400}}>
+            <div style={{fontSize:11,letterSpacing:"3px",textTransform:"uppercase",color:"#C9A84C",marginBottom:"1rem"}}>— Changer le mot de passe</div>
+            {pwdSuccess ? (
+              <div style={{textAlign:"center",padding:"1.5rem 0"}}>
+                <div style={{fontSize:32,marginBottom:8}}>✅</div>
+                <div style={{color:"#7AE07A",fontSize:14}}>Mot de passe modifié !</div>
+              </div>
+            ) : (
+              <>
+                {[["current","Mot de passe actuel","••••••••"],["next","Nouveau mot de passe","6 caractères minimum"],["confirm","Confirmer","Répète le nouveau"]].map(([key,label,ph])=>(
+                  <div key={key} style={{background:"#0D0D0D",padding:"12px 14px",border:"0.5px solid #242424",marginBottom:1}}>
+                    <div style={{fontSize:10,letterSpacing:"2px",textTransform:"uppercase",color:"#555",marginBottom:6}}>{label}</div>
+                    <input type="password" placeholder={ph} value={pwdForm[key]}
+                      onChange={e=>setPwdForm(f=>({...f,[key]:e.target.value}))}
+                      style={{width:"100%",background:"transparent",border:"none",color:"#F0EDE8",fontFamily:"'Syne',sans-serif",fontSize:13,outline:"none"}}/>
+                  </div>
+                ))}
+                {pwdError && <div style={{background:"#1A0808",border:"0.5px solid #5A1A1A",color:"#E07070",fontSize:12,padding:"10px 14px",marginTop:1}}>{pwdError}</div>}
+                <div style={{display:"flex",gap:8,marginTop:16}}>
+                  <button onClick={()=>{setShowPwdModal(false);setPwdError("");setPwdForm({current:"",next:"",confirm:""});}} style={{flex:1,padding:"11px",background:"transparent",border:"0.5px solid #242424",color:"#555",fontFamily:"'Syne',sans-serif",fontSize:11,letterSpacing:"2px",textTransform:"uppercase",cursor:"pointer"}}>
+                    Annuler
+                  </button>
+                  <button onClick={handleChangePassword} disabled={pwdLoading} style={{flex:2,padding:"11px",background:"linear-gradient(135deg,#C9A84C,#A67C2E)",border:"none",color:"#0A0A0A",fontFamily:"'Syne',sans-serif",fontSize:11,fontWeight:700,letterSpacing:"2px",textTransform:"uppercase",cursor:"pointer"}}>
+                    {pwdLoading ? "Modification..." : "Confirmer →"}
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
 
       <div style={{padding:"1.5rem 1.5rem 0",borderBottom:"0.5px solid #242424",maxWidth:800,width:"100%",margin:"0 auto"}}>
         <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:28,fontWeight:600,marginBottom:"1rem"}}>
