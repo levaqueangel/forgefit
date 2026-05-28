@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Head from "next/head";
 import { useRouter } from "next/navigation";
 import { useLang } from "../useLang";
 import { LangSelector } from "../LangSelector";
@@ -128,6 +129,10 @@ export default function FaqPage() {
 
   return (
     <div style={{ background: "#0A0A0A", color: "#F0EDE8", minHeight: "100vh", fontFamily: "'Syne',sans-serif" }}>
+      <Head>
+        <title>FAQ — Questions fréquentes | APXFITNESS</title>
+        <meta name="description" content="Toutes les réponses à vos questions sur les programmes APXFITNESS : livraison, paiement, coaching personnalisé et espace client." />
+      </Head>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Syne:wght@400;700;800&display=swap');
         *{box-sizing:border-box;margin:0;padding:0}
