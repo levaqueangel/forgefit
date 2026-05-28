@@ -4,16 +4,20 @@ import { LANGS } from "./translations";
 
 export function useLang() {
   const [lang, setLangState] = useState("fr");
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const saved = localStorage.getItem("apxfitness_lang");
-    if (saved && LANGS[saved]) setLangState(saved);
+    setMounted(true);
+    try {
+      const saved = localStorage.getItem("apxfitness_lang");
+      if (saved && LANGS[saved]) setLangState(saved);
+    } catch {}
   }, []);
 
   const setLang = (code) => {
     setLangState(code);
-    localStorage.setItem("apxfitness_lang", code);
+    try { localStorage.setItem("apxfitness_lang", code); } catch {}
   };
 
-  return { lang, setLang, t: LANGS[lang], LANGS };
+  return { lang, setLang, t: LANGS[lang], LANGS, mounted };
 }
