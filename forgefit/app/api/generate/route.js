@@ -5,18 +5,9 @@ const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 const LANG_PROMPTS = {
   fr: {
     intro: "Tu es un coach fitness expert. Génère un programme d'entraînement personnalisé complet en FRANÇAIS.",
-    profil: "PROFIL CLIENT",
-    prenom: "Prénom",
-    age: "ans",
-    objectif: "Objectif",
-    niveau: "Niveau",
-    lieu: "Lieu",
-    freq: "séances/sem",
-    regime: "Régime",
-    contraintes: "Contraintes",
-    motivation: "Motivation",
-    aucune: "aucune",
-    non_renseignee: "non renseignée",
+    profil: "PROFIL CLIENT", prenom: "Prénom", age: "ans", objectif: "Objectif", niveau: "Niveau",
+    lieu: "Lieu", freq: "séances/sem", regime: "Régime", contraintes: "Contraintes",
+    motivation: "Motivation", aucune: "aucune", non_renseignee: "non renseignée",
     format: `FORMAT EXACT (en français) :
 1. MESSAGE PERSONNALISÉ (3 phrases motivantes et chaleureuses)
 2. PROGRAMME 4 SEMAINES
@@ -28,18 +19,9 @@ const LANG_PROMPTS = {
   },
   en: {
     intro: "You are an expert fitness coach. Generate a complete personalized training program in ENGLISH.",
-    profil: "CLIENT PROFILE",
-    prenom: "First name",
-    age: "years old",
-    objectif: "Goal",
-    niveau: "Level",
-    lieu: "Location",
-    freq: "sessions/week",
-    regime: "Diet",
-    contraintes: "Constraints",
-    motivation: "Motivation",
-    aucune: "none",
-    non_renseignee: "not specified",
+    profil: "CLIENT PROFILE", prenom: "First name", age: "years old", objectif: "Goal", niveau: "Level",
+    lieu: "Location", freq: "sessions/week", regime: "Diet", contraintes: "Constraints",
+    motivation: "Motivation", aucune: "none", non_renseignee: "not specified",
     format: `EXACT FORMAT (in English):
 1. PERSONALIZED MESSAGE (3 motivating and warm sentences)
 2. 4-WEEK PROGRAM
@@ -51,18 +33,9 @@ const LANG_PROMPTS = {
   },
   de: {
     intro: "Du bist ein Experten-Fitness-Coach. Erstelle ein vollständiges personalisiertes Trainingsprogramm auf DEUTSCH.",
-    profil: "KUNDENPROFIL",
-    prenom: "Vorname",
-    age: "Jahre alt",
-    objectif: "Ziel",
-    niveau: "Level",
-    lieu: "Trainingsort",
-    freq: "Einheiten/Woche",
-    regime: "Ernährung",
-    contraintes: "Einschränkungen",
-    motivation: "Motivation",
-    aucune: "keine",
-    non_renseignee: "nicht angegeben",
+    profil: "KUNDENPROFIL", prenom: "Vorname", age: "Jahre alt", objectif: "Ziel", niveau: "Level",
+    lieu: "Trainingsort", freq: "Einheiten/Woche", regime: "Ernährung", contraintes: "Einschränkungen",
+    motivation: "Motivation", aucune: "keine", non_renseignee: "nicht angegeben",
     format: `GENAUES FORMAT (auf Deutsch):
 1. PERSÖNLICHE NACHRICHT (3 motivierende und herzliche Sätze)
 2. 4-WOCHEN-PROGRAMM
@@ -74,18 +47,9 @@ const LANG_PROMPTS = {
   },
   es: {
     intro: "Eres un entrenador fitness experto. Genera un programa de entrenamiento personalizado completo en ESPAÑOL.",
-    profil: "PERFIL DEL CLIENTE",
-    prenom: "Nombre",
-    age: "años",
-    objectif: "Objetivo",
-    niveau: "Nivel",
-    lieu: "Lugar",
-    freq: "sesiones/semana",
-    regime: "Alimentación",
-    contraintes: "Restricciones",
-    motivation: "Motivación",
-    aucune: "ninguna",
-    non_renseignee: "no especificada",
+    profil: "PERFIL DEL CLIENTE", prenom: "Nombre", age: "años", objectif: "Objetivo", niveau: "Nivel",
+    lieu: "Lugar", freq: "sesiones/semana", regime: "Alimentación", contraintes: "Restricciones",
+    motivation: "Motivación", aucune: "ninguna", non_renseignee: "no especificada",
     format: `FORMATO EXACTO (en español):
 1. MENSAJE PERSONALIZADO (3 frases motivadoras y cálidas)
 2. PROGRAMA 4 SEMANAS
@@ -96,6 +60,8 @@ const LANG_PROMPTS = {
 5. PROGRESIÓN (cómo evolucionar después de 4 semanas)`,
   },
 };
+
+export const maxDuration = 60; // Vercel : autoriser jusqu'à 60s pour cette route
 
 export async function POST(req) {
   const data = await req.json();
@@ -120,14 +86,22 @@ ${l.format}
 
 Sois précis, bienveillant et adapte chaque détail au profil.`;
 
-  try {
-    const message = await client.messages.create({
-      model: "claude-sonnet-4-20250514",
-      max_tokens: 2500,
-      messages: [{ role: "user", content: prompt }],
-    });
+  // Timeout de 55s pour éviter que Vercel coupe sans message d'erreur
+  const timeout = new Promise((_, reject) =>
+    setTimeout(() => reject(new Error("Délai dépassé — réessaie dans quelques secondes")), 55000)
+  );
 
-    const programme = message.content.map((b) => b.text || "").join("");
+  try {
+    const response = await Promise.race([
+      client.messages.create({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 2500,
+        messages: [{ role: "user", content: prompt }],
+      }),
+      timeout,
+    ]);
+
+    const programme = response.content.map((b) => b.text || "").join("");
     return Response.json({ programme });
   } catch (e) {
     return Response.json({ error: e.message }, { status: 500 });
