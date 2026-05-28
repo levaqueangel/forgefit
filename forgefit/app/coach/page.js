@@ -84,6 +84,11 @@ export default function CoachPage() {
   const [newMsg, setNewMsg] = useState("");
   const [sending, setSending] = useState(false);
   const bottomRef = useRef(null);
+  const [showInactiveWarning, setShowInactiveWarning] = useState(false);
+  const inactiveTimer = useRef(null);
+  const warningTimer = useRef(null);
+  const INACTIVE_LIMIT = 30 * 60 * 1000; // 30 min
+  const WARNING_BEFORE = 2 * 60 * 1000;  // avertir 2 min avant
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, u => {
@@ -97,6 +102,31 @@ export default function CoachPage() {
     const timer = setTimeout(() => setAuthLoading(false), 5000);
     return () => { unsub(); clearTimeout(timer); };
   }, []);
+
+  // Déconnexion automatique après 30 min d'inactivité
+  useEffect(() => {
+    if (!user) return;
+
+    const resetTimer = () => {
+      clearTimeout(inactiveTimer.current);
+      clearTimeout(warningTimer.current);
+      setShowInactiveWarning(false);
+      // Avertir 2 min avant
+      warningTimer.current = setTimeout(() => setShowInactiveWarning(true), INACTIVE_LIMIT - WARNING_BEFORE);
+      // Déconnecter après 30 min
+      inactiveTimer.current = setTimeout(() => signOut(auth), INACTIVE_LIMIT);
+    };
+
+    const events = ["mousedown","mousemove","keydown","scroll","touchstart"];
+    events.forEach(e => window.addEventListener(e, resetTimer));
+    resetTimer();
+
+    return () => {
+      events.forEach(e => window.removeEventListener(e, resetTimer));
+      clearTimeout(inactiveTimer.current);
+      clearTimeout(warningTimer.current);
+    };
+  }, [user]);
 
   useEffect(() => {
     if (!user) return;
@@ -169,6 +199,23 @@ export default function CoachPage() {
       </nav>
 
       <div style={{flex:1,display:"grid",gridTemplateColumns:"280px 1fr",minHeight:"calc(100vh - 57px)"}}>
+
+        {/* Modale avertissement inactivité */}
+        {showInactiveWarning && (
+          <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.85)",zIndex:300,display:"flex",alignItems:"center",justifyContent:"center"}}>
+            <div style={{background:"#111",border:"0.5px solid #C9A84C",padding:"2rem",maxWidth:380,width:"90%",textAlign:"center"}}>
+              <div style={{fontSize:32,marginBottom:12}}>⚠️</div>
+              <div style={{fontSize:14,fontWeight:700,color:"#E8C87A",marginBottom:8,letterSpacing:"1px"}}>Inactivité détectée</div>
+              <p style={{fontFamily:"'Cormorant Garamond',serif",fontSize:15,color:"#888",lineHeight:1.7,marginBottom:"1.5rem"}}>
+                Tu vas être déconnecté dans <strong style={{color:"#E8C87A"}}>2 minutes</strong> pour des raisons de sécurité.
+              </p>
+              <button onClick={()=>{setShowInactiveWarning(false); clearTimeout(inactiveTimer.current); clearTimeout(warningTimer.current); warningTimer.current = setTimeout(()=>setShowInactiveWarning(true), INACTIVE_LIMIT - WARNING_BEFORE); inactiveTimer.current = setTimeout(()=>signOut(auth), INACTIVE_LIMIT);}}
+                style={{background:"linear-gradient(135deg,#C9A84C,#A67C2E)",border:"none",color:"#0A0A0A",padding:"12px 32px",fontFamily:"'Syne',sans-serif",fontSize:12,fontWeight:700,letterSpacing:"2px",textTransform:"uppercase",cursor:"pointer"}}>
+                Je suis toujours là →
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* Liste clients */}
         <div style={{borderRight:"0.5px solid #242424",overflowY:"auto"}}>
