@@ -1,11 +1,6 @@
 "use client";
 import { useState } from "react";
 
-export const metadata = {
-  title: "FAQ — Questions fréquentes | APXFITNESS",
-  description: "Toutes les réponses sur les programmes APXFITNESS : livraison 48h, paiement sécurisé, coaching personnalisé et espace client.",
-};
-
 import { useRouter } from "next/navigation";
 import { useLang } from "../useLang";
 import { LangSelector } from "../LangSelector";
