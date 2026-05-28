@@ -177,7 +177,15 @@ function BilanForm() {
               <Label>{tb.fields.taille}</Label><input style={inputStyle} type="number" placeholder={tb.placeholders.taille} value={form.taille} onChange={inp("taille")} />
             </div>
             <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 20 }}>
-              <GoldBtn onClick={() => { if (!form.prenom || !form.email) { alert(tb.required); return; } setStep(2); }}>{tb.next}</GoldBtn>
+              <GoldBtn onClick={() => {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!form.prenom.trim()) { alert("Prénom requis."); return; }
+                if (!emailRegex.test(form.email)) { alert("Email invalide."); return; }
+                if (form.age && (Number(form.age) < 10 || Number(form.age) > 100)) { alert("Âge invalide (10-100)."); return; }
+                if (form.poids && (Number(form.poids) < 30 || Number(form.poids) > 300)) { alert("Poids invalide (30-300 kg)."); return; }
+                if (form.taille && (Number(form.taille) < 100 || Number(form.taille) > 250)) { alert("Taille invalide (100-250 cm)."); return; }
+                setStep(2);
+              }}>{tb.next}</GoldBtn>
             </div>
           </div>
         )}
