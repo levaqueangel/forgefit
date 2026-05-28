@@ -11,7 +11,7 @@ export const metadata = {
   openGraph: {
     title: "APXFITNESS — Coaching fitness personnalisé",
     description: "Programmes de musculation et remise en forme 100% sur mesure. Bilan gratuit, programme généré par IA sous 48h.",
-    url: "https://apxfitness.vercel.app",
+    url: "https://apxfitness-brown.vercel.app",
     siteName: "APXFITNESS",
     locale: "fr_FR",
     type: "website",
@@ -22,7 +22,7 @@ export const metadata = {
     description: "Programmes de musculation et remise en forme 100% sur mesure.",
   },
   alternates: {
-    canonical: "https://apxfitness.vercel.app",
+    canonical: "https://apxfitness-brown.vercel.app",
   },
   verification: {
     google: "xfrTOInrUrA35W0OBd-BQHoeB5rKu64Urs5pa_Wo59s",
