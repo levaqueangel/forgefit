@@ -1,6 +1,11 @@
 "use client";
 import { useRouter } from "next/navigation";
-import Head from "next/head";
+
+export const metadata = {
+  title: "Mentions légales & CGV | APXFITNESS",
+  description: "Mentions légales, politique de confidentialité et conditions générales de vente APXFITNESS.",
+};
+
 import { useLang } from "../useLang";
 import { LangSelector } from "../LangSelector";
 
@@ -14,11 +19,6 @@ export default function MentionsLegales() {
   const liStyle = { fontFamily: "'Cormorant Garamond', serif", fontSize: 17, lineHeight: 1.8, color: "#888", marginBottom: "0.5rem", paddingLeft: "1rem" };
 
   return (
-    <>
-    <Head>
-      <title>Mentions légales & CGV | APXFITNESS</title>
-      <meta name="description" content="Mentions légales et conditions générales de vente APXFITNESS — coaching fitness personnalisé." />
-    </Head>
     <div style={{ background: "#0A0A0A", color: "#F0EDE8", minHeight: "100vh", fontFamily: "'Syne', sans-serif" }}>
       <style>{`@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Syne:wght@400;600;700;800&display=swap'); *{box-sizing:border-box;margin:0;padding:0}`}</style>
 
@@ -88,6 +88,5 @@ export default function MentionsLegales() {
         <div style={{ fontSize: 11, letterSpacing: "2px", color: "#555", textTransform: "uppercase" }}>{t.footer.copy}</div>
       </footer>
     </div>
-    </>
   );
 }
