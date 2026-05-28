@@ -1,11 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
 
-export const metadata = {
-  title: "Mentions légales & CGV | APXFITNESS",
-  description: "Mentions légales, politique de confidentialité et conditions générales de vente APXFITNESS.",
-};
-
 import { useLang } from "../useLang";
 import { LangSelector } from "../LangSelector";
 
