@@ -116,6 +116,9 @@ const CATS = [
 export default function FaqPage() {
   const router = useRouter();
   const { lang, setLang, t, LANGS } = useLang();
+  
+  // SEO title dynamique
+  if (typeof document !== "undefined") document.title = "FAQ — APXFITNESS";
   const [activeCat, setActiveCat] = useState("all");
   const [openQ, setOpenQ] = useState(null);
 
