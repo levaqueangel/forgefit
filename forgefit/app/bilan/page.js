@@ -70,10 +70,12 @@ function BilanForm() {
 
   async function handleGenerate() {
     setStatus("generating"); setErrMsg(""); setProg("");
+    const controller = new AbortController();
     try {
       const genRes = await fetch("/api/generate", {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...form, ...sel, plan: planId, lang }),
+        signal: controller.signal,
       });
       const genData = await genRes.json();
       if (genData.error) throw new Error(genData.error);
