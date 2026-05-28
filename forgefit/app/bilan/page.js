@@ -56,6 +56,7 @@ function BilanForm() {
   const [status, setStatus] = useState("idle");
   const [errMsg, setErrMsg] = useState("");
   const [clientCreated, setClientCreated] = useState(null); // null=pending, true=ok, false=erreur
+  const [fieldErrors, setFieldErrors] = useState({});
 
   const inp = k => e => setForm(f => ({ ...f, [k]: e.target.value }));
   const pick = (k, v) => setSel(s => ({ ...s, [k]: v }));
@@ -153,14 +154,18 @@ function BilanForm() {
             <div style={{ fontSize: 12, color: "#555", marginBottom: 24 }}>{tb.identity.sub}</div>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1, marginBottom: 1 }}>
               <div style={{ background: "#111", padding: "14px 16px", border: "0.5px solid #242424" }}>
-                <Label>{tb.fields.prenom}</Label><input style={inputStyle} placeholder={tb.placeholders.prenom} value={form.prenom} onChange={inp("prenom")} />
+                <Label>{tb.fields.prenom}</Label>
+                <input style={{...inputStyle, borderColor: fieldErrors.prenom ? "#E07070" : "#242424"}} placeholder={tb.placeholders.prenom} value={form.prenom} onChange={e => { inp("prenom")(e); setFieldErrors(f => ({...f, prenom: ""})); }} />
+                {fieldErrors.prenom && <div style={{fontSize:11,color:"#E07070",marginTop:4}}>{fieldErrors.prenom}</div>}
               </div>
               <div style={{ background: "#111", padding: "14px 16px", border: "0.5px solid #242424" }}>
                 <Label>{tb.fields.age}</Label><input style={inputStyle} type="number" placeholder={tb.placeholders.age} value={form.age} onChange={inp("age")} />
               </div>
             </div>
             <div style={{ background: "#111", padding: "14px 16px", border: "0.5px solid #242424", marginBottom: 1 }}>
-              <Label>{tb.fields.email}</Label><input style={inputStyle} type="email" placeholder={tb.placeholders.email} value={form.email} onChange={inp("email")} />
+              <Label>{tb.fields.email}</Label>
+                <input style={{...inputStyle, borderColor: fieldErrors.email ? "#E07070" : "#242424"}} type="email" placeholder={tb.placeholders.email} value={form.email} onChange={e => { inp("email")(e); setFieldErrors(f => ({...f, email: ""})); }} />
+                {fieldErrors.email && <div style={{fontSize:11,color:"#E07070",marginTop:4}}>{fieldErrors.email}</div>}
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1, marginBottom: 1 }}>
               <div style={{ background: "#111", padding: "14px 16px", border: "0.5px solid #242424" }}>
@@ -179,11 +184,15 @@ function BilanForm() {
             <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 20 }}>
               <GoldBtn onClick={() => {
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (!form.prenom.trim()) { alert("Prénom requis."); return; }
-                if (!emailRegex.test(form.email)) { alert("Email invalide."); return; }
-                if (form.age && (Number(form.age) < 10 || Number(form.age) > 100)) { alert("Âge invalide (10-100)."); return; }
-                if (form.poids && (Number(form.poids) < 30 || Number(form.poids) > 300)) { alert("Poids invalide (30-300 kg)."); return; }
-                if (form.taille && (Number(form.taille) < 100 || Number(form.taille) > 250)) { alert("Taille invalide (100-250 cm)."); return; }
+                const errors = {};
+                if (!form.prenom.trim()) errors.prenom = "Prénom requis";
+                if (!form.email.trim()) errors.email = "Email requis";
+                else if (!emailRegex.test(form.email)) errors.email = "Email invalide";
+                if (form.age && (Number(form.age) < 10 || Number(form.age) > 100)) errors.age = "Entre 10 et 100 ans";
+                if (form.poids && (Number(form.poids) < 30 || Number(form.poids) > 300)) errors.poids = "Entre 30 et 300 kg";
+                if (form.taille && (Number(form.taille) < 100 || Number(form.taille) > 250)) errors.taille = "Entre 100 et 250 cm";
+                if (Object.keys(errors).length > 0) { setFieldErrors(errors); return; }
+                setFieldErrors({});
                 setStep(2);
               }}>{tb.next}</GoldBtn>
             </div>
