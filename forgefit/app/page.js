@@ -294,8 +294,16 @@ export default function Home() {
         alignItems:"center",borderTop:"0.5px solid #242424"}}>
         <div style={{fontSize:18,fontWeight:800,letterSpacing:5}}>APXFIT<span style={{color:"#C9A84C"}}>NESS</span></div>
         <div style={{fontSize:11,letterSpacing:"2px",color:"#555",textTransform:"uppercase"}}>{t.footer.copy}</div>
-        <span className="footer-link" style={{fontSize:11,letterSpacing:"2px",color:"#555",textTransform:"uppercase",textDecoration:"underline"}}
-          onClick={()=>router.push("/mentions-legales")}>{t.footer.legal}</span>
+        <div style={{display:"flex",gap:"1.5rem",alignItems:"center"}}>
+          <span className="footer-link" style={{fontSize:11,letterSpacing:"2px",color:"#555",textTransform:"uppercase",textDecoration:"underline",cursor:"pointer"}}
+            onClick={()=>router.push("/client")}>Espace client</span>
+          <span style={{color:"#242424"}}>|</span>
+          <span className="footer-link" style={{fontSize:11,letterSpacing:"2px",color:"#555",textTransform:"uppercase",textDecoration:"underline",cursor:"pointer"}}
+            onClick={()=>router.push("/faq")}>FAQ</span>
+          <span style={{color:"#242424"}}>|</span>
+          <span className="footer-link" style={{fontSize:11,letterSpacing:"2px",color:"#555",textTransform:"uppercase",textDecoration:"underline",cursor:"pointer"}}
+            onClick={()=>router.push("/mentions-legales")}>{t.footer.legal}</span>
+        </div>
       </footer>
     </div>
   );
