@@ -1,19 +1,24 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 export default function NotFound() {
   const router = useRouter();
   const [count, setCount] = useState(10);
+  const timerRef = useRef(null);
 
   useEffect(() => {
-    const timer = setInterval(() => {
+    timerRef.current = setInterval(() => {
       setCount(c => {
-        if (c <= 1) { clearInterval(timer); router.push("/"); }
+        if (c <= 1) {
+          clearInterval(timerRef.current);
+          router.push("/");
+          return 0;
+        }
         return c - 1;
       });
     }, 1000);
-    return () => clearInterval(timer);
+    return () => clearInterval(timerRef.current);
   }, []);
 
   return (
