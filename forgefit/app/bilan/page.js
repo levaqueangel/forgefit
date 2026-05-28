@@ -55,6 +55,7 @@ function BilanForm() {
   const [prog, setProg] = useState("");
   const [status, setStatus] = useState("idle");
   const [errMsg, setErrMsg] = useState("");
+  const [clientCreated, setClientCreated] = useState(null); // null=pending, true=ok, false=erreur
 
   const inp = k => e => setForm(f => ({ ...f, [k]: e.target.value }));
   const pick = (k, v) => setSel(s => ({ ...s, [k]: v }));
@@ -85,10 +86,16 @@ function BilanForm() {
       const mailData = await mailRes.json();
       if (mailData.error) throw new Error(mailData.error);
       // Créer le compte client + envoyer les identifiants
-      await fetch("/api/create-client", {
-        method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: form.email, nom: form.prenom, plan: planId, programme: genData.programme }),
-      });
+      try {
+        const clientRes = await fetch("/api/create-client", {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: form.email, nom: form.prenom, plan: planId, programme: genData.programme }),
+        });
+        const clientData = await clientRes.json();
+        setClientCreated(clientData.success === true);
+      } catch {
+        setClientCreated(false);
+      }
       setStatus("done"); setStep(5);
     } catch (e) {
       setErrMsg(e.message); setStatus("error");
@@ -283,6 +290,24 @@ function BilanForm() {
             </div>
             <div style={{ fontSize: 13, color: "#555", marginBottom: 32, lineHeight: 1.8 }}>
               {form.prenom}, {tb.success.sentTo}<br /><strong style={{ color: "#E8C87A" }}>{form.email}</strong>
+            </div>
+
+            {/* Statut compte client */}
+            <div style={{ display: "flex", alignItems: "center", gap: 10, justifyContent: "center", marginBottom: 24,
+              padding: "12px 20px", border: `0.5px solid ${clientCreated === false ? "#5A1A1A" : "#1A3A1A"}`,
+              background: clientCreated === false ? "#1A0808" : "#081A08", fontSize: 13 }}>
+              <span style={{ fontSize: 18 }}>{clientCreated === false ? "⚠️" : "✓"}</span>
+              {clientCreated === false ? (
+                <span style={{ color: "#E07070" }}>
+                  Erreur création espace client — <a href="mailto:levaqueangel@gmail.com" style={{ color: "#E8C87A" }}>contacte le coach</a>
+                </span>
+              ) : (
+                <span style={{ color: "#7AE07A" }}>
+                  Tes identifiants ont été envoyés à <strong style={{ color: "#E8C87A" }}>{form.email}</strong>
+                </span>
+              )}
+            </div>
+            <div style={{ fontSize: 13, color: "#555", marginBottom: 32, lineHeight: 1.8
             </div>
             <div style={{ background: "#111", border: "0.5px solid #242424", padding: "20px", textAlign: "left", marginBottom: 24 }}>
               <div style={{ fontSize: 10, letterSpacing: "3px", textTransform: "uppercase", color: "#C9A84C", marginBottom: 12 }}>{tb.success.preview}</div>
