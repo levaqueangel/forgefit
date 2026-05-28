@@ -74,6 +74,10 @@ function MessageBubble({ msg }) {
   );
 }
 
+// Constantes hors du composant pour éviter les recréations à chaque render
+const INACTIVE_LIMIT = 30 * 60 * 1000; // 30 min
+const WARNING_BEFORE = 2 * 60 * 1000;  // avertir 2 min avant
+
 export default function CoachPage() {
   const router = useRouter();
   const [user, setUser] = useState(null);
@@ -87,8 +91,6 @@ export default function CoachPage() {
   const [showInactiveWarning, setShowInactiveWarning] = useState(false);
   const inactiveTimer = useRef(null);
   const warningTimer = useRef(null);
-  const INACTIVE_LIMIT = 30 * 60 * 1000; // 30 min
-  const WARNING_BEFORE = 2 * 60 * 1000;  // avertir 2 min avant
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, u => {
