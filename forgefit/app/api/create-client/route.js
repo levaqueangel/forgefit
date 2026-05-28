@@ -79,6 +79,7 @@ export async function POST(req) {
 
     return Response.json({ success: true, uid });
   } catch (e) {
-    return Response.json({ error: e.message }, { status: 500 });
+    console.error("create-client error:", e.message);
+    return Response.json({ success: false, error: e.message }, { status: 500 });
   }
 }
