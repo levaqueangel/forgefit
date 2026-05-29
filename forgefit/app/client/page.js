@@ -149,25 +149,35 @@ export default function ClientPage() {
     setPwdLoading(false);
   };
 
+  const [sendError, setSendError] = useState("");
+
   const sendMessage = async () => {
     if (!newMsg.trim() || sending) return;
     setSending(true);
-    await addDoc(collection(db, "messages"), {
-      clientId: user.uid,
-      clientName: clientData?.nom || "Client",
-      clientEmail: user.email,
-      text: newMsg.trim(),
-      sender: "client",
-      createdAt: serverTimestamp(),
-      read: false,
-    });
-    // Notifier le coach par email
-    await fetch("/api/notify-coach", {
-      method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ nom: clientData?.nom || "Client", email: user.email, message: newMsg.trim() }),
-    });
-    setNewMsg("");
-    setSending(false);
+    setSendError("");
+    const msgText = newMsg.trim();
+    try {
+      await addDoc(collection(db, "messages"), {
+        clientId: user.uid,
+        clientName: clientData?.nom || "Client",
+        clientEmail: user.email,
+        text: msgText,
+        sender: "client",
+        createdAt: serverTimestamp(),
+        read: false,
+      });
+      setNewMsg("");
+      // Notifier le coach — erreur silencieuse (ne bloque pas l'envoi du message)
+      fetch("/api/notify-coach", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nom: clientData?.nom || "Client", email: user.email, message: msgText }),
+      }).catch(e => console.warn("Notif coach failed:", e));
+    } catch (e) {
+      setSendError("Erreur lors de l'envoi. Réessaie.");
+      console.error("sendMessage error:", e);
+    } finally {
+      setSending(false);
+    }
   };
 
   if (authLoading) return <div style={{background:"#0A0A0A",minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center"}}><div style={{color:"#C9A84C",fontSize:11,letterSpacing:"3px"}}>CHARGEMENT...</div></div>;
@@ -264,6 +274,7 @@ export default function ClientPage() {
               )}
               <div ref={bottomRef} />
             </div>
+            {sendError && <div style={{fontSize:12,color:"#E07070",padding:"6px 0",marginBottom:4}}>{sendError}</div>}
             <div style={{display:"flex",gap:1,borderTop:"0.5px solid #242424",paddingTop:"1rem"}}>
               <textarea
                 value={newMsg}
