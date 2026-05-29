@@ -7,10 +7,75 @@ const PLAN_NAMES = ["Starter","Forge","Elite"];
 const PLAN_PRICES = [49,129,249];
 
 export default function Home() {
+  // ── Pop-up capture email ──────────────────────────────────────
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupEmail, setPopupEmail] = useState("");
+  const [popupDone, setPopupDone] = useState(false);
+  const [popupLoading, setPopupLoading] = useState(false);
+
+  useEffect(() => {
+    try {
+      if (localStorage.getItem("apx_popup_done")) return;
+    } catch {}
+    const t = setTimeout(() => setShowPopup(true), 35000);
+    return () => clearTimeout(t);
+  }, []);
+
+  const handlePopupSubmit = async () => {
+    if (!popupEmail.trim()) return;
+    setPopupLoading(true);
+    try {
+      await fetch("/api/notify-coach", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nom: "Prospect", email: popupEmail, message: `Nouveau prospect inscrit via pop-up : ${popupEmail}` }),
+      });
+      try { localStorage.setItem("apx_popup_done", "1"); } catch {}
+      setPopupDone(true);
+      setTimeout(() => setShowPopup(false), 2500);
+    } catch {}
+    setPopupLoading(false);
+  };
   const router = useRouter();
   const { lang, setLang, t, LANGS } = useLang();
 
   return (
+    <>
+    {/* ── Pop-up capture email ────────────────────────────────── */}
+    {showPopup && (
+      <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.85)",zIndex:999,display:"flex",alignItems:"center",justifyContent:"center",padding:"1rem"}}>
+        <div style={{background:"#111",border:"0.5px solid #242424",borderRadius:4,padding:"2rem",width:"100%",maxWidth:420,position:"relative",fontFamily:"'Syne',sans-serif"}}>
+          <button onClick={()=>{setShowPopup(false);try{localStorage.setItem("apx_popup_done","1")}catch{}}} style={{position:"absolute",top:12,right:12,background:"transparent",border:"none",color:"#444",fontSize:20,cursor:"pointer",lineHeight:1}}>×</button>
+          {popupDone ? (
+            <div style={{textAlign:"center",padding:"1rem 0"}}>
+              <div style={{fontSize:32,marginBottom:12}}>🎉</div>
+              <div style={{fontSize:14,fontWeight:700,color:"#7AE07A",marginBottom:8}}>Guide envoyé !</div>
+              <div style={{fontSize:12,color:"#555"}}>Vérifie ta boîte mail dans quelques instants.</div>
+            </div>
+          ) : (
+            <>
+              <div style={{fontSize:10,letterSpacing:"3px",textTransform:"uppercase",color:"#C9A84C",marginBottom:"0.75rem"}}>— Cadeau gratuit</div>
+              <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:26,fontWeight:600,lineHeight:1.2,marginBottom:"0.75rem",color:"#F0EDE8"}}>
+                Les 5 erreurs qui empêchent<br/><em style={{fontStyle:"italic",color:"#C9A84C"}}>tes résultats</em>
+              </div>
+              <p style={{fontSize:13,color:"#555",lineHeight:1.7,marginBottom:"1.5rem",fontFamily:"'Cormorant Garamond',serif",fontSize:15}}>
+                Reçois notre guide gratuit par email et évite les pièges que font 90% des débutants.
+              </p>
+              <div style={{display:"flex",gap:1}}>
+                <input type="email" value={popupEmail} onChange={e=>setPopupEmail(e.target.value)}
+                  onKeyDown={e=>{if(e.key==="Enter")handlePopupSubmit();}}
+                  placeholder="ton@email.com"
+                  style={{flex:1,background:"#0D0D0D",border:"0.5px solid #242424",color:"#F0EDE8",fontFamily:"'Syne',sans-serif",fontSize:13,padding:"11px 14px",outline:"none",borderRadius:0}}/>
+                <button onClick={handlePopupSubmit} disabled={popupLoading||!popupEmail.trim()}
+                  style={{background:"linear-gradient(135deg,#C9A84C,#A67C2E)",border:"none",color:"#0A0A0A",padding:"0 18px",fontFamily:"'Syne',sans-serif",fontSize:12,fontWeight:700,letterSpacing:"2px",textTransform:"uppercase",cursor:popupEmail.trim()?"pointer":"not-allowed",flexShrink:0}}>
+                  {popupLoading?"...":"Envoyer"}
+                </button>
+              </div>
+              <p style={{fontSize:11,color:"#333",marginTop:10,textAlign:"center"}}>Pas de spam. Tu te désinscris quand tu veux.</p>
+            </>
+          )}
+        </div>
+      </div>
+    )}
     <div style={{background:"#0A0A0A",color:"#F0EDE8",minHeight:"100vh",fontFamily:"'Syne',sans-serif"}}>
       <style>{`
                 *{box-sizing:border-box;margin:0;padding:0}
@@ -309,5 +374,7 @@ export default function Home() {
         </div>
       </footer>
     </div>
+  );
+    </>
   );
 }
