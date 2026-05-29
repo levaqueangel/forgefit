@@ -201,29 +201,53 @@ export default function ClientPage() {
     }
   };
 
-  // ── Données statiques dashboard ───────────────────────────────
-  const seances = [
-    { nom:"Poitrine / Triceps", det:"5 exercices · 52 min", jour:"Lundi" },
-    { nom:"Dos / Biceps",       det:"5 exercices · 48 min", jour:"Mardi" },
-    { nom:"Jambes / Épaules",   det:"6 exercices · 60 min", jour:"Aujourd'hui", today:true },
-    { nom:"Full body",          det:"4 exercices · 45 min", jour:"Vendredi" },
-  ];
-  const exercices = [
-    { nom:"Squat barre",          det:"4 × 8 · 70 kg · repos 2 min" },
-    { nom:"Presse à cuisses",     det:"4 × 10 · 100 kg · repos 90 s" },
-    { nom:"Fentes marchées",      det:"3 × 12 · 20 kg · repos 60 s" },
-    { nom:"Développé épaules",    det:"4 × 10 · 30 kg · repos 90 s" },
-    { nom:"Élévations latérales", det:"3 × 15 · 8 kg · repos 60 s" },
-    { nom:"Mollets debout",       det:"4 × 15 · poids de corps · repos 45 s" },
-  ];
-  const records = [
-    { nom:"Développé", val:"82 kg" },
-    { nom:"Squat",     val:"90 kg" },
-    { nom:"Tirage",    val:"75 kg" },
-    { nom:"Tractions", val:"5 reps" },
-  ];
+  // ── Données dashboard — réelles si programmeData disponible ───
+  const pd = clientData?.programmeData;
+  
+  // Séances : depuis programmeData ou fallback vide
+  const seancesReelles = pd?.seances || [];
+  // Séances semaines 1-2 (adaptation)
+  const seancesS12 = seancesReelles.filter(s => s.semaines === "1-2" || s.semaines?.startsWith("1"));
+  // Séances semaines 3-4 (progression)  
+  const seancesS34 = seancesReelles.filter(s => s.semaines === "3-4" || s.semaines?.startsWith("3"));
+  // Par défaut : séances semaine 1-2
+  const seancesActuelles = seancesS12.length > 0 ? seancesS12 : seancesReelles;
+  
+  // Format pour la liste des séances dashboard
+  const seances = seancesActuelles.map((s, i) => ({
+    nom: s.nom,
+    det: `${s.exercices?.length || 0} exercices · ${s.duree_min || "~50"} min`,
+    jour: s.jour_suggere || `Jour ${i+1}`,
+    today: i === 2,
+  }));
+  
+  // Exercices de la séance d'aujourd'hui (3ème séance ou 1ère si moins)
+  const seanceAujourdhui = seancesActuelles[2] || seancesActuelles[0];
+  const exercices = (seanceAujourdhui?.exercices || []).map(e => ({
+    nom: e.nom,
+    det: `${e.series} × ${e.reps} · ${e.charge} · repos ${e.repos}`,
+    conseil: e.conseil,
+  }));
+  
+  // Nutrition réelle
+  const nutrition = pd?.nutrition || null;
+  
+  // Records — extraits des exercices principaux
+  const records = exercices.slice(0, 4).map(e => ({
+    nom: e.nom.split(" ").slice(0,2).join(" "),
+    val: "—"
+  }));
+
   const semaine = ["L","M","M","J","V","S","D"];
-  const joursEtat = ["done","done","today","rest","future","rest","rest"];
+  // Jours cochés selon nb séances
+  const nbSeances = pd?.seances_par_semaine || seances.length || 3;
+  const joursEtat = Array.from({length:7}, (_,i) => {
+    if (i < 2) return "done";
+    if (i === 2) return "today";
+    if (i < nbSeances) return "future";
+    return "rest";
+  });
+
   const doneSeances = Object.values(seanceDone).filter(Boolean).length;
   const doneExos = Object.values(exoDone).filter(Boolean).length;
 
@@ -439,31 +463,33 @@ export default function ClientPage() {
                 {/* Calories */}
                 <div style={S.card}>
                   <div style={S.cardTitle}>🍎 Calories aujourd'hui <span style={{...S.tag,marginLeft:"auto"}}>2 180/2 800 kcal</span></div>
-                  <div style={{display:"flex",alignItems:"center",gap:12,padding:"10px",background:"#0A0A0A",borderRadius:2,marginBottom:12}}>
-                    <svg width="44" height="44" viewBox="0 0 44 44" aria-hidden="true">
-                      <circle cx="22" cy="22" r="17" fill="none" stroke="#1A1A1A" strokeWidth="4"/>
-                      <circle cx="22" cy="22" r="17" fill="none" stroke="#C9A84C" strokeWidth="4"
-                        strokeDasharray="107 107" strokeDashoffset="27" strokeLinecap="round"
-                        transform="rotate(-90 22 22)"/>
-                    </svg>
-                    <div>
-                      <div style={{fontSize:14,fontWeight:700,color:"#F0EDE8"}}>78% de l'objectif</div>
-                      <div style={{fontSize:11,color:"#555",marginTop:2}}>620 kcal restantes</div>
-                    </div>
-                  </div>
-                  {[
-                    { nom:"Protéines", val:"142 g", pct:81, color:"#7AE07A" },
-                    { nom:"Glucides",  val:"248 g", pct:65, color:"#C9A84C" },
-                    { nom:"Lipides",   val:"58 g",  pct:73, color:"#5DCAA5" },
-                  ].map((c,i) => (
-                    <div key={i} style={{display:"flex",alignItems:"center",gap:10,padding:"6px 0",borderTop:"0.5px solid #141414"}}>
-                      <span style={{fontSize:12,color:"#555",width:62,flexShrink:0}}>{c.nom}</span>
-                      <div style={{flex:1,height:4,background:"#1A1A1A",borderRadius:2,overflow:"hidden"}}>
-                        <ProgressBar value={c.pct} color={c.color} delay={i*100} />
+                  {nutrition ? (
+                    <>
+                      <div style={{display:"flex",alignItems:"center",gap:12,padding:"10px",background:"#0A0A0A",borderRadius:2,marginBottom:12}}>
+                        <div>
+                          <div style={{fontSize:14,fontWeight:700,color:"#F0EDE8"}}>{nutrition.calories_jour} kcal/jour</div>
+                          <div style={{fontSize:11,color:"#555",marginTop:2}}>Objectif personnalisé</div>
+                        </div>
                       </div>
-                      <span style={{fontSize:12,fontWeight:700,color:"#888",width:40,textAlign:"right",flexShrink:0}}>{c.val}</span>
+                      {[
+                        { nom:"Protéines", val:`${nutrition.proteines_g}g`, pct:Math.round((nutrition.proteines_g*4/nutrition.calories_jour)*100), color:"#7AE07A" },
+                        { nom:"Glucides",  val:`${nutrition.glucides_g}g`,  pct:Math.round((nutrition.glucides_g*4/nutrition.calories_jour)*100),  color:"#C9A84C" },
+                        { nom:"Lipides",   val:`${nutrition.lipides_g}g`,   pct:Math.round((nutrition.lipides_g*9/nutrition.calories_jour)*100),   color:"#5DCAA5" },
+                      ].map((c,i) => (
+                        <div key={i} style={{display:"flex",alignItems:"center",gap:10,padding:"6px 0",borderTop:"0.5px solid #141414"}}>
+                          <span style={{fontSize:12,color:"#555",width:62,flexShrink:0}}>{c.nom}</span>
+                          <div style={{flex:1,height:4,background:"#1A1A1A",borderRadius:2,overflow:"hidden"}}>
+                            <ProgressBar value={c.pct} color={c.color} delay={i*100} />
+                          </div>
+                          <span style={{fontSize:12,fontWeight:700,color:"#888",width:40,textAlign:"right",flexShrink:0}}>{c.val}</span>
+                        </div>
+                      ))}
+                    </>
+                  ) : (
+                    <div style={{textAlign:"center",padding:"1rem",color:"#555",fontSize:12,fontStyle:"italic"}}>
+                      Données nutrition disponibles après ton bilan
                     </div>
-                  ))}
+                  )}
                 </div>
               </div>
             </div>
@@ -477,7 +503,7 @@ export default function ClientPage() {
             {/* Séance du jour */}
             <div style={S.card}>
               <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:14}}>
-                <div style={S.cardTitle}>🏋️ Séance du jour — Jambes / Épaules</div>
+                <div style={S.cardTitle}>🏋️ {seanceAujourdhui?.nom || "Séance du jour"}</div>
                 <span style={{fontSize:11,color:"#C9A84C",fontWeight:700}}>{doneExos}/{exercices.length} exercices</span>
               </div>
               <div style={{display:"flex",flexDirection:"column",gap:6}}>
@@ -496,6 +522,7 @@ export default function ClientPage() {
                     <div style={{flex:1}}>
                       <div style={{fontSize:13,fontWeight:700,color:exoDone[i]?"#444":"#F0EDE8"}}>{e.nom}</div>
                       <div style={{fontSize:11,color:"#444"}}>{e.det}</div>
+                      {e.conseil && <div style={{fontSize:11,color:"rgba(201,168,76,0.7)",marginTop:1}}>⚡ {e.conseil}</div>}
                     </div>
                     {exoDone[i] && <span style={{fontSize:10,color:"#7AE07A",letterSpacing:"1px"}}>FAIT</span>}
                   </div>
@@ -533,10 +560,10 @@ export default function ClientPage() {
           <div className="fade-in" style={{display:"flex",flexDirection:"column",gap:16}}>
             <div className="metrics-grid" style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:10}}>
               {[
-                { label:"Calories",  val:"2 180", sub:"/ 2 800 kcal",  color:"#C9A84C" },
-                { label:"Protéines", val:"142 g",  sub:"/ 175 g objectif", color:"#7AE07A" },
-                { label:"Glucides",  val:"248 g",  sub:"/ 380 g objectif", color:"#F0EDE8" },
-                { label:"Lipides",   val:"58 g",   sub:"/ 80 g objectif",  color:"#F0EDE8" },
+                { label:"Calories",  val:nutrition ? `${nutrition.calories_jour}` : "—", sub:nutrition?"Objectif/jour":"Non défini",  color:"#C9A84C" },
+                { label:"Protéines", val:nutrition ? `${nutrition.proteines_g} g` : "—", sub:nutrition?"Objectif/jour":"Non défini", color:"#7AE07A" },
+                { label:"Glucides",  val:nutrition ? `${nutrition.glucides_g} g` : "—",  sub:nutrition?"Objectif/jour":"Non défini", color:"#F0EDE8" },
+                { label:"Lipides",   val:nutrition ? `${nutrition.lipides_g} g` : "—",   sub:nutrition?"Objectif/jour":"Non défini",  color:"#F0EDE8" },
               ].map((m,i) => (
                 <div key={i} className="metric-card">
                   <div style={{fontSize:10,letterSpacing:"2px",textTransform:"uppercase",color:"#555",marginBottom:8}}>{m.label}</div>
@@ -549,22 +576,18 @@ export default function ClientPage() {
               <div style={S.card}>
                 <div style={S.cardTitle}>🍽 Repas d'aujourd'hui</div>
                 <div style={{display:"flex",flexDirection:"column",gap:6}}>
-                  {[
-                    { nom:"Petit-déjeuner",     det:"Flocons avoine · œufs · whey",       kcal:520 },
-                    { nom:"Déjeuner",           det:"Poulet · riz · légumes verts",         kcal:680 },
-                    { nom:"Collation pré-séance",det:"Banane · amandes · fromage blanc",  kcal:380 },
-                  ].map((r,i) => (
-                    <div key={i} style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"9px 10px",background:"#0D0D0D",borderRadius:2}}>
-                      <div>
+                  {nutrition?.repas?.length > 0 ? nutrition.repas.map((r,i) => (
+                    <div key={i} style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",padding:"9px 10px",background:"#0D0D0D",borderRadius:2,gap:8}}>
+                      <div style={{flex:1}}>
                         <div style={{fontSize:13,fontWeight:700,color:"#F0EDE8"}}>{r.nom}</div>
-                        <div style={{fontSize:11,color:"#555"}}>{r.det}</div>
+                        <div style={{fontSize:11,color:"#555"}}>{r.exemples}</div>
                       </div>
-                      <div style={{fontSize:13,fontWeight:700,color:"#C9A84C"}}>{r.kcal} kcal</div>
                     </div>
-                  ))}
-                  <div style={{padding:"9px 10px",border:"0.5px dashed #242424",borderRadius:2,fontSize:13,color:"#444",cursor:"pointer"}}>
-                    + Ajouter dîner <span style={{float:"right",fontSize:11,color:"#333"}}>620 kcal restantes</span>
-                  </div>
+                  )) : (
+                    <div style={{padding:"1.5rem",textAlign:"center",color:"#444",fontSize:12,fontStyle:"italic"}}>
+                      Plan de repas disponible après ton bilan
+                    </div>
+                  )}
                 </div>
               </div>
               <div style={S.card}>
