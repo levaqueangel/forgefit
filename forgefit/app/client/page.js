@@ -7,7 +7,7 @@ import { auth, db } from "../firebase";
 import { useLang } from "../useLang";
 import { LangSelector } from "../LangSelector";
 
-function LoginScreen({ onLogin, lang, setLang, LANGS }) {
+function LoginScreen({ lang, setLang, LANGS }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -182,7 +182,7 @@ export default function ClientPage() {
 
   if (authLoading) return <div style={{background:"#0A0A0A",minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center"}}><div style={{color:"#C9A84C",fontSize:11,letterSpacing:"3px"}}>CHARGEMENT...</div></div>;
 
-  if (!user) return <LoginScreen onLogin={()=>{}} lang={lang} setLang={setLang} LANGS={LANGS} />;
+  if (!user) return <LoginScreen lang={lang} setLang={setLang} LANGS={LANGS} />;
 
   const navTab = (id, label) => (
     <button onClick={() => setActiveTab(id)} style={{
