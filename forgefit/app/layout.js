@@ -1,5 +1,6 @@
 import "./globals.css";
 import ServiceWorkerRegistration from "./ServiceWorkerRegistration";
+import ErrorBoundary from "./ErrorBoundary";
 
 export const metadata = {
   title: "APXFITNESS — Coaching fitness personnalisé",
@@ -44,7 +45,9 @@ export default function RootLayout({ children }) {
         <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
       </head>
       <body>
-        {children}
+        <ErrorBoundary>
+          {children}
+        </ErrorBoundary>
         <ServiceWorkerRegistration />
       </body>
     </html>
