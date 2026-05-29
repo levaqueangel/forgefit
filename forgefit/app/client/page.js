@@ -28,7 +28,7 @@ function LoginScreen({ onLogin, lang, setLang, LANGS }) {
 
   return (
     <div style={{background:"#0A0A0A",color:"#F0EDE8",minHeight:"100vh",fontFamily:"'Syne',sans-serif",display:"flex",flexDirection:"column"}}>
-      <style>{`@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Syne:wght@400;600;700;800&display=swap');*{box-sizing:border-box;margin:0;padding:0}input:focus{border-color:#C9A84C !important;outline:none}`}</style>
+      <style>{`*{box-sizing:border-box;margin:0;padding:0}input:focus{border-color:#C9A84C !important;outline:none}`}</style>
       <nav style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"18px 28px",borderBottom:"0.5px solid #242424"}}>
         <div style={{fontSize:20,fontWeight:800,letterSpacing:5}}>APXFIT<span style={{color:"#C9A84C"}}>NESS</span></div>
         <LangSelector lang={lang} setLang={setLang} LANGS={LANGS} />
@@ -196,7 +196,7 @@ export default function ClientPage() {
 
   return (
     <div style={{background:"#0A0A0A",color:"#F0EDE8",minHeight:"100vh",fontFamily:"'Syne',sans-serif",display:"flex",flexDirection:"column"}}>
-      <style>{`@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Syne:wght@400;600;700;800&display=swap');*{box-sizing:border-box;margin:0;padding:0}textarea:focus{border-color:#C9A84C !important;outline:none}`}</style>
+      <style>{`*{box-sizing:border-box;margin:0;padding:0}textarea:focus{border-color:#C9A84C !important;outline:none}`}</style>
 
       <nav style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"16px 24px",borderBottom:"0.5px solid #242424",position:"sticky",top:0,background:"#0A0A0A",zIndex:100}}>
         <div style={{fontSize:18,fontWeight:800,letterSpacing:5,cursor:"pointer"}} onClick={()=>router.push("/")}>
