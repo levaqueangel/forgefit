@@ -1,4 +1,5 @@
 import Anthropic from "@anthropic-ai/sdk";
+import { checkRateLimit } from "../rateLimit";
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
@@ -64,6 +65,11 @@ const LANG_PROMPTS = {
 export const maxDuration = 60; // Vercel : autoriser jusqu'à 60s pour cette route
 
 export async function POST(req) {
+  // Rate limiting : 5 générations max par minute par IP
+  const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown";
+  if (!checkRateLimit(ip)) {
+    return Response.json({ error: "Trop de requêtes. Attends 1 minute avant de réessayer." }, { status: 429 });
+  }
   const data = await req.json();
   const lang = data.lang && LANG_PROMPTS[data.lang] ? data.lang : "fr";
   const l = LANG_PROMPTS[lang];
