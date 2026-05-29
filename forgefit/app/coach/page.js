@@ -327,7 +327,7 @@ export default function CoachPage() {
                     <div style={{fontSize:14,fontWeight:700}}>{selectedClient.nom}</div>
                     <div style={{fontSize:11,color:"#555",letterSpacing:"1px"}}>{selectedClient.email} · Plan {selectedClient.plan}</div>
                   </div>
-                  <div style={{display:"flex",gap:8"}}>
+                  <div style={{display:"flex",gap:8}}>
                     <span style={{fontSize:11,color:"#555"}}>
                       {selectedClient.createdAt ? `Client depuis le ${new Date(selectedClient.createdAt).toLocaleDateString("fr-FR",{day:"numeric",month:"short"})}` : ""}
                     </span>
