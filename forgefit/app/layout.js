@@ -4,15 +4,18 @@ import ErrorBoundary from "./ErrorBoundary";
 
 export const metadata = {
   title: "APXFITNESS — Coaching fitness personnalisé",
-  description: "Programmes de musculation et remise en forme 100% sur mesure. Bilan gratuit, programme généré par IA et livré par email sous 48h. Coaching personnalisé pour tous les niveaux.",
-  keywords: "coaching fitness personnalisé, programme musculation sur mesure, remise en forme, perte de poids, prise de masse, coach fitness en ligne, programme sport personnalisé, APXFITNESS",
-  authors: [{ name: "APXFITNESS" }],
+  description: "Programmes de musculation et remise en forme 100% sur mesure. Programme personnalisé livré sous 48h. Coaching adapté à ton niveau, tes objectifs et ton équipement.",
+  keywords: "coaching fitness personnalisé, programme musculation sur mesure, remise en forme, perte de poids, prise de masse, coach fitness en ligne, APXFITNESS",
+  authors: [{ name: "APXFITNESS Coach" }],
   creator: "APXFITNESS",
   publisher: "APXFITNESS",
-  robots: "index, follow",
+  robots: { index: true, follow: true },
+  alternates: {
+    canonical: "https://apxfitness-brown.vercel.app",
+  },
   openGraph: {
     title: "APXFITNESS — Coaching fitness personnalisé",
-    description: "Programmes de musculation et remise en forme 100% sur mesure. Bilan gratuit, programme généré par IA sous 48h.",
+    description: "Programmes de musculation et remise en forme 100% sur mesure. Livré sous 48h.",
     url: "https://apxfitness-brown.vercel.app",
     siteName: "APXFITNESS",
     locale: "fr_FR",
@@ -21,15 +24,9 @@ export const metadata = {
   twitter: {
     card: "summary_large_image",
     title: "APXFITNESS — Coaching fitness personnalisé",
-    description: "Programmes de musculation et remise en forme 100% sur mesure.",
+    description: "Programmes sur mesure livrés sous 48h. Coaching personnalisé pour tous niveaux.",
+    creator: "@apxfitness",
   },
-  alternates: {
-    canonical: "https://apxfitness-brown.vercel.app",
-  },
-  verification: {
-    google: "xfrTOInrUrA35W0OBd-BQHoeB5rKu64Urs5pa_Wo59s",
-  },
-  manifest: "/manifest.json",
 };
 
 export default function RootLayout({ children }) {
