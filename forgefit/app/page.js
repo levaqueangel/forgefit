@@ -299,6 +299,9 @@ export default function Home() {
             onClick={()=>router.push("/client")}>Espace client</span>
           <span style={{color:"#242424"}}>|</span>
           <span className="footer-link" style={{fontSize:11,letterSpacing:"2px",color:"#555",textTransform:"uppercase",textDecoration:"underline",cursor:"pointer"}}
+            onClick={()=>router.push("/blog")}>Blog</span>
+          <span style={{color:"#242424"}}>|</span>
+          <span className="footer-link" style={{fontSize:11,letterSpacing:"2px",color:"#555",textTransform:"uppercase",textDecoration:"underline",cursor:"pointer"}}
             onClick={()=>router.push("/faq")}>FAQ</span>
           <span style={{color:"#242424"}}>|</span>
           <span className="footer-link" style={{fontSize:11,letterSpacing:"2px",color:"#555",textTransform:"uppercase",textDecoration:"underline",cursor:"pointer"}}
