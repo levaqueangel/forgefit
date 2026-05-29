@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
-import { collection, query, orderBy, onSnapshot, addDoc, serverTimestamp, updateDoc, doc } from "firebase/firestore";
+import { collection, query, where, orderBy, onSnapshot, addDoc, serverTimestamp, updateDoc, doc, getDocs } from "firebase/firestore";
 import { auth, db } from "../firebase";
 
 const COACH_EMAIL = process.env.NEXT_PUBLIC_COACH_EMAIL || "levaqueangel@gmail.com";
@@ -83,7 +83,6 @@ export default function CoachPage() {
   const [user, setUser] = useState(null);
   const [authLoading, setAuthLoading] = useState(true);
   const [clients, setClients] = useState([]);
-  const [allMessages, setAllMessages] = useState([]);
   const [selectedClient, setSelectedClient] = useState(null);
   const [newMsg, setNewMsg] = useState("");
   const [sending, setSending] = useState(false);
@@ -138,21 +137,40 @@ export default function CoachPage() {
     return () => unsub();
   }, [user]);
 
+  // Compteurs de messages non lus — chargés séparément pour tous les clients
+  const [unreadCounts, setUnreadCounts] = useState({});
   useEffect(() => {
     if (!user) return;
-    const q = query(collection(db, "messages"), orderBy("createdAt", "asc"));
+    // Écouter les messages non lus de tous les clients (léger : seulement les non lus)
+    const q = query(collection(db, "messages"), where("sender", "==", "client"), where("read", "==", false));
     const unsub = onSnapshot(q, snap => {
-      setAllMessages(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+      const counts = {};
+      snap.docs.forEach(d => {
+        const clientId = d.data().clientId;
+        counts[clientId] = (counts[clientId] || 0) + 1;
+      });
+      setUnreadCounts(counts);
     });
     return () => unsub();
   }, [user]);
 
+  // Messages du client sélectionné uniquement
+  const [clientMessages, setClientMessages] = useState([]);
   useEffect(() => {
-    setTimeout(() => bottomRef.current?.scrollIntoView({ behavior: "smooth" }), 100);
-  }, [allMessages, selectedClient]);
+    if (!user || !selectedClient) { setClientMessages([]); return; }
+    const q = query(
+      collection(db, "messages"),
+      where("clientId", "==", selectedClient.id),
+      orderBy("createdAt", "asc")
+    );
+    const unsub = onSnapshot(q, snap => {
+      setClientMessages(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+      setTimeout(() => bottomRef.current?.scrollIntoView({ behavior: "smooth" }), 100);
+    });
+    return () => unsub();
+  }, [user, selectedClient]);
 
-  const clientMessages = allMessages.filter(m => m.clientId === selectedClient?.id);
-  const unreadCount = (clientId) => allMessages.filter(m => m.clientId === clientId && m.sender === "client" && !m.read).length;
+  const unreadCount = (clientId) => unreadCounts[clientId] || 0;
 
   const sendMessage = async () => {
     if (!newMsg.trim() || !selectedClient || sending) return;
@@ -173,7 +191,7 @@ export default function CoachPage() {
       body: JSON.stringify({ to: selectedClient.email, nom: selectedClient.nom, message: newMsg.trim() }),
     });
     // Marquer les messages du client comme lus
-    const unread = allMessages.filter(m => m.clientId === selectedClient.id && m.sender === "client" && !m.read);
+    const unread = clientMessages.filter(m => m.sender === "client" && !m.read);
     await Promise.all(unread.map(m => updateDoc(doc(db, "messages", m.id), { read: true })));
     setNewMsg("");
     setSending(false);
