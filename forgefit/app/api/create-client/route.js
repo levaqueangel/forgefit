@@ -1,6 +1,8 @@
 import { adminAuth, adminDb } from "../firebase-admin";
 import { Resend } from "resend";
 
+export const dynamic = "force-dynamic";
+
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 function generatePassword() {
