@@ -23,8 +23,18 @@ export async function POST(req) {
       uid = newUser.uid;
     }
 
+    // Tronquer le programme si trop long (limite Firestore : 1MB par document)
+    const MAX_PROG_LENGTH = 50000; // ~50KB max, largement suffisant pour un programme
+    const programmeSafe = programme && programme.length > MAX_PROG_LENGTH
+      ? programme.substring(0, MAX_PROG_LENGTH) + "\n\n[Programme tronqué — voir l'email complet]"
+      : programme;
+
     // Sauvegarder dans Firestore
-    await adminDb.collection("clients").doc(uid).set({ nom, email, plan, programme, createdAt: new Date().toISOString() }, { merge: true });
+    await adminDb.collection("clients").doc(uid).set({
+      nom, email, plan,
+      programme: programmeSafe,
+      createdAt: new Date().toISOString()
+    }, { merge: true });
 
     // Email d'accès à l'espace client
     await resend.emails.send({
