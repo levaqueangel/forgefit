@@ -2,12 +2,15 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
-import { collection, query, where, orderBy, onSnapshot, addDoc, serverTimestamp, updateDoc, doc, getDocs } from "firebase/firestore";
+import { collection, query, where, orderBy, onSnapshot, addDoc, serverTimestamp, updateDoc, doc } from "firebase/firestore";
 import { auth, db } from "../firebase";
 
 const COACH_EMAIL = process.env.NEXT_PUBLIC_COACH_EMAIL || "levaqueangel@gmail.com";
+const INACTIVE_LIMIT = 30 * 60 * 1000;
+const WARNING_BEFORE = 2 * 60 * 1000;
 
-function LoginCoach({ onLogin }) {
+// ── Composant Login Coach ──────────────────────────────────────────────
+function LoginCoach() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -27,7 +30,7 @@ function LoginCoach({ onLogin }) {
 
   return (
     <div style={{background:"#0A0A0A",color:"#F0EDE8",minHeight:"100vh",fontFamily:"'Syne',sans-serif",display:"flex",flexDirection:"column"}}>
-      <style>{`*{box-sizing:border-box;margin:0;padding:0}input:focus{border-color:#C9A84C !important;outline:none}`}</style>
+      <style>{"*{box-sizing:border-box;margin:0;padding:0}input:focus{border-color:#C9A84C !important;outline:none}"}</style>
       <nav style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"18px 28px",borderBottom:"0.5px solid #242424"}}>
         <div style={{fontSize:20,fontWeight:800,letterSpacing:5}}>APXFIT<span style={{color:"#C9A84C"}}>NESS</span></div>
         <div style={{fontSize:11,letterSpacing:"3px",color:"#C9A84C",textTransform:"uppercase"}}>Interface Coach</div>
@@ -58,9 +61,12 @@ function LoginCoach({ onLogin }) {
   );
 }
 
+// ── Bulle de message ───────────────────────────────────────────────────
 function MessageBubble({ msg }) {
   const isCoach = msg.sender === "coach";
-  const date = msg.createdAt?.toDate?.() ? msg.createdAt.toDate().toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"}) : "";
+  const date = msg.createdAt?.toDate?.()
+    ? msg.createdAt.toDate().toLocaleTimeString("fr-FR", { hour:"2-digit", minute:"2-digit" })
+    : "";
   return (
     <div style={{display:"flex",flexDirection:"column",alignItems:isCoach?"flex-end":"flex-start",marginBottom:12}}>
       <div style={{
@@ -74,61 +80,54 @@ function MessageBubble({ msg }) {
   );
 }
 
-// Constantes hors du composant pour éviter les recréations à chaque render
-const INACTIVE_LIMIT = 30 * 60 * 1000; // 30 min
-const WARNING_BEFORE = 2 * 60 * 1000;  // avertir 2 min avant
-
+// ── Page principale Coach ──────────────────────────────────────────────
 export default function CoachPage() {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [authLoading, setAuthLoading] = useState(true);
   const [clients, setClients] = useState([]);
   const [selectedClient, setSelectedClient] = useState(null);
+  const [clientMessages, setClientMessages] = useState([]);
+  const [unreadCounts, setUnreadCounts] = useState({});
   const [newMsg, setNewMsg] = useState("");
   const [sending, setSending] = useState(false);
-  const bottomRef = useRef(null);
+  const [sendError, setSendError] = useState("");
   const [showInactiveWarning, setShowInactiveWarning] = useState(false);
+  const bottomRef = useRef(null);
   const inactiveTimer = useRef(null);
   const warningTimer = useRef(null);
 
+  // ── Auth ──────────────────────────────────────────────────────────────
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, u => {
       setUser(u && u.email === COACH_EMAIL ? u : null);
       setAuthLoading(false);
-    }, (error) => {
-      console.error("Auth error:", error);
-      setAuthLoading(false);
-    });
-    // Timeout de sécurité — 5 secondes max
+    }, () => setAuthLoading(false));
     const timer = setTimeout(() => setAuthLoading(false), 5000);
     return () => { unsub(); clearTimeout(timer); };
   }, []);
 
-  // Déconnexion automatique après 30 min d'inactivité
+  // ── Déconnexion auto après 30 min d'inactivité ────────────────────────
   useEffect(() => {
     if (!user) return;
-
-    const resetTimer = () => {
+    const reset = () => {
       clearTimeout(inactiveTimer.current);
       clearTimeout(warningTimer.current);
       setShowInactiveWarning(false);
-      // Avertir 2 min avant
       warningTimer.current = setTimeout(() => setShowInactiveWarning(true), INACTIVE_LIMIT - WARNING_BEFORE);
-      // Déconnecter après 30 min
       inactiveTimer.current = setTimeout(() => signOut(auth), INACTIVE_LIMIT);
     };
-
     const events = ["mousedown","mousemove","keydown","scroll","touchstart"];
-    events.forEach(e => window.addEventListener(e, resetTimer));
-    resetTimer();
-
+    events.forEach(e => window.addEventListener(e, reset));
+    reset();
     return () => {
-      events.forEach(e => window.removeEventListener(e, resetTimer));
+      events.forEach(e => window.removeEventListener(e, reset));
       clearTimeout(inactiveTimer.current);
       clearTimeout(warningTimer.current);
     };
   }, [user]);
 
+  // ── Liste clients ─────────────────────────────────────────────────────
   useEffect(() => {
     if (!user) return;
     const unsub = onSnapshot(collection(db, "clients"), snap => {
@@ -137,34 +136,39 @@ export default function CoachPage() {
     return () => unsub();
   }, [user]);
 
-  // Compteurs de messages non lus — chargés séparément pour tous les clients
-  const [unreadCounts, setUnreadCounts] = useState({});
+  // ── Compteurs non lus — requête simple sans index composite ───────────
+  // On filtre par sender côté client pour éviter l'index composite Firestore
   useEffect(() => {
     if (!user) return;
-    // Écouter les messages non lus de tous les clients (léger : seulement les non lus)
-    const q = query(collection(db, "messages"), where("sender", "==", "client"), where("read", "==", false));
+    const q = query(collection(db, "messages"), where("read", "==", false));
     const unsub = onSnapshot(q, snap => {
       const counts = {};
       snap.docs.forEach(d => {
-        const clientId = d.data().clientId;
-        counts[clientId] = (counts[clientId] || 0) + 1;
+        const data = d.data();
+        if (data.sender === "client") { // Filtré côté client
+          counts[data.clientId] = (counts[data.clientId] || 0) + 1;
+        }
       });
       setUnreadCounts(counts);
     });
     return () => unsub();
   }, [user]);
 
-  // Messages du client sélectionné uniquement
-  const [clientMessages, setClientMessages] = useState([]);
+  // ── Messages du client sélectionné — tri côté client pour éviter l'index ──
   useEffect(() => {
     if (!user || !selectedClient) { setClientMessages([]); return; }
-    const q = query(
-      collection(db, "messages"),
-      where("clientId", "==", selectedClient.id),
-      orderBy("createdAt", "asc")
-    );
+    // Requête simple sur clientId uniquement (index automatique)
+    const q = query(collection(db, "messages"), where("clientId", "==", selectedClient.id));
     const unsub = onSnapshot(q, snap => {
-      setClientMessages(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+      // Trier par createdAt côté client pour éviter l'index composite
+      const msgs = snap.docs
+        .map(d => ({ id: d.id, ...d.data() }))
+        .sort((a, b) => {
+          const ta = a.createdAt?.toMillis?.() || 0;
+          const tb = b.createdAt?.toMillis?.() || 0;
+          return ta - tb;
+        });
+      setClientMessages(msgs);
       setTimeout(() => bottomRef.current?.scrollIntoView({ behavior: "smooth" }), 100);
     });
     return () => unsub();
@@ -172,8 +176,7 @@ export default function CoachPage() {
 
   const unreadCount = (clientId) => unreadCounts[clientId] || 0;
 
-  const [sendError, setSendError] = useState("");
-
+  // ── Envoi message ─────────────────────────────────────────────────────
   const sendMessage = async () => {
     if (!newMsg.trim() || !selectedClient || sending) return;
     setSending(true);
@@ -196,7 +199,7 @@ export default function CoachPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ to: selectedClient.email, nom: selectedClient.nom, message: msgText }),
       }).catch(e => console.warn("Notif client failed:", e));
-      // Marquer les messages du client comme lus
+      // Marquer les messages non lus du client comme lus
       const unread = clientMessages.filter(m => m.sender === "client" && !m.read);
       await Promise.all(unread.map(m => updateDoc(doc(db, "messages", m.id), { read: true })));
     } catch (e) {
@@ -207,18 +210,27 @@ export default function CoachPage() {
     }
   };
 
-  if (authLoading) return <div style={{background:"#0A0A0A",minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center"}}><div style={{color:"#C9A84C",fontSize:11,letterSpacing:"3px"}}>CHARGEMENT...</div></div>;
+  // ── Rendu ─────────────────────────────────────────────────────────────
+  if (authLoading) return (
+    <div style={{background:"#0A0A0A",minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center"}}>
+      <div style={{color:"#C9A84C",fontSize:11,letterSpacing:"3px"}}>CHARGEMENT...</div>
+    </div>
+  );
   if (!user) return <LoginCoach />;
 
   return (
     <div style={{background:"#0A0A0A",color:"#F0EDE8",minHeight:"100vh",fontFamily:"'Syne',sans-serif",display:"flex",flexDirection:"column"}}>
-      <style>{`*{box-sizing:border-box;margin:0;padding:0}textarea:focus{border-color:#C9A84C !important;outline:none}`}</style>
+      <style>{"*{box-sizing:border-box;margin:0;padding:0}textarea:focus{border-color:#C9A84C !important;outline:none}"}</style>
 
       {/* Nav */}
       <nav style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"16px 24px",borderBottom:"0.5px solid #242424",position:"sticky",top:0,background:"#0A0A0A",zIndex:100}}>
         <div style={{display:"flex",alignItems:"center",gap:16}}>
-          <div style={{fontSize:18,fontWeight:800,letterSpacing:5,cursor:"pointer"}} onClick={()=>router.push("/")}>APXFIT<span style={{color:"#C9A84C"}}>NESS</span></div>
-          <div style={{fontSize:11,letterSpacing:"3px",color:"#C9A84C",textTransform:"uppercase",borderLeft:"0.5px solid #242424",paddingLeft:16}}>Interface Coach</div>
+          <div style={{fontSize:18,fontWeight:800,letterSpacing:5,cursor:"pointer"}} onClick={()=>router.push("/")}>
+            APXFIT<span style={{color:"#C9A84C"}}>NESS</span>
+          </div>
+          <div style={{fontSize:11,letterSpacing:"3px",color:"#C9A84C",textTransform:"uppercase",borderLeft:"0.5px solid #242424",paddingLeft:16}}>
+            Interface Coach
+          </div>
         </div>
         <div style={{display:"flex",alignItems:"center",gap:12}}>
           <div style={{fontSize:11,letterSpacing:"1px",color:"#555"}}>{clients.length} client{clients.length>1?"s":""}</div>
@@ -230,7 +242,7 @@ export default function CoachPage() {
 
       <div style={{flex:1,display:"grid",gridTemplateColumns:"280px 1fr",minHeight:"calc(100vh - 57px)"}}>
 
-        {/* Modale avertissement inactivité */}
+        {/* Modale inactivité */}
         {showInactiveWarning && (
           <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.85)",zIndex:300,display:"flex",alignItems:"center",justifyContent:"center"}}>
             <div style={{background:"#111",border:"0.5px solid #C9A84C",padding:"2rem",maxWidth:380,width:"90%",textAlign:"center"}}>
@@ -239,23 +251,31 @@ export default function CoachPage() {
               <p style={{fontFamily:"'Cormorant Garamond',serif",fontSize:15,color:"#888",lineHeight:1.7,marginBottom:"1.5rem"}}>
                 Tu vas être déconnecté dans <strong style={{color:"#E8C87A"}}>2 minutes</strong> pour des raisons de sécurité.
               </p>
-              <button onClick={()=>{setShowInactiveWarning(false); clearTimeout(inactiveTimer.current); clearTimeout(warningTimer.current); warningTimer.current = setTimeout(()=>setShowInactiveWarning(true), INACTIVE_LIMIT - WARNING_BEFORE); inactiveTimer.current = setTimeout(()=>signOut(auth), INACTIVE_LIMIT);}}
-                style={{background:"linear-gradient(135deg,#C9A84C,#A67C2E)",border:"none",color:"#0A0A0A",padding:"12px 32px",fontFamily:"'Syne',sans-serif",fontSize:12,fontWeight:700,letterSpacing:"2px",textTransform:"uppercase",cursor:"pointer"}}>
+              <button onClick={()=>{
+                setShowInactiveWarning(false);
+                clearTimeout(inactiveTimer.current);
+                clearTimeout(warningTimer.current);
+                warningTimer.current = setTimeout(()=>setShowInactiveWarning(true), INACTIVE_LIMIT - WARNING_BEFORE);
+                inactiveTimer.current = setTimeout(()=>signOut(auth), INACTIVE_LIMIT);
+              }} style={{background:"linear-gradient(135deg,#C9A84C,#A67C2E)",border:"none",color:"#0A0A0A",padding:"12px 32px",fontFamily:"'Syne',sans-serif",fontSize:12,fontWeight:700,letterSpacing:"2px",textTransform:"uppercase",cursor:"pointer"}}>
                 Je suis toujours là →
               </button>
             </div>
           </div>
         )}
 
-        {/* Liste clients */}
+        {/* Sidebar clients */}
         <div style={{borderRight:"0.5px solid #242424",overflowY:"auto"}}>
-          <div style={{padding:"14px 16px",borderBottom:"0.5px solid #242424",fontSize:10,letterSpacing:"3px",textTransform:"uppercase",color:"#555"}}>Clients</div>
+          <div style={{padding:"14px 16px",borderBottom:"0.5px solid #242424",fontSize:10,letterSpacing:"3px",textTransform:"uppercase",color:"#555"}}>
+            Clients
+          </div>
           {clients.length === 0 ? (
-            <div style={{padding:"2rem",textAlign:"center",color:"#333",fontSize:13,fontStyle:"italic",fontFamily:"'Cormorant Garamond',serif"}}>Aucun client pour l'instant.</div>
+            <div style={{padding:"2rem",textAlign:"center",color:"#333",fontSize:13,fontStyle:"italic",fontFamily:"'Cormorant Garamond',serif"}}>
+              Aucun client pour l'instant.
+            </div>
           ) : clients.map(client => {
             const unread = unreadCount(client.id);
             const isSelected = selectedClient?.id === client.id;
-            const lastMsg = allMessages.filter(m=>m.clientId===client.id).slice(-1)[0];
             return (
               <div key={client.id} onClick={()=>setSelectedClient(client)} style={{
                 padding:"14px 16px",cursor:"pointer",borderBottom:"0.5px solid #242424",
@@ -263,16 +283,24 @@ export default function CoachPage() {
                 borderLeft:`2px solid ${isSelected?"#C9A84C":"transparent"}`}}>
                 <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:4}}>
                   <div style={{fontSize:13,fontWeight:700,color:isSelected?"#E8C87A":"#F0EDE8"}}>{client.nom}</div>
-                  {unread > 0 && <span style={{background:"#C9A84C",color:"#0A0A0A",fontSize:10,fontWeight:700,borderRadius:"50%",width:18,height:18,display:"flex",alignItems:"center",justifyContent:"center"}}>{unread}</span>}
+                  {unread > 0 && (
+                    <span style={{background:"#C9A84C",color:"#0A0A0A",fontSize:10,fontWeight:700,borderRadius:"50%",width:18,height:18,display:"flex",alignItems:"center",justifyContent:"center"}}>
+                      {unread}
+                    </span>
+                  )}
                 </div>
-                <div style={{fontSize:11,color:"#555",marginBottom:3,letterSpacing:"1px",textTransform:"uppercase"}}>Plan {client.plan}</div>
-                {lastMsg && <div style={{fontSize:12,color:"#333",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{lastMsg.sender==="coach"?"Toi : ":""}{lastMsg.text}</div>}
+                <div style={{fontSize:11,color:"#555",letterSpacing:"1px",textTransform:"uppercase"}}>Plan {client.plan}</div>
+                {isSelected && clientMessages.length > 0 && (
+                  <div style={{fontSize:12,color:"#444",marginTop:3,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>
+                    {clientMessages[clientMessages.length-1]?.sender==="coach"?"Toi : ":""}{clientMessages[clientMessages.length-1]?.text}
+                  </div>
+                )}
               </div>
             );
           })}
         </div>
 
-        {/* Zone de conversation */}
+        {/* Zone conversation */}
         <div style={{display:"flex",flexDirection:"column"}}>
           {!selectedClient ? (
             <div style={{flex:1,display:"flex",alignItems:"center",justifyContent:"center",flexDirection:"column",gap:12,color:"#333"}}>
@@ -281,7 +309,7 @@ export default function CoachPage() {
             </div>
           ) : (
             <>
-              {/* Header client */}
+              {/* Header */}
               <div style={{padding:"14px 20px",borderBottom:"0.5px solid #242424",display:"flex",alignItems:"center",gap:12,background:"#0D0D0D"}}>
                 <div style={{width:36,height:36,background:"rgba(201,168,76,0.15)",border:"0.5px solid #C9A84C",display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:700,color:"#C9A84C"}}>
                   {selectedClient.nom?.charAt(0).toUpperCase()}
@@ -308,7 +336,7 @@ export default function CoachPage() {
                 <textarea
                   value={newMsg}
                   onChange={e=>setNewMsg(e.target.value)}
-                  onKeyDown={e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendMessage()}}}
+                  onKeyDown={e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendMessage();}}}
                   placeholder={`Message à ${selectedClient.nom}... (Entrée pour envoyer)`}
                   style={{flex:1,background:"#111",border:"0.5px solid #242424",color:"#F0EDE8",fontFamily:"'Syne',sans-serif",fontSize:13,padding:"12px 16px",resize:"none",minHeight:52,outline:"none",borderRadius:0}}
                 />
