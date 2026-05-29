@@ -1,6 +1,8 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { checkRateLimit } from "../rateLimit";
 
+export const dynamic = "force-dynamic";
+
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 export const maxDuration = 60;
 
