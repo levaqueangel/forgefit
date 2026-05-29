@@ -1,4 +1,4 @@
-import { adminAuth, adminDb } from "../firebase-admin";
+import { getAdminAuth, getAdminDb } from "../firebase-admin";
 import { Resend } from "resend";
 
 export const dynamic = "force-dynamic";
@@ -17,16 +17,16 @@ export async function POST(req) {
   try {
     let uid;
     try {
-      const existing = await adminAuth.getUserByEmail(email);
+      const existing = await getAdminAuth().getUserByEmail(email);
       uid = existing.uid;
-      await adminAuth.updateUser(uid, { password });
+      await getAdminAuth().updateUser(uid, { password });
     } catch {
-      const newUser = await adminAuth.createUser({ email, password, displayName: nom });
+      const newUser = await getAdminAuth().createUser({ email, password, displayName: nom });
       uid = newUser.uid;
     }
 
     // Sauvegarder dans Firestore
-    await adminDb.collection("clients").doc(uid).set({ nom, email, plan, programme, createdAt: new Date().toISOString() }, { merge: true });
+    await getAdminDb().collection("clients").doc(uid).set({ nom, email, plan, programme, createdAt: new Date().toISOString() }, { merge: true });
 
     // Email d'accès à l'espace client
     await resend.emails.send({
