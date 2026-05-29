@@ -179,7 +179,8 @@ export default function Home() {
           <span className="nav-link" onClick={()=>document.getElementById("offres").scrollIntoView({behavior:"smooth"})}>{t.nav.programmes}</span>
           <span className="nav-link" onClick={()=>document.getElementById("methode").scrollIntoView({behavior:"smooth"})}>{t.nav.methode}</span>
           <span className="nav-link" onClick={()=>document.getElementById("offres").scrollIntoView({behavior:"smooth"})}>{t.nav.tarifs}</span>
-          <span className="nav-link" onClick={()=>router.push("/faq")}>FAQ</span>
+          <span className="nav-link" onClick={()=>router.push("/calculateur")}>Calculateur</span>
+            <span className="nav-link" onClick={()=>router.push("/faq")}>FAQ</span>
         </div>
         <div style={{display:"flex",gap:12,alignItems:"center"}}>
           <LangSelector lang={lang} setLang={setLang} LANGS={LANGS} />
@@ -367,6 +368,9 @@ export default function Home() {
           <span style={{color:"#242424"}}>|</span>
           <span className="footer-link" style={{fontSize:11,letterSpacing:"2px",color:"#555",textTransform:"uppercase",textDecoration:"underline",cursor:"pointer"}}
             onClick={()=>router.push("/blog")}>Blog</span>
+          <span style={{color:"#242424"}}>|</span>
+          <span className="footer-link" style={{fontSize:11,letterSpacing:"2px",color:"#555",textTransform:"uppercase",textDecoration:"underline",cursor:"pointer"}}
+            onClick={()=>router.push("/calculateur")}>Calculateur</span>
           <span style={{color:"#242424"}}>|</span>
           <span className="footer-link" style={{fontSize:11,letterSpacing:"2px",color:"#555",textTransform:"uppercase",textDecoration:"underline",cursor:"pointer"}}
             onClick={()=>router.push("/faq")}>FAQ</span>
