@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef, Suspense } from "react";
+import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useLang } from "../useLang";
 import { LangSelector } from "../LangSelector";
@@ -53,6 +53,7 @@ function BilanForm() {
   const [form, setForm] = useState({ prenom: "", age: "", email: "", genre: "", poids: "", taille: "", contraintes: "", motivation: "" });
   const [sel, setSel] = useState({});
   const [prog, setProg] = useState("");
+  const [progData, setProgData] = useState(null);
   const [status, setStatus] = useState("idle");
   const [errMsg, setErrMsg] = useState("");
   const [clientCreated, setClientCreated] = useState(null); // null=pending, true=ok, false=erreur
@@ -68,22 +69,17 @@ function BilanForm() {
     padding: "10px 14px", outline: "none", borderRadius: 0,
   };
 
-  const abortRef = useRef(null);
-
   async function handleGenerate() {
-    // Annuler toute requête précédente en cours
-    if (abortRef.current) abortRef.current.abort();
-    abortRef.current = new AbortController();
     setStatus("generating"); setErrMsg(""); setProg("");
     try {
       const genRes = await fetch("/api/generate", {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...form, ...sel, plan: planId, lang }),
-        signal: abortRef.current.signal,
       });
       const genData = await genRes.json();
       if (genData.error) throw new Error(genData.error);
       setProg(genData.programme);
+      setProgData(genData.programmeData || null);
       setStatus("sending");
       // Envoyer l'email programme
       const mailRes = await fetch("/api/send-email", {
@@ -96,7 +92,7 @@ function BilanForm() {
       try {
         const clientRes = await fetch("/api/create-client", {
           method: "POST", headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email: form.email, nom: form.prenom, plan: planId, programme: genData.programme }),
+          body: JSON.stringify({ email: form.email, nom: form.prenom, plan: planId, programme: genData.programme, programmeData: genData.programmeData || null }),
         });
         const clientData = await clientRes.json();
         setClientCreated(clientData.success === true);
@@ -105,10 +101,7 @@ function BilanForm() {
       }
       setStatus("done"); setStep(5);
     } catch (e) {
-      if (e.name === "AbortError") return; // Requête annulée intentionnellement
       setErrMsg(e.message); setStatus("error");
-    } finally {
-      abortRef.current = null;
     }
   }
 
@@ -124,7 +117,8 @@ function BilanForm() {
   return (
     <div style={{ background: "#0A0A0A", color: "#F0EDE8", minHeight: "100vh", fontFamily: "'Syne',sans-serif" }}>
       <style>{`
-                @keyframes spin{to{transform:rotate(360deg)}}
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Syne:wght@400;600;700;800&display=swap');
+        @keyframes spin{to{transform:rotate(360deg)}}
         @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
         .fade-up{animation:fadeUp 0.4s ease forwards}
         input::placeholder,textarea::placeholder{color:#2E2E2E}
