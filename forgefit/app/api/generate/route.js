@@ -86,10 +86,14 @@ ${l.format}
 
 Sois précis, bienveillant et adapte chaque détail au profil.`;
 
-  // Timeout de 55s pour éviter que Vercel coupe sans message d'erreur
-  const timeout = new Promise((_, reject) =>
-    setTimeout(() => reject(new Error("Délai dépassé — réessaie dans quelques secondes")), 55000)
-  );
+  // Timeout propre sans memory leak : on nettoie toujours le timer
+  let timeoutId;
+  const timeoutPromise = new Promise((_, reject) => {
+    timeoutId = setTimeout(
+      () => reject(new Error("Délai dépassé — réessaie dans quelques secondes")),
+      55000
+    );
+  });
 
   try {
     const response = await Promise.race([
@@ -98,12 +102,14 @@ Sois précis, bienveillant et adapte chaque détail au profil.`;
         max_tokens: 2500,
         messages: [{ role: "user", content: prompt }],
       }),
-      timeout,
+      timeoutPromise,
     ]);
 
+    clearTimeout(timeoutId); // Annuler le timer si la requête réussit
     const programme = response.content.map((b) => b.text || "").join("");
     return Response.json({ programme });
   } catch (e) {
+    clearTimeout(timeoutId); // Annuler le timer même en cas d'erreur
     return Response.json({ error: e.message }, { status: 500 });
   }
 }
