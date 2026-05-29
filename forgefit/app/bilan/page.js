@@ -1,5 +1,5 @@
 "use client";
-import { useState, Suspense } from "react";
+import { useState, useRef, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useLang } from "../useLang";
 import { LangSelector } from "../LangSelector";
@@ -68,14 +68,18 @@ function BilanForm() {
     padding: "10px 14px", outline: "none", borderRadius: 0,
   };
 
+  const abortRef = useRef(null);
+
   async function handleGenerate() {
+    // Annuler toute requête précédente en cours
+    if (abortRef.current) abortRef.current.abort();
+    abortRef.current = new AbortController();
     setStatus("generating"); setErrMsg(""); setProg("");
-    const controller = new AbortController();
     try {
       const genRes = await fetch("/api/generate", {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...form, ...sel, plan: planId, lang }),
-        signal: controller.signal,
+        signal: abortRef.current.signal,
       });
       const genData = await genRes.json();
       if (genData.error) throw new Error(genData.error);
@@ -101,7 +105,10 @@ function BilanForm() {
       }
       setStatus("done"); setStep(5);
     } catch (e) {
+      if (e.name === "AbortError") return; // Requête annulée intentionnellement
       setErrMsg(e.message); setStatus("error");
+    } finally {
+      abortRef.current = null;
     }
   }
 
