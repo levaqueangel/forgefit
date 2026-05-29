@@ -464,6 +464,19 @@ export default function ClientPage() {
   const doneSeances = Object.values(seanceDone).filter(Boolean).length;
   const doneExos = Object.values(exoDone).filter(Boolean).length;
 
+  // Semaine calculée depuis la date de création du programme
+  const currentWeek = (() => {
+    if (!clientData?.createdAt) return null;
+    const created = new Date(clientData.createdAt);
+    const diffMs = Date.now() - created.getTime();
+    const week = Math.min(Math.max(Math.floor(diffMs / (7 * 24 * 3600 * 1000)) + 1, 1), 4);
+    return week;
+  })();
+  const totalWeeks = pd?.duree_programme_semaines || 4;
+
+  // Streak réel depuis Firestore (sauvegardé dans clientData)
+  const realStreak = clientData?.streakDays || 0;
+
   // Renouvellement : si programme > 28 jours
   const showRenew = clientData?.createdAt
     ? (Date.now() - new Date(clientData.createdAt).getTime()) > 28 * 24 * 3600 * 1000
@@ -583,7 +596,9 @@ export default function ClientPage() {
         <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:24,fontWeight:600,marginBottom:12}}>
           Bonjour <em style={{color:"#C9A84C",fontStyle:"italic"}}>{clientData?.nom || user.email.split("@")[0]}</em> 👋
           <span style={{fontSize:13,color:"#555",fontFamily:"'Syne',sans-serif",fontWeight:400,fontStyle:"normal",marginLeft:12}}>
-            {pd ? `${pd.duree_programme_semaines || 4} semaines · ${pd.objectif_principal || ""}` : "Espace client"}
+            {currentWeek && pd
+            ? `Semaine ${currentWeek} sur ${totalWeeks} · ${pd.objectif_principal || ""}`
+            : pd ? `${totalWeeks} semaines · ${pd.objectif_principal || ""}` : "Espace client"}
           </span>
         </div>
         <div style={{display:"flex",gap:"1.5rem",overflowX:"auto"}}>
@@ -612,7 +627,7 @@ export default function ClientPage() {
                 { label:"Séances", val:`${doneSeances}/4`, sub:"cette semaine", color:"#C9A84C" },
                 { label:"Exercices faits", val:`${doneExos}/${exercices.length || "—"}`, sub:"séance du jour", color:"#7AE07A" },
                 { label:"Programme", val:pd ? `${pd.duree_programme_semaines || 4}sem` : "—", sub:pd?.objectif_principal || "En attente", color:"#F0EDE8" },
-                { label:"Streak", val:"12 j", sub:"sans interruption", color:"#F0EDE8" },
+                { label:"Streak", val:realStreak > 0 ? `${realStreak} j` : "0 j", sub:realStreak > 0 ? "sans interruption" : "Lance-toi !", color:realStreak >= 7 ? "#C9A84C" : "#F0EDE8" },
               ].map((m,i) => (
                 <div key={i} className="metric-card">
                   <div style={{fontSize:10,letterSpacing:"2px",textTransform:"uppercase",color:"#555",marginBottom:8}}>{m.label}</div>
@@ -640,7 +655,22 @@ export default function ClientPage() {
                 <div style={{display:"flex",flexDirection:"column",gap:6}}>
                   {seances.length > 0 ? seances.map((s,i) => (
                     <div key={i} className={`seance-row${s.today?" today-s":""}`}
-                      onClick={()=>{ if(seanceDone[i]||i<2) return; setSeanceDone(prev=>({...prev,[i]:!prev[i]})); }}>
+                      onClick={async ()=>{
+                    if(seanceDone[i]||i<2) return;
+                    setSeanceDone(prev=>({...prev,[i]:!prev[i]}));
+                    // Mettre à jour le streak dans Firestore
+                    if (user) {
+                      try {
+                        const today = new Date().toDateString();
+                        const last = clientData?.lastActiveDate;
+                        const cur = clientData?.streakDays || 0;
+                        const yesterday = new Date(Date.now()-86400000).toDateString();
+                        const newStreak = last === today ? cur : last === yesterday ? cur+1 : 1;
+                        await updateDoc(doc(db,"clients",user.uid),{lastActiveDate:today,streakDays:newStreak});
+                        setClientData(d=>d?{...d,lastActiveDate:today,streakDays:newStreak}:d);
+                      } catch(e){console.warn("streak:",e);}
+                    }
+                  }}>
                       <div style={{width:20,height:20,borderRadius:"50%",flexShrink:0,border:`1.5px solid ${seanceDone[i]?"#639922":"rgba(201,168,76,0.3)"}`,background:seanceDone[i]?"#1A3A1A":"transparent",display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,color:"#7AE07A"}}>
                         {seanceDone[i]?"✓":""}
                       </div>
@@ -671,7 +701,7 @@ export default function ClientPage() {
                   ))}
                 </div>
                 <div style={S.card}>
-                  <div style={S.cardTitle}>🍎 Nutrition <span style={{...S.tag,marginLeft:"auto"}}>{nutrition ? `${nutrition.calories_jour} kcal/j` : "—"}</span></div>
+                  <div style={S.cardTitle}>🍎 Nutrition <span style={{...S.tag,marginLeft:"auto"}}>{nutrition ? `Obj. ${nutrition.calories_jour} kcal/j` : "— kcal/j"}</span></div>
                   {nutrition ? (
                     <>
                       {[{nom:"Protéines",val:`${nutrition.proteines_g}g`,pct:Math.round((nutrition.proteines_g*4/nutrition.calories_jour)*100),color:"#7AE07A"},
