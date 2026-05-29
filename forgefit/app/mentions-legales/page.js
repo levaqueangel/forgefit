@@ -15,7 +15,7 @@ export default function MentionsLegales() {
 
   return (
     <div style={{ background: "#0A0A0A", color: "#F0EDE8", minHeight: "100vh", fontFamily: "'Syne', sans-serif" }}>
-      <style>{`@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Syne:wght@400;600;700;800&display=swap'); *{box-sizing:border-box;margin:0;padding:0}`}</style>
+      <style>{` *{box-sizing:border-box;margin:0;padding:0}`}</style>
 
       <nav style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px 32px", borderBottom: "0.5px solid #242424", position: "sticky", top: 0, background: "#0A0A0A", zIndex: 100 }}>
         <div style={{ fontSize: 20, fontWeight: 800, letterSpacing: 5, cursor: "pointer" }} onClick={() => router.push("/")}>
