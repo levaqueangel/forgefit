@@ -124,8 +124,7 @@ function BilanForm() {
   return (
     <div style={{ background: "#0A0A0A", color: "#F0EDE8", minHeight: "100vh", fontFamily: "'Syne',sans-serif" }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Syne:wght@400;600;700;800&display=swap');
-        @keyframes spin{to{transform:rotate(360deg)}}
+                @keyframes spin{to{transform:rotate(360deg)}}
         @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
         .fade-up{animation:fadeUp 0.4s ease forwards}
         input::placeholder,textarea::placeholder{color:#2E2E2E}
