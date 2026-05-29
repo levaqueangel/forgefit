@@ -1,9 +1,15 @@
 import Anthropic from "@anthropic-ai/sdk";
+import { checkRateLimit } from "../rateLimit";
 export const dynamic = "force-dynamic";
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
 export async function POST(req) {
+  // Rate limiting : 20 messages max par minute par IP
+  const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown";
+  const rl = checkRateLimit(ip);
+  if (!rl) return Response.json({ error: "Trop de messages. Attends une minute." }, { status: 429 });
+
   try {
     const { message, programmeData, history } = await req.json();
     if (!message?.trim()) return Response.json({ error: "Message vide" }, { status: 400 });
