@@ -367,6 +367,7 @@ export default function ClientPage() {
   // ── Générateur de repas ─────────────────────────────────────────
   const [mealPlan, setMealPlan] = useState(null);
   const [mealLoading, setMealLoading] = useState(false);
+  const [mealError, setMealError] = useState("");
   // ── Chatbot IA ───────────────────────────────────────────────────
   const [chatHistory, setChatHistory] = useState([
     { role: "assistant", content: "Bonjour ! Je suis ton assistant fitness APXFITNESS. Pose-moi tes questions sur la musculation, la nutrition ou ta récupération 💪" }
@@ -413,6 +414,7 @@ export default function ClientPage() {
   const generateMealPlan = async () => {
     if (!nutrition || mealLoading) return;
     setMealLoading(true);
+    setMealError("");
     try {
       const prompt = `Génère un plan alimentaire pour UNE journée type avec exactement ces macros :
 - Calories : ${nutrition.calories_jour} kcal
@@ -445,7 +447,10 @@ Aliments concrets avec grammages. Total macros doit correspondre aux objectifs.`
           setMealPlan(JSON.parse(cleaned));
         } catch { setMealPlan(null); }
       }
-    } catch(e) { console.error("mealPlan:", e); }
+    } catch(e) {
+      console.error("mealPlan:", e);
+      setMealError("Erreur lors de la génération. Réessaie.");
+    }
     setMealLoading(false);
   };
 
@@ -469,7 +474,7 @@ Aliments concrets avec grammages. Total macros doit correspondre aux objectifs.`
       });
       const data = await res.json();
       if (data.reply) {
-        setChatHistory(h => [...h, { role: "assistant", content: data.reply }]);
+        setChatHistory(h => [...h.slice(-48), { role: "assistant", content: data.reply }]);
       } else {
         setChatHistory(h => [...h, { role: "assistant", content: "Désolé, je n'ai pas pu répondre. Réessaie !" }]);
       }
@@ -823,7 +828,13 @@ Aliments concrets avec grammages. Total macros doit correspondre aux objectifs.`
                       <span style={{fontSize:11,color:"#C9A84C",fontWeight:700}}>{doneExos}/{exercices.length} exercices</span>
                       {clientData?.programme && (
                         <button onClick={() => {
-                          const win = window.open("","_blank");
+                          // Fallback mobile : si window.open bloqué, copier le texte
+                          try {
+                            const win = window.open("","_blank");
+                            if (!win) {
+                              navigator.clipboard?.writeText(clientData.programme || "").then(()=>alert("Programme copié dans le presse-papier !")).catch(()=>{});
+                              return;
+                            }
                           win.document.write(`<!DOCTYPE html><html><head><title>Programme APXFITNESS - ${clientData?.nom || ""}</title>
                           <style>body{font-family:Arial,sans-serif;padding:40px;max-width:800px;margin:0 auto;color:#222}
                           h1{color:#C9A84C;border-bottom:2px solid #C9A84C;padding-bottom:12px;font-size:24px}
@@ -837,6 +848,7 @@ Aliments concrets avec grammages. Total macros doit correspondre aux objectifs.`
                           <div class="footer">APXFITNESS — Coaching personnalisé — apxfitness-brown.vercel.app</div>
                           <script>window.onload=()=>window.print();</script></body></html>`);
                           win.document.close();
+                          } catch(e) { navigator.clipboard?.writeText(clientData.programme||""); }
                         }} style={{background:"transparent",border:"0.5px solid #242424",color:"#555",fontFamily:"'Syne',sans-serif",fontSize:10,letterSpacing:"2px",textTransform:"uppercase",padding:"5px 10px",cursor:"pointer",borderRadius:2}}>
                           📄 PDF
                         </button>
@@ -953,6 +965,7 @@ Aliments concrets avec grammages. Total macros doit correspondre aux objectifs.`
                   </button>
                 )}
               </div>
+              {mealError && <div style={{fontSize:12,color:"#E07070",padding:"6px 0",marginBottom:8}}>{mealError}</div>}
               {!nutrition ? (
                 <div style={{padding:"1rem",textAlign:"center",color:"#444",fontSize:12,fontStyle:"italic"}}>Disponible après ton bilan</div>
               ) : !mealPlan ? (
