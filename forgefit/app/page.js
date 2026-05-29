@@ -13,8 +13,7 @@ export default function Home() {
   return (
     <div style={{background:"#0A0A0A",color:"#F0EDE8",minHeight:"100vh",fontFamily:"'Syne',sans-serif"}}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Syne:wght@400;600;700;800&display=swap');
-        *{box-sizing:border-box;margin:0;padding:0}
+                *{box-sizing:border-box;margin:0;padding:0}
         @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
         @keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
         @keyframes fadeUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
