@@ -364,6 +364,16 @@ export default function ClientPage() {
   const [seanceDone, setSeanceDone] = useState({ 0:true, 1:true });
   const [timer, setTimer] = useState(null); // { duration, name }
   const bottomRef = useRef(null);
+  // ── Générateur de repas ─────────────────────────────────────────
+  const [mealPlan, setMealPlan] = useState(null);
+  const [mealLoading, setMealLoading] = useState(false);
+  // ── Chatbot IA ───────────────────────────────────────────────────
+  const [chatHistory, setChatHistory] = useState([
+    { role: "assistant", content: "Bonjour ! Je suis ton assistant fitness APXFITNESS. Pose-moi tes questions sur la musculation, la nutrition ou ta récupération 💪" }
+  ]);
+  const [chatInput, setChatInput] = useState("");
+  const [chatLoading, setChatLoading] = useState(false);
+  const chatBottomRef = useRef(null);
   const [showPwdModal, setShowPwdModal] = useState(false);
   const [pwdForm, setPwdForm] = useState({ current:"", next:"", confirm:"" });
   const [pwdError, setPwdError] = useState("");
@@ -398,6 +408,78 @@ export default function ClientPage() {
     });
     return () => unsub();
   }, [user]);
+
+  // ── Générateur de plan de repas ─────────────────────────────────
+  const generateMealPlan = async () => {
+    if (!nutrition || mealLoading) return;
+    setMealLoading(true);
+    try {
+      const prompt = `Génère un plan alimentaire pour UNE journée type avec exactement ces macros :
+- Calories : ${nutrition.calories_jour} kcal
+- Protéines : ${nutrition.proteines_g}g
+- Glucides : ${nutrition.glucides_g}g
+- Lipides : ${nutrition.lipides_g}g
+- Régime : ${clientData?.programmeData?.regime || "standard"}
+- Objectif : ${nutrition.objectif || clientData?.programmeData?.objectif_principal || "fitness"}
+
+Réponds UNIQUEMENT avec un JSON valide (sans markdown) :
+{
+  "repas": [
+    { "nom": "Petit-déjeuner", "heure": "7h30", "aliments": ["aliment 1 - quantité", "aliment 2"], "calories": 520, "proteines": 35, "glucides": 60, "lipides": 12 },
+    { "nom": "Déjeuner", "heure": "12h30", "aliments": [...], "calories": ..., "proteines": ..., "glucides": ..., "lipides": ... },
+    { "nom": "Collation", "heure": "16h00", "aliments": [...], "calories": ..., "proteines": ..., "glucides": ..., "lipides": ... },
+    { "nom": "Dîner", "heure": "19h30", "aliments": [...], "calories": ..., "proteines": ..., "glucides": ..., "lipides": ... }
+  ],
+  "conseil_du_jour": "Un conseil nutrition court et pratique"
+}
+Aliments concrets avec grammages. Total macros doit correspondre aux objectifs.`;
+
+      const res = await fetch("/api/chatbot", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: prompt, programmeData: clientData?.programmeData }),
+      });
+      const data = await res.json();
+      if (data.reply) {
+        try {
+          const cleaned = data.reply.replace(/^```json\s*/i,"").replace(/\s*```$/i,"").trim();
+          setMealPlan(JSON.parse(cleaned));
+        } catch { setMealPlan(null); }
+      }
+    } catch(e) { console.error("mealPlan:", e); }
+    setMealLoading(false);
+  };
+
+  // ── Chatbot IA ──────────────────────────────────────────────────
+  const sendChatMessage = async () => {
+    if (!chatInput.trim() || chatLoading) return;
+    const msg = chatInput.trim();
+    setChatInput("");
+    const userMsg = { role: "user", content: msg };
+    setChatHistory(h => [...h, userMsg]);
+    setChatLoading(true);
+    try {
+      const res = await fetch("/api/chatbot", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          message: msg,
+          programmeData: clientData?.programmeData || null,
+          history: chatHistory.slice(-6),
+        }),
+      });
+      const data = await res.json();
+      if (data.reply) {
+        setChatHistory(h => [...h, { role: "assistant", content: data.reply }]);
+      } else {
+        setChatHistory(h => [...h, { role: "assistant", content: "Désolé, je n'ai pas pu répondre. Réessaie !" }]);
+      }
+    } catch {
+      setChatHistory(h => [...h, { role: "assistant", content: "Erreur de connexion. Réessaie dans un instant." }]);
+    } finally {
+      setChatLoading(false);
+      setTimeout(() => chatBottomRef.current?.scrollIntoView({ behavior: "smooth" }), 100);
+    }
+  };
 
   // ── MDP ────────────────────────────────────────────────────────────
   const handleChangePassword = async () => {
@@ -737,7 +819,29 @@ export default function ClientPage() {
                 <div style={S.card}>
                   <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:14}}>
                     <div style={S.cardTitle}>🏋️ {seanceAujourdhui?.nom || "Séance du jour"}</div>
-                    <span style={{fontSize:11,color:"#C9A84C",fontWeight:700}}>{doneExos}/{exercices.length} exercices</span>
+                    <div style={{display:"flex",alignItems:"center",gap:8}}>
+                      <span style={{fontSize:11,color:"#C9A84C",fontWeight:700}}>{doneExos}/{exercices.length} exercices</span>
+                      {clientData?.programme && (
+                        <button onClick={() => {
+                          const win = window.open("","_blank");
+                          win.document.write(`<!DOCTYPE html><html><head><title>Programme APXFITNESS - ${clientData?.nom || ""}</title>
+                          <style>body{font-family:Arial,sans-serif;padding:40px;max-width:800px;margin:0 auto;color:#222}
+                          h1{color:#C9A84C;border-bottom:2px solid #C9A84C;padding-bottom:12px;font-size:24px}
+                          h2{color:#333;margin-top:24px;font-size:18px}
+                          pre{white-space:pre-wrap;font-family:Arial,sans-serif;line-height:1.8;font-size:14px;background:#f9f9f9;padding:20px;border-left:3px solid #C9A84C}
+                          .footer{margin-top:40px;padding-top:16px;border-top:1px solid #ddd;font-size:12px;color:#888;text-align:center}
+                          @media print{button{display:none}}</style></head><body>
+                          <h1>Mon Programme APXFITNESS</h1>
+                          <p>Client : <strong>${clientData?.nom || ""}</strong> — Plan ${clientData?.plan || ""}</p>
+                          <pre>${clientData.programme.replace(/</g,"&lt;").replace(/>/g,"&gt;")}</pre>
+                          <div class="footer">APXFITNESS — Coaching personnalisé — apxfitness-brown.vercel.app</div>
+                          <script>window.onload=()=>window.print();</script></body></html>`);
+                          win.document.close();
+                        }} style={{background:"transparent",border:"0.5px solid #242424",color:"#555",fontFamily:"'Syne',sans-serif",fontSize:10,letterSpacing:"2px",textTransform:"uppercase",padding:"5px 10px",cursor:"pointer",borderRadius:2}}>
+                          📄 PDF
+                        </button>
+                      )}
+                    </div>
                   </div>
                   {exercices.length > 0 ? (
                     <div style={{display:"flex",flexDirection:"column",gap:6}}>
@@ -838,6 +942,52 @@ export default function ClientPage() {
                 )) : <div style={{padding:"1rem",textAlign:"center",color:"#444",fontSize:12,fontStyle:"italic"}}>Conseils disponibles après ton bilan</div>}
               </div>
             </div>
+            {/* Générateur de plan de repas */}
+            <div style={S.card}>
+              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:12}}>
+                <div style={S.cardTitle}>🍽 Plan de repas du jour</div>
+                {nutrition && (
+                  <button onClick={generateMealPlan} disabled={mealLoading}
+                    style={{background:mealLoading?"#181818":"linear-gradient(135deg,#C9A84C,#A67C2E)",border:"none",color:"#0A0A0A",fontFamily:"'Syne',sans-serif",fontSize:11,fontWeight:700,letterSpacing:"2px",textTransform:"uppercase",padding:"7px 14px",cursor:mealLoading?"not-allowed":"pointer",borderRadius:2}}>
+                    {mealLoading?"Génération...":"✨ Générer"}
+                  </button>
+                )}
+              </div>
+              {!nutrition ? (
+                <div style={{padding:"1rem",textAlign:"center",color:"#444",fontSize:12,fontStyle:"italic"}}>Disponible après ton bilan</div>
+              ) : !mealPlan ? (
+                <div style={{padding:"1.5rem",textAlign:"center",color:"#444",fontSize:13,fontFamily:"'Cormorant Garamond',serif",fontSize:15,fontStyle:"italic",lineHeight:1.7}}>
+                  Clique sur "Générer" pour obtenir un plan alimentaire adapté à tes macros du jour.
+                </div>
+              ) : (
+                <div style={{display:"flex",flexDirection:"column",gap:8}}>
+                  {mealPlan.repas?.map((r,i) => (
+                    <div key={i} style={{background:"#0D0D0D",borderRadius:2,padding:"12px 14px"}}>
+                      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6}}>
+                        <div>
+                          <span style={{fontSize:13,fontWeight:700,color:"#F0EDE8"}}>{r.nom}</span>
+                          <span style={{fontSize:11,color:"#555",marginLeft:8}}>{r.heure}</span>
+                        </div>
+                        <span style={{fontSize:12,fontWeight:700,color:"#C9A84C"}}>{r.calories} kcal</span>
+                      </div>
+                      <div style={{fontSize:12,color:"#666",lineHeight:1.7,marginBottom:6}}>
+                        {r.aliments?.join(" · ")}
+                      </div>
+                      <div style={{display:"flex",gap:12,fontSize:11,color:"#444"}}>
+                        <span>P: <strong style={{color:"#7AE07A"}}>{r.proteines}g</strong></span>
+                        <span>G: <strong style={{color:"#C9A84C"}}>{r.glucides}g</strong></span>
+                        <span>L: <strong style={{color:"#5DCAA5"}}>{r.lipides}g</strong></span>
+                      </div>
+                    </div>
+                  ))}
+                  {mealPlan.conseil_du_jour && (
+                    <div style={{background:"rgba(201,168,76,0.05)",border:"0.5px solid rgba(201,168,76,0.2)",borderRadius:2,padding:"10px 14px",fontSize:13,color:"#888",lineHeight:1.6}}>
+                      💡 {mealPlan.conseil_du_jour}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         )}
 
@@ -850,6 +1000,63 @@ export default function ClientPage() {
             </div>
             <div style={{background:"rgba(201,168,76,0.04)",border:"0.5px solid rgba(201,168,76,0.15)",borderRadius:4,padding:"14px",fontSize:12,color:"#555",lineHeight:1.7}}>
               💡 <strong style={{color:"#C9A84C"}}>Conseil :</strong> Note tes mesures le même jour chaque semaine, le matin à jeun, pour des données comparables. La balance peut fluctuer de 1-3 kg selon l'hydratation — les mensurations sont plus fiables sur le long terme.
+            </div>
+          </div>
+        )}
+
+        {/* ════ ASSISTANT IA ════ */}
+        {activeTab === "ia" && (
+          <div className="fade-in" style={{display:"flex",flexDirection:"column",flex:1}}>
+            <div style={{...S.card,flex:1,display:"flex",flexDirection:"column"}}>
+              <div style={{...S.cardTitle,marginBottom:14}}>
+                🤖 Assistant fitness IA
+                <span style={{marginLeft:"auto",fontSize:11,color:"#555",letterSpacing:"1px",fontWeight:400,textTransform:"none"}}>
+                  Questions musculation, nutrition, récupération
+                </span>
+              </div>
+              {/* Messages */}
+              <div style={{flex:1,overflowY:"auto",maxHeight:"calc(100vh - 400px)",minHeight:200,marginBottom:12,paddingRight:2,display:"flex",flexDirection:"column",gap:10}}>
+                {chatHistory.map((msg, i) => (
+                  <div key={i} style={{display:"flex",flexDirection:"column",alignItems:msg.role==="user"?"flex-end":"flex-start"}}>
+                    <div style={{
+                      maxWidth:"82%",padding:"10px 14px",borderRadius:2,fontSize:13,lineHeight:1.7,
+                      background:msg.role==="user"?"rgba(201,168,76,0.1)":"#181818",
+                      border:`0.5px solid ${msg.role==="user"?"#C9A84C":"#242424"}`,
+                      color:msg.role==="user"?"#E8C87A":"#C8C4BC",
+                    }}>
+                      {msg.content}
+                    </div>
+                    <span style={{fontSize:10,color:"#333",marginTop:2}}>
+                      {msg.role==="user"?"Toi":"Assistant IA"}
+                    </span>
+                  </div>
+                ))}
+                {chatLoading && (
+                  <div style={{display:"flex",flexDirection:"column",alignItems:"flex-start"}}>
+                    <div style={{padding:"10px 14px",background:"#181818",border:"0.5px solid #242424",borderRadius:2,fontSize:13,color:"#555"}}>
+                      <span style={{animation:"pulse 1s infinite"}}>● ● ●</span>
+                    </div>
+                  </div>
+                )}
+                <div ref={chatBottomRef}/>
+              </div>
+              {/* Input */}
+              <div style={{display:"flex",gap:8,borderTop:"0.5px solid #1A1A1A",paddingTop:12}}>
+                <textarea
+                  value={chatInput}
+                  onChange={e=>setChatInput(e.target.value)}
+                  onKeyDown={e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendChatMessage();}}}
+                  placeholder="Pose ta question fitness... (Entrée pour envoyer)"
+                  style={{flex:1,background:"#0D0D0D",border:"0.5px solid #1E1E1E",color:"#F0EDE8",fontFamily:"'Syne',sans-serif",fontSize:13,padding:"10px 14px",resize:"none",minHeight:52,outline:"none",borderRadius:2}}
+                />
+                <button onClick={sendChatMessage} disabled={!chatInput.trim()||chatLoading}
+                  style={{background:chatInput.trim()&&!chatLoading?"linear-gradient(135deg,#C9A84C,#A67C2E)":"#181818",border:"none",color:"#0A0A0A",padding:"0 18px",cursor:chatInput.trim()&&!chatLoading?"pointer":"not-allowed",fontSize:18,fontWeight:700,borderRadius:2,flexShrink:0}}>
+                  ↑
+                </button>
+              </div>
+              <p style={{fontSize:11,color:"#333",marginTop:8,textAlign:"center"}}>
+                L'IA répond aux questions générales. Pour un suivi personnalisé, écris au coach dans Messages.
+              </p>
             </div>
           </div>
         )}
