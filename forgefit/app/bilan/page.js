@@ -1,5 +1,5 @@
 "use client";
-import { useState, Suspense } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useLang } from "../useLang";
 import { LangSelector } from "../LangSelector";
@@ -63,6 +63,32 @@ function BilanForm() {
   const pick = (k, v) => setSel(s => ({ ...s, [k]: v }));
   const pct = Math.round((step / 5) * 100);
 
+  // ── Persistance locale du formulaire ─────────────────────────────
+  // Restaurer la progression au montage
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("apx_bilan_progress");
+      if (!saved) return;
+      const { form: f, sel: s, step: st } = JSON.parse(saved);
+      if (f) setForm(prev => ({ ...prev, ...f }));
+      if (s) setSel(s);
+      if (st && st >= 1 && st <= 4) setStep(st);
+    } catch {}
+  }, []);
+
+  // Sauvegarder à chaque changement (sauf étape finale)
+  useEffect(() => {
+    if (status === "done") {
+      try { localStorage.removeItem("apx_bilan_progress"); } catch {}
+      return;
+    }
+    if (step >= 1 && step <= 4) {
+      try {
+        localStorage.setItem("apx_bilan_progress", JSON.stringify({ form, sel, step }));
+      } catch {}
+    }
+  }, [form, sel, step, status]);
+
   const inputStyle = {
     width: "100%", background: "#111", border: "0.5px solid #242424",
     color: "#F0EDE8", fontFamily: "'Syne',sans-serif", fontSize: 13,
@@ -100,6 +126,7 @@ function BilanForm() {
         setClientCreated(false);
       }
       setStatus("done"); setStep(5);
+      try { localStorage.removeItem("apx_bilan_progress"); } catch {}
     } catch (e) {
       setErrMsg(e.message); setStatus("error");
     }
