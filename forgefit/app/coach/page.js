@@ -172,29 +172,39 @@ export default function CoachPage() {
 
   const unreadCount = (clientId) => unreadCounts[clientId] || 0;
 
+  const [sendError, setSendError] = useState("");
+
   const sendMessage = async () => {
     if (!newMsg.trim() || !selectedClient || sending) return;
     setSending(true);
-    await addDoc(collection(db, "messages"), {
-      clientId: selectedClient.id,
-      clientName: selectedClient.nom,
-      clientEmail: selectedClient.email,
-      text: newMsg.trim(),
-      sender: "coach",
-      createdAt: serverTimestamp(),
-      read: true,
-    });
-    // Notif email au client
-    await fetch("/api/notify-client", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ to: selectedClient.email, nom: selectedClient.nom, message: newMsg.trim() }),
-    });
-    // Marquer les messages du client comme lus
-    const unread = clientMessages.filter(m => m.sender === "client" && !m.read);
-    await Promise.all(unread.map(m => updateDoc(doc(db, "messages", m.id), { read: true })));
-    setNewMsg("");
-    setSending(false);
+    setSendError("");
+    const msgText = newMsg.trim();
+    try {
+      await addDoc(collection(db, "messages"), {
+        clientId: selectedClient.id,
+        clientName: selectedClient.nom,
+        clientEmail: selectedClient.email,
+        text: msgText,
+        sender: "coach",
+        createdAt: serverTimestamp(),
+        read: true,
+      });
+      setNewMsg("");
+      // Notif email au client — silencieuse
+      fetch("/api/notify-client", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ to: selectedClient.email, nom: selectedClient.nom, message: msgText }),
+      }).catch(e => console.warn("Notif client failed:", e));
+      // Marquer les messages du client comme lus
+      const unread = clientMessages.filter(m => m.sender === "client" && !m.read);
+      await Promise.all(unread.map(m => updateDoc(doc(db, "messages", m.id), { read: true })));
+    } catch (e) {
+      setSendError("Erreur lors de l'envoi. Réessaie.");
+      console.error("sendMessage coach error:", e);
+    } finally {
+      setSending(false);
+    }
   };
 
   if (authLoading) return <div style={{background:"#0A0A0A",minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center"}}><div style={{color:"#C9A84C",fontSize:11,letterSpacing:"3px"}}>CHARGEMENT...</div></div>;
@@ -293,6 +303,7 @@ export default function CoachPage() {
               </div>
 
               {/* Input */}
+              {sendError && <div style={{padding:"4px 20px",fontSize:12,color:"#E07070"}}>{sendError}</div>}
               <div style={{padding:"16px 20px",borderTop:"0.5px solid #242424",display:"flex",gap:8}}>
                 <textarea
                   value={newMsg}
