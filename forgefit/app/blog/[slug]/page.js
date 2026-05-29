@@ -83,8 +83,35 @@ export default function ArticlePage({ params }) {
     return elements;
   }
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": article.titre,
+    "description": article.description,
+    "datePublished": article.date,
+    "dateModified": article.date,
+    "author": {
+      "@type": "Organization",
+      "name": "APXFITNESS",
+      "url": "https://apxfitness-brown.vercel.app"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "APXFITNESS",
+      "url": "https://apxfitness-brown.vercel.app"
+    },
+    "url": `https://apxfitness-brown.vercel.app/blog/${article.slug}`,
+    "articleSection": article.categorie,
+    "timeRequired": `PT${article.lecture}M`,
+    "wordCount": article.contenu.split(" ").length,
+  };
+
   return (
     <div style={{ background:"#0A0A0A", color:"#F0EDE8", minHeight:"100vh", fontFamily:"'Syne',sans-serif" }}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <style>{`
         *{box-sizing:border-box;margin:0;padding:0}
         @keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
