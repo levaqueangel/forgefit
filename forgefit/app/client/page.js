@@ -6,6 +6,7 @@ import { parseReposSeconds, beep } from "./utils";
 import { RestTimer } from "./RestTimer";
 import { ChargesTab } from "./ChargesTab";
 import { CorpsJournal } from "./CorpsJournal";
+import { ProgressBar } from "./ProgressBar";
 import { useRouter } from "next/navigation";
 import { signInWithEmailAndPassword, signOut, onAuthStateChanged, updatePassword, EmailAuthProvider, reauthenticateWithCredential } from "firebase/auth";
 import { collection, query, where, onSnapshot, addDoc, serverTimestamp, doc, getDoc, updateDoc, setDoc } from "firebase/firestore";
