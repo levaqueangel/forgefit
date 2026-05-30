@@ -270,8 +270,8 @@ Réponds UNIQUEMENT avec un JSON valide (sans markdown) :
     ? (Date.now()-new Date(clientData.createdAt).getTime())>28*24*3600*1000 : false;
 
   const S = {
-    card:      {background:"#111",border:"0.5px solid #1E1E1E",borderRadius:4,padding:"16px"},
-    cardTitle: {fontSize:11,letterSpacing:"3px",textTransform:"uppercase",color:"#C9A84C",marginBottom:12,display:"flex",alignItems:"center",gap:6},
+    card:      {background:"#111",border:"0.5px solid #1E1E1E",borderRadius:14,padding:"18px"},
+    cardTitle: {fontSize:11,letterSpacing:"3px",textTransform:"uppercase",color:"#C9A84C",marginBottom:14,display:"flex",alignItems:"center",gap:6},
     tag:       {fontSize:11,letterSpacing:"2px",textTransform:"uppercase",color:"#555"},
   };
 
@@ -317,50 +317,78 @@ Réponds UNIQUEMENT avec un JSON valide (sans markdown) :
       <style>{`
         *{box-sizing:border-box;margin:0;padding:0}
         textarea:focus,input:focus{border-color:#C9A84C !important;outline:none}
+
+        /* ── Animations ─────────────────────────────────────────── */
         @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
         @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
         @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
         @keyframes spin{to{transform:rotate(360deg)}}
         @keyframes skeletonShimmer{0%{background-position:-400px 0}100%{background-position:400px 0}}
-        @keyframes checkPop{0%{transform:scale(0.8)}60%{transform:scale(1.25)}100%{transform:scale(1)}}
+        @keyframes checkPop{0%{transform:scale(0.5);opacity:0}60%{transform:scale(1.3)}100%{transform:scale(1);opacity:1}}
         @keyframes confettiFall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(120px) rotate(720deg);opacity:0}}
         @keyframes metricCount{from{opacity:0;transform:scale(0.85) translateY(4px)}to{opacity:1;transform:scale(1) translateY(0)}}
         @keyframes typingDot{0%,80%,100%{opacity:0.2;transform:scale(0.8)}40%{opacity:1;transform:scale(1.1)}}
-        @keyframes focusIn{from{opacity:0;transform:scale(0.97)}to{opacity:1;transform:scale(1)}}
+        @keyframes focusIn{from{opacity:0;transform:scale(0.96)}to{opacity:1;transform:scale(1)}}
         @keyframes timerSlideIn{from{opacity:0;transform:translateY(20px) scale(0.95)}to{opacity:1;transform:translateY(0) scale(1)}}
-        .fade-in{animation:fadeUp 0.22s ease forwards}
-        .focus-exo{animation:focusIn 0.25s cubic-bezier(0.34,1.56,0.64,1) forwards}
-        .tab-btn{background:none;border:none;color:#555;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;padding:12px 0;border-bottom:2px solid transparent;transition:color 0.2s,border-color 0.2s;white-space:nowrap;display:flex;align-items:center;gap:6px;position:relative}
-        .tab-btn.active{color:#E8C87A;border-bottom-color:#C9A84C}
-        .tab-btn:hover:not(.active){color:#888}
-        .tab-btn.active::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:2px;background:linear-gradient(90deg,#C9A84C,#E8C87A);border-radius:1px}
-        .sub-tab{background:transparent;border:0.5px solid #1A1A1A;color:#555;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:7px 14px;cursor:pointer;transition:all 0.15s;border-radius:2px}
-        .sub-tab.active{border-color:#C9A84C;color:#C9A84C;background:rgba(201,168,76,0.05)}
-        .sub-tab:hover:not(.active){border-color:#333;color:#888}
-        .seance-row{display:flex;align-items:center;gap:10px;padding:9px 12px;background:#0D0D0D;border-radius:3px;cursor:pointer;transition:background 0.15s,transform 0.1s;border:0.5px solid transparent}
-        .seance-row:hover{background:#161616;transform:translateX(2px)}
+        @keyframes pillIn{from{opacity:0;transform:scale(0.85)}to{opacity:1;transform:scale(1)}}
+
+        /* ── Tabs — style pill/capsule ───────────────────────────── */
+        .tabs-wrap{display:flex;gap:6px;padding:10px 0;overflow-x:auto;-webkit-overflow-scrolling:touch}
+        .tabs-wrap::-webkit-scrollbar{display:none}
+        .tab-btn{background:transparent;border:none;color:#555;font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;padding:8px 14px;border-radius:20px;transition:all 0.2s;white-space:nowrap;display:flex;align-items:center;gap:5px;position:relative}
+        .tab-btn.active{background:rgba(201,168,76,0.14);color:#E8C87A;border:0.5px solid rgba(201,168,76,0.35)}
+        .tab-btn:hover:not(.active){background:rgba(255,255,255,0.04);color:#888}
+
+        /* ── Sub-tabs — pills ────────────────────────────────────── */
+        .sub-tab{background:transparent;border:0.5px solid #222;color:#555;font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:8px 18px;cursor:pointer;transition:all 0.18s;border-radius:20px}
+        .sub-tab.active{border-color:rgba(201,168,76,0.5);color:#C9A84C;background:rgba(201,168,76,0.1)}
+        .sub-tab:hover:not(.active){border-color:#333;color:#888;background:rgba(255,255,255,0.03)}
+
+        /* ── Rows interactifs ────────────────────────────────────── */
+        .seance-row{display:flex;align-items:center;gap:12px;padding:12px 14px;background:#0D0D0D;border-radius:12px;cursor:pointer;transition:all 0.15s;border:0.5px solid transparent}
+        .seance-row:hover{background:#131313;transform:translateX(2px);border-color:#1E1E1E}
         .seance-row:active{transform:scale(0.99)}
-        .seance-row.today-s{border-color:rgba(201,168,76,0.3);background:rgba(201,168,76,0.03)}
-        .exo-row{display:flex;align-items:center;gap:10px;padding:10px 12px;background:#0D0D0D;border-radius:3px;cursor:pointer;transition:all 0.15s;border:0.5px solid transparent}
-        .exo-row:hover{background:#161616;transform:translateX(2px);border-color:#1E1E1E}
+        .seance-row.today-s{border-color:rgba(201,168,76,0.25);background:rgba(201,168,76,0.03)}
+        .exo-row{display:flex;align-items:center;gap:12px;padding:12px 14px;background:#0D0D0D;border-radius:12px;cursor:pointer;transition:all 0.15s;border:0.5px solid transparent;margin-bottom:6px}
+        .exo-row:last-child{margin-bottom:0}
+        .exo-row:hover{background:#131313;transform:translateX(2px);border-color:#1E1E1E}
         .exo-row:active{transform:scale(0.99)}
-        .exo-row.done-e{opacity:0.45}
-        .exo-row.just-done{animation:checkPop 0.3s ease forwards}
-        .metric-card{background:#0D0D0D;border:0.5px solid #1A1A1A;border-radius:4px;padding:14px;transition:border-color 0.2s,transform 0.2s,background 0.2s}
-        .metric-card:hover{border-color:#333;transform:translateY(-1px);background:#111}
-        .record-card{background:#0D0D0D;border:0.5px solid #1A1A1A;border-radius:4px;padding:12px;text-align:center;transition:border-color 0.2s,transform 0.2s}
-        .record-card:hover{border-color:#333;transform:translateY(-1px)}
-        .card-hover{transition:border-color 0.2s,transform 0.2s,box-shadow 0.2s}
-        .card-hover:hover{border-color:#2A2A2A !important;transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,0,0,0.3)}
-        .skel{background:linear-gradient(90deg,#111 25%,#1A1A1A 50%,#111 75%);background-size:800px 100%;animation:skeletonShimmer 1.4s ease-in-out infinite;border-radius:3px}
-        .spinner{width:14px;height:14px;border:2px solid rgba(0,0,0,0.2);border-top-color:#0A0A0A;border-radius:50%;animation:spin 0.7s linear infinite;display:inline-block;flex-shrink:0}
+        .exo-row.done-e{opacity:0.4}
+        .exo-row.just-done{animation:checkPop 0.35s cubic-bezier(0.34,1.56,0.64,1) forwards}
+
+        /* ── Cards ───────────────────────────────────────────────── */
+        .metric-card{background:#0D0D0D;border:0.5px solid #1A1A1A;border-radius:14px;padding:16px;transition:all 0.2s}
+        .metric-card:hover{border-color:#2A2A2A;transform:translateY(-2px);background:#101010}
+        .record-card{background:#0D0D0D;border:0.5px solid #1A1A1A;border-radius:12px;padding:14px;text-align:center;transition:all 0.2s}
+        .record-card:hover{border-color:#2A2A2A;transform:translateY(-1px)}
+        .card-hover{transition:all 0.2s}
+        .card-hover:hover{border-color:#2A2A2A !important;transform:translateY(-2px)}
+
+        /* ── Skeleton ────────────────────────────────────────────── */
+        .skel{background:linear-gradient(90deg,#111 25%,#1A1A1A 50%,#111 75%);background-size:800px 100%;animation:skeletonShimmer 1.4s ease-in-out infinite;border-radius:6px}
+
+        /* ── Spinner ─────────────────────────────────────────────── */
+        .spinner{width:14px;height:14px;border:2px solid rgba(201,168,76,0.2);border-top-color:#C9A84C;border-radius:50%;animation:spin 0.7s linear infinite;display:inline-block;flex-shrink:0}
+
+        /* ── Boutons ─────────────────────────────────────────────── */
         .btn-primary{transition:opacity 0.15s,transform 0.1s}
         .btn-primary:hover:not(:disabled){opacity:0.88}
-        .btn-primary:active:not(:disabled){transform:scale(0.98)}
+        .btn-primary:active:not(:disabled){transform:scale(0.97)}
+
+        /* ── Chat ────────────────────────────────────────────────── */
         .chat-bubble{animation:fadeUp 0.2s ease forwards}
+
+        /* ── Misc ────────────────────────────────────────────────── */
+        .fade-in{animation:fadeUp 0.22s ease forwards}
+        .focus-exo{animation:focusIn 0.25s cubic-bezier(0.34,1.56,0.64,1) forwards}
         .confetti-piece{position:fixed;width:8px;height:8px;border-radius:2px;pointer-events:none;animation:confettiFall 1.2s ease-out forwards;z-index:9999}
         .pwd-input{width:100%;background:transparent;border:none;color:#F0EDE8;font-family:'Syne',sans-serif;font-size:13px;outline:none}
-        @media(max-width:640px){.grid2{grid-template-columns:1fr !important}.metrics-grid{grid-template-columns:1fr 1fr !important}}
+
+        /* ── Responsive ──────────────────────────────────────────── */
+        @media(max-width:640px){
+          .grid2{grid-template-columns:1fr !important}
+          .metrics-grid{grid-template-columns:1fr 1fr !important}
+        }
       `}</style>
 
       {/* ── Toasts ──────────────────────────────────────────────── */}
@@ -423,7 +451,7 @@ Réponds UNIQUEMENT avec un JSON valide (sans markdown) :
           APXFIT<span style={{color:"#C9A84C"}}>NESS</span>
         </div>
         <div style={{display:"flex",alignItems:"center",gap:10,flexWrap:"wrap"}}>
-          <span style={{fontSize:11,letterSpacing:"2px",textTransform:"uppercase",background:"rgba(201,168,76,0.08)",border:"0.5px solid rgba(201,168,76,0.4)",color:"#C9A84C",padding:"4px 12px",borderRadius:2}}>Plan {planName}</span>
+          <span style={{fontSize:10,letterSpacing:"1.5px",textTransform:"uppercase",background:"rgba(201,168,76,0.1)",border:"0.5px solid rgba(201,168,76,0.35)",color:"#C9A84C",padding:"5px 14px",borderRadius:20}}>Plan {planName}</span>
           <LangSelector lang={lang} setLang={setLang} LANGS={LANGS} />
           <button onClick={refreshData} disabled={dataLoading} style={{background:"transparent",border:"0.5px solid #1E1E1E",color:dataLoading?"#333":"#555",fontFamily:"'Syne',sans-serif",fontSize:13,padding:"7px 12px",cursor:dataLoading?"not-allowed":"pointer",borderRadius:2,display:"flex",alignItems:"center",justifyContent:"center",transition:"all 0.2s"}} title="Rafraîchir">
             {dataLoading?<div className="spinner" style={{borderTopColor:"#C9A84C",width:12,height:12}}/>:"↻"}
@@ -469,13 +497,15 @@ Réponds UNIQUEMENT avec un JSON valide (sans markdown) :
             <button onClick={()=>router.push("/bilan")} style={{background:"linear-gradient(135deg,#C9A84C,#A67C2E)",border:"none",color:"#0A0A0A",padding:"7px 16px",fontFamily:"'Syne',sans-serif",fontSize:11,fontWeight:700,letterSpacing:"2px",textTransform:"uppercase",cursor:"pointer",borderRadius:2,flexShrink:0}}>Nouveau bilan →</button>
           </div>
         )}
-        <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:24,fontWeight:600,marginBottom:12}}>
+        <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:26,fontWeight:600,marginBottom:14}}>
           Bonjour <em style={{color:"#C9A84C",fontStyle:"italic"}}>{clientData?.nom||user.email.split("@")[0]}</em> 👋
-          <span style={{fontSize:13,color:"#555",fontFamily:"'Syne',sans-serif",fontWeight:400,fontStyle:"normal",marginLeft:12}}>
-            {currentWeek&&pd?`Semaine ${currentWeek} sur ${totalWeeks} · ${pd.objectif_principal||""}`:pd?`${totalWeeks} semaines · ${pd.objectif_principal||""}`:"Espace client"}
-          </span>
+          <div style={{fontSize:12,color:"#444",fontFamily:"'Syne',sans-serif",fontWeight:400,marginTop:5,display:"flex",alignItems:"center",gap:8}}>
+            {currentWeek&&pd&&<span style={{background:"rgba(201,168,76,0.08)",border:"0.5px solid rgba(201,168,76,0.2)",color:"#C9A84C",padding:"3px 10px",borderRadius:20,fontSize:10,letterSpacing:"1.5px",textTransform:"uppercase"}}>Sem. {currentWeek}/{totalWeeks}</span>}
+            {pd?.objectif_principal&&<span style={{color:"#444"}}>{pd.objectif_principal}</span>}
+            {!pd&&<span style={{color:"#444"}}>Espace client</span>}
+          </div>
         </div>
-        <div style={{display:"flex",gap:"1.5rem",overflowX:"auto"}}>
+        <div className="tabs-wrap">
           {[
             {id:"dashboard", label:"Dashboard",  icon:"📊", badge:null},
             {id:"programme", label:"Programme",  icon:"🏋️", badge:exercices.length>0?`${doneExos}/${exercices.length}`:null},
@@ -497,7 +527,7 @@ Réponds UNIQUEMENT avec un JSON valide (sans markdown) :
       </div>
 
       {/* ── Contenu swipeable ───────────────────────────────────── */}
-      <div style={{flex:1,padding:"20px 24px",display:"flex",flexDirection:"column",gap:16,maxWidth:900,width:"100%",margin:"0 auto"}}
+      <div style={{flex:1,padding:"20px 24px 32px",display:"flex",flexDirection:"column",gap:18,maxWidth:900,width:"100%",margin:"0 auto"}}
         onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
 
         {activeTab==="dashboard" && <DashboardTab S={S} doneSeances={doneSeances} doneExos={doneExos} exercices={exercices} pd={pd} realStreak={realStreak} nbSeances={nbSeances} semaine={semaine} joursEtat={joursEtat} seances={seances} seanceDone={seanceDone} setSeanceDone={setSeanceDone} user={user} clientData={clientData} setClientData={setClientData} vibrate={vibrate} addToast={addToast} nutrition={nutrition} currentWeek={currentWeek} totalWeeks={totalWeeks} />}
