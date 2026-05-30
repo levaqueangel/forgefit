@@ -1,4 +1,5 @@
 "use client";
+import { trackEvent } from "../GoogleAnalytics";
 import { useState, useEffect, useRef, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useLang } from "../useLang";
@@ -62,6 +63,15 @@ function BilanForm() {
   const inp = k => e => setForm(f => ({ ...f, [k]: e.target.value }));
   const pick = (k, v) => setSel(s => ({ ...s, [k]: v }));
   const pct = Math.round((step / 5) * 100);
+
+  // Tracker les étapes clés du bilan pour GA4
+  const prevStep = React.useRef(0);
+  React.useEffect(() => {
+    if (step > prevStep.current) {
+      trackEvent("bilan_step", { step, plan: sel.plan || "unknown" });
+      prevStep.current = step;
+    }
+  }, [step]);
 
   // ── Persistance locale du formulaire ─────────────────────────────
   // Restaurer la progression au montage
@@ -127,6 +137,7 @@ function BilanForm() {
       }
       setStatus("done"); setStep(5);
       try { localStorage.removeItem("apx_bilan_progress"); } catch {}
+      trackEvent("bilan_complete", { plan: data.plan || "unknown", nom: data.prenom });
     } catch (e) {
       setErrMsg(e.message); setStatus("error");
     }
