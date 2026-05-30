@@ -18,7 +18,7 @@ export function AssistantTab({
           {chatHistory.map((msg, i) => (
             <div key={i} className="chat-bubble" style={{display:"flex",flexDirection:"column",alignItems:msg.role==="user"?"flex-end":"flex-start"}}>
               <div style={{
-                maxWidth:"82%",padding:"10px 14px",borderRadius:2,fontSize:13,lineHeight:1.7,
+                maxWidth:"82%",padding:"10px 14px",borderRadius:14,fontSize:13,lineHeight:1.7,
                 background:msg.role==="user"?"rgba(201,168,76,0.1)":"#181818",
                 border:`0.5px solid ${msg.role==="user"?"#C9A84C":"#242424"}`,
                 color:msg.role==="user"?"#E8C87A":"#C8C4BC",
@@ -32,7 +32,7 @@ export function AssistantTab({
           ))}
           {chatLoading && (
             <div className="chat-bubble" style={{display:"flex",flexDirection:"column",alignItems:"flex-start"}}>
-              <div style={{padding:"12px 16px",background:"#181818",border:"0.5px solid #242424",borderRadius:2,display:"flex",alignItems:"center",gap:4}}>
+              <div style={{padding:"12px 16px",background:"#181818",border:"0.5px solid #242424",borderRadius:14,display:"flex",alignItems:"center",gap:4}}>
                 {[0,1,2].map(j=>(
                   <div key={j} style={{width:7,height:7,borderRadius:"50%",background:"#555",animation:"typingDot 1.2s ease-in-out infinite",animationDelay:`${j*0.18}s`}}/>
                 ))}
@@ -49,10 +49,10 @@ export function AssistantTab({
             onChange={e=>setChatInput(e.target.value)}
             onKeyDown={e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendChatMessage();}}}
             placeholder="Pose ta question fitness... (Entrée pour envoyer)"
-            style={{flex:1,background:"#0D0D0D",border:"0.5px solid #1E1E1E",color:"#F0EDE8",fontFamily:"'Syne',sans-serif",fontSize:13,padding:"10px 14px",resize:"none",minHeight:52,outline:"none",borderRadius:2}}
+            style={{flex:1,background:"#0D0D0D",border:"0.5px solid #1E1E1E",color:"#F0EDE8",fontFamily:"'Syne',sans-serif",fontSize:13,padding:"10px 14px",resize:"none",minHeight:52,outline:"none",borderRadius:14}}
           />
           <button onClick={sendChatMessage} disabled={!chatInput.trim()||chatLoading}
-            style={{background:chatInput.trim()&&!chatLoading?"linear-gradient(135deg,#C9A84C,#A67C2E)":"#181818",border:"none",color:"#0A0A0A",padding:"0 18px",cursor:chatInput.trim()&&!chatLoading?"pointer":"not-allowed",fontSize:18,fontWeight:700,borderRadius:2,flexShrink:0}}>
+            style={{background:chatInput.trim()&&!chatLoading?"linear-gradient(135deg,#C9A84C,#A67C2E)":"#181818",border:"none",color:"#0A0A0A",padding:"0 18px",cursor:chatInput.trim()&&!chatLoading?"pointer":"not-allowed",fontSize:18,fontWeight:700,borderRadius:14,flexShrink:0}}>
             ↑
           </button>
         </div>
