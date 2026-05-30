@@ -1,8 +1,24 @@
 import "./globals.css";
+import { Cormorant_Garamond, Syne } from "next/font/google";
 import ServiceWorkerRegistration from "./ServiceWorkerRegistration";
 import ErrorBoundary from "./ErrorBoundary";
 import { Suspense } from "react";
 import { GoogleAnalytics } from "./GoogleAnalytics";
+
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["400", "600"],
+  style: ["normal", "italic"],
+  variable: "--font-cormorant",
+  display: "swap",
+});
+
+const syne = Syne({
+  subsets: ["latin"],
+  weight: ["400", "600", "700", "800"],
+  variable: "--font-syne",
+  display: "swap",
+});
 
 export const metadata = {
   title: "APXFITNESS — Coaching fitness personnalisé",
@@ -45,9 +61,7 @@ export default function RootLayout({ children }) {
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="APXFITNESS" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+        {/* Polices chargées via next/font - pas besoin de links manuels */}
       </head>
       <body>
         <ErrorBoundary>
