@@ -1,5 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Désactiver l'optimisation CSS qui cause des erreurs avec les polices Google Fonts externes
+  experimental: {
+    optimizeCss: false,
+  },
   // Optimisation des images Next.js
   images: {
     formats: ["image/avif", "image/webp"],
