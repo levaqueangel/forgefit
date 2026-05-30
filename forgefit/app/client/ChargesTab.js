@@ -7,6 +7,7 @@ export function ChargesTab({ uid, exercices }) {
   const [chargesLog, setChargesLog] = useState({});
   const [inputs, setInputs] = useState({});
   const [saving, setSaving] = useState({});
+  const [newPB, setNewPB] = useState(null);
   const weekKey = new Date().toISOString().slice(0,7) + "-W" + Math.ceil(new Date().getDate() / 7);
 
   useEffect(() => {
@@ -25,6 +26,14 @@ export function ChargesTab({ uid, exercices }) {
     };
     try {
       await updateDoc(doc(db, "clients", uid), { chargesLog: newLog });
+      // Détecter un nouveau record personnel
+      const prev = chargesLog[exoNom] || [];
+      const prevMax = prev.length > 0 ? Math.max(...prev.map(h => parseFloat(h.v)||0)) : 0;
+      const newVal = parseFloat(val) || 0;
+      if (newVal > prevMax && prevMax > 0) {
+        setNewPB(exoNom);
+        setTimeout(() => setNewPB(null), 3000);
+      }
       setChargesLog(newLog);
       setInputs(i => ({...i, [exoNom]: ""}));
     } catch(e) { console.error("chargesLog:", e); }
@@ -42,10 +51,26 @@ export function ChargesTab({ uid, exercices }) {
       {exercices.map((e, i) => {
         const hist = chargesLog[e.nom] || [];
         return (
-          <div key={i} style={{background:"#0D0D0D",border:"0.5px solid #1A1A1A",borderRadius:4,padding:"14px"}}>
+          <div key={i} style={{
+              background:"#0D0D0D",
+              border:`0.5px solid ${newPB===e.nom?"#C9A84C":"#1A1A1A"}`,
+              borderRadius:4,padding:"14px",
+              transition:"border-color 0.3s",
+              boxShadow:newPB===e.nom?"0 0 12px rgba(201,168,76,0.15)":"none",
+            }}>
             <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:10}}>
               <div>
-                <div style={{fontSize:13,fontWeight:700,color:"#F0EDE8"}}>{e.nom}</div>
+                <div style={{fontSize:13,fontWeight:700,color:"#F0EDE8",display:"flex",alignItems:"center",gap:6}}>
+                  {e.nom}
+                  {newPB===e.nom && (
+                    <span style={{
+                      fontSize:9,fontWeight:700,letterSpacing:"2px",
+                      background:"linear-gradient(135deg,#C9A84C,#E8C87A)",
+                      color:"#0A0A0A",padding:"2px 7px",borderRadius:10,
+                      animation:"checkPop 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards",
+                    }}>🏆 PR</span>
+                  )}
+                </div>
                 <div style={{fontSize:11,color:"#555"}}>{e.det}</div>
               </div>
               {hist.length > 0 && (
