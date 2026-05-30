@@ -1,3 +1,4 @@
+import webpushLib from "web-push";
 import { getAdminDb } from "../firebase-admin";
 export const dynamic = "force-dynamic";
 
@@ -19,9 +20,7 @@ export async function POST(req) {
       return Response.json({ success: false, reason: "Pas d'abonnement push enregistré" });
     }
 
-    // Utiliser l'API Web Push via la librairie web-push
-    // Note: nécessite VAPID keys dans les env vars
-    const webpush = (await import("web-push")).default;
+    const webpush = webpushLib;
 
     const vapidPublicKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
     const vapidPrivateKey = process.env.VAPID_PRIVATE_KEY;
