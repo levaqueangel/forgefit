@@ -7,6 +7,7 @@ import { RestTimer } from "./RestTimer";
 import { ChargesTab } from "./ChargesTab";
 import { CorpsJournal } from "./CorpsJournal";
 import { ProgressBar } from "./ProgressBar";
+import { ToastContainer } from "./Toast";
 import { useRouter } from "next/navigation";
 import { signInWithEmailAndPassword, signOut, onAuthStateChanged, updatePassword, EmailAuthProvider, reauthenticateWithCredential } from "firebase/auth";
 import { collection, query, where, onSnapshot, addDoc, serverTimestamp, doc, getDoc, updateDoc, setDoc } from "firebase/firestore";
@@ -89,7 +90,20 @@ export default function ClientPage() {
   const [exoDone, setExoDone] = useState({});
   const [seanceDone, setSeanceDone] = useState({ 0:true, 1:true });
   const [timer, setTimer] = useState(null); // { duration, name }
+  const [toasts, setToasts] = useState([]);
+  const [confetti, setConfetti] = useState(false);
+  const [prevTab, setPrevTab] = useState("dashboard");
   const bottomRef = useRef(null);
+
+  // ── Toast helper ────────────────────────────────────────────
+  const addToast = useCallback((message, type = "success") => {
+    const id = Date.now() + Math.random();
+    setToasts(t => [...t.slice(-3), { id, message, type }]);
+    setTimeout(() => setToasts(t => t.filter(x => x.id !== id)), 3200);
+  }, []);
+
+  // ── Confetti quand tous les exercices sont faits ─────────────
+  const prevDoneExos = useRef(0);
   // ── Générateur de repas ─────────────────────────────────────────
   const [mealPlan, setMealPlan] = useState(null);
   const [mealLoading, setMealLoading] = useState(false);
@@ -223,6 +237,7 @@ Aliments concrets avec grammages. Total macros doit correspondre aux objectifs.`
       await reauthenticateWithCredential(user, cred);
       await updatePassword(user, pwdForm.next);
       setPwdSuccess(true);
+      addToast("Mot de passe modifié ✓", "success");
       setPwdForm({ current:"", next:"", confirm:"" });
       setTimeout(() => { setShowPwdModal(false); setPwdSuccess(false); }, 2000);
     } catch(e) {
@@ -243,6 +258,7 @@ Aliments concrets avec grammages. Total macros doit correspondre aux objectifs.`
         createdAt: serverTimestamp(), read: false,
       });
       setNewMsg("");
+      addToast("Message envoyé ✓", "success");
       fetch("/api/notify-coach", { method:"POST", headers:{"Content-Type":"application/json"},
         body: JSON.stringify({ nom: clientData?.nom || "Client", email: user.email, message: txt }),
       }).catch(e => console.warn("Notif coach:", e));
@@ -302,8 +318,54 @@ Aliments concrets avec grammages. Total macros doit correspondre aux objectifs.`
   };
 
   if (authLoading) return (
-    <div style={{background:"#0A0A0A",minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center"}}>
-      <div style={{color:"#C9A84C",fontSize:11,letterSpacing:"3px"}}>CHARGEMENT...</div>
+    <div style={{background:"#0A0A0A",minHeight:"100vh",fontFamily:"'Syne',sans-serif"}}>
+      <style>{`@keyframes skeletonShimmer{0%{background-position:-400px 0}100%{background-position:400px 0}}.skel{background:linear-gradient(90deg,#111 25%,#1A1A1A 50%,#111 75%);background-size:800px 100%;animation:skeletonShimmer 1.4s ease-in-out infinite;border-radius:3px}`}</style>
+      {/* Skeleton Nav */}
+      <div style={{height:57,borderBottom:"0.5px solid #1A1A1A",display:"flex",alignItems:"center",padding:"0 24px",gap:16}}>
+        <div className="skel" style={{width:140,height:14}}/>
+        <div style={{marginLeft:"auto",display:"flex",gap:8}}>
+          <div className="skel" style={{width:70,height:24,borderRadius:12}}/>
+          <div className="skel" style={{width:28,height:28,borderRadius:2}}/>
+          <div className="skel" style={{width:90,height:28,borderRadius:2}}/>
+        </div>
+      </div>
+      {/* Skeleton Header */}
+      <div style={{padding:"16px 24px 0",borderBottom:"0.5px solid #1A1A1A"}}>
+        <div className="skel" style={{width:260,height:20,marginBottom:16}}/>
+        <div style={{display:"flex",gap:24,paddingBottom:0}}>
+          {[80,80,70,80,90].map((w,i)=><div key={i} className="skel" style={{width:w,height:10,marginBottom:12}}/>)}
+        </div>
+      </div>
+      {/* Skeleton Content */}
+      <div style={{padding:"20px 24px",maxWidth:900,margin:"0 auto",display:"flex",flexDirection:"column",gap:14}}>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:10}}>
+          {[1,2,3,4].map(i=><div key={i} style={{background:"#0D0D0D",border:"0.5px solid #1A1A1A",borderRadius:4,padding:14}}>
+            <div className="skel" style={{width:"55%",height:9,marginBottom:10}}/>
+            <div className="skel" style={{width:"65%",height:22,marginBottom:6}}/>
+            <div className="skel" style={{width:"45%",height:8}}/>
+          </div>)}
+        </div>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14}}>
+          <div style={{background:"#111",border:"0.5px solid #1E1E1E",borderRadius:4,padding:16}}>
+            <div className="skel" style={{width:"40%",height:9,marginBottom:16}}/>
+            {[1,2,3,4].map(i=><div key={i} style={{display:"flex",gap:10,padding:"9px 0",borderBottom:"0.5px solid #141414"}}>
+              <div className="skel" style={{width:20,height:20,borderRadius:"50%",flexShrink:0}}/>
+              <div style={{flex:1}}><div className="skel" style={{width:"70%",height:11,marginBottom:5}}/><div className="skel" style={{width:"40%",height:8}}/></div>
+            </div>)}
+          </div>
+          <div style={{display:"flex",flexDirection:"column",gap:14}}>
+            {[1,2].map(j=><div key={j} style={{background:"#111",border:"0.5px solid #1E1E1E",borderRadius:4,padding:16,flex:1}}>
+              <div className="skel" style={{width:"50%",height:9,marginBottom:14}}/>
+              {[1,2,3].map(k=><div key={k} style={{marginBottom:k<3?12:0}}>
+                <div style={{display:"flex",justifyContent:"space-between",marginBottom:4}}>
+                  <div className="skel" style={{width:"35%",height:10}}/><div className="skel" style={{width:"12%",height:10}}/>
+                </div>
+                <div className="skel" style={{height:4}}/>
+              </div>)}
+            </div>)}
+          </div>
+        </div>
+      </div>
     </div>
   );
   if (!user) return <LoginScreen lang={lang} setLang={setLang} LANGS={LANGS} />;
@@ -315,27 +377,102 @@ Aliments concrets avec grammages. Total macros doit correspondre aux objectifs.`
       <style>{`
         *{box-sizing:border-box;margin:0;padding:0}
         textarea:focus,input:focus{border-color:#C9A84C !important;outline:none}
-        @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+        /* ── Animations ─────────────────────────────────────────── */
+        @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
         @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes slideInRight{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:translateX(0)}}
+        @keyframes slideInLeft{from{opacity:0;transform:translateX(-18px)}to{opacity:1;transform:translateX(0)}}
         @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
-        .fade-in{animation:fadeUp 0.25s ease forwards}
-        .tab-btn{background:none;border:none;color:#555;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;padding:12px 0;border-bottom:2px solid transparent;transition:all 0.2s;white-space:nowrap;display:flex;align-items:center;gap:6px}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        @keyframes skeletonShimmer{0%{background-position:-400px 0}100%{background-position:400px 0}}
+        @keyframes checkPop{0%{transform:scale(0.8)}60%{transform:scale(1.25)}100%{transform:scale(1)}}
+        @keyframes confettiFall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(120px) rotate(720deg);opacity:0}}
+        @keyframes metricCount{from{opacity:0;transform:scale(0.85) translateY(4px)}to{opacity:1;transform:scale(1) translateY(0)}}
+
+        /* ── Tabs ─────────────────────────────────────────────────── */
+        .fade-in{animation:fadeUp 0.22s ease forwards}
+        .slide-in-right{animation:slideInRight 0.22s cubic-bezier(0.25,1,0.5,1) forwards}
+        .slide-in-left{animation:slideInLeft 0.22s cubic-bezier(0.25,1,0.5,1) forwards}
+        .tab-btn{background:none;border:none;color:#555;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;padding:12px 0;border-bottom:2px solid transparent;transition:color 0.2s,border-color 0.2s;white-space:nowrap;display:flex;align-items:center;gap:6px;position:relative}
         .tab-btn.active{color:#E8C87A;border-bottom-color:#C9A84C}
         .tab-btn:hover:not(.active){color:#888}
+        .tab-btn.active::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:2px;background:linear-gradient(90deg,#C9A84C,#E8C87A);border-radius:1px}
         .sub-tab{background:transparent;border:0.5px solid #1A1A1A;color:#555;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:7px 14px;cursor:pointer;transition:all 0.15s;border-radius:2px}
         .sub-tab.active{border-color:#C9A84C;color:#C9A84C;background:rgba(201,168,76,0.05)}
-        .seance-row{display:flex;align-items:center;gap:10px;padding:9px 12px;background:#0D0D0D;border-radius:2px;cursor:pointer;transition:background 0.15s;border:0.5px solid transparent}
-        .seance-row:hover{background:#161616}
-        .seance-row.today-s{border-color:rgba(201,168,76,0.3)}
-        .exo-row{display:flex;align-items:center;gap:10px;padding:10px 12px;background:#0D0D0D;border-radius:2px;cursor:pointer;transition:all 0.15s;border:0.5px solid transparent}
-        .exo-row:hover{background:#161616}
+        .sub-tab:hover:not(.active){border-color:#333;color:#888}
+
+        /* ── Rows interactifs ─────────────────────────────────────── */
+        .seance-row{display:flex;align-items:center;gap:10px;padding:9px 12px;background:#0D0D0D;border-radius:3px;cursor:pointer;transition:background 0.15s,transform 0.1s;border:0.5px solid transparent}
+        .seance-row:hover{background:#161616;transform:translateX(2px)}
+        .seance-row:active{transform:scale(0.99)}
+        .seance-row.today-s{border-color:rgba(201,168,76,0.3);background:rgba(201,168,76,0.03)}
+        .exo-row{display:flex;align-items:center;gap:10px;padding:10px 12px;background:#0D0D0D;border-radius:3px;cursor:pointer;transition:all 0.15s;border:0.5px solid transparent}
+        .exo-row:hover{background:#161616;transform:translateX(2px);border-color:#1E1E1E}
+        .exo-row:active{transform:scale(0.99)}
         .exo-row.done-e{opacity:0.45}
-        .metric-card{background:#0D0D0D;border:0.5px solid #1A1A1A;border-radius:4px;padding:14px;transition:border-color 0.2s}
-        .metric-card:hover{border-color:#242424}
-        .record-card{background:#0D0D0D;border:0.5px solid #1A1A1A;border-radius:4px;padding:12px;text-align:center}
+        .exo-row.just-done{animation:checkPop 0.3s ease forwards}
+
+        /* ── Cards ────────────────────────────────────────────────── */
+        .metric-card{background:#0D0D0D;border:0.5px solid #1A1A1A;border-radius:4px;padding:14px;transition:border-color 0.2s,transform 0.2s,background 0.2s;cursor:default}
+        .metric-card:hover{border-color:#333;transform:translateY(-1px);background:#111}
+        .record-card{background:#0D0D0D;border:0.5px solid #1A1A1A;border-radius:4px;padding:12px;text-align:center;transition:border-color 0.2s,transform 0.2s}
+        .record-card:hover{border-color:#333;transform:translateY(-1px)}
+        .card-hover{transition:border-color 0.2s,transform 0.2s,box-shadow 0.2s}
+        .card-hover:hover{border-color:#2A2A2A !important;transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,0,0,0.3)}
+
+        /* ── Skeleton ─────────────────────────────────────────────── */
+        .skel{background:linear-gradient(90deg,#111 25%,#1A1A1A 50%,#111 75%);background-size:800px 100%;animation:skeletonShimmer 1.4s ease-in-out infinite;border-radius:3px}
+
+        /* ── Spinner ──────────────────────────────────────────────── */
+        .spinner{width:14px;height:14px;border:2px solid rgba(0,0,0,0.2);border-top-color:#0A0A0A;border-radius:50%;animation:spin 0.7s linear infinite;display:inline-block;flex-shrink:0}
+
+        /* ── Boutons actifs ───────────────────────────────────────── */
+        .btn-primary{transition:opacity 0.15s,transform 0.1s}
+        .btn-primary:hover:not(:disabled){opacity:0.88}
+        .btn-primary:active:not(:disabled){transform:scale(0.98)}
+
+        /* ── Messages chat ────────────────────────────────────────── */
+        .chat-bubble{animation:fadeUp 0.2s ease forwards}
+
+        /* ── Confetti ─────────────────────────────────────────────── */
+        .confetti-piece{position:fixed;width:8px;height:8px;border-radius:2px;pointer-events:none;animation:confettiFall 1.2s ease-out forwards;z-index:9999}
+
+        /* ── Password input ───────────────────────────────────────── */
         .pwd-input{width:100%;background:transparent;border:none;color:#F0EDE8;font-family:'Syne',sans-serif;font-size:13px;outline:none}
-        @media(max-width:640px){.grid2{grid-template-columns:1fr !important}.metrics-grid{grid-template-columns:1fr 1fr !important}}
+
+        /* ── Responsive ───────────────────────────────────────────── */
+        @media(max-width:640px){
+          .grid2{grid-template-columns:1fr !important}
+          .metrics-grid{grid-template-columns:1fr 1fr !important}
+        }
       `}</style>
+
+      {/* ── Toast notifications ─────────────────────────────────── */}
+      <ToastContainer toasts={toasts} />
+
+      {/* ── Confetti ─────────────────────────────────────────────── */}
+      {confetti && (
+        <div style={{position:"fixed",inset:0,pointerEvents:"none",zIndex:9999,overflow:"hidden"}}>
+          {Array.from({length:24}).map((_,i) => {
+            const colors = ["#C9A84C","#E8C87A","#7AE07A","#5DCAA5","#F0EDE8","#E07070"];
+            const color = colors[i % colors.length];
+            const left = `${Math.random()*100}%`;
+            const delay = `${Math.random()*0.6}s`;
+            const size = Math.random() > 0.5 ? 8 : 6;
+            return (
+              <div key={i} className="confetti-piece" style={{
+                left, top: "-20px",
+                background: color,
+                width: size, height: size,
+                borderRadius: Math.random() > 0.5 ? "50%" : 2,
+                animationDelay: delay,
+                animationDuration: `${0.9 + Math.random()*0.5}s`,
+              }} />
+            );
+          })}
+        </div>
+      )}
 
       {/* ── Chronomètre flottant ──────────────────────────────────── */}
       {timer && (
@@ -444,7 +581,7 @@ Aliments concrets avec grammages. Total macros doit correspondre aux objectifs.`
               ].map((m,i) => (
                 <div key={i} className="metric-card">
                   <div style={{fontSize:10,letterSpacing:"2px",textTransform:"uppercase",color:"#555",marginBottom:8}}>{m.label}</div>
-                  <div style={{fontSize:22,fontWeight:700,color:m.color,lineHeight:1,marginBottom:4}}>{m.val}</div>
+                  <div style={{fontSize:22,fontWeight:700,color:m.color,lineHeight:1,marginBottom:4,animation:"metricCount 0.4s ease forwards"}}>{m.val}</div>
                   <div style={{fontSize:11,color:"#444"}}>{m.sub}</div>
                 </div>
               ))}
@@ -471,6 +608,7 @@ Aliments concrets avec grammages. Total macros doit correspondre aux objectifs.`
                       onClick={async ()=>{
                     if(seanceDone[i]||i<2) return;
                     setSeanceDone(prev=>({...prev,[i]:!prev[i]}));
+                    addToast(`✓ ${s.nom} — Séance validée !`, "success");
                     // Mettre à jour le streak dans Firestore
                     if (user) {
                       try {
@@ -587,7 +725,20 @@ Aliments concrets avec grammages. Total macros doit correspondre aux objectifs.`
                         <div key={i} className={`exo-row${exoDone[i]?" done-e":""}`}
                           onClick={()=>{
                             const wasUndone = !exoDone[i];
-                            setExoDone(prev=>({...prev,[i]:!prev[i]}));
+                            setExoDone(prev => {
+                              const next = {...prev, [i]: !prev[i]};
+                              const newDoneCount = Object.values(next).filter(Boolean).length;
+                              if (wasUndone && newDoneCount === exercices.length && exercices.length > 0) {
+                                setTimeout(() => {
+                                  setConfetti(true);
+                                  addToast("🎉 Séance complète ! Bravo !", "gold");
+                                  setTimeout(() => setConfetti(false), 1800);
+                                }, 100);
+                              } else if (wasUndone) {
+                                addToast(`✓ ${e.nom}`, "success");
+                              }
+                              return next;
+                            });
                             if (wasUndone && e.reposSec > 0) {
                               setTimer({ duration: e.reposSec, name: e.nom, startedAt: Date.now() });
                             } else if (!wasUndone) {
@@ -826,8 +977,9 @@ Aliments concrets avec grammages. Total macros doit correspondre aux objectifs.`
                   placeholder="Écris ton message... (Entrée pour envoyer)"
                   style={{flex:1,background:"#0D0D0D",border:"0.5px solid #1E1E1E",color:"#F0EDE8",fontFamily:"'Syne',sans-serif",fontSize:13,padding:"10px 14px",resize:"none",minHeight:52,outline:"none",borderRadius:2}}/>
                 <button onClick={sendMessage} disabled={!newMsg.trim()||sending}
-                  style={{background:newMsg.trim()?"linear-gradient(135deg,#C9A84C,#A67C2E)":"#181818",border:"none",color:"#0A0A0A",padding:"0 18px",cursor:newMsg.trim()?"pointer":"not-allowed",fontSize:18,fontWeight:700,borderRadius:2,flexShrink:0}}>
-                  ↑
+                  className="btn-primary"
+                  style={{background:newMsg.trim()&&!sending?"linear-gradient(135deg,#C9A84C,#A67C2E)":"#181818",border:"none",color:sending?"#555":"#0A0A0A",padding:"0 18px",cursor:newMsg.trim()&&!sending?"pointer":"not-allowed",fontSize:18,fontWeight:700,borderRadius:2,flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center",minWidth:46}}>
+                  {sending ? <div className="spinner" style={{borderTopColor:"#C9A84C"}} /> : "↑"}
                 </button>
               </div>
             </div>
