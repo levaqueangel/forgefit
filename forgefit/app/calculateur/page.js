@@ -93,8 +93,38 @@ export default function CalculateurPage() {
     input: { width: "100%", background: "#0D0D0D", border: "0.5px solid #242424", color: "#F0EDE8", fontFamily: "'Syne',sans-serif", fontSize: 14, padding: "10px 14px", outline: "none", borderRadius: 2 },
   };
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Calculateur IMC & Calories APXFITNESS",
+    "description": "Calculez votre IMC, TDEE et macros personnalisés selon votre objectif fitness — outil gratuit APXFITNESS.",
+    "url": "https://apxfitness-brown.vercel.app/calculateur",
+    "applicationCategory": "HealthApplication",
+    "operatingSystem": "Web",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "EUR",
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "APXFITNESS",
+      "url": "https://apxfitness-brown.vercel.app",
+    },
+    "featureList": [
+      "Calcul de l'IMC",
+      "Calcul du TDEE (Total Daily Energy Expenditure)",
+      "Calcul des macronutriments (protéines, glucides, lipides)",
+      "Formule Harris-Benedict",
+    ],
+  };
+
   return (
     <div style={{ background: "#0A0A0A", color: "#F0EDE8", minHeight: "100vh", fontFamily: "'Syne',sans-serif" }}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <style>{`
         *{box-sizing:border-box;margin:0;padding:0}
         @keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
