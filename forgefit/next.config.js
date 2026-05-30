@@ -8,6 +8,13 @@ const nextConfig = {
     minimumCacheTTL: 86400, // 24h
     dangerouslyAllowSVG: true,
     contentDispositionType: "inline",
+    // Domaines autorisés pour les images externes (photos clients, témoignages, etc.)
+    remotePatterns: [
+      { protocol: "https", hostname: "firebasestorage.googleapis.com" },
+      { protocol: "https", hostname: "storage.googleapis.com" },
+      { protocol: "https", hostname: "images.unsplash.com" },
+      { protocol: "https", hostname: "res.cloudinary.com" },
+    ],
   },
 
   // Compression automatique des réponses
