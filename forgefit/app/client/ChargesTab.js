@@ -85,9 +85,18 @@ export function ChargesTab({ uid, exercices }) {
               />
               <button
                 onClick={() => saveCharge(e.nom, inputs[e.nom]||"")}
-                disabled={saving[e.nom]}
-                style={{background:"linear-gradient(135deg,#C9A84C,#A67C2E)",border:"none",color:"#0A0A0A",padding:"0 14px",fontFamily:"'Syne',sans-serif",fontSize:12,fontWeight:700,cursor:"pointer",borderRadius:2,flexShrink:0}}>
-                {saving[e.nom] ? "..." : "✓"}
+                disabled={saving[e.nom] || !inputs[e.nom]?.trim()}
+                style={{
+                  background: inputs[e.nom]?.trim() && !saving[e.nom] ? "linear-gradient(135deg,#C9A84C,#A67C2E)" : "#222",
+                  border:"none", color: inputs[e.nom]?.trim() ? "#0A0A0A" : "#444",
+                  padding:"0 14px", fontFamily:"'Syne',sans-serif", fontSize:12, fontWeight:700,
+                  cursor: inputs[e.nom]?.trim() && !saving[e.nom] ? "pointer" : "not-allowed",
+                  borderRadius:2, flexShrink:0, transition:"all 0.15s",
+                  display:"flex", alignItems:"center", justifyContent:"center", minWidth:38,
+                }}>
+                {saving[e.nom]
+                  ? <div style={{width:12,height:12,border:"2px solid rgba(0,0,0,0.15)",borderTopColor:"#C9A84C",borderRadius:"50%",animation:"spin 0.7s linear infinite"}} />
+                  : "✓"}
               </button>
             </div>
           </div>
