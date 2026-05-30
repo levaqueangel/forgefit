@@ -373,6 +373,51 @@ function jsonToText(data, lang) {
   return txt;
 }
 
+
+// ── Validation des inputs côté serveur ───────────────────────────────
+function validateGenerateInput(data) {
+  const errors = [];
+  const { prenom, poids, taille, age, genre, obj, niv, lieu, seances, duree, regime } = data;
+
+  // Champs texte obligatoires
+  if (!prenom || typeof prenom !== "string" || prenom.trim().length < 1)
+    errors.push("Prénom manquant ou invalide");
+  if (!obj || typeof obj !== "string" || obj.trim().length < 2)
+    errors.push("Objectif manquant");
+  if (!niv || typeof niv !== "string")
+    errors.push("Niveau manquant");
+  if (!lieu || typeof lieu !== "string")
+    errors.push("Lieu d'entraînement manquant");
+
+  // Poids : 30–350 kg
+  const p = parseFloat(poids);
+  if (!poids || isNaN(p) || p < 30 || p > 350)
+    errors.push(`Poids invalide (reçu: ${poids}) — doit être entre 30 et 350 kg`);
+
+  // Taille : 100–250 cm
+  const t = parseFloat(taille);
+  if (!taille || isNaN(t) || t < 100 || t > 250)
+    errors.push(`Taille invalide (reçu: ${taille}) — doit être entre 100 et 250 cm`);
+
+  // Âge : 12–100 ans
+  const a = parseInt(age);
+  if (!age || isNaN(a) || a < 12 || a > 100)
+    errors.push(`Âge invalide (reçu: ${age}) — doit être entre 12 et 100 ans`);
+
+  // Séances : 2–7 par semaine
+  const s = parseInt(seances);
+  if (!seances || isNaN(s) || s < 1 || s > 7)
+    errors.push(`Nombre de séances invalide (reçu: ${seances}) — doit être entre 1 et 7`);
+
+  // Genre attendu (non bloquant, valeur par défaut)
+  const validGenres = ["homme", "femme", "male", "female", "man", "woman", "herr", "frau", "hombre", "mujer"];
+  if (genre && !validGenres.some(g => genre.toLowerCase().includes(g.split(/[^a-z]/)[0]))) {
+    // Non bloquant : juste normaliser
+  }
+
+  return errors;
+}
+
 // ── Handler principal ────────────────────────────────────────────────
 export async function POST(req) {
   const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown";
@@ -381,6 +426,17 @@ export async function POST(req) {
   }
 
   const data = await req.json();
+
+  // Validation côté serveur des inputs numériques et obligatoires
+  const validationErrors = validateGenerateInput(data);
+  if (validationErrors.length > 0) {
+    console.warn("generate validation errors:", validationErrors);
+    return Response.json(
+      { error: "Données invalides : " + validationErrors[0] },
+      { status: 400 }
+    );
+  }
+
   const lang = ["fr","en","de","es"].includes(data.lang) ? data.lang : "fr";
 
   // Pré-calculs côté serveur (précis, pas d'hallucinations possibles)
