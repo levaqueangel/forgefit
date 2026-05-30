@@ -1,18 +1,48 @@
 {
   "name": "APXFITNESS — Coaching personnalisé",
   "short_name": "APXFITNESS",
-  "description": "Programmes de musculation et remise en forme 100% sur mesure",
+  "description": "Programmes de musculation et remise en forme 100% sur mesure. Coaching adapté à ton niveau.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#0A0A0A",
   "theme_color": "#C9A84C",
   "orientation": "portrait-primary",
+  "categories": [
+    "fitness",
+    "health",
+    "sports"
+  ],
   "lang": "fr",
-  "scope": "/",
+  "dir": "ltr",
   "icons": [
     {
-      "src": "/icon-192.png",
-      "sizes": "192x192",
+      "src": "/icon-72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-152.png",
+      "sizes": "152x152",
       "type": "image/png",
       "purpose": "any"
     },
@@ -23,8 +53,8 @@
       "purpose": "maskable"
     },
     {
-      "src": "/icon-512.png",
-      "sizes": "512x512",
+      "src": "/icon-384.png",
+      "sizes": "384x384",
       "type": "image/png",
       "purpose": "any"
     },
@@ -37,33 +67,51 @@
   ],
   "shortcuts": [
     {
-      "name": "Mon bilan",
-      "short_name": "Bilan",
-      "description": "Remplir mon bilan fitness",
-      "url": "/bilan",
+      "name": "Mon programme",
+      "short_name": "Programme",
+      "description": "Accéder à ton espace client",
+      "url": "/client",
       "icons": [
         {
-          "src": "/icon-192.png",
-          "sizes": "192x192"
+          "src": "/icon-96.png",
+          "sizes": "96x96"
         }
       ]
     },
     {
-      "name": "Mon espace",
-      "short_name": "Espace",
-      "description": "Accéder à mon espace client",
-      "url": "/client",
+      "name": "Démarrer un bilan",
+      "short_name": "Bilan",
+      "description": "Remplir le bilan pour obtenir un programme",
+      "url": "/bilan",
       "icons": [
         {
-          "src": "/icon-192.png",
-          "sizes": "192x192"
+          "src": "/icon-96.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Blog fitness",
+      "short_name": "Blog",
+      "description": "Conseils musculation et nutrition",
+      "url": "/blog",
+      "icons": [
+        {
+          "src": "/icon-96.png",
+          "sizes": "96x96"
         }
       ]
     }
   ],
-  "categories": [
-    "health",
-    "fitness",
-    "sports"
-  ]
+  "screenshots": [
+    {
+      "src": "/screenshot-mobile.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "APXFITNESS sur mobile"
+    }
+  ],
+  "prefer_related_applications": false,
+  "related_applications": []
 }
