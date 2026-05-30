@@ -53,6 +53,7 @@ export function ChargesTab({ uid, exercices }) {
         return (
           <div key={i} style={{
               background:"#0D0D0D",
+              borderRadius:14,
               border:`0.5px solid ${newPB===e.nom?"#C9A84C":"#1A1A1A"}`,
               borderRadius:4,padding:"14px",
               transition:"border-color 0.3s",
@@ -66,7 +67,7 @@ export function ChargesTab({ uid, exercices }) {
                     <span style={{
                       fontSize:9,fontWeight:700,letterSpacing:"2px",
                       background:"linear-gradient(135deg,#C9A84C,#E8C87A)",
-                      color:"#0A0A0A",padding:"2px 7px",borderRadius:10,
+                      color:"#0A0A0A",padding:"2px 7px",borderRadius:20,
                       animation:"checkPop 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards",
                     }}>🏆 PR</span>
                   )}
@@ -106,7 +107,7 @@ export function ChargesTab({ uid, exercices }) {
                 onChange={ev => setInputs(p => ({...p, [e.nom]: ev.target.value}))}
                 onKeyDown={ev => { if(ev.key === "Enter") saveCharge(e.nom, inputs[e.nom]||""); }}
                 placeholder="ex: 80 kg / 10 reps"
-                style={{flex:1,background:"#111",border:"0.5px solid #242424",color:"#F0EDE8",fontFamily:"'Syne',sans-serif",fontSize:12,padding:"8px 12px",outline:"none",borderRadius:2}}
+                style={{flex:1,background:"#0A0A0A",border:"0.5px solid #1E1E1E",color:"#F0EDE8",fontFamily:"'Syne',sans-serif",fontSize:12,padding:"9px 12px",outline:"none",borderRadius:10}}
               />
               <button
                 onClick={() => saveCharge(e.nom, inputs[e.nom]||"")}
