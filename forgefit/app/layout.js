@@ -1,6 +1,8 @@
 import "./globals.css";
 import ServiceWorkerRegistration from "./ServiceWorkerRegistration";
 import ErrorBoundary from "./ErrorBoundary";
+import { Suspense } from "react";
+import { GoogleAnalytics } from "./GoogleAnalytics";
 
 export const metadata = {
   title: "APXFITNESS — Coaching fitness personnalisé",
@@ -45,6 +47,9 @@ export default function RootLayout({ children }) {
         <ErrorBoundary>
           {children}
         </ErrorBoundary>
+        <Suspense fallback={null}>
+          <GoogleAnalytics />
+        </Suspense>
         <ServiceWorkerRegistration />
       </body>
     </html>
