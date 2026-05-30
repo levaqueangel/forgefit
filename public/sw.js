@@ -1,84 +1,66 @@
-// Service Worker APXFITNESS v3
-// Cache busting automatique : changer VERSION force le rechargement de tous les clients
-const VERSION = "apxfitness-v3";
+// Service Worker APXFITNESS v4 — Push notifications + cache intelligent
+const VERSION = "apxfitness-v4";
 const STATIC_CACHE = `${VERSION}-static`;
 const DYNAMIC_CACHE = `${VERSION}-dynamic`;
+const PRECACHE_URLS = ["/", "/blog", "/faq", "/calculateur"];
 
-// Pages à précacher au démarrage
-const PRECACHE_URLS = ["/", "/blog", "/faq", "/mentions-legales"];
-
-// ── Installation : précacher les pages principales ────────────────────
+// ── Installation ──────────────────────────────────────────────────────
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(STATIC_CACHE).then((cache) =>
-      cache.addAll(PRECACHE_URLS).catch(() => {}) // Silencieux si offline au build
+      cache.addAll(PRECACHE_URLS).catch(() => {})
     )
   );
-  // Prendre le contrôle immédiatement sans attendre
   self.skipWaiting();
 });
 
-// ── Activation : supprimer TOUS les anciens caches ────────────────────
+// ── Activation : nettoyer anciens caches ──────────────────────────────
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     Promise.all([
-      // Nettoyer les caches obsolètes
       caches.keys().then((keys) =>
         Promise.all(
           keys
             .filter((k) => k !== STATIC_CACHE && k !== DYNAMIC_CACHE)
-            .map((k) => {
-              console.log("[SW] Suppression ancien cache:", k);
-              return caches.delete(k);
-            })
+            .map((k) => caches.delete(k))
         )
       ),
-      // Prendre le contrôle de tous les onglets ouverts
       clients.claim(),
     ])
   );
 });
 
-// ── Fetch : stratégie intelligente par type de ressource ─────────────
+// ── Fetch : stratégie Network First pour HTML, Cache First pour assets ─
 self.addEventListener("fetch", (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
-  // Ignorer les requêtes non-GET, les APIs et les analytics
   if (request.method !== "GET") return;
   if (url.pathname.startsWith("/api/")) return;
-  if (url.hostname.includes("google-analytics") || url.hostname.includes("analytics")) return;
+  if (url.hostname.includes("google-analytics")) return;
 
-  // Assets Next.js (_next/static) : Cache First (immutable)
+  // Assets Next.js statiques : Cache First (immutables)
   if (url.pathname.startsWith("/_next/static/")) {
     event.respondWith(
       caches.match(request).then((cached) => {
         if (cached) return cached;
-        return fetch(request).then((response) => {
-          if (response.ok) {
-            const clone = response.clone();
-            caches.open(STATIC_CACHE).then((c) => c.put(request, clone));
-          }
-          return response;
+        return fetch(request).then((res) => {
+          if (res.ok) caches.open(STATIC_CACHE).then((c) => c.put(request, res.clone()));
+          return res;
         });
       })
     );
     return;
   }
 
-  // Images et polices : Cache First avec mise en cache dynamique
-  if (
-    url.pathname.match(/\.(ico|png|jpg|jpeg|svg|webp|avif|woff|woff2)$/)
-  ) {
+  // Images et polices : Cache First
+  if (url.pathname.match(/\.(ico|png|jpg|jpeg|svg|webp|avif|woff|woff2)$/)) {
     event.respondWith(
       caches.match(request).then((cached) => {
         if (cached) return cached;
-        return fetch(request).then((response) => {
-          if (response.ok) {
-            const clone = response.clone();
-            caches.open(DYNAMIC_CACHE).then((c) => c.put(request, clone));
-          }
-          return response;
+        return fetch(request).then((res) => {
+          if (res.ok) caches.open(DYNAMIC_CACHE).then((c) => c.put(request, res.clone()));
+          return res;
         }).catch(() => cached || new Response("", { status: 404 }));
       })
     );
@@ -86,29 +68,65 @@ self.addEventListener("fetch", (event) => {
   }
 
   // Pages HTML : Network First avec fallback cache
-  // Important : si le réseau répond, on met à jour le cache
   event.respondWith(
     fetch(request)
-      .then((response) => {
-        if (response.ok) {
-          const clone = response.clone();
+      .then((res) => {
+        if (res.ok) {
+          const clone = res.clone();
           caches.open(DYNAMIC_CACHE).then((c) => c.put(request, clone));
         }
-        return response;
+        return res;
       })
       .catch(() =>
-        caches.match(request).then(
-          (cached) => cached || caches.match("/") // Fallback page d'accueil
-        )
+        caches.match(request).then((cached) => cached || caches.match("/"))
       )
   );
 });
 
-// ── Message : forcer la mise à jour depuis l'app ─────────────────────
+// ── Push Notifications ────────────────────────────────────────────────
+self.addEventListener("push", (event) => {
+  let data = { title: "APXFITNESS", body: "Tu as un nouveau message de ton coach.", icon: "/icon-192.png", badge: "/icon-72.png" };
+  try { if (event.data) data = { ...data, ...event.data.json() }; } catch {}
+
+  event.waitUntil(
+    self.registration.showNotification(data.title, {
+      body: data.body,
+      icon: data.icon || "/icon-192.png",
+      badge: data.badge || "/icon-72.png",
+      tag: data.tag || "apxfitness",
+      requireInteraction: false,
+      data: { url: data.url || "/client" },
+      actions: data.actions || [
+        { action: "open", title: "Voir le message" },
+        { action: "close", title: "Ignorer" },
+      ],
+    })
+  );
+});
+
+// Clic sur la notification → ouvrir la page client
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  if (event.action === "close") return;
+
+  const urlToOpen = event.notification.data?.url || "/client";
+  event.waitUntil(
+    clients.matchAll({ type: "window", includeUncontrolled: true }).then((windowClients) => {
+      // Si l'app est déjà ouverte, focus + navigation
+      for (const client of windowClients) {
+        if (client.url.includes(self.location.origin)) {
+          return client.focus().then(() => client.navigate(urlToOpen));
+        }
+      }
+      // Sinon ouvrir un nouvel onglet
+      return clients.openWindow(urlToOpen);
+    })
+  );
+});
+
+// ── Messages depuis l'app ────────────────────────────────────────────
 self.addEventListener("message", (event) => {
-  if (event.data?.type === "SKIP_WAITING") {
-    self.skipWaiting();
-  }
+  if (event.data?.type === "SKIP_WAITING") self.skipWaiting();
   if (event.data?.type === "CLEAR_CACHE") {
     caches.keys().then((keys) => Promise.all(keys.map((k) => caches.delete(k))));
   }
