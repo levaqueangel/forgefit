@@ -18,6 +18,8 @@ import { ProgressBar }   from "./ProgressBar";
 import { ToastContainer } from "./Toast";
 import { LoginScreen }   from "./LoginScreen";
 import { Bubble }        from "./Bubble";
+// Push notifications
+import { usePushNotifications } from "../usePushNotifications";
 // Sous-composants Tabs
 import { DashboardTab }  from "./DashboardTab";
 import { ProgrammeTab }  from "./ProgrammeTab";
@@ -393,6 +395,38 @@ Réponds UNIQUEMENT avec un JSON valide (sans markdown) :
 
       {/* ── Toasts ──────────────────────────────────────────────── */}
       <ToastContainer toasts={toasts} />
+
+      {/* ── Bannière notifications push ──────────────────────────── */}
+      {showPushBanner && pushPermission === "default" && !pushSubscribed && (
+        <div style={{
+          position:"fixed",bottom:80,left:"50%",transform:"translateX(-50%)",
+          zIndex:500,background:"#111",border:"0.5px solid rgba(201,168,76,0.35)",
+          borderRadius:14,padding:"14px 20px",display:"flex",alignItems:"center",gap:14,
+          boxShadow:"0 8px 32px rgba(0,0,0,0.6)",minWidth:280,maxWidth:380,
+          animation:"slideUp 0.35s cubic-bezier(0.34,1.56,0.64,1) forwards",
+        }}>
+          <span style={{fontSize:24,flexShrink:0}}>🔔</span>
+          <div style={{flex:1}}>
+            <div style={{fontSize:12,fontWeight:700,color:"#F0EDE8",fontFamily:"'Syne',sans-serif",marginBottom:3}}>
+              Sois alerté des messages
+            </div>
+            <div style={{fontSize:11,color:"#555",fontFamily:"'Syne',sans-serif",lineHeight:1.5}}>
+              Reçois une notification quand le coach t'écrit.
+            </div>
+          </div>
+          <div style={{display:"flex",flexDirection:"column",gap:6,flexShrink:0}}>
+            <button onClick={()=>{ subscribePush(); setShowPushBanner(false); }}
+              disabled={pushLoading}
+              style={{background:"rgba(201,168,76,0.12)",border:"0.5px solid rgba(201,168,76,0.35)",color:"#C9A84C",fontFamily:"'Syne',sans-serif",fontSize:10,fontWeight:700,letterSpacing:"1.5px",textTransform:"uppercase",padding:"6px 12px",cursor:"pointer",borderRadius:20,whiteSpace:"nowrap"}}>
+              {pushLoading ? "..." : "Activer"}
+            </button>
+            <button onClick={()=>setShowPushBanner(false)}
+              style={{background:"transparent",border:"none",color:"#333",fontFamily:"'Syne',sans-serif",fontSize:10,cursor:"pointer",textAlign:"center",letterSpacing:"1px",textTransform:"uppercase"}}>
+              Plus tard
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* ── Confetti ────────────────────────────────────────────── */}
       {confetti && (
