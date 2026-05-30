@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /client
+Disallow: /coach
+Disallow: /api/
+
+Sitemap: https://apxfitness-brown.vercel.app/sitemap.xml
