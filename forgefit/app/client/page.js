@@ -93,6 +93,11 @@ export default function ClientPage() {
   const [toasts, setToasts] = useState([]);
   const [confetti, setConfetti] = useState(false);
   const [prevTab, setPrevTab] = useState("dashboard");
+  const [focusMode, setFocusMode] = useState(false);       // mode séance focus
+  const [focusIdx, setFocusIdx] = useState(0);             // exercice courant en mode focus
+  const [dataLoading, setDataLoading] = useState(false);   // refresh données
+  const touchStartX = useRef(null);
+  const touchStartY = useRef(null);
   const bottomRef = useRef(null);
 
   // ── Toast helper ────────────────────────────────────────────
@@ -101,6 +106,47 @@ export default function ClientPage() {
     setToasts(t => [...t.slice(-3), { id, message, type }]);
     setTimeout(() => setToasts(t => t.filter(x => x.id !== id)), 3200);
   }, []);
+
+  // ── Vibration mobile ─────────────────────────────────────────
+  const vibrate = useCallback((pattern = [50]) => {
+    try { navigator.vibrate?.(pattern); } catch {}
+  }, []);
+
+  // ── Refresh données Firestore ─────────────────────────────────
+  const refreshData = useCallback(async () => {
+    if (!user || dataLoading) return;
+    setDataLoading(true);
+    try {
+      const { doc: firestoreDoc, getDoc: firestoreGetDoc } = await import("firebase/firestore");
+      const snap = await firestoreGetDoc(firestoreDoc(db, "clients", user.uid));
+      if (snap.exists()) setClientData(snap.data());
+      addToast("Données mises à jour ✓", "info");
+    } catch { addToast("Erreur de rechargement", "error"); }
+    setDataLoading(false);
+  }, [user, dataLoading, addToast]);
+
+  // ── Swipe navigation (mobile) ────────────────────────────────
+  const TABS_ORDER = ["dashboard", "programme", "nutrition", "corps", "messages", "ia"];
+  const handleTouchStart = useCallback((e) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+  }, []);
+  const handleTouchEnd = useCallback((e) => {
+    if (touchStartX.current === null) return;
+    const dx = touchStartX.current - e.changedTouches[0].clientX;
+    const dy = Math.abs((touchStartY.current || 0) - e.changedTouches[0].clientY);
+    if (dy > Math.abs(dx) * 1.5) { touchStartX.current = null; return; } // scroll vertical
+    if (Math.abs(dx) < 50) { touchStartX.current = null; return; }
+    const idx = TABS_ORDER.indexOf(activeTab);
+    if (dx > 0 && idx < TABS_ORDER.length - 1) {
+      setPrevTab(activeTab); setActiveTab(TABS_ORDER[idx + 1]);
+      vibrate([40]);
+    } else if (dx < 0 && idx > 0) {
+      setPrevTab(activeTab); setActiveTab(TABS_ORDER[idx - 1]);
+      vibrate([40]);
+    }
+    touchStartX.current = null;
+  }, [activeTab, vibrate]);
 
   // ── Confetti quand tous les exercices sont faits ─────────────
   const prevDoneExos = useRef(0);
@@ -435,6 +481,16 @@ Aliments concrets avec grammages. Total macros doit correspondre aux objectifs.`
         /* ── Messages chat ────────────────────────────────────────── */
         .chat-bubble{animation:fadeUp 0.2s ease forwards}
 
+        /* ── Typing indicator ────────────────────────────────────── */
+        @keyframes typingDot{0%,80%,100%{opacity:0.2;transform:scale(0.8)}40%{opacity:1;transform:scale(1.1)}}
+
+        /* ── Swipe indicator ─────────────────────────────────────── */
+        @keyframes swipeHint{0%{opacity:0.6;transform:translateX(0)}50%{opacity:1;transform:translateX(-6px)}100%{opacity:0.6;transform:translateX(0)}}
+
+        /* ── Focus mode ──────────────────────────────────────────── */
+        @keyframes focusIn{from{opacity:0;transform:scale(0.97)}to{opacity:1;transform:scale(1)}}
+        .focus-exo{animation:focusIn 0.25s cubic-bezier(0.34,1.56,0.64,1) forwards}
+
         /* ── Confetti ─────────────────────────────────────────────── */
         .confetti-piece{position:fixed;width:8px;height:8px;border-radius:2px;pointer-events:none;animation:confettiFall 1.2s ease-out forwards;z-index:9999}
 
@@ -474,6 +530,111 @@ Aliments concrets avec grammages. Total macros doit correspondre aux objectifs.`
         </div>
       )}
 
+      {/* ── Mode Focus Séance ──────────────────────────────────────── */}
+      {focusMode && exercices.length > 0 && (
+        <div style={{
+          position:"fixed",inset:0,background:"rgba(10,10,10,0.97)",zIndex:200,
+          display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",
+          padding:"2rem",
+        }}>
+          {/* Fermer */}
+          <button onClick={()=>setFocusMode(false)} style={{
+            position:"absolute",top:20,right:20,
+            background:"transparent",border:"0.5px solid #242424",color:"#555",
+            fontFamily:"'Syne',sans-serif",fontSize:11,letterSpacing:"2px",
+            textTransform:"uppercase",padding:"8px 16px",cursor:"pointer",borderRadius:2,
+          }}>✕ Quitter</button>
+
+          {/* Progression */}
+          <div style={{fontSize:10,letterSpacing:"3px",textTransform:"uppercase",color:"#555",marginBottom:16}}>
+            Exercice {focusIdx+1} sur {exercices.length}
+          </div>
+          <div style={{display:"flex",gap:4,marginBottom:32}}>
+            {exercices.map((_,i)=>(
+              <div key={i} style={{
+                height:3,width:32,borderRadius:2,
+                background:i<focusIdx?"#7AE07A":i===focusIdx?"#C9A84C":"#242424",
+                transition:"background 0.3s ease",
+              }}/>
+            ))}
+          </div>
+
+          {/* Exercice courant */}
+          {(() => {
+            const e = exercices[focusIdx];
+            const done = exoDone[focusIdx];
+            return (
+              <div key={focusIdx} className="focus-exo" style={{
+                textAlign:"center",maxWidth:480,width:"100%",
+              }}>
+                <div style={{
+                  fontFamily:"'Cormorant Garamond',serif",
+                  fontSize:"clamp(32px,6vw,52px)",fontWeight:600,
+                  color:done?"#555":"#F0EDE8",lineHeight:1.1,marginBottom:16,
+                  textDecoration:done?"line-through":"none",
+                  transition:"all 0.3s",
+                }}>
+                  {e.nom}
+                </div>
+                <div style={{fontSize:16,color:"#C9A84C",fontWeight:700,marginBottom:8,letterSpacing:"2px"}}>
+                  {e.det}
+                </div>
+                {e.conseil && (
+                  <div style={{
+                    fontSize:14,color:"#666",marginBottom:32,lineHeight:1.7,
+                    fontFamily:"'Cormorant Garamond',serif",fontStyle:"italic",
+                  }}>
+                    ⚡ {e.conseil}
+                  </div>
+                )}
+                {/* Bouton check */}
+                <button onClick={()=>{
+                  const wasUndone = !exoDone[focusIdx];
+                  setExoDone(prev=>({...prev,[focusIdx]:!prev[focusIdx]}));
+                  if(wasUndone){
+                    vibrate([50]);
+                    addToast(`✓ ${e.nom}`, "success");
+                    // Passer à l'exercice suivant automatiquement
+                    if(focusIdx < exercices.length - 1){
+                      setTimeout(()=>setFocusIdx(f=>f+1), 600);
+                    } else {
+                      setConfetti(true);
+                      addToast("🎉 Séance complète ! Bravo !", "gold");
+                      vibrate([100,50,100,50,200]);
+                      setTimeout(()=>{ setConfetti(false); setFocusMode(false); }, 2500);
+                    }
+                    if(e.reposSec > 0) setTimer({ duration:e.reposSec, name:e.nom, startedAt:Date.now() });
+                  }
+                }} style={{
+                  background:done?"#1A3A1A":"linear-gradient(135deg,#C9A84C,#A67C2E)",
+                  border:`1px solid ${done?"#3A6A3A":"transparent"}`,
+                  color:done?"#7AE07A":"#0A0A0A",
+                  padding:"16px 40px",borderRadius:4,cursor:"pointer",
+                  fontFamily:"'Syne',sans-serif",fontSize:14,fontWeight:700,
+                  letterSpacing:"3px",textTransform:"uppercase",
+                  transition:"all 0.3s",
+                  minWidth:200,
+                }}>
+                  {done?"✓ Fait !":"Exercice terminé →"}
+                </button>
+              </div>
+            );
+          })()}
+
+          {/* Navigation manuelle */}
+          <div style={{display:"flex",gap:12,marginTop:32}}>
+            <button onClick={()=>setFocusIdx(f=>Math.max(0,f-1))} disabled={focusIdx===0}
+              style={{background:"transparent",border:"0.5px solid #242424",color:focusIdx===0?"#333":"#888",padding:"8px 20px",cursor:"pointer",fontFamily:"'Syne',sans-serif",fontSize:11,letterSpacing:"2px",textTransform:"uppercase",borderRadius:2}}>
+              ← Préc.
+            </button>
+            <button onClick={()=>setFocusIdx(f=>Math.min(exercices.length-1,f+1))} disabled={focusIdx===exercices.length-1}
+              style={{background:"transparent",border:"0.5px solid #242424",color:focusIdx===exercices.length-1?"#333":"#888",padding:"8px 20px",cursor:"pointer",fontFamily:"'Syne',sans-serif",fontSize:11,letterSpacing:"2px",textTransform:"uppercase",borderRadius:2}}>
+              Suiv. →
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* ── Chronomètre flottant ──────────────────────────────────── */}
       {timer && (
         <RestTimer
@@ -495,6 +656,9 @@ Aliments concrets avec grammages. Total macros doit correspondre aux objectifs.`
             Plan {planName}
           </span>
           <LangSelector lang={lang} setLang={setLang} LANGS={LANGS} />
+          <button onClick={refreshData} disabled={dataLoading} style={{background:"transparent",border:"0.5px solid #1E1E1E",color:dataLoading?"#333":"#555",fontFamily:"'Syne',sans-serif",fontSize:13,padding:"7px 12px",cursor:dataLoading?"not-allowed":"pointer",borderRadius:2,display:"flex",alignItems:"center",justifyContent:"center",transition:"all 0.2s"}} title="Rafraîchir les données">
+            {dataLoading ? <div className="spinner" style={{borderTopColor:"#C9A84C",width:12,height:12}} /> : "↻"}
+          </button>
           <button onClick={()=>setShowPwdModal(true)} style={{background:"transparent",border:"0.5px solid #1E1E1E",color:"#555",fontFamily:"'Syne',sans-serif",fontSize:11,letterSpacing:"2px",textTransform:"uppercase",padding:"7px 14px",cursor:"pointer",borderRadius:2}}>🔑</button>
           <button onClick={()=>signOut(auth)} style={{background:"transparent",border:"0.5px solid #1E1E1E",color:"#555",fontFamily:"'Syne',sans-serif",fontSize:11,letterSpacing:"2px",textTransform:"uppercase",padding:"7px 14px",cursor:"pointer",borderRadius:2}}>Déconnexion</button>
         </div>
@@ -553,21 +717,40 @@ Aliments concrets avec grammages. Total macros doit correspondre aux objectifs.`
         </div>
         <div style={{display:"flex",gap:"1.5rem",overflowX:"auto"}}>
           {[
-            { id:"dashboard", label:"Dashboard", icon:"📊" },
-            { id:"programme", label:"Programme", icon:"🏋️" },
-            { id:"nutrition", label:"Nutrition", icon:"🥗" },
-            { id:"corps", label:"Corps", icon:"📐" },
-            { id:"messages", label:`Messages${messages.filter(m=>m.sender==="coach"&&!m.read).length > 0 ? " ●" : ""}`, icon:"💬" },
+            { id:"dashboard", label:"Dashboard",   icon:"📊", badge:null },
+            { id:"programme", label:"Programme",   icon:"🏋️",
+              badge: exercices.length > 0 ? `${doneExos}/${exercices.length}` : null },
+            { id:"nutrition", label:"Nutrition",   icon:"🥗", badge:null },
+            { id:"corps",     label:"Corps",       icon:"📐", badge:null },
+            { id:"messages",  label:"Messages",    icon:"💬",
+              badge: messages.filter(m=>m.sender==="coach"&&!m.read).length || null },
+            { id:"ia",        label:"IA",          icon:"🤖", badge:null },
           ].map(tab => (
-            <button key={tab.id} className={`tab-btn${activeTab===tab.id?" active":""}`} onClick={()=>setActiveTab(tab.id)}>
+            <button key={tab.id}
+              className={`tab-btn${activeTab===tab.id?" active":""}`}
+              onClick={()=>{ setPrevTab(activeTab); setActiveTab(tab.id); vibrate([30]); }}
+              style={{position:"relative"}}>
               {tab.icon} {tab.label}
+              {tab.badge !== null && (
+                <span style={{
+                  fontSize:9,fontWeight:700,letterSpacing:0,lineHeight:1.4,
+                  background:activeTab===tab.id?"#C9A84C":"#2A2A2A",
+                  color:activeTab===tab.id?"#0A0A0A":"#888",
+                  borderRadius:10,padding:"1px 6px",marginLeft:4,
+                  transition:"all 0.2s",
+                }}>{tab.badge}</span>
+              )}
             </button>
           ))}
         </div>
       </div>
 
-      {/* ── Contenu ─────────────────────────────────────────────────── */}
-      <div style={{flex:1,padding:"20px 24px",display:"flex",flexDirection:"column",gap:16,maxWidth:900,width:"100%",margin:"0 auto"}}>
+      {/* ── Contenu (swipeable) ─────────────────────────────────────── */}
+      <div
+        style={{flex:1,padding:"20px 24px",display:"flex",flexDirection:"column",gap:16,maxWidth:900,width:"100%",margin:"0 auto"}}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
 
         {/* ════ DASHBOARD ════ */}
         {activeTab === "dashboard" && (
@@ -690,6 +873,12 @@ Aliments concrets avec grammages. Total macros doit correspondre aux objectifs.`
                     <div style={S.cardTitle}>🏋️ {seanceAujourdhui?.nom || "Séance du jour"}</div>
                     <div style={{display:"flex",alignItems:"center",gap:8}}>
                       <span style={{fontSize:11,color:"#C9A84C",fontWeight:700}}>{doneExos}/{exercices.length} exercices</span>
+                      {exercices.length > 0 && (
+                        <button onClick={()=>{ setFocusIdx(0); setFocusMode(true); vibrate([40]); }}
+                          style={{background:"rgba(201,168,76,0.1)",border:"0.5px solid rgba(201,168,76,0.4)",color:"#C9A84C",fontFamily:"'Syne',sans-serif",fontSize:10,fontWeight:700,letterSpacing:"2px",textTransform:"uppercase",padding:"5px 10px",cursor:"pointer",borderRadius:2,transition:"all 0.15s"}}>
+                          ⚡ Focus
+                        </button>
+                      )}
                       {clientData?.programme && (
                         <button onClick={() => {
                           // Fallback mobile : si window.open bloqué, copier le texte
@@ -732,10 +921,12 @@ Aliments concrets avec grammages. Total macros doit correspondre aux objectifs.`
                                 setTimeout(() => {
                                   setConfetti(true);
                                   addToast("🎉 Séance complète ! Bravo !", "gold");
+                                  vibrate([100, 50, 100, 50, 200]);
                                   setTimeout(() => setConfetti(false), 1800);
                                 }, 100);
                               } else if (wasUndone) {
                                 addToast(`✓ ${e.nom}`, "success");
+                                vibrate([50]);
                               }
                               return next;
                             });
@@ -886,7 +1077,7 @@ Aliments concrets avec grammages. Total macros doit correspondre aux objectifs.`
           <div className="fade-in" style={{display:"flex",flexDirection:"column",gap:16}}>
             <div style={S.card}>
               <div style={S.cardTitle}>📐 Journal corporel <span style={{...S.tag,marginLeft:"auto"}}>Saisie hebdomadaire</span></div>
-              <CorpsJournal uid={user?.uid} />
+              <CorpsJournal uid={user?.uid} addToast={addToast} />
             </div>
             <div style={{background:"rgba(201,168,76,0.04)",border:"0.5px solid rgba(201,168,76,0.15)",borderRadius:4,padding:"14px",fontSize:12,color:"#555",lineHeight:1.7}}>
               💡 <strong style={{color:"#C9A84C"}}>Conseil :</strong> Note tes mesures le même jour chaque semaine, le matin à jeun, pour des données comparables. La balance peut fluctuer de 1-3 kg selon l'hydratation — les mensurations sont plus fiables sur le long terme.
@@ -922,10 +1113,20 @@ Aliments concrets avec grammages. Total macros doit correspondre aux objectifs.`
                   </div>
                 ))}
                 {chatLoading && (
-                  <div style={{display:"flex",flexDirection:"column",alignItems:"flex-start"}}>
-                    <div style={{padding:"10px 14px",background:"#181818",border:"0.5px solid #242424",borderRadius:2,fontSize:13,color:"#555"}}>
-                      <span style={{animation:"pulse 1s infinite"}}>● ● ●</span>
+                  <div className="chat-bubble" style={{display:"flex",flexDirection:"column",alignItems:"flex-start"}}>
+                    <div style={{
+                      padding:"12px 16px",background:"#181818",border:"0.5px solid #242424",
+                      borderRadius:2,display:"flex",alignItems:"center",gap:4,
+                    }}>
+                      {[0,1,2].map(j=>(
+                        <div key={j} style={{
+                          width:7,height:7,borderRadius:"50%",background:"#555",
+                          animation:"typingDot 1.2s ease-in-out infinite",
+                          animationDelay:`${j*0.18}s`,
+                        }}/>
+                      ))}
                     </div>
+                    <span style={{fontSize:10,color:"#333",marginTop:2}}>Assistant IA</span>
                   </div>
                 )}
                 <div ref={chatBottomRef}/>
