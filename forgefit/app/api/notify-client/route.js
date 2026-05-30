@@ -36,6 +36,19 @@ export async function POST(req) {
 </td></tr>
 </table></td></tr></table></body></html>`,
     });
+    // Tenter d'envoyer aussi une notification push (silencieux si pas d'abonnement)
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || ""}/api/push-notification`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          clientId,
+          title: "APXFITNESS — Message du coach",
+          body: message ? message.slice(0, 100) : "Ton coach t'a envoyé un message.",
+          url: "/client",
+        }),
+      });
+    } catch {}
     return Response.json({ success: true });
   } catch (e) {
     return Response.json({ error: e.message }, { status: 500 });
