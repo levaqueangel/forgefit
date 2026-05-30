@@ -215,6 +215,28 @@ export default function CoachPage() {
     setNotesSaving(false);
   };
 
+  // ── Export CSV clients ───────────────────────────────────────────
+  const [exporting, setExporting] = useState(false);
+  const exportCSV = async () => {
+    if (exporting) return;
+    setExporting(true);
+    try {
+      const token = await user.getIdToken();
+      const res = await fetch("/api/export-clients", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!res.ok) throw new Error("Erreur export");
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `apxfitness-clients-${new Date().toISOString().split("T")[0]}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (e) { alert("Erreur lors de l'export : " + e.message); }
+    setExporting(false);
+  };
+
   // ── Envoi message ─────────────────────────────────────────────────
   const sendMessage = async () => {
     if (!newMsg.trim() || !selectedClient || sending) return;
@@ -275,6 +297,9 @@ export default function CoachPage() {
         <div style={{display:"flex",alignItems:"center",gap:12}}>
           <button onClick={()=>setActiveView(v=>v==="stats"?"messages":"stats")} style={{background:activeView==="stats"?"rgba(201,168,76,0.1)":"transparent",border:`0.5px solid ${activeView==="stats"?"#C9A84C":"#242424"}`,color:activeView==="stats"?"#C9A84C":"#555",fontFamily:"'Syne',sans-serif",fontSize:11,letterSpacing:"2px",textTransform:"uppercase",padding:"7px 16px",cursor:"pointer",borderRadius:2}}>
             📊 Stats
+          </button>
+          <button onClick={exportCSV} disabled={exporting} style={{background:"transparent",border:"0.5px solid #242424",color:exporting?"#333":"#555",fontFamily:"'Syne',sans-serif",fontSize:11,letterSpacing:"2px",textTransform:"uppercase",padding:"7px 16px",cursor:exporting?"not-allowed":"pointer",borderRadius:2,display:"flex",alignItems:"center",gap:6}}>
+            {exporting?<><div style={{width:10,height:10,border:"1.5px solid #333",borderTopColor:"#C9A84C",borderRadius:"50%",animation:"spin 0.7s linear infinite"}}/> Export...</>:"⬇️ CSV"}
           </button>
           <div style={{fontSize:11,letterSpacing:"1px",color:"#555"}}>{clients.length} client{clients.length>1?"s":""}</div>
           <button onClick={()=>signOut(auth)} style={{background:"transparent",border:"0.5px solid #242424",color:"#555",fontFamily:"'Syne',sans-serif",fontSize:11,letterSpacing:"2px",textTransform:"uppercase",padding:"7px 16px",cursor:"pointer",borderRadius:2}}>Déconnexion</button>
