@@ -65,8 +65,8 @@ function BilanForm() {
   const pct = Math.round((step / 5) * 100);
 
   // Tracker les étapes clés du bilan pour GA4
-  const prevStep = React.useRef(0);
-  React.useEffect(() => {
+  const prevStep = useRef(0);
+  useEffect(() => {
     if (step > prevStep.current) {
       trackEvent("bilan_step", { step, plan: sel.plan || "unknown" });
       prevStep.current = step;
