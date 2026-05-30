@@ -1,65 +1,30 @@
 "use client";
-import { useState, useEffect, useCallback } from "react";
-import { LANGS as FR_LANGS } from "./translations";
+import { useState, useEffect } from "react";
+import { LANGS } from "./translations";
 
-// Cache des traductions chargées dynamiquement
-const langCache = { fr: FR_LANGS.fr };
-
-// Langues disponibles (pour le sélecteur)
-export const AVAILABLE_LANGS = {
-  fr: { flag: FR_LANGS.fr.flag, label: FR_LANGS.fr.label },
-  en: { flag: "🇬🇧", label: "EN" },
-  de: { flag: "🇩🇪", label: "DE" },
-  es: { flag: "🇪🇸", label: "ES" },
-};
-
-// Chargement dynamique d'une langue non-FR
-async function loadLang(code) {
-  if (langCache[code]) return langCache[code];
-  try {
-    // Import dynamique : Next.js code-split automatiquement
-    const mod = await import(`./translations`);
-    const lang = mod.LANGS[code];
-    if (lang) langCache[code] = lang;
-    return lang || FR_LANGS.fr;
-  } catch {
-    return FR_LANGS.fr;
-  }
-}
+const VALID_LANGS = ["fr", "en", "de", "es"];
+const STORAGE_KEY = "apxfitness_lang";
 
 export function useLang() {
-  const [lang, setLangCode] = useState("fr");
-  const [t, setT] = useState(FR_LANGS.fr);
-  const [mounted, setMounted] = useState(false);
-
-  // Charger la langue sauvegardée au montage
-  useEffect(() => {
-    setMounted(true);
+  // Initialiser depuis localStorage si disponible
+  const [lang, setLangState] = useState(() => {
+    if (typeof window === "undefined") return "fr";
     try {
-      const saved = localStorage.getItem("apxfitness_lang");
-      if (saved && AVAILABLE_LANGS[saved]) {
-        applyLang(saved);
-      }
-    } catch {}
-  }, []);
+      const saved = localStorage.getItem(STORAGE_KEY);
+      return saved && VALID_LANGS.includes(saved) ? saved : "fr";
+    } catch {
+      return "fr";
+    }
+  });
 
-  const applyLang = useCallback(async (code) => {
-    const translations = await loadLang(code);
-    setLangCode(code);
-    setT(translations);
-  }, []);
+  // t = traductions courantes — recalculé synchrone à chaque changement de lang
+  const t = LANGS[lang] ?? LANGS.fr;
 
-  const setLang = useCallback((code) => {
-    if (!AVAILABLE_LANGS[code]) return;
-    applyLang(code);
-    try { localStorage.setItem("apxfitness_lang", code); } catch {}
-  }, [applyLang]);
-
-  return {
-    lang,
-    setLang,
-    t,
-    LANGS: FR_LANGS, // Rétrocompatibilité
-    mounted,
+  const setLang = (code) => {
+    if (!VALID_LANGS.includes(code)) return;
+    setLangState(code);
+    try { localStorage.setItem(STORAGE_KEY, code); } catch {}
   };
+
+  return { lang, setLang, t, LANGS };
 }
