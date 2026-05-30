@@ -1,0 +1,12 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/relance-j7",
+      "schedule": "0 9 * * *"
+    },
+    {
+      "path": "/api/cron/recap-j28",
+      "schedule": "0 10 * * *"
+    }
+  ]
+}
