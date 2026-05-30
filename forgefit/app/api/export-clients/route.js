@@ -1,0 +1,79 @@
+import { getAdminAuth } from "../firebase-admin";
+import { getAdminDb } from "../firebase-admin";
+export const dynamic = "force-dynamic";
+
+const COACH_EMAIL = process.env.NEXT_PUBLIC_COACH_EMAIL || "levaqueangel@gmail.com";
+
+export async function GET(req) {
+  // Vérifier que l'appelant est le coach (cookie de session Firebase)
+  const authHeader = req.headers.get("authorization");
+  if (!authHeader?.startsWith("Bearer ")) {
+    return new Response("Unauthorized", { status: 401 });
+  }
+
+  try {
+    const token = authHeader.replace("Bearer ", "");
+    const decoded = await getAdminAuth().verifyIdToken(token);
+
+    // Seul le coach peut exporter
+    if (decoded.email !== COACH_EMAIL) {
+      return new Response("Forbidden", { status: 403 });
+    }
+
+    const db = getAdminDb();
+    const snapshot = await db.collection("clients").orderBy("createdAt", "desc").get();
+    const clients = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+
+    // Construire le CSV
+    const headers = [
+      "Nom",
+      "Email",
+      "Plan",
+      "Date inscription",
+      "Streak (jours)",
+      "Dernière connexion",
+      "Objectif",
+      "Programme envoyé",
+      "Bilan J28 envoyé",
+      "Relance J7 envoyée",
+    ];
+
+    const rows = clients.map(c => [
+      escapeCsv(c.nom || ""),
+      escapeCsv(c.email || ""),
+      escapeCsv(c.plan || ""),
+      escapeCsv(c.createdAt ? new Date(c.createdAt).toLocaleDateString("fr-FR") : ""),
+      c.streakDays || 0,
+      escapeCsv(c.lastActiveDate ? new Date(c.lastActiveDate).toLocaleDateString("fr-FR") : ""),
+      escapeCsv(c.programmeData?.objectif_principal || ""),
+      c.programme ? "Oui" : "Non",
+      c.recapJ28SentAt ? new Date(c.recapJ28SentAt).toLocaleDateString("fr-FR") : "Non",
+      c.relanceJ7SentAt ? new Date(c.relanceJ7SentAt).toLocaleDateString("fr-FR") : "Non",
+    ]);
+
+    const csv = [
+      headers.join(";"),
+      ...rows.map(r => r.join(";")),
+    ].join("\n");
+
+    const date = new Date().toISOString().split("T")[0];
+    return new Response("\uFEFF" + csv, { // BOM UTF-8 pour Excel
+      headers: {
+        "Content-Type": "text/csv; charset=utf-8",
+        "Content-Disposition": `attachment; filename="apxfitness-clients-${date}.csv"`,
+        "Cache-Control": "no-store",
+      },
+    });
+  } catch (e) {
+    console.error("CSV export error:", e);
+    return new Response("Error: " + e.message, { status: 500 });
+  }
+}
+
+function escapeCsv(value) {
+  const str = String(value);
+  if (str.includes(";") || str.includes('"') || str.includes("\n")) {
+    return `"${str.replace(/"/g, '""')}"`;
+  }
+  return str;
+}
