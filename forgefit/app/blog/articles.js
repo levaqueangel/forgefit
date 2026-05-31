@@ -1,5 +1,272 @@
 export const ARTICLES = [
   {
+    slug: "programme-squat-12-semaines",
+    titre: "Programme squat 12 semaines : du debutant au record personnel",
+    description: "Bloc par bloc, serie par serie — le programme complet pour progresser au squat en 12 semaines. Technique, periodisation, erreurs communes et nutrition.",
+    categorie: "Musculation",
+    date: "2026-05-19",
+    lecture: 11,
+    image: null,
+    contenu: `
+Le squat est l'exercice le plus complet de la musculation. En 12 semaines, ce programme structuré en 3 blocs progressifs t'amènera d'un niveau débutant à un nouveau record personnel.
+
+## Pourquoi le squat est indispensable
+
+Le squat engage les quadriceps, ischio-jambiers, fessiers, bas du dos et core simultanément. Aucun autre exercice ne mobilise autant de masse musculaire en un seul mouvement.
+
+**Bénéfices prouvés** :
+- Augmentation de la testostérone et de l'hormone de croissance post-effort
+- Densité osseuse accrue (charge axiale stimule la formation osseuse)
+- Amélioration de la coordination et de la proprioception
+- Métabolisme de base plus élevé (plus de muscle = plus de calories brûlées au repos)
+
+## Programme 12 semaines — Structure en 3 blocs
+
+### Bloc 1 (Semaines 1-4) — Apprentissage technique
+- Semaine 1 : 3 x 10 @ 60% 1RM
+- Semaine 2 : 3 x 8 @ 65% 1RM
+- Semaine 3 : 4 x 6 @ 70% 1RM
+- Semaine 4 (decharge) : 2 x 10 @ 55% 1RM
+
+**Points techniques cles** : pieds a largeur d'epaules, orteils tournes vers l'exterieur 10-20 degres, descente controlee 3 secondes, cuisses paralleles minimum.
+
+### Bloc 2 (Semaines 5-8) — Developpement de la force
+- Semaine 5 : 4 x 6 @ 75% 1RM
+- Semaine 6 : 4 x 5 @ 80% 1RM
+- Semaine 7 : 5 x 4 @ 82.5% 1RM
+- Semaine 8 (decharge) : 3 x 8 @ 65% 1RM
+
+**Exercices complementaires** : squat pause (2 secondes en bas), box squat, good morning pour les erecteurs spinaux.
+
+### Bloc 3 (Semaines 9-12) — Pic de force et nouveau record
+- Semaine 9 : 5 x 3 @ 85% 1RM
+- Semaine 10 : 4 x 3 @ 87.5% 1RM
+- Semaine 11 : 3 x 2 @ 90% 1RM
+- Semaine 12 : Test du nouveau 1RM
+
+**Progression attendue** : +15 a 25% sur le 1RM pour un debutant, +8 a 15% pour un intermediaire.
+
+## Les 4 erreurs les plus communes
+
+**1. Valgus des genoux** (genoux qui rentrent) : fessiers et abducteurs trop faibles. Correction : hip thrust et abductions a l'echauffement.
+
+**2. Butt wink** (flexion lombaire en bas) : mobilite insuffisante des hanches/chevilles. Correction : exercices de mobilite quotidiens, ne pas descendre au-dela du point ou le dos reste plat.
+
+**3. Talons qui se levent** : cheville trop rigide. Correction : talons sureleves a court terme + travail de mobilite.
+
+**4. Avancee excessive des genoux** : dominance quadriceps. Correction : box squat, cue mental "s'asseoir en arriere".
+
+## Nutrition pour progresser au squat
+
+Le squat lourd necessite un carburant optimal :
+- 2h avant la seance : 200-300g de riz ou patate douce + 30-50g de proteines
+- Proteine quotidienne : minimum 1.8g/kg de poids de corps
+- Hydratation : boire 500ml dans l'heure avant la seance
+
+Un squat a 140kg sollicite tellement de muscle que la recuperation necessite 48 a 72 heures. Planifie tes seances en consequence.
+
+## Equipement recommande
+
+- **Chaussures** : semelle plate (Converse) ou chaussures de weightlifting avec talon souleve
+- **Ceinture** : a partir de 80-85% du 1RM uniquement — ne remplace pas le gainage naturel
+- **Knee sleeves** : maintien articulaire, benefique a partir de charges moyennes
+
+Tiens un journal : poids charge, series, reps, difficulte (1-10). La tendance sur 4-6 semaines est le seul indicateur fiable de ta progression.
+`,
+  },
+  {
+    slug: "prise-de-masse-repas-type-journee",
+    titre: "Prise de masse : les 7 repas types d'une journee optimale",
+    description: "Petit-dejeuner, collations, pre/post-seance, diner et coucher — le plan alimentaire complet pour prendre du muscle sans prendre trop de gras.",
+    categorie: "Nutrition",
+    date: "2026-05-16",
+    lecture: 10,
+    image: null,
+    contenu: `
+La prise de masse est l'objectif le plus commun en musculation. Ce guide pratique te donne exactement quoi manger, en quelle quantite, a quel moment — sans theorie inutile.
+
+## La base : le surplus calorique
+
+Pour prendre du muscle, tu dois consommer plus de calories que tu en depenses.
+
+**Surplus recommande selon le niveau** :
+- Debutant (0-1 an) : +300 a 500 kcal/jour
+- Intermediaire (1-3 ans) : +200 a 350 kcal/jour
+- Avance (3+ ans) : +100 a 200 kcal/jour
+
+**Exemple** : homme 80kg, TDEE 3 000 kcal → objectif prise de masse : **3 300 a 3 500 kcal/jour**
+
+## Les 7 repas d'une journee optimale
+
+### Repas 1 — Petit-dejeuner (7h00) — 700 kcal
+- 4 oeufs brouilles (280 kcal, 28g proteines)
+- 80g flocons d'avoine + lait (320 kcal, 56g glucides)
+- 1 banane (90 kcal)
+
+**Pourquoi** : les oeufs apportent tous les acides amines essentiels. L'avoine donne de l'energie stable jusqu'au dejeuner.
+
+### Repas 2 — Collation matinale (10h30) — 350 kcal
+- 200g fromage blanc 0% (20g proteines)
+- 30g amandes (15g lipides)
+- 1 pomme (20g glucides)
+
+### Repas 3 — Dejeuner (12h30) — 900 kcal
+- 200g blanc de poulet (46g proteines)
+- 200g riz basmati cuit (50g glucides)
+- 150g brocolis + huile d'olive
+- 1 yaourt grec 0%
+
+**Pourquoi** : repas principal de la journee. Le riz basmati (IG bas) maintient la glycemie stable.
+
+### Repas 4 — Pre-entrainement (16h00) — 400 kcal
+- 150g patate douce (34g glucides)
+- 150g thon en boite (35g proteines)
+- 1 kiwi (vitamine C + glucides)
+
+**Pourquoi** : charge le glycogene musculaire sans creer de pic glycemique.
+
+### Repas 5 — Post-entrainement (18h30) — 500 kcal
+- 40g whey proteine (36g proteines)
+- 60g riz blanc (IG eleve voulu ici)
+- 1 banane
+
+**Pourquoi** : fenetre de recuperation. Le riz blanc et la banane declenchent un pic d'insuline qui transporte les nutriments vers les muscles.
+
+### Repas 6 — Diner (20h00) — 700 kcal
+- 200g saumon (40g proteines, omega-3 anti-inflammatoires)
+- 150g riz complet (40g glucides)
+- Legumes varies a volonte
+
+### Repas 7 — Collation coucher (22h30) — 250 kcal
+- 200g fromage blanc 0% + 30g caseine
+- Quelques noix
+
+**Pourquoi** : la caseine se digere en 5-7h et maintient la synthese proteique pendant le sommeil.
+
+## Total journalier cible
+3 800 kcal | 285g proteines | 368g glucides | 90g lipides
+
+## Top 10 aliments pour la prise de masse
+1. Oeufs entiers — profil acides amines complet
+2. Blanc de poulet — 31g proteines/100g
+3. Saumon — proteines + omega-3
+4. Riz (blanc post-seance, complet reste du temps)
+5. Flocons d'avoine
+6. Patate douce
+7. Fromage blanc 0%
+8. Whey proteine
+9. Amandes
+10. Banane
+
+## A ne PAS faire en prise de masse
+- Manger junk food pour atteindre le surplus
+- Sauter des repas et rattraper le soir
+- Negliger les legumes (micronutriments essentiels)
+- Ignorer l'hydratation (la deshydratation reduit la synthese proteique)
+
+## Mesurer les resultats
+Pese-toi chaque matin a jeun. Note la moyenne hebdomadaire. Apres 3 semaines :
+- Pas de prise de poids : +200-300 kcal/jour
+- Prise trop rapide (+1.5kg/sem) : -200-300 kcal/jour
+- Prise dans la norme (0.3-0.7kg/sem) : maintenir
+`,
+  },
+  {
+    slug: "programme-musculation-femme-debutante",
+    titre: "Programme musculation femme : 3 seances par semaine pour transformer ton corps",
+    description: "Programme complet pour femme debutante a intermediaire — seances A, B et C detaillees, ciblage fessiers et abdomen, nutrition adaptee.",
+    categorie: "Programme",
+    date: "2026-05-13",
+    lecture: 10,
+    image: null,
+    contenu: `
+La musculation est l'outil le plus efficace pour une femme qui souhaite transformer son corps — bien plus efficace que le cardio seul. Ce programme complet de 3 seances par semaine est concu pour des debutantes a intermediaires.
+
+## Pourquoi la musculation est particulierement benefique pour les femmes
+
+**Le muscle brule des calories au repos** : 1kg de muscle consomme ~13 kcal/jour. Avec 5 a 10kg de muscle supplementaire, c'est 65-130 kcal quotidiennes ajoutees au metabolisme.
+
+**La musculation ne rend pas les femmes "trop musclees"** : les femmes produisent 15 a 20 fois moins de testosterone que les hommes. Un physique ferme et tonique s'obtient, pas un physique de culturiste.
+
+**Benefices specifiques** :
+- Densite osseuse : prevention de l'osteoporose apres la menopause
+- Sante hormonale : amelioration de la sensibilite a l'insuline
+- Protection articulaire : muscles solides = genoux et hanches proteges
+- Confiance en soi : les etudes montrent une amelioration significative de l'estime corporelle
+
+## Programme 3 seances par semaine
+
+### Seance A — Bas du corps (Lundi)
+
+| Exercice | Series x Reps | Repos |
+|----------|----------------|-------|
+| Squat gobelet | 4 x 12 | 75s |
+| Hip thrust haltere | 4 x 12 | 75s |
+| Fentes marchees | 3 x 10/jambe | 60s |
+| Romanian deadlift | 3 x 12 | 75s |
+| Abductions machine | 3 x 15 | 45s |
+| Planche frontale | 3 x 45s | 45s |
+
+### Seance B — Haut du corps (Mercredi)
+
+| Exercice | Series x Reps | Repos |
+|----------|----------------|-------|
+| Tirage vertical | 4 x 10 | 75s |
+| Developpe incline halteres | 3 x 12 | 75s |
+| Rowing un bras | 3 x 12 | 60s |
+| Developpe epaules | 3 x 12 | 60s |
+| Curl biceps | 3 x 12 | 45s |
+| Extension triceps | 3 x 12 | 45s |
+
+### Seance C — Full body + finisher (Vendredi)
+
+| Exercice | Series x Reps |
+|----------|----------------|
+| Souleve de terre roumain | 4 x 10 |
+| Pompes | 3 x 10-12 |
+| Squat gobelet | 3 x 12 |
+| Tirage machine | 3 x 12 |
+
+**Finisher cardio 10 min** : 20 jumping jacks, 15 mountain climbers, 10 burpees, 20 squats — 2-3 tours.
+
+## Zones specifiques
+
+### Fessiers (les 5 meilleurs exercices par activation EMG)
+1. Hip thrust barre — 87% d'activation
+2. Kickback machine — 78%
+3. Romanian deadlift — 74%
+4. Squat profond — 72%
+5. Fentes step-up — 68%
+
+### Abdomen
+La definition abdominale est 80% nutrition + 20% musculation. Il est impossible de cibler la perte de gras localement (spot reduction = mythe). Les meilleurs exercices : planche, ab wheel, releve de jambes suspendu.
+
+## Nutrition pour la femme qui fait de la musculation
+
+**Proteines** : 1.6 a 2.2g/kg de poids de corps
+
+**Pour une femme de 60kg** :
+- Objectif tonification : 1 800-2 200 kcal | 100-130g proteines
+- Prise de masse legere : 2 200-2 600 kcal | 110-130g proteines
+- Perte de poids + maintien muscle : 1 600-1 900 kcal | 120-150g proteines
+
+**Cycle menstruel et performances** :
+- Phase folliculaire (J1-14) : corps plus efficace avec les glucides, ideal pour les seances lourdes
+- Phase luteale (J15-28) : temperature corporelle plus haute, depense +100-200 kcal/jour, normal d'avoir plus faim
+
+## Regle de progression fondamentale
+
+Ne reste pas dans les poids legers pour eviter de "prendre trop de volume" — c'est contre-productif. Sans surcharge progressive, il n'y a aucune adaptation musculaire.
+
+**Objectifs realistes en 6 mois** :
+- Prise de 2 a 4kg de muscle net
+- Hip thrust : de barre vide a 50-80kg
+- Developpe incline : de 5kg a 15-20kg par haltere
+
+La regularite sur le long terme est la seule variable qui compte vraiment. Chaque seance prise individuellement ne se voit pas — mais 6 mois de constance transforment un corps.
+`,
+  },
+  {
     slug: "recuperation-musculaire-guide-complet",
     titre: "Récupération musculaire : le guide complet pour progresser plus vite",
     description: "Sommeil, nutrition post-séance, hydratation, récupération active... Tout ce que tu dois savoir pour optimiser ta récupération et maximiser tes gains musculaires.",
