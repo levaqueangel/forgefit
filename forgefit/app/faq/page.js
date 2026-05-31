@@ -103,15 +103,73 @@ const FAQ_DATA = [
       },
     ]
   },
+  {
+    cat: "nutrition", catLabel: "— Nutrition",
+    questions: [
+      {
+        q: "Comment sont calculées mes macros ?",
+        a: "Tes macros sont calculées via la formule Harris-Benedict pour ton BMR, ajustée selon ton niveau d'activité. Les protéines sont fixées entre 1,8 et 2,5g/kg selon l'objectif, les glucides optimisés pour tes séances, et les lipides minimum à 20% des calories pour la santé hormonale.",
+      },
+      {
+        q: "Est-ce que je reçois un plan de repas journalier ?",
+        a: "Ton programme inclut des recommandations nutritionnelles détaillées : objectifs caloriques, macros, exemples de repas. Dans ton espace client tu peux aussi générer un plan de repas complet avec les quantités exactes pour chaque repas, adapté à tes macros du jour grâce à l'IA.",
+      },
+      {
+        q: "Je suis végétarien/vegan, est-ce compatible ?",
+        a: "Oui. Tu précises ton régime lors du bilan. Le programme est adapté avec des sources de protéines végétales, combinaisons pour les acides aminés essentiels, et attention aux carences typiques (B12, fer, zinc, oméga-3).",
+      },
+      {
+        q: "Dois-je prendre des compléments alimentaires ?",
+        a: "Non, ils ne sont pas obligatoires. La créatine monohydrate (3-5g/jour) est le seul supplément avec une vraie evidence base pour la musculation. La whey protéine est utile si tu peines à atteindre ton apport via l'alimentation.",
+      },
+    ]
+  },
+  {
+    cat: "progression", catLabel: "— Progression & Résultats",
+    questions: [
+      {
+        q: "Quand vais-je voir des résultats ?",
+        a: "Les premières améliorations de performance sont visibles dès 2-4 semaines. Les changements physiques significatifs arrivent entre 8 et 16 semaines selon l'intensité et la rigueur nutritionnelle. La progression n'est pas linéaire — des semaines de stagnation sont normales et font partie du processus.",
+      },
+      {
+        q: "Comment suivre ma progression dans l'espace client ?",
+        a: "Ton espace client te permet de : cocher tes exercices et séances, noter tes charges hebdomadaires pour voir ta progression, enregistrer tes mesures corporelles avec un graphique d'évolution, maintenir ton streak de jours actifs, et écrire directement au coach.",
+      },
+      {
+        q: "Que se passe-t-il si je stagne ?",
+        a: "Contacte le coach via la messagerie. Une analyse est faite : bilan nutritionnel (souvent sous-estimation des calories), qualité du sommeil, niveau de stress global. Le programme est ajusté si nécessaire.",
+      },
+    ]
+  },
+  {
+    cat: "technique", catLabel: "— Technique",
+    questions: [
+      {
+        q: "Comment apprendre les techniques des exercices ?",
+        a: "Chaque exercice inclut les consignes essentielles. Pour les mouvements complexes (squat, soulevé de terre), commence avec des charges légères pour maîtriser la technique. Tu peux envoyer une vidéo via la messagerie pour un retour technique du coach.",
+      },
+      {
+        q: "Combien de temps doit durer une séance ?",
+        a: "45 à 75 minutes. Au-delà, le cortisol augmente et les performances baissent. Ton programme est conçu pour tenir dans ce créneau en respectant les temps de repos indiqués.",
+      },
+      {
+        q: "Dois-je m'échauffer avant chaque séance ?",
+        a: "Oui, 8-12 minutes : 3-5 min de cardio léger, mobilisation articulaire des zones sollicitées, 2-3 séries d'activation avec charges légères sur les premiers exercices. Un bon échauffement améliore les performances de 5-10%.",
+      },
+    ]
+  },
 ];
 
 const CATS = [
-  { id: "all", label: "Tout" },
-  { id: "programme", label: "Programmes" },
-  { id: "livraison", label: "Livraison" },
-  { id: "paiement", label: "Paiement" },
-  { id: "coaching", label: "Coaching" },
-  { id: "compte", label: "Compte client" },
+  { id: "all",         label: "Tout" },
+  { id: "programme",  label: "Programmes" },
+  { id: "nutrition",  label: "Nutrition" },
+  { id: "progression",label: "Progression" },
+  { id: "technique",  label: "Technique" },
+  { id: "livraison",  label: "Livraison" },
+  { id: "paiement",   label: "Paiement" },
+  { id: "coaching",   label: "Coaching" },
+  { id: "compte",     label: "Compte client" },
 ];
 
 export default function FaqPage() {
