@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 import { ProgressBar } from "./ProgressBar";
 import { updateDoc, doc } from "firebase/firestore";
 import { db } from "../firebase";
@@ -152,6 +153,67 @@ export function DashboardTab({
           </div>
         </div>
       </div>
+
+      {/* Section parrainage */}
+      <div style={{
+        background:"rgba(201,168,76,0.04)",border:"0.5px solid rgba(201,168,76,0.2)",
+        padding:"18px 20px",display:"flex",alignItems:"center",justifyContent:"space-between",gap:16,
+        flexWrap:"wrap",
+      }}>
+        <div>
+          <div style={{fontSize:10,letterSpacing:"3px",textTransform:"uppercase",color:"#C9A84C",marginBottom:6}}>
+            🎁 Parraine un ami
+          </div>
+          <p style={{fontFamily:"'Cormorant Garamond',serif",fontSize:14,color:"#666",lineHeight:1.7}}>
+            Partage ton lien unique — chaque ami inscrit via ton lien est tracké.
+          </p>
+        </div>
+        <ReferralButton uid={user?.uid} nom={clientData?.nom} />
+      </div>
     </div>
+  );
+}
+
+// Bouton de parrainage inline avec génération de lien
+function ReferralButton({ uid, nom }) {
+  const [link, setLink] = React.useState(null);
+  const [loading, setLoading] = React.useState(false);
+  const [copied, setCopied] = React.useState(false);
+
+  const generate = async () => {
+    if (!uid) return;
+    setLoading(true);
+    try {
+      const res = await fetch("/api/referral", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ clientId: uid, clientNom: nom }),
+      });
+      const data = await res.json();
+      if (data.url) setLink(data.url);
+    } catch (e) { console.error(e); }
+    setLoading(false);
+  };
+
+  const copy = () => {
+    navigator.clipboard?.writeText(link).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    });
+  };
+
+  return link ? (
+    <div style={{display:"flex",gap:8,alignItems:"center",flexWrap:"wrap"}}>
+      <span style={{fontSize:11,color:"#888",fontFamily:"'Syne',sans-serif",background:"#111",padding:"6px 12px",border:"0.5px solid #1E1E1E",maxWidth:260,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>
+        {link}
+      </span>
+      <button onClick={copy} style={{background:copied?"rgba(122,224,122,0.1)":"rgba(201,168,76,0.1)",border:`0.5px solid ${copied?"rgba(122,224,122,0.3)":"rgba(201,168,76,0.3)"}`,color:copied?"#7AE07A":"#C9A84C",fontFamily:"'Syne',sans-serif",fontSize:10,fontWeight:700,letterSpacing:"2px",textTransform:"uppercase",padding:"6px 14px",cursor:"pointer",borderRadius:20,transition:"all 0.2s",whiteSpace:"nowrap"}}>
+        {copied ? "✓ Copié !" : "Copier"}
+      </button>
+    </div>
+  ) : (
+    <button onClick={generate} disabled={loading} style={{background:"rgba(201,168,76,0.1)",border:"0.5px solid rgba(201,168,76,0.3)",color:"#C9A84C",fontFamily:"'Syne',sans-serif",fontSize:10,fontWeight:700,letterSpacing:"2px",textTransform:"uppercase",padding:"8px 16px",cursor:loading?"not-allowed":"pointer",borderRadius:20,whiteSpace:"nowrap"}}>
+      {loading ? "..." : "Générer mon lien"}
+    </button>
   );
 }
