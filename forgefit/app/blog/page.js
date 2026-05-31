@@ -1,140 +1,252 @@
 "use client";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { ARTICLES } from "./articles";
 import { useLang } from "../useLang";
 import { LangSelector } from "../LangSelector";
 
-const CATS = ["Tout", "Musculation", "Nutrition", "Perte de poids", "Remise en forme"];
+// Toutes les catégories présentes dans les articles
+const ALL_CATS = ["Tout", ...Array.from(new Set(ARTICLES.map(a => a.categorie))).sort()];
+
+// Couleurs par catégorie
+const CAT_COLORS = {
+  "Musculation":  "#C9A84C",
+  "Nutrition":    "#7AE07A",
+  "Programme":    "#5DCAA5",
+  "Récupération": "#E8C87A",
+  "Perte de poids":"#E07070",
+  "Remise en forme":"#88A0E0",
+};
 
 export default function BlogPage() {
   const router = useRouter();
   const { lang, setLang, LANGS } = useLang();
   const [cat, setCat] = useState("Tout");
+  const [search, setSearch] = useState("");
+  const [searchFocused, setSearchFocused] = useState(false);
 
-  const articles = cat === "Tout"
-    ? ARTICLES
-    : ARTICLES.filter(a => a.categorie === cat);
+  // Filtrage par catégorie + recherche
+  const articles = useMemo(() => {
+    let result = cat === "Tout" ? ARTICLES : ARTICLES.filter(a => a.categorie === cat);
+    if (search.trim()) {
+      const q = search.toLowerCase().trim();
+      result = result.filter(a =>
+        a.titre.toLowerCase().includes(q) ||
+        a.description.toLowerCase().includes(q) ||
+        a.categorie.toLowerCase().includes(q)
+      );
+    }
+    return result;
+  }, [cat, search]);
+
+  // Article mis en avant (le plus récent)
+  const featured = ARTICLES[0];
 
   return (
-    <div style={{ background: "#0A0A0A", color: "#F0EDE8", minHeight: "100vh", fontFamily: "'Syne',sans-serif" }}>
+    <div style={{ background:"#0A0A0A", color:"#F0EDE8", minHeight:"100vh", fontFamily:"'Syne',sans-serif" }}>
       <style>{`
         *{box-sizing:border-box;margin:0;padding:0}
-        @keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
         @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-        .gold{background:linear-gradient(90deg,#C9A84C,#E8C87A,#F5D98A,#C9A84C);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 2.5s linear infinite}
-        .cat-btn{background:transparent;border:0.5px solid #242424;color:#555;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:7px 16px;cursor:pointer;transition:all 0.2s;border-radius:2px}
-        .cat-btn.active,.cat-btn:hover{border-color:#C9A84C;color:#C9A84C;background:rgba(201,168,76,0.05)}
-        .article-card{background:#0D0D0D;border:0.5px solid #1A1A1A;border-radius:4px;padding:24px;cursor:pointer;transition:all 0.25s;display:flex;flex-direction:column;gap:12px}
-        .article-card:hover{border-color:#C9A84C;background:#111;transform:translateY(-2px)}
+        @keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+        .gold{background:linear-gradient(90deg,#C9A84C,#E8C87A,#F5D98A,#C9A84C);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 4s linear infinite}
+        .cat-btn{background:transparent;border:0.5px solid #1E1E1E;color:#555;font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:7px 16px;cursor:pointer;border-radius:20px;transition:all 0.2s;white-space:nowrap}
+        .cat-btn:hover{border-color:#333;color:#888}
+        .cat-btn.active{border-color:#C9A84C;color:#C9A84C;background:rgba(201,168,76,0.1)}
+        .article-card{background:#0D0D0D;border:0.5px solid #1A1A1A;padding:24px;cursor:pointer;transition:all 0.2s;display:flex;flex-direction:column;gap:14px}
+        .article-card:hover{border-color:#C9A84C;background:#111;transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.4)}
+        .search-input{width:100%;background:transparent;border:none;color:#F0EDE8;font-family:'Syne',sans-serif;font-size:14px;outline:none;padding:0}
+        .search-input::placeholder{color:#333}
+        .featured-card{cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden}
+        .featured-card:hover{opacity:0.92}
         .footer-link{cursor:pointer;transition:color 0.2s}
         .footer-link:hover{color:#E8C87A !important}
-        @media(max-width:640px){.articles-grid{grid-template-columns:1fr !important}}
+        @media(max-width:768px){
+          .articles-grid{grid-template-columns:1fr !important}
+          .cats-scroll{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px}
+          .cats-scroll::-webkit-scrollbar{display:none}
+        }
       `}</style>
 
       {/* Nav */}
-      <nav style={{ display:"flex", alignItems:"center", justifyContent:"space-between", padding:"18px 28px", borderBottom:"0.5px solid #1A1A1A", position:"sticky", top:0, background:"#0A0A0A", zIndex:100 }}>
+      <nav style={{ display:"flex", alignItems:"center", justifyContent:"space-between", padding:"18px 28px", borderBottom:"0.5px solid #1A1A1A", position:"sticky", top:0, background:"rgba(10,10,10,0.97)", backdropFilter:"blur(12px)", zIndex:100 }}>
         <div style={{ fontSize:20, fontWeight:800, letterSpacing:5, cursor:"pointer" }} onClick={() => router.push("/")}>
           APXFIT<span style={{ color:"#C9A84C" }}>NESS</span>
         </div>
         <div style={{ display:"flex", alignItems:"center", gap:12 }}>
           <LangSelector lang={lang} setLang={setLang} LANGS={LANGS} />
-          <button onClick={() => router.push("/")} style={{ background:"transparent", border:"0.5px solid #242424", color:"#555", fontFamily:"'Syne',sans-serif", fontSize:11, letterSpacing:"2px", textTransform:"uppercase", padding:"8px 18px", cursor:"pointer", borderRadius:2 }}>
-            ← Retour
+          <button onClick={() => router.push("/")} style={{ background:"transparent", border:"0.5px solid #1E1E1E", color:"#555", padding:"8px 18px", fontFamily:"'Syne',sans-serif", fontSize:11, letterSpacing:"2px", textTransform:"uppercase", cursor:"pointer" }}>
+            ← Accueil
+          </button>
+          <button onClick={() => router.push("/bilan")} style={{ background:"linear-gradient(135deg,#C9A84C,#A67C2E)", border:"none", color:"#0A0A0A", padding:"8px 18px", fontFamily:"'Syne',sans-serif", fontSize:11, fontWeight:700, letterSpacing:"2px", textTransform:"uppercase", cursor:"pointer" }}>
+            Mon bilan →
           </button>
         </div>
       </nav>
 
       {/* Hero */}
       <div style={{ padding:"4rem 2rem 3rem", textAlign:"center", borderBottom:"0.5px solid #1A1A1A", position:"relative", overflow:"hidden" }}>
-        <div style={{ position:"absolute", inset:0, background:"radial-gradient(ellipse at 50% 100%,rgba(201,168,76,0.04),transparent 70%)", pointerEvents:"none" }} />
-        <div style={{ fontSize:11, letterSpacing:"4px", textTransform:"uppercase", color:"#C9A84C", marginBottom:"1rem" }}>— Conseils & Coaching</div>
-        <h1 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(40px,6vw,64px)", fontWeight:600, lineHeight:1, marginBottom:"1rem" }}>
-          Le blog<br /><em className="gold" style={{ fontStyle:"italic" }}>APXFITNESS</em>
+        <div style={{ position:"absolute", inset:0, background:"radial-gradient(ellipse at 50% 100%,rgba(201,168,76,0.06) 0%,transparent 70%)", pointerEvents:"none" }}/>
+        <div style={{ fontSize:10, letterSpacing:"4px", textTransform:"uppercase", color:"#C9A84C", marginBottom:"1rem" }}>— Base de connaissances</div>
+        <h1 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(36px,6vw,60px)", fontWeight:600, lineHeight:1.1, marginBottom:"1rem" }}>
+          Blog <em className="gold">Fitness</em>
         </h1>
-        <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:17, color:"#555", maxWidth:480, margin:"0 auto 2rem", lineHeight:1.7 }}>
-          Musculation, nutrition, perte de poids — tous les conseils pour progresser vraiment.
+        <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:17, color:"#555", maxWidth:480, margin:"0 auto 2rem" }}>
+          {ARTICLES.length} articles rédigés par un coach certifié. Musculation, nutrition, récupération — tout ce qu'il faut savoir pour progresser.
         </p>
-        {/* Filtres */}
-        <div style={{ display:"flex", gap:8, justifyContent:"center", flexWrap:"wrap" }}>
-          {CATS.map(c => (
-            <button key={c} className={`cat-btn${cat === c ? " active" : ""}`} onClick={() => setCat(c)}>
-              {c}
-            </button>
-          ))}
+
+        {/* Barre de recherche */}
+        <div style={{
+          display:"flex", alignItems:"center", gap:12,
+          maxWidth:480, margin:"0 auto",
+          background:"#111",
+          border:`0.5px solid ${searchFocused ? "#C9A84C" : "#1E1E1E"}`,
+          padding:"12px 18px",
+          transition:"border-color 0.2s",
+        }}>
+          <span style={{ fontSize:16, color:"#555", flexShrink:0 }}>🔍</span>
+          <input
+            type="text"
+            className="search-input"
+            placeholder="Rechercher un article..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            onFocus={() => setSearchFocused(true)}
+            onBlur={() => setSearchFocused(false)}
+          />
+          {search && (
+            <button onClick={() => setSearch("")} style={{ background:"transparent", border:"none", color:"#555", cursor:"pointer", fontSize:16, flexShrink:0, padding:0 }}>✕</button>
+          )}
         </div>
       </div>
 
-      {/* Articles */}
+      {/* Filtres catégories */}
+      <div style={{ padding:"1.2rem 2rem", borderBottom:"0.5px solid #1A1A1A", display:"flex", alignItems:"center", gap:8, overflowX:"auto" }} className="cats-scroll">
+        {ALL_CATS.map(c => (
+          <button key={c} className={`cat-btn${cat === c ? " active" : ""}`} onClick={() => { setCat(c); setSearch(""); }}>
+            {c === "Tout" ? `Tous (${ARTICLES.length})` : `${c} (${ARTICLES.filter(a => a.categorie === c).length})`}
+          </button>
+        ))}
+      </div>
+
       <div style={{ maxWidth:1100, margin:"0 auto", padding:"3rem 1.5rem 5rem" }}>
-        <div style={{ fontSize:11, letterSpacing:"3px", textTransform:"uppercase", color:"#555", marginBottom:"2rem" }}>
-          {articles.length} article{articles.length > 1 ? "s" : ""} {cat !== "Tout" ? `— ${cat}` : ""}
+
+        {/* Article mis en avant (uniquement si pas de filtre actif) */}
+        {cat === "Tout" && !search && (
+          <div className="featured-card" onClick={() => router.push(`/blog/${featured.slug}`)} style={{ marginBottom:"2.5rem", border:"0.5px solid #1E1E1E", display:"grid", gridTemplateColumns:"1fr 1fr", background:"#0D0D0D" }}>
+            <div style={{ padding:"2.5rem", borderRight:"0.5px solid #1A1A1A", display:"flex", flexDirection:"column", justifyContent:"space-between" }}>
+              <div>
+                <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:"1rem" }}>
+                  <span style={{ fontSize:9, fontWeight:700, letterSpacing:"2px", textTransform:"uppercase", background:"rgba(201,168,76,0.1)", color:"#C9A84C", padding:"4px 10px" }}>
+                    ★ Article à la une
+                  </span>
+                  <span style={{ fontSize:10, color:"#444" }}>{featured.lecture} min de lecture</span>
+                </div>
+                <h2 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:28, fontWeight:600, lineHeight:1.2, marginBottom:"1rem" }}>
+                  {featured.titre}
+                </h2>
+                <p style={{ fontSize:13, color:"#555", lineHeight:1.8 }}>
+                  {featured.description}
+                </p>
+              </div>
+              <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginTop:"1.5rem", paddingTop:"1rem", borderTop:"0.5px solid #1A1A1A" }}>
+                <span style={{ fontSize:11, color:"#333", letterSpacing:"1px" }}>
+                  {new Date(featured.date).toLocaleDateString("fr-FR", { day:"numeric", month:"long", year:"numeric" })}
+                </span>
+                <span style={{ fontSize:12, color:"#C9A84C", fontWeight:700 }}>Lire l'article →</span>
+              </div>
+            </div>
+            <div style={{ padding:"2.5rem", background:"#111", display:"flex", flexDirection:"column", justifyContent:"center" }}>
+              <div style={{ fontSize:10, letterSpacing:"3px", textTransform:"uppercase", color:"#555", marginBottom:"1rem" }}>Extrait</div>
+              <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:16, color:"#666", lineHeight:2, fontStyle:"italic" }}>
+                "{featured.contenu.split('\n').find(l => l.trim().length > 80 && !l.startsWith('#'))?.slice(0, 200)}..."
+              </p>
+              <div style={{ marginTop:"1.5rem", display:"flex", alignItems:"center", gap:8 }}>
+                <div style={{ width:8, height:8, borderRadius:"50%", background: CAT_COLORS[featured.categorie] || "#C9A84C" }}/>
+                <span style={{ fontSize:10, letterSpacing:"2px", textTransform:"uppercase", color:"#555" }}>{featured.categorie}</span>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Compteur */}
+        <div style={{ fontSize:11, letterSpacing:"3px", textTransform:"uppercase", color:"#555", marginBottom:"1.5rem", display:"flex", alignItems:"center", gap:10 }}>
+          {articles.length} article{articles.length > 1 ? "s" : ""}
+          {cat !== "Tout" && <span style={{ color: CAT_COLORS[cat] || "#C9A84C" }}>— {cat}</span>}
+          {search && <span style={{ color:"#888" }}>— "{search}"</span>}
         </div>
 
-        <div className="articles-grid" style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:20 }}>
+        {/* Grille d'articles */}
+        <div className="articles-grid" style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:1, background:"#1A1A1A" }}>
           {articles.map((article, i) => (
             <article
               key={article.slug}
               className="article-card"
               onClick={() => router.push(`/blog/${article.slug}`)}
-              style={{ animation:`fadeUp 0.5s ease ${i * 0.08}s both` }}
+              style={{ animation:`fadeUp 0.4s ease ${i * 0.06}s both` }}
             >
-              {/* Catégorie + temps lecture */}
+              {/* Accent couleur top */}
+              <div style={{ position:"absolute", top:0, left:0, right:0, height:2, background: CAT_COLORS[article.categorie] || "#C9A84C", opacity:0.7 }}/>
+
               <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center" }}>
-                <span style={{ fontSize:10, letterSpacing:"2px", textTransform:"uppercase", color:"#C9A84C", background:"rgba(201,168,76,0.08)", border:"0.5px solid rgba(201,168,76,0.2)", padding:"3px 10px", borderRadius:2 }}>
+                <span style={{ fontSize:9, fontWeight:700, letterSpacing:"2px", textTransform:"uppercase", color: CAT_COLORS[article.categorie] || "#C9A84C", background:`rgba(${(CAT_COLORS[article.categorie]||"#C9A84C")==='#C9A84C'?'201,168,76':'122,224,122'},0.08)`, padding:"3px 8px" }}>
                   {article.categorie}
                 </span>
-                <span style={{ fontSize:11, color:"#444", letterSpacing:"1px" }}>
-                  {article.lecture} min
-                </span>
+                <span style={{ fontSize:10, color:"#444", letterSpacing:"1px" }}>{article.lecture} min</span>
               </div>
 
-              {/* Titre */}
-              <h2 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:20, fontWeight:600, lineHeight:1.3, color:"#F0EDE8" }}>
+              <h2 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:18, fontWeight:600, lineHeight:1.3 }}>
                 {article.titre}
               </h2>
 
-              {/* Description */}
-              <p style={{ fontSize:13, color:"#555", lineHeight:1.7, flex:1 }}>
+              <p style={{ fontSize:12, color:"#555", lineHeight:1.7, flex:1 }}>
                 {article.description}
               </p>
 
-              {/* Date + CTA */}
-              <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", paddingTop:12, borderTop:"0.5px solid #1A1A1A" }}>
-                <span style={{ fontSize:11, color:"#333", letterSpacing:"1px" }}>
-                  {new Date(article.date).toLocaleDateString("fr-FR", { day:"numeric", month:"long", year:"numeric" })}
+              <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", paddingTop:"0.75rem", borderTop:"0.5px solid #141414" }}>
+                <span style={{ fontSize:10, color:"#333", letterSpacing:"1px" }}>
+                  {new Date(article.date).toLocaleDateString("fr-FR", { day:"numeric", month:"long" })}
                 </span>
-                <span style={{ fontSize:12, color:"#C9A84C", letterSpacing:"1px" }}>Lire →</span>
+                <span style={{ fontSize:11, color:"#C9A84C", fontWeight:700 }}>Lire →</span>
               </div>
             </article>
           ))}
         </div>
 
+        {/* Aucun résultat */}
         {articles.length === 0 && (
-          <div style={{ textAlign:"center", padding:"4rem", color:"#333", fontFamily:"'Cormorant Garamond',serif", fontSize:18, fontStyle:"italic" }}>
-            Aucun article dans cette catégorie pour l'instant.
+          <div style={{ textAlign:"center", padding:"4rem", color:"#333", fontFamily:"'Cormorant Garamond',serif", fontSize:18 }}>
+            Aucun article {search ? `pour "${search}"` : `dans "${cat}"`} pour l'instant.
+            <br/>
+            <button onClick={() => { setCat("Tout"); setSearch(""); }} style={{ marginTop:"1rem", background:"transparent", border:"0.5px solid #242424", color:"#555", padding:"8px 20px", fontFamily:"'Syne',sans-serif", fontSize:11, letterSpacing:"2px", textTransform:"uppercase", cursor:"pointer" }}>
+              Voir tous les articles
+            </button>
           </div>
         )}
       </div>
 
       {/* CTA bas de page */}
-      <div style={{ borderTop:"0.5px solid #1A1A1A", padding:"3rem 2rem", textAlign:"center", background:"#0D0D0D" }}>
-        <div style={{ fontSize:11, letterSpacing:"4px", textTransform:"uppercase", color:"#C9A84C", marginBottom:"0.75rem" }}>— Prêt à passer à l'action ?</div>
-        <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:20, color:"#888", marginBottom:"1.5rem", lineHeight:1.6, maxWidth:500, margin:"0 auto 1.5rem" }}>
-          Un programme personnalisé vaut mieux que tous les articles du monde.
+      <div style={{ borderTop:"0.5px solid #1A1A1A", padding:"4rem 2rem", textAlign:"center", background:"radial-gradient(ellipse at center,rgba(201,168,76,0.04) 0%,transparent 70%)" }}>
+        <div style={{ fontSize:10, letterSpacing:"4px", textTransform:"uppercase", color:"#C9A84C", marginBottom:"1rem" }}>— Prêt à passer à l'action ?</div>
+        <h2 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:36, fontWeight:600, marginBottom:"1rem" }}>
+          Un programme personnalisé<br/><em style={{ fontStyle:"italic", color:"#555" }}>vaut mieux que tous les articles.</em>
+        </h2>
+        <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:16, color:"#555", marginBottom:"2rem", maxWidth:400, margin:"0 auto 2rem" }}>
+          Arrête de lire sur la musculation. Commence à pratiquer avec un programme fait pour toi.
         </p>
-        <button onClick={() => router.push("/#offres")} style={{ background:"linear-gradient(135deg,#C9A84C,#A67C2E)", border:"none", color:"#0A0A0A", padding:"14px 32px", fontFamily:"'Syne',sans-serif", fontSize:12, fontWeight:700, letterSpacing:"3px", textTransform:"uppercase", cursor:"pointer", borderRadius:2 }}>
-          Obtenir mon programme →
+        <button onClick={() => router.push("/bilan")} style={{ background:"linear-gradient(135deg,#C9A84C,#A67C2E)", border:"none", color:"#0A0A0A", padding:"16px 40px", fontFamily:"'Syne',sans-serif", fontSize:13, fontWeight:700, letterSpacing:"3px", textTransform:"uppercase", cursor:"pointer" }}>
+          Démarrer mon bilan gratuit →
         </button>
       </div>
 
       {/* Footer */}
-      <footer style={{ padding:"1.5rem 2rem", display:"flex", justifyContent:"space-between", alignItems:"center", borderTop:"0.5px solid #1A1A1A", flexWrap:"wrap", gap:12 }}>
-        <div style={{ fontSize:16, fontWeight:800, letterSpacing:5 }}>APXFIT<span style={{ color:"#C9A84C" }}>NESS</span></div>
+      <footer style={{ padding:"1.5rem 2rem", display:"flex", justifyContent:"space-between", alignItems:"center", borderTop:"0.5px solid #1A1A1A" }}>
+        <div style={{ fontSize:16, fontWeight:800, letterSpacing:5, cursor:"pointer" }} onClick={() => router.push("/")}><span>APXFIT</span><span style={{ color:"#C9A84C" }}>NESS</span></div>
         <div style={{ fontSize:11, letterSpacing:"2px", color:"#333", textTransform:"uppercase" }}>© 2026 APXFITNESS</div>
-        <span className="footer-link" style={{ fontSize:11, letterSpacing:"2px", color:"#555", textTransform:"uppercase", textDecoration:"underline" }} onClick={() => router.push("/mentions-legales")}>
-          Mentions légales
-        </span>
+        <div style={{ display:"flex", gap:"1rem" }}>
+          {[["Accueil","/"],["FAQ","/faq"],["Mentions légales","/mentions-legales"]].map(([label,href])=>(
+            <span key={href} className="footer-link" style={{ fontSize:11, letterSpacing:"2px", color:"#555", textTransform:"uppercase", cursor:"pointer" }} onClick={() => router.push(href)}>{label}</span>
+          ))}
+        </div>
       </footer>
     </div>
   );
