@@ -181,6 +181,7 @@ export default function Home() {
           <span className="nav-link" onClick={()=>document.getElementById("offres").scrollIntoView({behavior:"smooth"})}>{t.nav.tarifs}</span>
           <span className="nav-link" onClick={()=>router.push("/calculateur")}>Calculateur</span>
             <span className="nav-link" onClick={()=>router.push("/faq")}>FAQ</span>
+            <span className="nav-link" onClick={()=>router.push("/a-propos")}>À propos</span>
         </div>
         <div style={{display:"flex",gap:12,alignItems:"center"}}>
           <LangSelector lang={lang} setLang={setLang} LANGS={LANGS} />
