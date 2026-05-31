@@ -127,11 +127,15 @@ export default function CoachPage() {
   const [sendError, setSendError] = useState("");
   const [showInactiveWarning, setShowInactiveWarning] = useState(false);
   const [activeView, setActiveView] = useState("messages"); // messages | stats
-  const [showTemplates, setShowTemplates] = useState(false);
   const [notes, setNotes] = useState("");
   const [notesSaving, setNotesSaving] = useState(false);
   const [notesSaved, setNotesSaved] = useState(false);
   const [allMsgsCount, setAllMsgsCount] = useState(0);
+  // Filtres clients
+  const [clientFilter, setClientFilter] = useState("all"); // all | starter | forge | elite
+  const [clientSort, setClientSort] = useState("recent"); // recent | name | activity
+  const [clientSearch, setClientSearch] = useState("");
+  const [showTemplates, setShowTemplatesModal] = useState(false);
   const bottomRef = useRef(null);
   const inactiveTimer = useRef(null);
   const warningTimer = useRef(null);
@@ -297,6 +301,9 @@ export default function CoachPage() {
         <div style={{display:"flex",alignItems:"center",gap:12}}>
           <button onClick={()=>setActiveView(v=>v==="stats"?"messages":"stats")} style={{background:activeView==="stats"?"rgba(201,168,76,0.1)":"transparent",border:`0.5px solid ${activeView==="stats"?"#C9A84C":"#242424"}`,color:activeView==="stats"?"#C9A84C":"#555",fontFamily:"'Syne',sans-serif",fontSize:11,letterSpacing:"2px",textTransform:"uppercase",padding:"7px 16px",cursor:"pointer",borderRadius:2}}>
             📊 Stats
+          </button>
+          <button onClick={()=>setShowTemplatesModal(true)} style={{background:"transparent",border:"0.5px solid #242424",color:"#555",fontFamily:"'Syne',sans-serif",fontSize:11,letterSpacing:"2px",textTransform:"uppercase",padding:"7px 16px",cursor:"pointer",borderRadius:2}}>
+            📋 Templates
           </button>
           <button onClick={exportCSV} disabled={exporting} style={{background:"transparent",border:"0.5px solid #242424",color:exporting?"#333":"#555",fontFamily:"'Syne',sans-serif",fontSize:11,letterSpacing:"2px",textTransform:"uppercase",padding:"7px 16px",cursor:exporting?"not-allowed":"pointer",borderRadius:2,display:"flex",alignItems:"center",gap:6}}>
             {exporting?<><div style={{width:10,height:10,border:"1.5px solid #333",borderTopColor:"#C9A84C",borderRadius:"50%",animation:"spin 0.7s linear infinite"}}/> Export...</>:"⬇️ CSV"}
