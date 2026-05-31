@@ -1,5 +1,454 @@
 export const ARTICLES = [
   {
+    slug: "recuperation-musculaire-guide-complet",
+    titre: "Récupération musculaire : le guide complet pour progresser plus vite",
+    description: "Sommeil, nutrition post-séance, hydratation, récupération active... Tout ce que tu dois savoir pour optimiser ta récupération et maximiser tes gains musculaires.",
+    categorie: "Récupération",
+    date: "2026-05-28",
+    lecture: 9,
+    image: null,
+    contenu: `
+La récupération est l'aspect le plus négligé de la musculation. Beaucoup de pratiquants pensent que le résultat vient des séances. C'est faux. Le muscle ne se développe pas pendant l'entraînement — il se développe pendant le repos. La séance n'est que le signal.
+
+## Pourquoi la récupération est aussi importante que l'entraînement
+
+Pendant une séance de musculation, tu crées des micro-lésions dans les fibres musculaires. C'est volontaire — c'est ce signal de dommage qui va déclencher le processus d'adaptation. Mais ce processus ne peut s'opérer que dans une fenêtre de repos.
+
+### La synthèse protéique musculaire
+
+Après une séance intense, la **synthèse protéique musculaire** (SPM) reste élevée pendant 24 à 48 heures. C'est pendant cette fenêtre que les protéines alimentaires sont utilisées pour réparer et renforcer les fibres endommagées. Si tu te ré-entraînes trop tôt, tu interromps ce processus et tu accumules de la fatigue sans super-compensation.
+
+### Le cortisol : ton ennemi méconnu
+
+Le stress mécanique de l'entraînement libère du cortisol, une hormone catabolique (qui dégrade le muscle). Une récupération insuffisante maintient le cortisol élevé, ce qui freine directement la croissance musculaire et favorise la prise de masse grasse.
+
+## Les piliers d'une récupération optimale
+
+### 1. Le sommeil : le pilier absolu
+
+Pendant le sommeil profond, l'hypophyse libère **75% de l'hormone de croissance** quotidienne. C'est elle qui orchestre la réparation tissulaire, la synthèse protéique et la régénération du système nerveux central.
+
+**Optimise ton sommeil :**
+- 7 à 9 heures par nuit minimum pour un sportif actif
+- Couche-toi à heure fixe — le rythme circadien est un pilier de la qualité du sommeil
+- Température idéale : 17-19°C
+- Obscurité totale — même un petit écran perturbe la mélatonine
+- Évite les écrans dans l'heure avant le coucher (lumière bleue = inhibition mélatonine)
+
+Une heure de sommeil en moins per nuit pendant 5 jours = perte de 10 à 15% de la synthèse protéique musculaire. C'est considérable.
+
+### 2. La nutrition post-séance
+
+La fenêtre anabolique n'est pas aussi étroite qu'on le pensait, mais la nutrition post-séance reste importante.
+
+**Dans les 2 heures suivant l'entraînement :**
+- **20 à 40g de protéines** à assimilation rapide (whey, œufs, poulet)
+- **40 à 60g de glucides** pour reconstituer le glycogène musculaire (riz, pomme de terre, fruits)
+- **Hydratation** : tu as perdu entre 0,5 et 2L d'eau selon l'intensité
+
+**Les protéines les plus efficaces pour la récupération :**
+1. Whey protéine (assimilation 30-60 min) — idéale post-séance
+2. Blancs d'œufs (assimilation 1-2h) — bonne balance d'acides aminés
+3. Poisson blanc (assimilation 2h) — riche en leucine, principal déclencheur de la SPM
+4. Caséine (assimilation 5-7h) — idéale avant le coucher pour la récupération nocturne
+
+### 3. La déshydratation : l'erreur silencieuse
+
+Une déshydratation de seulement **2% du poids corporel** réduit la performance de 10 à 20% et ralentit la récupération. Pour un athlète de 80kg, c'est seulement 1,6L de déficit.
+
+**Repères d'hydratation pour un sportif :**
+- Minimum 2,5L d'eau par jour (hors séances)
+- 500ml dans l'heure avant la séance
+- 150-250ml toutes les 15-20 minutes pendant l'entraînement
+- Réhydrater jusqu'à 150% du poids perdu à l'entraînement
+
+La couleur de tes urines est le meilleur indicateur : jaune pâle = hydraté, jaune foncé = bois de l'eau.
+
+### 4. Les techniques de récupération active
+
+La récupération n'est pas synonyme d'inactivité totale. La récupération active accélère l'élimination des déchets métaboliques (lactates, acide urique) et réduit les courbatures.
+
+**Techniques efficaces :**
+
+**Marche légère (20-30 min)** — Augmente la circulation sanguine sans créer de dommages supplémentaires. Parfaite les jours de repos.
+
+**Étirements dynamiques** — Non, les étirements statiques post-séance n'accélèrent pas la récupération. En revanche, les étirements dynamiques le lendemain matin (mobilité articulaire, rotations) réduisent la raideur musculaire.
+
+**Bains froids / cryothérapie** — L'immersion dans l'eau froide (10-15°C pendant 10-15 min) réduit l'inflammation aiguë et les douleurs musculaires dans les 24-48h post-effort. Mais attention : utilisée en excès, elle peut inhiber les adaptations musculaires positives. Garde-la pour les périodes de compétition ou de fatigue importante.
+
+**Massage et automassage** — L'automassage au rouleau de mousse (foam roller) 10-15 minutes après la séance améliore la circulation et réduit les tensions musculaires. Insiste sur les zones traitées.
+
+### 5. La gestion du stress global
+
+C'est souvent oublié : **tout stress (travail, sommeil, relationnel) consomme les mêmes ressources que l'entraînement**. Un athlète très stressé dans sa vie quotidienne a besoin de davantage de récupération entre les séances.
+
+Le système nerveux central (SNC) récupère plus lentement que les muscles. Un SNC fatigué se manifeste par : manque de motivation, coordination réduite, performances en baisse malgré un physique récupéré.
+
+## Périodisation : alterner charge et décharge
+
+Un programme bien conçu n'est pas linéaire. Il intègre des **semaines de décharge** (deload) toutes les 4 à 6 semaines :
+- Réduction du volume de 40-50%
+- Maintien de l'intensité (ne pas descendre trop les charges)
+- Durée : 5 à 7 jours
+
+Ces semaines permettent au corps de super-compenser — d'arriver à un niveau légèrement supérieur à la période pré-fatigue. Les gains surviennent souvent **après** la semaine de décharge, pas pendant.
+
+## Les signes de sur-entraînement
+
+Reconnaître le sur-entraînement avant qu'il ne s'installe :
+- **Performances en baisse** sur plusieurs séances consécutives malgré du repos
+- **Rythme cardiaque au repos** anormalement élevé le matin (+5-10 bpm)
+- **Troubles du sommeil** malgré la fatigue physique
+- **Irritabilité et baisse de motivation** inexpliquées
+- **Infections à répétition** (rhumes, trachéites) — signe d'immunosuppression
+
+Si tu coches 3 de ces cases, c'est le moment de prendre 7 à 10 jours de repos complet.
+
+## Conclusion
+
+La récupération n'est pas la partie optionnelle du programme de musculation — c'est la moitié du travail. Un pratiquant qui s'entraîne 3 fois par semaine avec 7h de sommeil, une nutrition post-séance soignée et une gestion du stress active progressera bien plus vite qu'un autre qui s'entraîne 6 fois par semaine en dormant 5h et en sautant des repas.
+
+Travailler plus n'est pas la réponse. Travailler mieux et récupérer complètement, oui.
+`,
+  },
+  {
+    slug: "programme-full-body-3-seances-semaine",
+    titre: "Programme full body : 3 séances par semaine pour transformer ton corps",
+    description: "Le programme full body complet avec séances A et B, exercices incontournables, progressivité et conseils nutrition. Idéal pour débutants et intermédiaires.",
+    categorie: "Programme",
+    date: "2026-05-24",
+    lecture: 10,
+    image: null,
+    contenu: `
+Le programme full body — c'est-à-dire l'entraînement du corps entier en une seule séance — est souvent perçu comme une option pour débutants ou pour les gens avec peu de temps. Cette réputation est injuste. Les recherches en science de l'entraînement montrent qu'un full body bien construit peut être aussi efficace, voire supérieur, à un split musculaire pour beaucoup de pratiquants.
+
+## Full body vs split : comprendre les différences
+
+Un **programme split** divise les groupes musculaires sur différents jours : jour 1 pectoraux/épaules/triceps, jour 2 dos/biceps, jour 3 jambes, par exemple. Les muscles sont sollicités une fois par semaine avec un volume très élevé par session.
+
+Un **programme full body** sollicite l'ensemble des groupes musculaires à chaque séance. Le volume par groupe musculaire par séance est inférieur, mais la **fréquence** est supérieure.
+
+### Ce que dit la science
+
+Les méta-analyses sur la fréquence d'entraînement montrent que **2 à 3 stimulations par groupe musculaire par semaine** optimisent la synthèse protéique musculaire. Avec un split classique bro-split, les pectoraux sont entraînés 1 fois par semaine. Avec un full body 3x/semaine, ils le sont 3 fois.
+
+La synthèse protéique musculaire est élevée pendant 24-48h après la stimulation. Après 72h, elle revient à la baseline. Un muscle entraîné une seule fois par semaine passe donc 5 jours sans signal anabolique. Un muscle stimulé 3 fois par semaine maintient un signal quasi-continu.
+
+## Structure du programme full body 3x/semaine
+
+Voici un exemple de programme full body efficace pour 3 mois :
+
+### Séance A
+
+**Exercices composés principaux (3-4 séries, 6-8 reps)**
+- Squat barre — quadriceps, ischio-jambiers, fessiers, core
+- Développé couché barre — pectoraux, épaules antérieures, triceps
+- Rowing barre penché — dos, biceps, trapèzes
+
+**Exercices secondaires (3 séries, 10-12 reps)**
+- Développé militaire haltères — épaules
+- Curl biceps barre
+- Extension triceps poulie haute
+
+**Gainage (2-3 min)**
+- Planche frontale 3 × 30-60 secondes
+
+### Séance B
+
+**Exercices composés principaux (3-4 séries, 6-8 reps)**
+- Soulevé de terre — postérieur de cuisse, bas du dos, trapèzes, biceps
+- Tractions ou tirage vertical — grand dorsal, biceps
+- Développé incliné haltères — pectoraux supérieurs, épaules
+
+**Exercices secondaires (3 séries, 10-12 reps)**
+- Fentes alternées — quadriceps, fessiers
+- Élévations latérales — épaules moyennes
+- Crunchs lestés
+
+**Note :** Les séances A et B alternent : A-B-A une semaine, B-A-B la semaine suivante.
+
+## Les principes de progression
+
+### La surcharge progressive : le principe universel
+
+Quelle que soit la méthode, la progression repose sur la surcharge progressive. Chaque semaine, vise à augmenter soit :
+- Le poids sur la barre (+1,25 à 2,5kg)
+- Le nombre de répétitions (dans la fourchette cible)
+- Le nombre de séries
+- La qualité d'exécution (amplitude, contrôle excentrique)
+
+**N'augmente jamais le poids si tu n'as pas maîtrisé la technique sur les répétitions précédentes.**
+
+### La périodisation sur 4 semaines
+
+| Semaine | Intensité | Volume | Objectif |
+|---------|-----------|--------|----------|
+| 1 | Modérée (70% 1RM) | Élevé (4×12) | Volume |
+| 2 | Élevée (80% 1RM) | Modéré (4×8) | Force-hypertrophie |
+| 3 | Très élevée (87% 1RM) | Faible (4×5) | Force |
+| 4 | Légère (60% 1RM) | Très réduit (3×10) | Décharge |
+
+## Les exercices incontournables du full body
+
+### 1. Le squat — roi des exercices
+
+Le squat est l'exercice le plus complet qui soit. Il sollicite simultanément :
+- Quadriceps (extenseurs du genou)
+- Ischio-jambiers et fessiers (extenseurs de hanche)
+- Érecteurs spinaux et abdominaux (stabilisateurs)
+- Mollets
+
+Un back squat bien exécuté stimule plus de masse musculaire qu'une séance entière de machines isolées.
+
+**Technique :**
+- Pieds à largeur d'épaules, légèrement tournés vers l'extérieur (10-15°)
+- Descente contrôlée 2-3 secondes
+- Cuisses parallèles au sol minimum (full squat si mobilité le permet)
+- Genou dans l'axe du pied, ne pas s'effondrer vers l'intérieur
+- Dos neutral (pas de flexion lombaire en bas = "butt wink" à corriger)
+
+### 2. Le soulevé de terre — la chaîne postérieure
+
+Le soulevé de terre est l'exercice qui mobilise le plus de masse musculaire totale. Il développe la chaîne postérieure (ischio-jambiers, fessiers, érecteurs) mais aussi les trapèzes, les avant-bras et les bras.
+
+**Technique deadlift conventionnel :**
+- Barre au-dessus des orteils, à 2-3 cm des tibias
+- Prise en pronation ou mixte, légèrement plus large que les épaules
+- Hanches descendues, dos plat, regard légèrement vers l'avant
+- Tirer la barre "vers soi" en poussant le sol, pas en tirant avec le dos
+- Terminer debout, hanches et genoux verrouillés, épaules arrière
+
+### 3. Tractions — le squat du haut du corps
+
+Les tractions développent le grand dorsal, le biceps et les rhomboïdes. Aucune machine ne reproduit exactement le schéma moteur et l'activation musculaire des tractions libres.
+
+**Progression pour les débutants :**
+1. Tirage vertical machine (0-3 tractions)
+2. Tractions assistées ou avec bande élastique (3-8 tractions)
+3. Tractions non-assistées (8+ reps)
+4. Tractions lestées (au-delà de 12 reps non-assistées)
+
+## Nutrition pour le full body
+
+Avec 3 séances par semaine, les besoins en protéines et glucides sont élevés.
+
+**Apport protéique recommandé :**
+- Prise de masse : 1,8 à 2,2g/kg de poids de corps
+- Maintien : 1,6 à 2g/kg
+- Perte de poids : 2,2 à 2,5g/kg (augmentation pour préserver le muscle)
+
+**Timing nutrition full body :**
+- 2-3h avant la séance : repas riche en glucides complexes + protéines (riz + poulet)
+- Dans l'heure avant : si besoin, une collation légère (banane + whey)
+- Dans l'heure après : protéines rapides + glucides (whey + fruit ou riz)
+
+## Pourquoi le full body est idéal pour la majorité
+
+Le full body 3x/semaine est la solution optimale pour :
+- **Débutants** : apprentissage moteur plus rapide avec une fréquence élevée
+- **Intermédiaires** pressés : gains comparables au split avec 3h de gym par semaine
+- **Personnes stressées** : moins de séances = moins de risque de fatigue du SNC
+- **Ceux qui voyagent** : 3 séances en hôtel possible avec ajustements
+
+La seule situation où un split peut être supérieur : les pratiquants avancés (3+ ans) cherchant à spécialiser un groupe musculaire spécifique ou se préparant à une compétition.
+
+Pour les 95% des pratiquants, un full body intelligent avec progression régulière donnera des résultats excellents et durables.
+`,
+  },
+  {
+    slug: "nutrition-musculation-principes-fondamentaux",
+    titre: "Nutrition et musculation : les 4 principes fondamentaux pour progresser",
+    description: "TDEE, macros, timing des repas, suppléments efficaces... Le guide complet de la nutrition sportive basé sur la science pour maximiser tes résultats.",
+    categorie: "Nutrition",
+    date: "2026-05-20",
+    lecture: 11,
+    image: null,
+    contenu: `
+La nutrition sportive est un domaine où les mythes pullulent. Fenêtre anabolique de 30 minutes, glucides le soir qui font grossir, les graisses qui font grossir, les protéines qui abîment les reins... Pour progresser efficacement, il faut séparer le vrai du faux et baser sa nutrition sur des données solides.
+
+## Principe 1 : Le bilan calorique avant tout
+
+Avant de s'intéresser aux macros, aux suppléments ou au timing, il y a un principe qui écrase tout le reste : **le bilan calorique**.
+
+Si tu consommes plus de calories que tu n'en dépenses → tu prends du poids.
+Si tu en consommes moins → tu perds du poids.
+
+C'est la loi de la thermodynamique appliquée à la nutrition humaine, et elle ne souffre d'aucune exception.
+
+### Calculer ton TDEE (Total Daily Energy Expenditure)
+
+Ton TDEE est la somme de :
+- **BMR** (Basal Metabolic Rate) : calories brûlées au repos (respiration, circulation, thermorégulation)
+- **TEF** (Thermic Effect of Food) : ~10% des calories consommées
+- **Activité physique** : entraînements + NEAT (Non-Exercise Activity Thermogenesis)
+
+**Formule Harris-Benedict pour le BMR :**
+
+Homme : BMR = 88,362 + (13,397 × poids en kg) + (4,799 × taille en cm) - (5,677 × âge)
+Femme : BMR = 447,593 + (9,247 × poids en kg) + (3,098 × taille en cm) - (4,330 × âge)
+
+**Multiplicateurs d'activité :**
+- Sédentaire (peu ou pas d'exercice) : BMR × 1,2
+- Légèrement actif (1-3 séances/semaine) : BMR × 1,375
+- Modérément actif (3-5 séances/semaine) : BMR × 1,55
+- Très actif (6-7 séances/semaine) : BMR × 1,725
+
+**Exemple :** Homme de 25 ans, 80kg, 180cm, 3 séances/semaine
+BMR = 88,362 + (13,397×80) + (4,799×180) - (5,677×25) = 1 969 kcal
+TDEE = 1 969 × 1,55 = **3 052 kcal/jour**
+
+## Principe 2 : Les macronutriments
+
+Une fois ton TDEE connu, tu répartis les calories entre les 3 macronutriments.
+
+### Protéines : la priorité absolue
+
+Les protéines ont un rôle fondamental :
+- Synthèse des fibres musculaires (croissance)
+- Réparation des tissus endommagés (récupération)
+- Enzymes, hormones, anticorps (fonctions vitales)
+- Effet satiétogène très élevé (aide à contrôler l'appétit)
+
+**Recommandations selon l'objectif :**
+- Prise de masse : **1,8 à 2,2g/kg** de poids de corps
+- Maintien : **1,6 à 2g/kg**
+- Sèche / perte de poids : **2,2 à 2,5g/kg** (plus élevé pour préserver le muscle)
+
+Pour 80kg en prise de masse : 80 × 2 = **160g de protéines/jour** = 640 kcal
+
+**Sources de protéines de qualité :**
+| Source | Protéines/100g | Qualité |
+|--------|----------------|---------|
+| Blanc de poulet | 31g | Excellente |
+| Saumon | 25g | Excellente |
+| Œufs entiers | 13g (7g/œuf) | Excellente |
+| Fromage blanc 0% | 10g | Bonne |
+| Lentilles | 9g | Bonne (incomplète) |
+| Whey protéine | 80g | Excellente |
+
+### Glucides : le carburant de la performance
+
+Les glucides sont la source d'énergie préférentielle du muscle pendant l'effort intense. Contrairement aux idées reçues, les glucides ne font pas grossir — l'excès calorique global, oui.
+
+**Rôles des glucides :**
+- Reconstitution du glycogène musculaire (carburant des séances)
+- Libération d'insuline (hormone anabolisante et anti-catabolisante)
+- Préservation des protéines (effet économiseur)
+
+**Quantité recommandée :**
+- Prise de masse : 4 à 6g/kg/jour
+- Maintien : 3 à 5g/kg/jour
+- Sèche : 2 à 4g/kg/jour (ajuster selon l'énergie aux séances)
+
+**Glucides à privilégier (index glycémique bas à modéré) :**
+Riz complet, flocons d'avoine, patate douce, quinoa, légumineuses, fruits
+
+**Glucides post-séance (index glycémique plus élevé acceptable) :**
+Riz blanc, pain blanc, banana, pomme de terre, confiture
+
+### Lipides : essentiels, pas facultatifs
+
+La peur des graisses est l'un des grands mythes nutritionnels. Les lipides sont indispensables à :
+- Production d'hormones stéroïdiennes (testostérone, œstrogènes)
+- Absorption des vitamines liposolubles (A, D, E, K)
+- Santé des membranes cellulaires
+- Fonctions cérébrales et cognitives
+
+Un régime trop pauvre en lipides (<15% des calories) abaisse directement la testostéronémie.
+
+**Quantité recommandée :** 0,8 à 1,2g/kg/jour (soit 20-35% des calories totales)
+
+**Sources de qualité :**
+Huile d'olive vierge extra, avocat, noix et amandes, poissons gras (saumon, maquereau), œufs entiers, fromage (avec modération)
+
+## Principe 3 : Le timing nutritionnel (moins important qu'on le croit)
+
+### La fenêtre anabolique : mythe ou réalité ?
+
+La "fenêtre anabolique" de 30 minutes post-séance est un mythe dans sa forme absolue. Les recherches montrent qu'elle est en réalité bien plus large — de 4 à 6 heures pour la plupart des pratiquants.
+
+**Ce qui est vrai :** manger des protéines dans les 2-3h suivant l'entraînement optimise la récupération. Mais si tu as mangé 2h avant ta séance, tu n'as pas de fenêtre urgente.
+
+**Ce qui compte vraiment :** ton apport protéique total sur la journée, bien réparti en 3-5 prises.
+
+### Le repas pré-séance
+
+Objectif : arriver en séance avec de l'énergie sans lourdeur digestive.
+
+**2-3h avant la séance :**
+- Glucides complexes + protéines + peu de lipides (ralentissent la digestion)
+- Exemple : riz + poulet + légumes
+
+**30-60 min avant (si besoin) :**
+- Collation légère facilement digestible
+- Exemple : banane + 30g de whey, ou fromage blanc + fruits
+
+### Le repas post-séance
+
+- 20-40g de protéines (whey ou alimentation solide)
+- 50-80g de glucides (selon le TDEE et l'objectif)
+- Faible en lipides (ralentissent l'absorption des nutriments)
+
+## Principe 4 : Les suppléments
+
+Les suppléments sont à la nutrition ce que les options sont à une voiture : utiles, mais inutiles sans la base.
+
+### Les suppléments qui ont une vraie evidence base
+
+**1. Whey protéine**
+Pas un supplément au sens strict — c'est une source de protéines complètes très pratique. Utilise-la quand il est difficile d'atteindre ton apport protéique journalier via l'alimentation.
+
+**2. Créatine monohydrate**
+C'est le supplément le mieux étudié en nutrition sportive. Elle augmente les réserves de phosphocréatine dans les muscles, permettant de soutenir l'effort intense plus longtemps.
+
+- Dose : 3 à 5g/jour (pas besoin de phase de charge)
+- Timing : n'importe quand (le timing n'a pas d'importance)
+- Effet attendu : +5 à 10% de performance sur les séries lourdes (6-8 reps)
+- Effets secondaires : légère rétention d'eau intramusculaire (pas sous-cutanée) = bon signe
+
+**3. Vitamine D3 + K2**
+70% de la population européenne est en déficit. La vitamine D joue un rôle dans la synthèse de la testostérone, la santé osseuse et l'immunité.
+
+**4. Magnésium (glycinate ou malate)**
+Coenzyme de plus de 300 réactions enzymatiques, impliqué dans la synthèse protéique et la qualité du sommeil. La transpiration en dépense significativement.
+
+### Ce qui ne vaut pas la peine
+
+- Boosters pré-séance (80% de la valeur = caféine, que tu peux prendre seule)
+- BCAA si ton apport protéique est suffisant (redondant avec les protéines complètes)
+- Brûleurs de graisse (effets marginaux, parfois dangereux)
+- Gainers (trop de sucre, utilise du riz + whey)
+
+## Mettre tout ensemble : exemple journalier
+
+**Profil :** homme 80kg, objectif prise de masse, TDEE 3 050 kcal
+**Objectifs :** 3 200 kcal | 175g protéines | 380g glucides | 88g lipides
+
+| Repas | Aliments | P | G | L | Kcal |
+|-------|----------|---|---|---|------|
+| Petit-déj | 4 œufs + 80g flocons d'avoine + 1 banane | 35g | 80g | 18g | 630 |
+| Collation | 200g fromage blanc 0% + 40g whey + fruits | 50g | 30g | 2g | 340 |
+| Déjeuner | 200g poulet + 150g riz cru + légumes + huile d'olive | 50g | 130g | 18g | 890 |
+| Post-séance | 40g whey + 60g riz + banane | 35g | 80g | 3g | 490 |
+| Dîner | 200g saumon + 200g patate douce + légumes | 45g | 45g | 22g | 550 |
+| Coucher | 200g fromage blanc + 30g amandes | 25g | 15g | 16g | 300 |
+| **Total** | | **240g** | **380g** | **79g** | **3 200** |
+
+## L'essentiel à retenir
+
+La nutrition pour la musculation n'est pas compliquée, mais elle demande de la rigueur et de la régularité. L'ordre de priorité :
+
+1. **Bilan calorique** — manger plus (masse) ou moins (sèche) que ton TDEE
+2. **Protéines suffisantes** — 1,8 à 2,5g/kg selon l'objectif
+3. **Glucides adaptés** — pour l'énergie aux séances et la récupération
+4. **Lipides en quantité suffisante** — au moins 20% des calories
+5. **Répartition des repas** — 3 à 5 prises, bien réparties
+6. **Suppléments** (optionnel) — whey et créatine uniquement
+
+Applique ces 5 principes avec constance pendant 3 mois, et les résultats parleront d'eux-mêmes.
+`,
+  },
+  {
     slug: "debuter-musculation-guide-complet",
     titre: "Comment débuter la musculation : le guide complet pour les débutants",
     description: "Tout ce que tu dois savoir avant de commencer la musculation : équipement, programme, nutrition et erreurs à éviter. Le guide ultime pour démarrer efficacement.",
