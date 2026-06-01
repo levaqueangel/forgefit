@@ -78,6 +78,24 @@ export default function ClientPage() {
   const [pwdSuccess,   setPwdSuccess]   = useState(false);
   const [pwdLoading,   setPwdLoading]   = useState(false);
 
+  // ── Push notifications ──────────────────────────────────────────
+  const {
+    permission: pushPermission,
+    subscribed: pushSubscribed,
+    loading:    pushLoading,
+    subscribe:  subscribePush,
+  } = usePushNotifications(user?.uid);
+  const [showPushBanner, setShowPushBanner] = useState(false);
+
+  // Afficher la bannière 30s après connexion si permission pas encore accordée
+  useEffect(() => {
+    if (typeof Notification === "undefined") return;
+    if (Notification.permission === "default") {
+      const t = setTimeout(() => setShowPushBanner(true), 30000);
+      return () => clearTimeout(t);
+    }
+  }, []);
+
   // ── Refs ─────────────────────────────────────────────────────
   const bottomRef    = useRef(null);
   const chatBottomRef = useRef(null);
