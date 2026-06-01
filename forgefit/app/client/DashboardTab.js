@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { ProgressBar } from "./ProgressBar";
 import { updateDoc, doc } from "firebase/firestore";
 import { db } from "../firebase";
@@ -176,9 +176,9 @@ export function DashboardTab({
 
 // Bouton de parrainage inline avec génération de lien
 function ReferralButton({ uid, nom }) {
-  const [link, setLink] = React.useState(null);
-  const [loading, setLoading] = React.useState(false);
-  const [copied, setCopied] = React.useState(false);
+  const [link, setLink] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   const generate = async () => {
     if (!uid) return;
