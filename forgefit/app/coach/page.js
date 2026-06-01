@@ -135,7 +135,7 @@ export default function CoachPage() {
   const [clientFilter, setClientFilter] = useState("all"); // all | starter | forge | elite
   const [clientSort, setClientSort] = useState("recent"); // recent | name | activity
   const [clientSearch, setClientSearch] = useState("");
-  const [showTemplates, setShowTemplatesModal] = useState(false);
+  const [showTemplates, setShowTemplates] = useState(false);
   const bottomRef = useRef(null);
   const inactiveTimer = useRef(null);
   const warningTimer = useRef(null);
@@ -302,7 +302,7 @@ export default function CoachPage() {
           <button onClick={()=>setActiveView(v=>v==="stats"?"messages":"stats")} style={{background:activeView==="stats"?"rgba(201,168,76,0.1)":"transparent",border:`0.5px solid ${activeView==="stats"?"#C9A84C":"#242424"}`,color:activeView==="stats"?"#C9A84C":"#555",fontFamily:"'Syne',sans-serif",fontSize:11,letterSpacing:"2px",textTransform:"uppercase",padding:"7px 16px",cursor:"pointer",borderRadius:2}}>
             📊 Stats
           </button>
-          <button onClick={()=>setShowTemplatesModal(true)} style={{background:"transparent",border:"0.5px solid #242424",color:"#555",fontFamily:"'Syne',sans-serif",fontSize:11,letterSpacing:"2px",textTransform:"uppercase",padding:"7px 16px",cursor:"pointer",borderRadius:2}}>
+          <button onClick={()=>setShowTemplates(true)} style={{background:"transparent",border:"0.5px solid #242424",color:"#555",fontFamily:"'Syne',sans-serif",fontSize:11,letterSpacing:"2px",textTransform:"uppercase",padding:"7px 16px",cursor:"pointer",borderRadius:2}}>
             📋 Templates
           </button>
           <button onClick={exportCSV} disabled={exporting} style={{background:"transparent",border:"0.5px solid #242424",color:exporting?"#333":"#555",fontFamily:"'Syne',sans-serif",fontSize:11,letterSpacing:"2px",textTransform:"uppercase",padding:"7px 16px",cursor:exporting?"not-allowed":"pointer",borderRadius:2,display:"flex",alignItems:"center",gap:6}}>
