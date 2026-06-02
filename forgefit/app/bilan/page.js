@@ -68,7 +68,7 @@ function BilanForm() {
   const prevStep = useRef(0);
   useEffect(() => {
     if (step > prevStep.current) {
-      trackEvent("bilan_step", { step, plan: sel.plan || "unknown" });
+      try { trackEvent("bilan_step", { step, plan: sel.plan || "unknown" }); } catch {}
       prevStep.current = step;
     }
   }, [step]);
@@ -144,7 +144,7 @@ function BilanForm() {
           body: JSON.stringify({ email: sel.email }),
         }).catch(()=>{});
       }
-      trackEvent("bilan_complete", { plan: data.plan || "unknown", nom: data.prenom });
+      try { trackEvent("bilan_complete", { plan: data.plan || "unknown", nom: data.prenom }); } catch {}
     } catch (e) {
       setErrMsg(e.message); setStatus("error");
     }
