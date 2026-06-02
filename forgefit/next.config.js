@@ -4,12 +4,6 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   reactStrictMode: true,
-  // Optimisation bundle : exclure les modules lourds inutilisés
-  modularizeImports: {
-    "firebase/app":       { transform: "firebase/app" },
-    "firebase/auth":      { transform: "firebase/auth" },
-    "firebase/firestore": { transform: "firebase/firestore" },
-  },
   // Headers de sécurité et performance
   async headers() {
     return [
