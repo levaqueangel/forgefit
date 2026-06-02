@@ -174,19 +174,16 @@ self.addEventListener("sync", (event) => {
 });
 
 async function syncPendingData() {
-  // Placeholder pour la sync des données offline
-  const cache = await caches.open(DATA_CACHE);
-  const keys = await cache.keys();
-  for (const key of keys) {
-    if (key.url.includes("pending-")) {
-      const data = await cache.match(key);
-      // Envoyer au serveur si en ligne
-      try {
-        await fetch("/api/sync", { method: "POST", body: await data.text() });
+  // Nettoyer le cache des données en attente (sync désactivée, /api/sync non implémenté)
+  try {
+    const cache = await caches.open(DATA_CACHE);
+    const keys = await cache.keys();
+    for (const key of keys) {
+      if (key.url.includes("pending-")) {
         await cache.delete(key);
-      } catch {}
+      }
     }
-  }
+  } catch {}
 }
 
 // ── Messages depuis l app ─────────────────────────────────────────────────
