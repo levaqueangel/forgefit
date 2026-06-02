@@ -1,11 +1,16 @@
 import webpushLib from "web-push";
 import { getAdminDb } from "../firebase-admin";
+import { checkRateLimit } from "../rateLimit";
 export const dynamic = "force-dynamic";
 
 // Envoyer une notification push à un client spécifique
 // Appelé automatiquement depuis notify-client après envoi de message coach
 export async function POST(req) {
-  try {
+  try {  const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "unknown";
+  if (!checkRateLimit(ip, 10, 60_000)) {
+    return Response.json({ error: "Trop de requêtes. Réessaie dans une minute." }, { status: 429 });
+  }
+
     const { clientId, title, body, url } = await req.json();
     if (!clientId) return Response.json({ error: "clientId manquant" }, { status: 400 });
 
