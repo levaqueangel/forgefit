@@ -1,5 +1,6 @@
 import { Resend } from "resend";
 import { getAdminAuth, getAdminDb } from "../firebase-admin";
+import { checkRateLimit } from "../rateLimit";
 export const dynamic = "force-dynamic";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
