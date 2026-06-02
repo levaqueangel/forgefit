@@ -1,11 +1,23 @@
 export const metadata = {
-  title: "Transformations & Resultats — Preuves reelles | APXFITNESS",
-  description: "Decouv rez les vrais resultats de clients APXFITNESS : +4 kg de muscle, -8 kg, force +67%. Des transformations reelles, pas des stock photos.",
+  title: "Transformations & Résultats Clients | APXFITNESS",
+  description: "+200 clients accompagnés. Découvrez les vraies transformations : prise de masse, perte de poids, force.",
   openGraph: {
-    title: "Transformations clients APXFITNESS",
-    description: "Resultats avant/apres de vrais clients. Programmes personnalises par IA.",
+    title: "Transformations & Résultats Clients | APXFITNESS",
+    description: "+200 clients accompagnés. Découvrez les vraies transformations : prise de masse, perte de poids, force.",
     url: "https://apxfitness-brown.vercel.app/resultats",
+    siteName: "APXFITNESS",
+    locale: "fr_FR",
+    type: "website",
+    images: [{ url: "https://apxfitness-brown.vercel.app/og-resultats.jpg", width: 1200, height: 630, alt: "Transformations & Résultats Clients | APXFITNESS" }],
   },
-  alternates: { canonical: "https://apxfitness-brown.vercel.app/resultats" },
+  twitter: {
+    card: "summary_large_image",
+    title: "Transformations & Résultats Clients | APXFITNESS",
+    description: "+200 clients accompagnés. Découvrez les vraies transformations : prise de masse, perte de poids, force.",
+    images: ["https://apxfitness-brown.vercel.app/og-resultats.jpg"],
+  },
+  alternates: {
+    canonical: "https://apxfitness-brown.vercel.app/resultats",
+  },
 };
 export default function Layout({ children }) { return children; }
