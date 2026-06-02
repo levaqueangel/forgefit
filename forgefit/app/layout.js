@@ -1,55 +1,53 @@
-import "./globals.css";
-import ServiceWorkerRegistration from "./ServiceWorkerRegistration";
-import ErrorBoundary from "./ErrorBoundary";
-import { Suspense } from "react";
+import { Syne } from "next/font/google";
 import { GoogleAnalytics } from "./GoogleAnalytics";
+import { ServiceWorkerRegistration } from "./ServiceWorkerRegistration";
+import { ErrorBoundary } from "./ErrorBoundary";
+import { Suspense } from "react";
+
+const syne = Syne({ subsets: ["latin"], weight: ["400","600","700","800"], display: "swap", preload: true });
 
 export const metadata = {
-  title: "APXFITNESS — Coaching fitness personnalisé",
-  description: "Programmes de musculation et remise en forme 100% sur mesure. Programme personnalisé livré sous 48h. Coaching adapté à ton niveau, tes objectifs et ton équipement.",
-  keywords: "coaching fitness personnalisé, programme musculation sur mesure, remise en forme, perte de poids, prise de masse, coach fitness en ligne, APXFITNESS",
-  authors: [{ name: "APXFITNESS Coach" }],
-  creator: "APXFITNESS",
-  publisher: "APXFITNESS",
-  robots: { index: true, follow: true },
-  alternates: {
-    canonical: "https://apxfitness-brown.vercel.app",
+  metadataBase: new URL("https://apxfitness-brown.vercel.app"),
+  title: {
+    default: "APXFITNESS — Coaching Fitness Personnalisé en Ligne",
+    template: "%s | APXFITNESS",
   },
+  description: "Programme musculation 100% sur mesure généré par IA en 48h. Nutrition calculée, séances adaptées à ton niveau. Coach personnel en ligne dès 49€.",
+  keywords: ["coaching fitness","programme musculation","coach personnel en ligne","nutrition sportive","prise de masse","perte de poids"],
+  authors: [{ name: "Angel Levaque", url: "https://apxfitness-brown.vercel.app/a-propos" }],
+  creator: "APXFITNESS",
   openGraph: {
-    title: "APXFITNESS — Coaching fitness personnalisé",
-    description: "Programmes de musculation et remise en forme 100% sur mesure. Livré sous 48h.",
-    url: "https://apxfitness-brown.vercel.app",
-    siteName: "APXFITNESS",
-    locale: "fr_FR",
     type: "website",
+    locale: "fr_FR",
+    siteName: "APXFITNESS",
+    title: "APXFITNESS — Coaching Fitness Personnalisé en Ligne",
+    description: "Programme musculation 100% sur mesure généré par IA en 48h.",
+    images: [{ url: "/og-default.jpg", width: 1200, height: 630, alt: "APXFITNESS" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "APXFITNESS — Coaching fitness personnalisé",
-    description: "Programmes sur mesure livrés sous 48h. Coaching personnalisé pour tous niveaux.",
     creator: "@apxfitness",
+    images: ["/og-default.jpg"],
+  },
+  robots: {
+    index: true, follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+  },
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
   },
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="fr">
+    <html lang="fr" suppressHydrationWarning>
       <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#0A0A0A" />
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/icon-192.png" />
-        <link rel="manifest" href="/manifest.json" />
-        <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <meta name="apple-mobile-web-app-title" content="APXFITNESS" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Syne:wght@400;600;700;800&display=optional" rel="stylesheet" />
       </head>
-      <body>
+      <body suppressHydrationWarning={true}>
         <ErrorBoundary>
           {children}
         </ErrorBoundary>
