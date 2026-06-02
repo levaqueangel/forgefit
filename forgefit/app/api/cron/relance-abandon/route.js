@@ -24,8 +24,6 @@ export async function GET(req) {
     const eligible = snap.docs
       .map(d => ({ id: d.id, ...d.data() }))
       .filter(a => a.createdAt > twoDaysAgo && a.createdAt < oneDayAgo);
-
-    console.log(`Relance abandon: ${eligible.length} emails`);
     let sent = 0;
 
     for (const abandon of eligible) {
