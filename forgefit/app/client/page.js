@@ -48,6 +48,8 @@ export default function ClientPage() {
   const [timer,      setTimer]      = useState(null);
   const [focusMode,  setFocusMode]  = useState(false);
   const [focusIdx,   setFocusIdx]   = useState(0);
+  const [focusSet,   setFocusSet]   = useState(1);  // Compteur de sets
+  const [focusRest,  setFocusRest]  = useState(false); // Repos entre sets
 
   // ── UI global ────────────────────────────────────────────────
   const [toasts,      setToasts]      = useState([]);
