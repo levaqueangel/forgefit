@@ -1,5 +1,260 @@
 export const ARTICLES = [
   {
+    slug: "proteines-musculation-tout-savoir",
+    titre: "Proteines et musculation : tout ce qu il faut savoir",
+    description: "Sources, quantites, timing, qualite — le guide complet sur les proteines pour maximiser la synthese musculaire et progresser durablement.",
+    categorie: "Nutrition",
+    date: "2026-06-01",
+    lecture: 9,
+    image: null,
+    contenu: `
+Les proteines sont le macronutriment le plus important en musculation. Sans elles, l impossible de construire du muscle, de recuperer correctement, ni de maintenir la masse musculaire en periode de deficit calorique.
+
+## Combien de proteines par jour ?
+
+La question universelle. La reponse varie selon l objectif :
+
+**En prise de masse** : 1.8 a 2.2g par kilo de poids de corps. Pour 80kg, c est 144 a 176g par jour.
+
+**En maintien** : 1.6 a 2g/kg. Assez pour preserver le muscle sans surplus inutile.
+
+**En seche** : 2.2 a 2.5g/kg. Plus eleve pour contrecarrer le catabolisme musculaire lie au deficit calorique.
+
+Ces recommandations sont basees sur les meta-analyses les plus recentes. La peur que les proteines "abiment les reins" est un mythe — chez des personnes en bonne sante, meme 3g/kg n a aucun effet negatif sur la fonction renale.
+
+## Les meilleures sources de proteines
+
+### Proteines animales (biodisponibilite superieure)
+
+**Blanc de poulet** : 31g/100g. La reference. Faible en gras, riche en leucine (acide amine qui declenche la synthese proteique).
+
+**Oeufs entiers** : 13g/100g (7g par oeuf). Profil d acides amines complet. Le jaune contient vitamine D, choline et acides gras essentiels — ne pas le jeter.
+
+**Thon en boite au naturel** : 25g/100g. Economique, pratique, digestion rapide.
+
+**Saumon** : 25g/100g + omega-3 anti-inflammatoires qui accelerent la recuperation.
+
+**Fromage blanc 0%** : 10g/100g. Contient de la caseine (digestion lente) — ideal avant le coucher.
+
+**Skyr** : 10-12g/100g. Texture epaisse, gout neutre, excellent rapport proteines/calories.
+
+### Proteines vegetales
+
+Les proteines vegetales ne sont pas "inferieures" — elles demandent plus d attention :
+
+**Lentilles** : 9g/100g cuites. Riches en lysine mais pauvres en methionine — combiner avec des cereales.
+
+**Pois chiches** : 8g/100g. Complementer avec riz ou ble pour les acides amines complets.
+
+**Edamame** : 11g/100g. L une des rares proteines vegetales avec un profil presque complet.
+
+**Tempeh** : 19g/100g. Soja fermente — biodisponibilite amelioree, digestion facilitee.
+
+**Proteine de pois + riz** : en supplementation, ce combo couvre tous les acides amines essentiels.
+
+## Le timing des proteines
+
+La fenetre anabolique n est pas aussi etroite qu on le croit. Ce qui compte vraiment :
+
+**Repartition sur la journee** : 3 a 5 prises de 25-40g sont plus efficaces qu une ou deux tres grosses prises. La synthese proteique musculaire (SPM) a une capacite maximale par prise — au-dela de 40g, l efficacite diminue.
+
+**Pre-seance** (2-3h avant) : 30-50g de proteines avec des glucides. Le but est d arriver en seance avec des acides amines disponibles.
+
+**Post-seance** (dans l heure) : 25-40g de proteines a assimilation rapide (whey ou oeufs). Declenche la SPM au moment optimal.
+
+**Avant le coucher** : 30-40g de caseine (fromage blanc, skyr). La caseine se digere sur 5-7h et maintient la SPM pendant le sommeil, periode ou l hormone de croissance est maximale.
+
+## Whey, caseine, BCAA : lesquels utiliser ?
+
+**Whey proteine** : la meilleure option post-seance. Assimilation rapide (30-60 min), riche en leucine, profil complet. Whey concentree ou isolat — peu de difference en pratique.
+
+**Caseine** : avant le coucher uniquement. Le timing est la seule raison de l utiliser.
+
+**BCAA (acides amines ramifies)** : inutiles si l apport proteique total est suffisant. Tous les BCAA sont deja dans les proteines completes. Un investissement inutile si tu manges assez de proteines.
+
+**Creatine** : pas une proteine, mais le supplement le plus efficace pour la musculation. 3-5g/jour, n importe quand.
+
+## Les erreurs les plus communes
+
+**Trop peu le matin** : sauter le petit-dejeuner ou manger peu de proteines le matin ralentit la SPM des les premieres heures de la journee.
+
+**Trop en une seule prise** : un diner a 80g de proteines n est pas plus efficace que 40g — l exces est oxyde comme energie.
+
+**Negliger la leucine** : la leucine est le "bouton ON" de la SPM. Choisir des sources riches en leucine (whey, poulet, oeufs) maximise le signal anabolique.
+
+**Oublier les glucides** : les glucides sont "proteino-sparers" — en leur presence, les proteines sont utilisees pour la construction musculaire plutot que comme energie.
+
+## Exemple journalier pour 80kg en prise de masse
+
+- Petit-dejeuner : 4 oeufs + 200g fromage blanc = 48g proteines
+- Collation : 30g whey + 100g skyr = 40g proteines
+- Dejeuner : 200g poulet + legumes = 62g proteines
+- Post-seance : 40g whey = 36g proteines
+- Diner : 200g saumon = 50g proteines
+- Coucher : 200g fromage blanc = 20g proteines
+
+Total : 256g de proteines pour 80kg = 3.2g/kg. Dans les clous pour une prise de masse serieuse.
+`,
+  },
+  {
+    slug: "erreurs-debutant-musculation",
+    titre: "10 erreurs que font tous les debutants en musculation",
+    description: "Trop de volume, pas assez de sommeil, negliger les bases — voici les 10 erreurs que font 90% des debutants et comment les eviter pour progresser 3x plus vite.",
+    categorie: "Musculation",
+    date: "2026-05-30",
+    lecture: 8,
+    image: null,
+    contenu: `
+La musculation parait simple en apparence : soulever des poids, manger des proteines, progresser. En realite, 90% des debutants font les memes erreurs qui les condamnent a stagner pendant des mois. Voici les 10 plus courantes.
+
+## Erreur 1 : trop de volume, trop tot
+
+Le debutant arrive en salle et veut "tout travailler". Il fait 5 exercices pour les pectoraux, 4 pour le dos, 3 pour les epaules. Total : 30-40 series en une seance.
+
+Le probleme : le muscle du debutant n a pas besoin de tout ce volume pour s adapter. Il suffit de 3-4 series par exercice, 2-3 exercices par groupe musculaire. La recuperation n arrive jamais si le volume est trop eleve.
+
+**La solution** : commencer avec 10-15 series par groupe musculaire PAR SEMAINE, pas par seance.
+
+## Erreur 2 : negliger la technique pour mettre plus lourd
+
+L ego au vestiaire. Le debutant charge la barre trop lourd, effectue des mouvements partiels, mobilise tout son corps pour "aider". Resultat : muscles non sollicites correctement, risque de blessure maximal.
+
+**La solution** : maitriser la technique avec des charges legeres pendant les 3 premiers mois. La progression viendra ensuite, et elle sera durable.
+
+## Erreur 3 : pas de progression systematique
+
+S entrainer sans noter les charges, les series, les reps. Chaque semaine "au feeling". Sans mesure, impossible de savoir si on progresse.
+
+**La solution** : tenir un journal d entrainement. Viser a augmenter au moins une variable (poids, reps, series) a chaque seance.
+
+## Erreur 4 : changer de programme toutes les 2 semaines
+
+Le syndrome du programme parfait. Sur internet, chaque semaine il y a un "meilleur programme". Passer de programme en programme empeche le corps de s adapter.
+
+**La solution** : suivre le meme programme pendant au moins 8-12 semaines avant d evaluer. La progression n est pas lineaire — ne pas changer au premier signe de stagnation.
+
+## Erreur 5 : negliger le sommeil
+
+S entrainer 6 jours par semaine en dormant 5-6h. La synthese proteique musculaire est maximale pendant le sommeil profond, quand l hormone de croissance est au pic.
+
+**La solution** : 7-9h de sommeil par nuit, non negociables. Si tu dois choisir entre une seance de gym et une heure de sommeil supplementaire : choisis le sommeil.
+
+## Erreur 6 : manger trop peu
+
+Vouloir prendre du muscle ET perdre du gras en meme temps. C est possible pour les debutants, mais seulement avec un apport proteique et calorique adequat. Manger en deficit important ralentit radicalement la progression.
+
+**La solution** : calculer son TDEE et manger a maintenance ou avec un leger surplus (+200-300 kcal) pour les 3 premiers mois.
+
+## Erreur 7 : negliger les exercices de base
+
+Aller directement aux machines d isolation (curl, extension, pec deck) en evitant les mouvements composes. Les machines sont utiles, mais les exercices de base (squat, developpe couche, traction, rowing, developpe militaire) recrutent beaucoup plus de masse musculaire et declenchent une reponse hormonale bien superieure.
+
+**La solution** : consacrer 60-70% du temps aux mouvements composes. Les isolations completent, elles ne remplacent pas.
+
+## Erreur 8 : sauter l echauffement
+
+Arriver a la salle et commencer directement avec les charges lourdes. L echauffement augmente la temperature musculaire, ameliore la coordination neuromusculaire et reduit significativement le risque de blessure.
+
+**La solution** : 8-12 minutes d echauffement systematique : cardio leger + mobilite articulaire + series legeres sur les premiers exercices.
+
+## Erreur 9 : trop d exercices cardiovasculaires
+
+Faire 1h de cardio avant la seance de musculation. Le cardio pre-seance vide les reserves de glycogene et fatigue le systeme nerveux central — les performances en musculation s effondrent.
+
+**La solution** : si cardio, faire apres la musculation ou sur des jours separes. 2-3 sessions de 20-30 min suffisent pour la sante cardiovasculaire sans impacter les gains musculaires.
+
+## Erreur 10 : s impatienter et chercher des raccourcis
+
+Vouloir des resultats en 4 semaines. Acheter des complements miracles. Copier le programme d un athlete professionnel.
+
+La realite : les changements visibles arrivent apres 8-16 semaines de travail serieux et regulier. Il n y a pas de raccourci. La constance sur 6 mois transforme un corps. L impatience le condamne a stagner.
+
+**La solution** : accepter le temps long. Poser les fondations correctes. Les resultats arrivent — mais ils ne s improvisent pas.
+`,
+  },
+  {
+    slug: "sommeil-testosterone-musculation",
+    titre: "Sommeil et testosterone : le lien direct avec tes gains musculaires",
+    description: "Une nuit courte reduit la testosterone de 10-15%. Voici la science du sommeil appliquee a la musculation et comment optimiser ta recuperation hormonale.",
+    categorie: "Recuperation",
+    date: "2026-05-27",
+    lecture: 7,
+    image: null,
+    contenu: `
+La testosterone est l hormone anabolisante la plus importante en musculation. Elle gouverne la synthese proteique musculaire, la recuperation, la force et la libido. Et la principale chose qui la fait chuter n est pas l alimentation ni le stress au travail — c est le manque de sommeil.
+
+## Le lien chiffre entre sommeil et testosterone
+
+Une etude de l Universite de Chicago l a quantifie : reduire le sommeil de 8h a 5h par nuit pendant une semaine reduit la testosterone de 10 a 15%. Pour un homme de 25 ans avec une testosterone de 700 ng/dL, c est une chute a 595-630 ng/dL — l equivalent du vieillissement de 15 ans.
+
+Une autre etude (SLEEP, 2011) a montre que chaque heure de sommeil supplementaire est associee a une augmentation de 15% de la testosterone matinale.
+
+Ce n est pas anecdotique. C est mecanique.
+
+## Pourquoi le sommeil gouverne la testosterone
+
+La testosterone est produite pendant le sommeil, en particulier pendant les phases de sommeil profond (stades 3 et 4). Le processus commence 90 minutes apres l endormissement et atteint son pic pendant le sommeil paradoxal de la derniere moitie de nuit.
+
+Si tu te couches a 2h du matin et te leves a 7h, tu coupes precisement les 2 heures de pic de production de testosterone. Peu importe la qualite du reste de ta nuit.
+
+L hormone luteinisante (LH), qui declenche la production de testosterone, est egalement secretee en pulses pendant le sommeil. Un sommeil fragmente = moins de pulses LH = moins de testosterone.
+
+## Le cortisol : l ennemi de nuit
+
+Le sommeil insuffisant augmente aussi le cortisol, l hormone du stress. Cortisol et testosterone sont en opposition directe — quand l un monte, l autre baisse.
+
+Apres une nuit de 5h, le cortisol matinal est 21% plus eleve qu apres une nuit de 8h. Cet etat catabolique (qui degrade le muscle) persiste toute la journee meme si tu dors "bien" la nuit suivante.
+
+## L hormone de croissance : 75% produite la nuit
+
+L hormone de croissance (GH) est l autre acteur hormonal cle de la musculation. 75% de la production quotidienne survient pendant le premier cycle de sommeil profond, entre 23h et 2h du matin pour un coucher a 22h30.
+
+La GH orchestre :
+- La reparation des fibres musculaires endommagees pendant l entrainement
+- La mobilisation des acides gras (perte de gras nocturne)
+- La synthese des proteines structurelles
+- La croissance osseuse (densite, solidite)
+
+Decaler l heure de coucher de 22h30 a 1h du matin — meme avec 8h de sommeil total — reduit la production de GH de 30-50%.
+
+## Optimiser le sommeil pour maximiser les gains
+
+### L heure de coucher prime sur la duree
+
+Se coucher avant 23h est plus important que de dormir 9h. La qualite des cycles de sommeil profond en debut de nuit est irreplacable.
+
+### La temperature de la chambre
+
+La temperature ideale pour le sommeil est 17-19 degres Celsius. Au-dela, le sommeil profond est fragmente meme si tu ne te reveilles pas.
+
+### La lumiere bleue
+
+La lumiere bleue des ecrans inhibe la melatonine (l hormone du sommeil) pendant 2-3 heures. Arreter les ecrans 1h avant le coucher ou utiliser des lunettes anti-lumiere bleue.
+
+### La cafeïne
+
+La demi-vie de la cafeïne est de 5-7 heures. Un cafe a 14h = encore 50% de cafeïne active a 21h. Couper la cafeïne apres 13h si tu as du mal a t endormir.
+
+### Les proteines avant le coucher
+
+30-40g de caseine avant le coucher maintient la synthese proteique pendant la nuit sans augmenter le cortisol. La caseine se digere sur 5-7 heures — l alimentation post-entrainement optimale.
+
+### La regularite
+
+Le rythme circadien fonctionne mieux avec des horaires fixes. Se coucher et se lever a la meme heure chaque jour (week-end inclus) ameliore la qualite du sommeil profond en 2-3 semaines.
+
+## Ce que ca change concretement
+
+Un athlete qui dort 8h par nuit vs 6h, a entrainement et nutrition identiques, aura sur 6 mois :
+- 15-20% de gains musculaires en plus
+- 10-15% de force en plus
+- Une recuperation 30-40% plus rapide entre les seances
+- Un risque de blessure reduit de 50%
+
+Le sommeil n est pas la partie passive de l entrainement. C est la moitie du travail.
+`,
+  },
+  {
     slug: "programme-squat-12-semaines",
     titre: "Programme squat 12 semaines : du debutant au record personnel",
     description: "Bloc par bloc, serie par serie — le programme complet pour progresser au squat en 12 semaines. Technique, periodisation, erreurs communes et nutrition.",
