@@ -1,6 +1,6 @@
 import { GoogleAnalytics } from "./GoogleAnalytics";
-import { ServiceWorkerRegistration } from "./ServiceWorkerRegistration";
-import { ErrorBoundary } from "./ErrorBoundary";
+import ServiceWorkerRegistration from "./ServiceWorkerRegistration";
+import ErrorBoundary from "./ErrorBoundary";
 
 export const metadata = {
   metadataBase: new URL("https://apxfitness-brown.vercel.app"),
