@@ -1,28 +1,36 @@
-// Service Worker APXFITNESS v4 — Push notifications + cache intelligent
-const VERSION = "apxfitness-v4";
-const STATIC_CACHE = `${VERSION}-static`;
+// Service Worker APXFITNESS v5 — Mode hors-ligne renforcé
+const VERSION = "apxfitness-v5";
+const STATIC_CACHE  = `${VERSION}-static`;
 const DYNAMIC_CACHE = `${VERSION}-dynamic`;
-const PRECACHE_URLS = ["/", "/blog", "/faq", "/calculateur"];
+const DATA_CACHE    = `${VERSION}-data`;    // Cache des données Firestore
 
-// ── Installation ──────────────────────────────────────────────────────
+// Pages pré-chargées à l installation
+const PRECACHE_URLS = [
+  "/",
+  "/client",
+  "/blog",
+  "/calculateur",
+  "/faq",
+  "/offline",
+];
+
+// ── Installation ────────────────────────────────────────────────────────
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(STATIC_CACHE).then((cache) =>
-      cache.addAll(PRECACHE_URLS).catch(() => {})
-    )
+    caches.open(STATIC_CACHE)
+      .then((cache) => cache.addAll(PRECACHE_URLS).catch(() => {}))
+      .then(() => self.skipWaiting())
   );
-  self.skipWaiting();
 });
 
-// ── Activation : nettoyer anciens caches ──────────────────────────────
+// ── Activation : nettoyer anciens caches ────────────────────────────────
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     Promise.all([
       caches.keys().then((keys) =>
         Promise.all(
-          keys
-            .filter((k) => k !== STATIC_CACHE && k !== DYNAMIC_CACHE)
-            .map((k) => caches.delete(k))
+          keys.filter((k) => k.startsWith("apxfitness-") && k !== STATIC_CACHE && k !== DYNAMIC_CACHE && k !== DATA_CACHE)
+              .map((k) => caches.delete(k))
         )
       ),
       clients.claim(),
@@ -30,44 +38,66 @@ self.addEventListener("activate", (event) => {
   );
 });
 
-// ── Fetch : stratégie Network First pour HTML, Cache First pour assets ─
+// ── Fetch handler ────────────────────────────────────────────────────────
 self.addEventListener("fetch", (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
   if (request.method !== "GET") return;
-  if (url.pathname.startsWith("/api/")) return;
   if (url.hostname.includes("google-analytics")) return;
+  if (url.hostname.includes("firebaseio.com")) return;
+  if (url.hostname.includes("googleapis.com") && !url.pathname.includes("fonts")) return;
 
-  // Assets Next.js statiques : Cache First (immutables)
+  // Assets Next.js statiques (immuables, hash dans le nom) — Cache First
   if (url.pathname.startsWith("/_next/static/")) {
     event.respondWith(
       caches.match(request).then((cached) => {
         if (cached) return cached;
         return fetch(request).then((res) => {
-          if (res.ok) caches.open(STATIC_CACHE).then((c) => c.put(request, res.clone()));
+          if (res.ok) {
+            caches.open(STATIC_CACHE).then((c) => c.put(request, res.clone()));
+          }
           return res;
-        });
+        }).catch(() => cached || new Response("", { status: 408 }));
       })
     );
     return;
   }
 
-  // Images et polices : Cache First
-  if (url.pathname.match(/\.(ico|png|jpg|jpeg|svg|webp|avif|woff|woff2)$/)) {
+  // Polices Google — Cache First avec longue durée
+  if (url.hostname.includes("fonts.googleapis.com") || url.hostname.includes("fonts.gstatic.com")) {
     event.respondWith(
       caches.match(request).then((cached) => {
         if (cached) return cached;
         return fetch(request).then((res) => {
           if (res.ok) caches.open(DYNAMIC_CACHE).then((c) => c.put(request, res.clone()));
           return res;
-        }).catch(() => cached || new Response("", { status: 404 }));
+        }).catch(() => cached || new Response("", { status: 408 }));
       })
     );
     return;
   }
 
-  // Pages HTML : Network First avec fallback cache
+  // Images et médias — Cache First
+  if (url.pathname.match(/\.(ico|png|jpg|jpeg|svg|webp|avif|woff|woff2|gif)$/)) {
+    event.respondWith(
+      caches.match(request).then((cached) => {
+        if (cached) return cached;
+        return fetch(request).then((res) => {
+          if (res.ok) caches.open(DYNAMIC_CACHE).then((c) => c.put(request, res.clone()));
+          return res;
+        }).catch(() => cached || new Response("", { status: 408 }));
+      })
+    );
+    return;
+  }
+
+  // API Routes — Network only, pas de cache (sécurité + fraîcheur des données)
+  if (url.pathname.startsWith("/api/")) {
+    return; // Laisse le browser gérer
+  }
+
+  // Pages HTML — Network First avec fallback cache puis /offline
   event.respondWith(
     fetch(request)
       .then((res) => {
@@ -77,15 +107,28 @@ self.addEventListener("fetch", (event) => {
         }
         return res;
       })
-      .catch(() =>
-        caches.match(request).then((cached) => cached || caches.match("/"))
-      )
+      .catch(async () => {
+        const cached = await caches.match(request);
+        if (cached) return cached;
+        // Fallback vers la page /client si c est une page client
+        if (url.pathname.startsWith("/client")) {
+          const clientCache = await caches.match("/client");
+          if (clientCache) return clientCache;
+        }
+        // Fallback vers l accueil
+        return caches.match("/") || new Response("Hors ligne", { status: 503 });
+      })
   );
 });
 
-// ── Push Notifications ────────────────────────────────────────────────
+// ── Push Notifications ───────────────────────────────────────────────────
 self.addEventListener("push", (event) => {
-  let data = { title: "APXFITNESS", body: "Tu as un nouveau message de ton coach.", icon: "/icon-192.png", badge: "/icon-72.png" };
+  let data = {
+    title: "APXFITNESS",
+    body: "Tu as un nouveau message de ton coach.",
+    icon: "/icon-192.png",
+    badge: "/icon-72.png",
+  };
   try { if (event.data) data = { ...data, ...event.data.json() }; } catch {}
 
   event.waitUntil(
@@ -96,38 +139,67 @@ self.addEventListener("push", (event) => {
       tag: data.tag || "apxfitness",
       requireInteraction: false,
       data: { url: data.url || "/client" },
-      actions: data.actions || [
-        { action: "open", title: "Voir le message" },
+      actions: [
+        { action: "open",  title: "Voir le message" },
         { action: "close", title: "Ignorer" },
       ],
     })
   );
 });
 
-// Clic sur la notification → ouvrir la page client
+// ── Clic notification ────────────────────────────────────────────────────
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
   if (event.action === "close") return;
 
   const urlToOpen = event.notification.data?.url || "/client";
   event.waitUntil(
-    clients.matchAll({ type: "window", includeUncontrolled: true }).then((windowClients) => {
-      // Si l'app est déjà ouverte, focus + navigation
-      for (const client of windowClients) {
-        if (client.url.includes(self.location.origin)) {
-          return client.focus().then(() => client.navigate(urlToOpen));
+    clients.matchAll({ type: "window", includeUncontrolled: true }).then((wins) => {
+      for (const win of wins) {
+        if (win.url.includes(self.location.origin)) {
+          return win.focus().then(() => win.navigate(urlToOpen));
         }
       }
-      // Sinon ouvrir un nouvel onglet
       return clients.openWindow(urlToOpen);
     })
   );
 });
 
-// ── Messages depuis l'app ────────────────────────────────────────────
+// ── Sync arrière-plan (si supporté) ─────────────────────────────────────
+self.addEventListener("sync", (event) => {
+  if (event.tag === "sync-mesures") {
+    // Synchroniser les mesures en attente
+    event.waitUntil(syncPendingData());
+  }
+});
+
+async function syncPendingData() {
+  // Placeholder pour la sync des données offline
+  const cache = await caches.open(DATA_CACHE);
+  const keys = await cache.keys();
+  for (const key of keys) {
+    if (key.url.includes("pending-")) {
+      const data = await cache.match(key);
+      // Envoyer au serveur si en ligne
+      try {
+        await fetch("/api/sync", { method: "POST", body: await data.text() });
+        await cache.delete(key);
+      } catch {}
+    }
+  }
+}
+
+// ── Messages depuis l app ─────────────────────────────────────────────────
 self.addEventListener("message", (event) => {
   if (event.data?.type === "SKIP_WAITING") self.skipWaiting();
   if (event.data?.type === "CLEAR_CACHE") {
     caches.keys().then((keys) => Promise.all(keys.map((k) => caches.delete(k))));
+  }
+  // Sauvegarder des données pour sync hors-ligne
+  if (event.data?.type === "CACHE_DATA") {
+    caches.open(DATA_CACHE).then((cache) => {
+      const key = `pending-${Date.now()}`;
+      cache.put(key, new Response(JSON.stringify(event.data.payload)));
+    });
   }
 });
