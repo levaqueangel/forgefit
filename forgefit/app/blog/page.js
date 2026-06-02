@@ -24,6 +24,8 @@ export default function BlogPage() {
   const [cat, setCat] = useState("Tout");
   const [search, setSearch] = useState("");
   const [searchFocused, setSearchFocused] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   // Filtrage par catégorie + recherche
   const articles = useMemo(() => {
@@ -41,6 +43,27 @@ export default function BlogPage() {
 
   // Article mis en avant (le plus récent)
   const featured = ARTICLES[0];
+
+  if (!mounted) return (
+    <div style={{ background:"#0A0A0A", minHeight:"100vh", padding:"4rem 2rem" }}>
+      <div style={{ maxWidth:1100, margin:"0 auto" }}>
+        {/* Skeleton header */}
+        <div style={{ height:24, width:200, background:"#111", borderRadius:4, marginBottom:16, animation:"pulse 1.5s ease infinite" }}/>
+        <div style={{ height:56, width:400, background:"#111", borderRadius:4, marginBottom:32, animation:"pulse 1.5s ease infinite" }}/>
+        {/* Skeleton articles */}
+        <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:1, background:"#1A1A1A" }}>
+          {Array.from({length:6}).map((_,i) => (
+            <div key={i} style={{ background:"#0D0D0D", padding:24, display:"flex", flexDirection:"column", gap:12, minHeight:220 }}>
+              <div style={{ height:12, width:80, background:"#111", borderRadius:4, animation:"pulse 1.5s ease infinite" }}/>
+              <div style={{ height:18, width:"90%", background:"#111", borderRadius:4, animation:"pulse 1.5s ease infinite" }}/>
+              <div style={{ height:14, width:"70%", background:"#0D0D0D", borderRadius:4, animation:"pulse 1.5s ease infinite" }}/>
+            </div>
+          ))}
+        </div>
+      </div>
+      <style>{`@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}`}</style>
+    </div>
+  );
 
   return (
     <div style={{ background:"#0A0A0A", color:"#F0EDE8", minHeight:"100vh", fontFamily:"'Syne',sans-serif" }}>
