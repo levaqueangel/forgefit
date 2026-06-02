@@ -168,21 +168,22 @@ export function DashboardTab({
             Partage ton lien unique — chaque ami inscrit via ton lien est tracké.
           </p>
         </div>
-        <ReferralButton uid={user?.uid} nom={clientData?.nom} />
+        <ReferralButton uid={user?.uid} nom={clientData?.nom} addToast={addToast} />
       </div>
     </div>
   );
 }
 
 // Bouton de parrainage inline avec génération de lien
-function ReferralButton({ uid, nom }) {
+function ReferralButton({ uid, nom, addToast }) {
   const [link, setLink] = useState(null);
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [error, setError] = useState("");
 
   const generate = async () => {
-    if (!uid) return;
-    setLoading(true);
+    if (!uid) { addToast?.("Connecte-toi pour générer ton lien", "error"); return; }
+    setLoading(true); setError("");
     try {
       const res = await fetch("/api/referral", {
         method: "POST",
@@ -190,8 +191,17 @@ function ReferralButton({ uid, nom }) {
         body: JSON.stringify({ clientId: uid, clientNom: nom }),
       });
       const data = await res.json();
-      if (data.url) setLink(data.url);
-    } catch (e) { console.error(e); }
+      if (data.url) {
+        setLink(data.url);
+        addToast?.("Lien de parrainage généré ✓");
+      } else {
+        setError(data.error || "Erreur");
+        addToast?.(data.error || "Erreur lors de la génération", "error");
+      }
+    } catch {
+      setError("Erreur réseau");
+      addToast?.("Erreur réseau", "error");
+    }
     setLoading(false);
   };
 
