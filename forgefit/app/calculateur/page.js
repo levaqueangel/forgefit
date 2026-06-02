@@ -65,10 +65,18 @@ export default function CalculateurPage() {
   const { lang, setLang, LANGS } = useLang();
   const [form, setForm] = useState({ poids: "", taille: "", age: "", genre: "homme", activite: 2, objectif: "recomp" });
   const [result, setResult] = useState(null);
+  const [calcLoading, setCalcLoading] = useState(false);
+  const [calcError,   setCalcError]   = useState("");
 
   const inp = k => e => setForm(f => ({ ...f, [k]: e.target.value }));
 
   const calculate = () => {
+    setCalcError("");
+    // Validation des champs obligatoires
+    if (!form.poids || !form.taille || !form.age) {
+      setCalcError("Remplis ton poids, ta taille et ton âge pour calculer.");
+      return;
+    }
     const p = parseFloat(form.poids), t = parseFloat(form.taille), a = parseInt(form.age);
     if (!p || !t || !a || p < 30 || t < 100 || a < 10) return;
     const bmr = calcBMR(p, t, a, form.genre);
@@ -84,7 +92,10 @@ export default function CalculateurPage() {
     else { proteines = Math.round(p * 1.8); lipides = Math.round(p * 0.9); }
     const glucides = Math.round(Math.max(0, calories - proteines * 4 - lipides * 9) / 4);
 
-    setResult({ bmr: Math.round(bmr), tdee, calories, imc, proteines, glucides, lipides, goalLabel: goal.label, pctLabel: goal.pLabel });
+    setCalcLoading(true);
+    setTimeout(() => {
+      setCalcLoading(false);
+      setResult({ bmr: Math.round(bmr), tdee, calories, imc, proteines, glucides, lipides, goalLabel: goal.label, pctLabel: goal.pLabel });
   };
 
   const S = {
@@ -232,12 +243,20 @@ export default function CalculateurPage() {
               </div>
             </div>
 
-            <button onClick={calculate} style={{
+            
+              {calcError && (
+                <div style={{ padding:"10px 14px", background:"rgba(224,112,112,0.06)",
+                  border:"0.5px solid rgba(224,112,112,0.2)", color:"#E07070",
+                  fontSize:12, borderRadius:8, marginBottom:8 }}>
+                  ⚠️ {calcError}
+                </div>
+              )}
+              <button onClick={calculate} style={{
               background: "linear-gradient(135deg,#C9A84C,#A67C2E)", border: "none", color: "#0A0A0A",
               padding: "14px", fontFamily: "'Syne',sans-serif", fontSize: 12, fontWeight: 700,
               letterSpacing: "3px", textTransform: "uppercase", cursor: "pointer", borderRadius: 2,
             }}>
-              Calculer →
+              {calcLoading ? <span style={{display:"inline-flex",alignItems:"center",gap:8}}>Calcul...<span style={{width:12,height:12,border:"2px solid rgba(10,10,10,0.3)",borderTopColor:"#0A0A0A",borderRadius:"50%",animation:"spin 0.7s linear infinite",display:"inline-block"}}/></span> : "Calculer →"}
             </button>
           </div>
 
