@@ -592,7 +592,7 @@ Réponds UNIQUEMENT avec un JSON valide (sans markdown) :
           <div className="fade-in" style={{display:"flex",flexDirection:"column",gap:16}}>
             <div style={S.card}>
               <div style={S.cardTitle}>📐 Journal corporel <span style={{...S.tag,marginLeft:"auto"}}>Saisie hebdomadaire</span></div>
-              <CorpsJournal uid={user?.uid} addToast={addToast} />
+              <CorpsJournal uid={user?.uid} addToast={addToast} programmeData={pd} />
             </div>
             <div style={{background:"rgba(201,168,76,0.04)",border:"0.5px solid rgba(201,168,76,0.15)",borderRadius:4,padding:"14px",fontSize:12,color:"#555",lineHeight:1.7}}>
               💡 <strong style={{color:"#C9A84C"}}>Conseil :</strong> Note tes mesures le même jour chaque semaine, le matin à jeun. La balance peut fluctuer de 1-3 kg selon l'hydratation — les mensurations sont plus fiables.
