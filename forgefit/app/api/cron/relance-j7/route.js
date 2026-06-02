@@ -36,8 +36,6 @@ export async function GET(req) {
       return lastActive < sevenDaysAgo && !alreadySent;
     });
 
-    console.log(`Relance J+7: ${toRemind.length} clients éligibles`);
-
     let sent = 0;
     for (const client of toRemind) {
       try {
