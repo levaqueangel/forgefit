@@ -137,6 +137,13 @@ function BilanForm() {
       }
       setStatus("done"); setStep(5);
       try { localStorage.removeItem("apx_bilan_progress"); } catch {}
+      // Supprimer l'abandon car le bilan est terminé
+      if (sel.email) {
+        fetch("/api/save-abandon", {
+          method:"DELETE", headers:{"Content-Type":"application/json"},
+          body: JSON.stringify({ email: sel.email }),
+        }).catch(()=>{});
+      }
       trackEvent("bilan_complete", { plan: data.plan || "unknown", nom: data.prenom });
     } catch (e) {
       setErrMsg(e.message); setStatus("error");
@@ -277,7 +284,16 @@ function BilanForm() {
             </div>
             <div style={{ display: "flex", justifyContent: "space-between", marginTop: 20 }}>
               <GoldBtn ghost onClick={() => setStep(2)}>{tb.back}</GoldBtn>
-              <GoldBtn onClick={() => setStep(4)}>{tb.next}</GoldBtn>
+              <GoldBtn onClick={() => {
+        // Enregistrer l'abandon potentiel quand email + prénom sont saisis
+        if (sel.email && sel.email.includes("@")) {
+          fetch("/api/save-abandon", {
+            method:"POST", headers:{"Content-Type":"application/json"},
+            body: JSON.stringify({ email:sel.email, prenom:sel.prenom, plan:planId, step:3 }),
+          }).catch(()=>{});
+        }
+        setStep(4);
+      }}>{tb.next}</GoldBtn>
             </div>
           </div>
         )}
