@@ -1,28 +1,24 @@
-// Simple in-memory rate limiter
-// Utilise un Map pour stocker les timestamps des dernières requêtes par IP
-const requestCounts = new Map();
-const WINDOW_MS = 60 * 1000; // 1 minute
-const MAX_REQUESTS = 5; // 5 requêtes max par minute par IP
+// Rate limiter simple en mémoire — réinitialise toutes les 60s
+const WINDOWS = new Map(); // ip -> { count, resetAt }
 
-export function checkRateLimit(ip) {
-  const now = Date.now();
-  const key = ip || "unknown";
+export function checkRateLimit(ip, maxRequests = 20, windowMs = 60_000) {
+  const now  = Date.now();
+  const key  = ip || "unknown";
+  const win  = WINDOWS.get(key);
 
-  if (!requestCounts.has(key)) {
-    requestCounts.set(key, []);
+  if (!win || now > win.resetAt) {
+    WINDOWS.set(key, { count: 1, resetAt: now + windowMs });
+    return true;
   }
-
-  // Nettoyer les requêtes hors fenêtre
-  const times = requestCounts.get(key).filter(t => now - t < WINDOW_MS);
-  times.push(now);
-  requestCounts.set(key, times);
-
-  // Nettoyer les IPs inactives toutes les 1000 requêtes pour éviter les fuites mémoire
-  if (requestCounts.size > 1000) {
-    for (const [k, v] of requestCounts.entries()) {
-      if (v.every(t => now - t > WINDOW_MS)) requestCounts.delete(k);
-    }
-  }
-
-  return times.length <= MAX_REQUESTS;
+  if (win.count >= maxRequests) return false;
+  win.count++;
+  return true;
 }
+
+// Nettoyer les entrées expirées toutes les 5 minutes
+setInterval(() => {
+  const now = Date.now();
+  for (const [k, v] of WINDOWS.entries()) {
+    if (now > v.resetAt) WINDOWS.delete(k);
+  }
+}, 300_000);
