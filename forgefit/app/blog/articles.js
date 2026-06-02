@@ -176,7 +176,7 @@ La realite : les changements visibles arrivent apres 8-16 semaines de travail se
     slug: "sommeil-testosterone-musculation",
     titre: "Sommeil et testosterone : le lien direct avec tes gains musculaires",
     description: "Une nuit courte reduit la testosterone de 10-15%. Voici la science du sommeil appliquee a la musculation et comment optimiser ta recuperation hormonale.",
-    categorie: "Recuperation",
+    categorie: "Récupération",
     date: "2026-05-27",
     lecture: 7,
     image: null,
@@ -1362,7 +1362,7 @@ La régularité sur le long terme bat toujours la perfection sur le court terme.
     titre: "Tu stagues en musculation ? Voici comment relancer ta progression",
     description: "Le plateau est une étape normale en musculation. Découvre les techniques avancées pour relancer tes gains et continuer à progresser.",
     categorie: "Musculation",
-    date: "2026-05-16",
+    date: "2026-05-15",
     lecture: 7,
     image: null,
     contenu: `
@@ -1462,7 +1462,7 @@ Aborde-le avec curiosité plutôt qu'avec frustration. C'est une invitation à e
     titre: "S'entraîner à la maison : est-ce vraiment efficace ? La vérité",
     description: "L'entraînement à domicile peut-il donner de vrais résultats ? Comparatif complet avec la salle de sport et guide pour s'entraîner efficacement chez soi.",
     categorie: "Remise en forme",
-    date: "2026-05-20",
+    date: "2026-05-18",
     lecture: 7,
     image: null,
     contenu: `
