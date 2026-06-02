@@ -1,7 +1,14 @@
 User-agent: *
 Allow: /
+
+# Pages publiques indexées
+# / /bilan /blog /blog/* /calculateur /faq /a-propos /resultats /mentions-legales
+
+# Pages privées — ne pas indexer
 Disallow: /client
 Disallow: /coach
+Disallow: /merci
+Disallow: /offline
 Disallow: /api/
 
 Sitemap: https://apxfitness-brown.vercel.app/sitemap.xml
