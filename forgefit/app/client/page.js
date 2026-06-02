@@ -88,6 +88,20 @@ export default function ClientPage() {
     subscribe:  subscribePush,
   } = usePushNotifications(user?.uid);
   const [showPushBanner, setShowPushBanner] = useState(false);
+  const [isOnline, setIsOnline] = useState(true);
+
+  // Détection mode hors-ligne
+  useEffect(() => {
+    const handleOnline  = () => { setIsOnline(true);  addToast("Connexion rétablie ✓", "success"); };
+    const handleOffline = () => { setIsOnline(false); addToast("Mode hors-ligne", "error"); };
+    setIsOnline(typeof navigator !== "undefined" ? navigator.onLine : true);
+    window.addEventListener("online",  handleOnline);
+    window.addEventListener("offline", handleOffline);
+    return () => {
+      window.removeEventListener("online",  handleOnline);
+      window.removeEventListener("offline", handleOffline);
+    };
+  }, [addToast]);
 
   // Afficher la bannière 30s après connexion si permission pas encore accordée
   useEffect(() => {
