@@ -28,8 +28,6 @@ export async function GET(req) {
       const created = c.createdAt;
       return created < twentyEightDaysAgo && created > twentyNineDaysAgo && !c.recapJ28SentAt;
     });
-
-    console.log(`Récap J+28: ${eligible.length} clients éligibles`);
     let sent = 0;
 
     for (const client of eligible) {
