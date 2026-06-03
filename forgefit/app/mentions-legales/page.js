@@ -78,7 +78,22 @@ export default function MentionsLegales() {
         </section>
       </div>
 
-      <footer style={{ padding: "1.5rem 2rem", display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: "0.5px solid #242424" }}>
+      <div style={{ height: "0.5px", background: "#242424", margin: "3rem 0" }} />
+<section>
+  <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 36, fontWeight: 600, color: "#F0EDE8", marginBottom: "1rem" }}>
+    Paiements et sécurité
+  </h2>
+  <p style={pStyle}>Les paiements sont traités par <strong style={{color:"#F0EDE8"}}>Stripe, Inc.</strong> (PCI DSS niveau 1). APXFITNESS ne stocke aucune donnée bancaire.</p>
+</section>
+<div style={{ height: "0.5px", background: "#242424", margin: "3rem 0" }} />
+<section>
+  <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 36, fontWeight: 600, color: "#F0EDE8", marginBottom: "1rem" }}>
+    Cookies
+  </h2>
+  <p style={pStyle}>Ce site utilise uniquement des cookies techniques : <strong style={{color:"#F0EDE8"}}>Firebase Auth</strong> (session utilisateur) et <strong style={{color:"#F0EDE8"}}>Google Analytics</strong> (statistiques anonymisées). Aucun cookie publicitaire.</p>
+</section>
+
+<footer style={{ padding: "1.5rem 2rem", display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: "0.5px solid #242424" }}>
         <div style={{ fontSize: 16, fontWeight: 800, letterSpacing: 5 }}>APXFIT<span style={{ color: "#C9A84C" }}>NESS</span></div>
         <div style={{ fontSize: 11, letterSpacing: "2px", color: "#555", textTransform: "uppercase" }}>{t.footer.copy}</div>
       </footer>
