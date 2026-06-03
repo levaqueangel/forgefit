@@ -1,6 +1,7 @@
+import { memo } from "react";
 "use client";
 
-export function AssistantTab({
+function AssistantTab({
   S, chatHistory, chatLoading, chatInput, setChatInput,
   sendChatMessage, chatBottomRef,
 }) {
@@ -63,3 +64,5 @@ export function AssistantTab({
     </div>
   );
 }
+
+export { memo(AssistantTab) as AssistantTab };
