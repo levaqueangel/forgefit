@@ -1,5 +1,187 @@
 export const ARTICLES = [
   {
+    slug: "creatine-guide-complet",
+    titre: "Creatine : le complement qui fonctionne vraiment en musculation",
+    description: "La creatine est le complement le plus etudie en musculation. Tout savoir : dosage, timing, formes, effets reels et idees recues.",
+    categorie: "Nutrition",
+    date: "2026-06-10",
+    lecture: 7,
+    image: null,
+    contenu: `La creatine est le supplement le plus valide scientifiquement. Plus de 1000 etudes. Voici ce qu il faut savoir.
+
+## Comment ca marche
+
+La creatine regenere l ATP (energie musculaire) plus vite pendant les efforts intenses. Resultat : +1 a 2 repetitions sur les series lourdes, +5 a 10% de charge apres 4 semaines.
+
+## Quelle forme ?
+
+Creatine monohydrate uniquement. Toutes les autres formes (Kre-Alkalyn, HCl, ethyl ester) coutent plus cher et n ont pas prouve leur superiorite.
+
+## Dosage
+
+3 a 5g par jour, n importe quand. Pas besoin de phase de charge a 20g/j. La saturation arrive en 3 semaines au lieu de 1 semaine, sans les effets digestifs.
+
+## Idees recues
+
+**Abime les reins** : Faux sur des personnes en bonne sante. Des etudes sur 5 ans a 30g/j n ont montre aucun effet negatif renal.
+
+**Retient l eau** : La retention est intramusculaire, pas sous la peau. Elle ne cache pas la definition.
+
+**Inutile pour les femmes** : Faux. Les femmes ont des reserves naturellement plus basses et repondent tres bien.
+
+## Conclusion
+
+Si un seul supplement : creatine monohydrate, 3g/j, marque generique. Tout le reste est secondaire.`,
+  },
+  {
+    slug: "bien-manger-budget-muscle",
+    titre: "Manger pour prendre du muscle avec un petit budget",
+    description: "Prendre du muscle sans se ruiner. Les meilleures sources de proteines economiques, la liste de courses type et les astuces du coach.",
+    categorie: "Nutrition",
+    date: "2026-06-12",
+    lecture: 8,
+    image: null,
+    contenu: `On peut atteindre 180g de proteines par jour avec 40 a 50 euros de budget hebdomadaire.
+
+## Les meilleures proteines economiques
+
+**Oeufs entiers** : 0.20€ l oeuf, 6g de proteines. Ne jeter pas le jaune — il contient la vitamine D et la choline.
+
+**Thon en boite au naturel** : 1.50€ la boite de 160g, 25g de proteines. Zero cuisson.
+
+**Hauts de cuisse de poulet** : 4 a 6€/kg contre 12€/kg pour le blanc. Meme proteines, meilleur gout.
+
+**Lentilles** : moins de 2€ le kilo sec. 9g/100g cuites. Combiner avec du riz pour un profil complet.
+
+**Fromage blanc 0%** : 1.20€ les 500g, 10g/100g. Parfait avant le coucher (caseine).
+
+## Liste de courses type pour 50 euros
+
+- 2 douzaines d oeufs : 5€
+- 2 kg hauts de cuisse : 10€
+- 6 boites de thon : 9€
+- 1 kg lentilles seches : 2€
+- 1.5 kg fromage blanc : 4€
+- Pates et riz (2 kg) : 3€
+- Legumes surgeles (2 kg) : 5€
+- Fruits (2 kg) : 3€
+Total : ~41€ pour 5 jours a 180g proteines/j.
+
+## Astuce meal prep
+
+Cuisiner pour la semaine en une seule session de 90 minutes le dimanche. Poulet au four, riz et lentilles cuits, oeufs durs. Toute la semaine de dejeuners et diners est prete.`,
+  },
+  {
+    slug: "flexibilite-mobilite-entrainement",
+    titre: "Mobilite articulaire : pourquoi c est indispensable en musculation",
+    description: "La mobilite est negligee par 90% des pratiquants. Voici pourquoi c est une erreur et la routine de 10 minutes qui peut ajouter 5 kg sur ton squat.",
+    categorie: "Recuperation",
+    date: "2026-06-14",
+    lecture: 6,
+    image: null,
+    contenu: `La mobilite determine la qualite technique. La qualite technique determine la stimulation musculaire. La stimulation musculaire determine les gains.
+
+## Les 4 zones critiques
+
+**Cheville** : essentielle pour le squat. Test : peux-tu amener le genou a 10 cm du mur avec le talon au sol ? Si non, tes squats sont limites.
+
+**Hanche** : limite les squats profonds et les soulevs de terre. Une hanche rigide force des compensations lombaires.
+
+**Epaule** : critique pour le developpe couche et le militaire. Mauvaise mobilite = risque d impingement.
+
+**Thoracique** : la colonne du milieu du dos doit s etendre pour les mouvements au-dessus de la tete.
+
+## Routine 10 minutes (avant chaque seance)
+
+1. Rotation d epaule avec bande elastique (2 min)
+2. Ecartement de cheville contre mur (2 min)
+3. 90/90 hip stretch (2 min)
+4. Foam roller thoracique (2 min)
+5. Activation fessiers - pont bilateral (2 min)
+
+## Etirement vs mobilite
+
+L etirement statique (30+ secondes) avant seance reduit la force. La mobilite active (mouvement + contraction) ne la reduit pas et peut l ameliorer. La routine ci-dessus est de la mobilite.`,
+  },
+  {
+    slug: "programme-seche-8-semaines",
+    titre: "Programme seche 8 semaines : perdre du gras sans perdre le muscle",
+    description: "Un protocole de seche complet avec deficit calorique progressif, macros optimisees et strategie d entrainement pour conserver la masse musculaire.",
+    categorie: "Programme",
+    date: "2026-06-16",
+    lecture: 10,
+    image: null,
+    contenu: `La seche est la phase la plus technique en musculation. Voici un protocole complet sur 8 semaines.
+
+## Semaines 1-2 : Installation
+
+Deficit de -300 kcal/j seulement. Proteines a 2.2g/kg. Maintenir les memes charges qu en prise de masse — c est le signal qui preserve le muscle.
+
+## Semaines 3-4 : Acceleration
+
+Deficit a -400 kcal/j. Ajouter 2 sessions de cardio leger de 20-25 min post-musculation. Introduire un refeed hebdomadaire (+500 kcal de glucides un jour) pour relancer la leptine.
+
+## Semaines 5-6 : Mi-seche
+
+Maintenir -400 kcal/j. Surveiller : tour de taille, force (si chute > 10% trop agressif), qualite du sommeil.
+
+## Semaines 7-8 : Finalisation
+
+Possibilite de monter a -500 kcal/j. 3 sessions de cardio de 25 min. Hydratation : 40 ml/kg.
+
+## Resultats attendus
+
+- Perte de gras : 4 a 6 kg
+- Perte musculaire : quasi nulle si proteines suffisantes
+- Variation de force : -3 a -5% acceptable
+
+## Ce qu il ne faut pas faire
+
+Couper les glucides completement (performance et humeur s effondrent), faire du cardio a jeun (aucun benefice prouve), sauter des repas (catabolisme accelere).`,
+  },
+  {
+    slug: "casser-plateau-musculation",
+    titre: "Tu stagnes depuis des mois ? Les 7 causes d un plateau et les solutions",
+    description: "Un plateau a toujours une cause precise. Progression stoppee, physique qui ne change plus — voici les 7 raisons les plus courantes et comment sortir de la stagnation.",
+    categorie: "Musculation",
+    date: "2026-06-18",
+    lecture: 7,
+    image: null,
+    contenu: `Un plateau en musculation a toujours une cause et une solution. Voici les 7 plus courantes.
+
+## 1. Memes charges depuis trop longtemps
+
+Le muscle s est adapte au stimulus. Pas de progression = pas de raison de grossir. Solution : journal d entrainement, augmenter au moins une variable par semaine.
+
+## 2. Pas assez de proteines
+
+1.2g/kg ne suffit pas. Passer a 2g/kg minimum et verifier avec MyFitnessPal pendant 3 jours.
+
+## 3. Sommeil insuffisant
+
+Dormir 6h au lieu de 8h reduit les gains de 40% selon une etude de Chicago. Identifier et corriger un facteur a la fois.
+
+## 4. Trop de volume
+
+Paradoxalement, faire plus peut bloquer la progression. Solution : deload de 2 semaines (meme charges, 30% de series en moins). Les gains reprennent presque toujours apres.
+
+## 5. Mauvaise technique
+
+Un muscle mal sollicite ne grossit pas. Filmer chaque grand mouvement de profil et de face, comparer avec des references.
+
+## 6. Programme trop monotone
+
+Le corps s adapte a un stimulus repetitif. Changer soit les exercices, soit la structure des series (4x10 → 6x6 ou 3x15) toutes les 4 a 6 semaines.
+
+## 7. Stress chronique
+
+Le cortisol est antagoniste de la testosterone et de la synthese proteique. Reconnaitre l impact est la premiere etape.
+
+## Identifier sa cause
+
+Tenir un journal 2 semaines : charges utilisees, qualite du sommeil (note/5), proteines approximatives, niveau de stress. La cause est presque toujours evidente quand les donnees sont disponibles.`,
+  },
+  {
     slug: "proteines-musculation-tout-savoir",
     titre: "Proteines et musculation : tout ce qu il faut savoir",
     description: "Sources, quantites, timing, qualite — le guide complet sur les proteines pour maximiser la synthese musculaire et progresser durablement.",
