@@ -1,7 +1,7 @@
 {
-  "name": "APXFITNESS — Coaching personnalisé",
+  "name": "APXFITNESS — Coaching Fitness",
   "short_name": "APXFITNESS",
-  "description": "Programmes de musculation et remise en forme 100% sur mesure. Coaching adapté à ton niveau.",
+  "description": "Ton programme de musculation personnalisé par IA. Accède à tes séances, ta nutrition et ton coach partout.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
@@ -109,9 +109,13 @@
       "sizes": "390x844",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "APXFITNESS sur mobile"
+      "label": "Espace client APXFITNESS"
     }
   ],
   "prefer_related_applications": false,
-  "related_applications": []
+  "related_applications": [],
+  "edge_side_panel": {
+    "preferred_width": 480
+  },
+  "protocol_handlers": []
 }
