@@ -1,0 +1,22 @@
+export const metadata = {
+  title: "Statut des Services | APXFITNESS",
+  description: "État en temps réel des services APXFITNESS : API, Firebase, emails, IA.",
+  robots: { index: false, follow: false },
+  openGraph: {
+    title: "Statut des Services | APXFITNESS",
+    description: "État en temps réel des services APXFITNESS : API, Firebase, emails, IA.",
+    url: "https://apxfitness-brown.vercel.app/status",
+    siteName: "APXFITNESS",
+    locale: "fr_FR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Statut des Services | APXFITNESS",
+    description: "État en temps réel des services APXFITNESS : API, Firebase, emails, IA.",
+  },
+  alternates: {
+    canonical: "https://apxfitness-brown.vercel.app/status",
+  },
+};
+export default function Layout({ children }) { return children; }
