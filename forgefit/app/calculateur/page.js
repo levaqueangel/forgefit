@@ -96,6 +96,7 @@ export default function CalculateurPage() {
     setTimeout(() => {
       setCalcLoading(false);
       setResult({ bmr: Math.round(bmr), tdee, calories, imc, proteines, glucides, lipides, goalLabel: goal.label, pctLabel: goal.pLabel });
+    }, 400);
   };
 
   const S = {
