@@ -1,8 +1,8 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, memo } from "react";
 import { beep } from "./utils";
 
-export function RestTimer({ duration, exerciseName, onDone, onSkip }) {
+function RestTimer({ duration, exerciseName, onDone, onSkip }) {
   const [remaining, setRemaining] = useState(duration);
   const [paused, setPaused] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -121,3 +121,5 @@ export function RestTimer({ duration, exerciseName, onDone, onSkip }) {
     </>
   );
 }
+
+export { memo(RestTimer) as RestTimer };
