@@ -136,12 +136,12 @@ function generateRecapHtml(prenom, plan, streak, seances, site) {
 
   <!-- CTA double -->
   <tr><td style="background:#111;padding:0 40px 40px;text-align:center;">
-    <a href="${site}/bilan" style="display:inline-block;background:linear-gradient(135deg,#C9A84C,#A67C2E);color:#0A0A0A;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:16px 32px;text-decoration:none;font-family:Arial,sans-serif;margin-right:12px;">
+    <table cellpadding="0" cellspacing="0" border="0" style="margin:0 auto;"><tr><td style="background:linear-gradient(135deg,#C9A84C,#A67C2E);mso-padding-alt:0;border-radius:2px;"><a href="${site}/bilan" style="display:inline-block;background:linear-gradient(135deg,#C9A84C,#A67C2E);color:#0A0A0A;font-family:Arial,sans-serif;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:16px 36px;text-decoration:none;border-radius:2px;">
       Renouveler mon programme →
-    </a>
-    <a href="${site}/client" style="display:inline-block;background:transparent;border:0.5px solid #333;color:#888;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:16px 24px;text-decoration:none;font-family:Arial,sans-serif;">
+    </a></td></tr></table>
+    <table cellpadding="0" cellspacing="0" border="0" style="margin:0 auto;"><tr><td style="background:transparent;mso-padding-alt:0;border-radius:2px;"><a href="${site}/client" style="display:inline-block;background:transparent;color:#888;font-family:Arial,sans-serif;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:16px 36px;text-decoration:none;border-radius:2px;">
       Mon espace client
-    </a>
+    </a></td></tr></table>
   </td></tr>
 
   <!-- Footer -->
