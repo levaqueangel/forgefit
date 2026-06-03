@@ -1,10 +1,10 @@
 "use client";
-import { useState } from "react";
+import { useState, memo } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 import { LangSelector } from "../LangSelector";
 
-export function LoginScreen({ lang, setLang, LANGS }) {
+function LoginScreen({ lang, setLang, LANGS }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -49,3 +49,5 @@ export function LoginScreen({ lang, setLang, LANGS }) {
     </div>
   );
 }
+
+export { memo(LoginScreen) as LoginScreen };
