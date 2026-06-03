@@ -36,6 +36,10 @@ export async function GET(req) {
       "Programme envoyé",
       "Bilan J28 envoyé",
       "Relance J7 envoyée",
+      "Dernier check-in",
+      "Notation séance",
+      "Calories/j",
+      "Protéines/j (g)",
     ];
 
     const rows = clients.map(c => [
@@ -49,6 +53,10 @@ export async function GET(req) {
       c.programme ? "Oui" : "Non",
       c.recapJ28SentAt ? new Date(c.recapJ28SentAt).toLocaleDateString("fr-FR") : "Non",
       c.relanceJ7SentAt ? new Date(c.relanceJ7SentAt).toLocaleDateString("fr-FR") : "Non",
+      escapeCsv(c.lastCheckinResponse || ""),
+      c.lastSessionRating ? `${c.lastSessionRating.difficulte}/5 - ${c.lastSessionRating.energie}` : "",
+      c.programmeData?.nutrition?.calories_jour || c.nutrition?.calories_jour || "",
+      c.programmeData?.nutrition?.proteines_g || c.nutrition?.proteines_g || "",
     ]);
 
     const csv = [
