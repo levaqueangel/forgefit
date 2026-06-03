@@ -147,6 +147,12 @@ export default function CoachPage() {
   // Export CSV
   const [exporting, setExporting] = useState(false);
 
+  // Modal création client manuel
+  const [showAddClient, setShowAddClient]     = useState(false);
+  const [newClientForm, setNewClientForm]     = useState({ nom:"", email:"", plan:"forge", programme:"" });
+  const [newClientLoading, setNewClientLoading] = useState(false);
+  const [newClientError, setNewClientError]   = useState("");
+
   // Toasts
   const [toasts, setToasts] = useState([]);
   const addToast = useCallback((message, type="success") => {
@@ -290,6 +296,36 @@ export default function CoachPage() {
   };
 
   // ── Export CSV ──────────────────────────────────────────────────────────
+  const createClientManual = async () => {
+    const { nom, email, plan, programme } = newClientForm;
+    if (!nom.trim() || !email.trim() || !programme.trim()) {
+      setNewClientError("Nom, email et programme sont obligatoires."); return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setNewClientError("Email invalide."); return;
+    }
+    setNewClientLoading(true); setNewClientError("");
+    try {
+      const token = await user.getIdToken();
+      const res = await fetch("/api/create-client", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+        body: JSON.stringify({ nom: nom.trim(), email: email.trim().toLowerCase(), plan, programme }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        addToast(`Client ${nom} créé ✓`);
+        setShowAddClient(false);
+        setNewClientForm({ nom:"", email:"", plan:"forge", programme:"" });
+      } else {
+        setNewClientError(data.error || "Erreur lors de la création.");
+      }
+    } catch (e) {
+      setNewClientError("Erreur réseau : " + e.message);
+    }
+    setNewClientLoading(false);
+  };
+
   const exportCSV = async () => {
     if (exporting) return;
     setExporting(true);
@@ -429,6 +465,9 @@ export default function CoachPage() {
           <span style={{fontSize:11,color:"#444",letterSpacing:"1px"}}>
             {clients.length} client{clients.length > 1 ? "s" : ""}
           </span>
+          <button className="nav-btn" onClick={() => setShowAddClient(true)}>
+            ➕ Client
+          </button>
           <button className="nav-btn" onClick={exportCSV} disabled={exporting}>
             {exporting ? <span style={{width:10,height:10,border:"1.5px solid #333",borderTopColor:"#C9A84C",borderRadius:"50%",animation:"spin 0.7s linear infinite",display:"inline-block"}}/> : "⬇️"} CSV
           </button>
