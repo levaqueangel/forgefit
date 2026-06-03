@@ -804,6 +804,31 @@ export default function CoachPage() {
   );
 }
 
+// ── Graphique mini SVG ───────────────────────────────────────────────────────
+function MiniSparkline({ data, color = "#C9A84C" }) {
+  if (data.length < 2) return null;
+  const W = 200, H = 40, PAD = 4;
+  const max = Math.max(...data, 1);
+  const pts = data.map((v, i) => [
+    PAD + (i / (data.length - 1)) * (W - PAD * 2),
+    PAD + (H - PAD * 2) - (v / max) * (H - PAD * 2)
+  ]);
+  const d = pts.map((p, i) => (i === 0 ? `M ${p[0]} ${p[1]}` : `L ${p[0]} ${p[1]}`)).join(' ');
+  return (
+    <svg width="100%" viewBox={`0 0 ${W} ${H}`} style={{ display:"block", opacity: 0.8 }}>
+      <defs>
+        <linearGradient id={`sg${color.replace('#','')}`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor={color} stopOpacity="0.3"/>
+          <stop offset="100%" stopColor={color} stopOpacity="0"/>
+        </linearGradient>
+      </defs>
+      <path d={`${d} L ${pts[pts.length-1][0]} ${H} L ${pts[0][0]} ${H} Z`} fill={`url(#sg${color.replace('#','')})`}/>
+      <path d={d} fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+      {pts.map(([x,y],i) => <circle key={i} cx={x} cy={y} r="2.5" fill={color}/>)}
+    </svg>
+  );
+}
+
 // ── StatsView ────────────────────────────────────────────────────────────────
 function StatsView({ clients, allMsgsCount }) {
   const now = Date.now();
@@ -849,6 +874,36 @@ function StatsView({ clients, allMsgsCount }) {
           </div>
         ))}
       </div>
+
+      {/* Courbe nouvelles inscriptions (7 dernières semaines) */}
+      {clients.length >= 3 && (() => {
+        const weeks = Array.from({length:7}, (_,i) => {
+          const weekStart = now - (6-i)*7*24*3600*1000;
+          const weekEnd   = weekStart + 7*24*3600*1000;
+          return clients.filter(c => {
+            const t = c.createdAt ? new Date(c.createdAt).getTime() : 0;
+            return t >= weekStart && t < weekEnd;
+          }).length;
+        });
+        const labels = Array.from({length:7}, (_,i) => {
+          const d = new Date(now - (6-i)*7*24*3600*1000);
+          return d.toLocaleDateString("fr-FR",{day:"numeric",month:"short"});
+        });
+        return (
+          <div style={{background:"#0D0D0D",border:"0.5px solid #1A1A1A",borderRadius:14,padding:"18px 20px",marginBottom:12}}>
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
+              <div style={{fontSize:10,letterSpacing:"3px",textTransform:"uppercase",color:"#555"}}>Nouvelles inscriptions</div>
+              <div style={{fontSize:11,fontWeight:700,color:"#C9A84C"}}>7 dernières semaines</div>
+            </div>
+            <MiniSparkline data={weeks} color="#C9A84C"/>
+            <div style={{display:"flex",justifyContent:"space-between",marginTop:6}}>
+              <span style={{fontSize:9,color:"#333"}}>{labels[0]}</span>
+              <span style={{fontSize:9,color:"#333"}}>{labels[3]}</span>
+              <span style={{fontSize:9,color:"#333"}}>{labels[6]}</span>
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Répartition plans */}
       <div style={{background:"#0D0D0D",border:"0.5px solid #1A1A1A",borderRadius:14,padding:"18px 20px"}}>
