@@ -180,11 +180,26 @@ export function CorpsJournal({ uid, addToast, programmeData }) {
 
   // Dernière entrée
   const last = entries[entries.length - 1];
+  const first = entries[0];
 
   // Calcul IMC si poids et taille disponibles
   const imc = last?.poids && programmeData?.taille
     ? (last.poids / Math.pow(programmeData.taille / 100, 2)).toFixed(1)
     : null;
+
+  // Progression vers l objectif poids
+  const poidsObjectif = parseFloat(targetWeight) || null;
+  const poidsActuel   = parseFloat(last?.poids) || null;
+  const poidsDépart   = parseFloat(first?.poids) || null;
+  const progressionPct = poidsObjectif && poidsActuel && poidsDépart && poidsDépart !== poidsObjectif
+    ? Math.min(100, Math.max(0, Math.abs(poidsDépart - poidsActuel) / Math.abs(poidsDépart - poidsObjectif) * 100))
+    : null;
+  const kgRestants = poidsObjectif && poidsActuel
+    ? Math.abs(poidsActuel - poidsObjectif).toFixed(1)
+    : null;
+  const objectifAtteint = poidsObjectif && poidsActuel
+    ? Math.abs(poidsActuel - poidsObjectif) < 0.5
+    : false;
 
   const MESURE_FIELDS = [
     { key:"poids",       label:"Poids",       unit:"kg",  icon:"⚖️",  color:"#C9A84C", placeholder:"ex: 78.5" },
@@ -219,6 +234,36 @@ export function CorpsJournal({ uid, addToast, programmeData }) {
               <div style={{ fontSize:9, letterSpacing:"1.5px", textTransform:"uppercase", color:"#444" }}>{s.label}</div>
             </div>
           ))}
+        </div>
+      )}
+
+      {/* Progression vers objectif */}
+      {poidsObjectif && poidsActuel && (
+        <div style={{ background: objectifAtteint ? "rgba(122,224,122,0.06)" : "rgba(201,168,76,0.04)",
+          border: `0.5px solid ${objectifAtteint ? "rgba(122,224,122,0.3)" : "rgba(201,168,76,0.2)"}`,
+          borderRadius:10, padding:"12px 14px" }}>
+          <div style={{ display:"flex", justifyContent:"space-between", marginBottom:8 }}>
+            <span style={{ fontSize:9, letterSpacing:"2px", textTransform:"uppercase",
+              color: objectifAtteint ? "#7AE07A" : "#C9A84C" }}>
+              {objectifAtteint ? "🎯 Objectif atteint !" : "Progression vers l objectif"}
+            </span>
+            <span style={{ fontSize:11, fontWeight:700,
+              color: objectifAtteint ? "#7AE07A" : "#C9A84C" }}>
+              {objectifAtteint ? `${poidsObjectif} kg ✓` : `${kgRestants} kg restants`}
+            </span>
+          </div>
+          {!objectifAtteint && progressionPct !== null && (
+            <div style={{ height:6, background:"#1A1A1A", borderRadius:4, overflow:"hidden" }}>
+              <div style={{ height:"100%", borderRadius:4, transition:"width 1.2s ease",
+                background:"linear-gradient(90deg,#C9A84C,#E8C87A)",
+                width:`${progressionPct.toFixed(0)}%` }}/>
+            </div>
+          )}
+          {!objectifAtteint && (
+            <div style={{ fontSize:10, color:"#444", marginTop:6 }}>
+              {poidsActuel} kg actuellement · Objectif : {poidsObjectif} kg · {progressionPct?.toFixed(0) || 0}% parcouru
+            </div>
+          )}
         </div>
       )}
 
