@@ -719,6 +719,7 @@ export default function CoachPage() {
                         {label:"Calories",  val:clientData?.programmeData?.nutrition?.calories_jour?`${clientData.programmeData.nutrition.calories_jour}`:clientData?.nutrition?.calories_jour?`${clientData.nutrition.calories_jour} kcal`:"—", color:"#7AE07A"},
                         {label:"Séances",   val:clientData?.programmeData?.seances_par_semaine?`${clientData.programmeData.seances_par_semaine}/sem`:"—", color:"#5DCAA5"},
                         {label:"Durée",     val:clientData?.programmeData?.duree_programme_semaines?`${clientData.programmeData.duree_programme_semaines}W`:"—", color:"#E8C87A"},
+                        {label:"Check-in",  val:clientData?.lastCheckinResponse||"—", color:"#5DCAA5"},
                       ].map((s,i) => (
                         <div key={i} className="stat-card">
                           <div style={{position:"absolute",top:0,left:8,right:8,height:2,background:s.color,opacity:0.6,borderRadius:"0 0 2px 2px"}}/>
