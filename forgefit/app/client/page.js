@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { signInWithEmailAndPassword, signOut, onAuthStateChanged,
          updatePassword, EmailAuthProvider, reauthenticateWithCredential } from "firebase/auth";
 import { collection, query, where, onSnapshot, addDoc,
-         serverTimestamp, doc, getDoc, updateDoc } from "firebase/firestore";
+         serverTimestamp, doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { auth, db } from "../firebase";
 import { useLang } from "../useLang";
 import { LangSelector } from "../LangSelector";
@@ -189,15 +189,13 @@ export default function ClientPage() {
   const saveSessionRating = async (difficulte, energie) => {
     if (!user?.uid || !seanceAujourdhui) return;
     try {
-      const { updateDoc: _udoc, doc: _doc, arrayUnion: _au } = await import("firebase/firestore");
-      const fbMod = await import("./firebase");
       const entry = {
         date: new Date().toISOString(),
         seance: seanceAujourdhui?.nom || "Séance",
         difficulte, energie,
       };
-      await _udoc(_doc(fbMod.db, "clients", user.uid), {
-        sessionRatings: _au(entry),
+      await updateDoc(doc(db, "clients", user.uid), {
+        sessionRatings: arrayUnion(entry),
         lastSessionRating: entry,
       });
       setSessionRating({ difficulte, energie, submitted: true });
