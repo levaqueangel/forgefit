@@ -101,9 +101,9 @@ function generateRelanceHtml(prenom, plan, site) {
 
   <!-- CTA -->
   <tr><td style="background:#111;padding:0 40px 40px;text-align:center;">
-    <a href="${site}/client" style="display:inline-block;background:linear-gradient(135deg,#C9A84C,#A67C2E);color:#0A0A0A;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:16px 36px;text-decoration:none;font-family:Arial,sans-serif;">
+    <table cellpadding="0" cellspacing="0" border="0" style="margin:0 auto;"><tr><td style="background:linear-gradient(135deg,#C9A84C,#A67C2E);mso-padding-alt:0;border-radius:2px;"><a href="${site}/client" style="display:inline-block;background:linear-gradient(135deg,#C9A84C,#A67C2E);color:#0A0A0A;font-family:Arial,sans-serif;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:16px 36px;text-decoration:none;border-radius:2px;">
       Reprendre mon programme →
-    </a>
+    </a></td></tr></table>
     <p style="margin:16px 0 0;font-size:12px;color:#333;font-family:Arial,sans-serif;">
       Des questions ? Réponds directement à cet email.
     </p>
