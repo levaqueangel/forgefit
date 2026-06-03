@@ -1,10 +1,11 @@
 "use client";
 import React, { useState } from "react";
+import { memo } from "react";
 import { ProgressBar } from "./ProgressBar";
 import { updateDoc, doc } from "firebase/firestore";
 import { db } from "../firebase";
 
-export function DashboardTab({
+function DashboardTab({
   S, doneSeances, doneExos, exercices, pd, realStreak,
   nbSeances, semaine, joursEtat, seances, seanceDone, setSeanceDone,
   user, clientData, setClientData, vibrate, addToast, nutrition,
@@ -227,3 +228,6 @@ function ReferralButton({ uid, nom, addToast }) {
     </button>
   );
 }
+
+export const DashboardTabMemo = memo(DashboardTab);
+export { DashboardTab };
