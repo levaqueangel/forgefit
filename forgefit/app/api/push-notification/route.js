@@ -6,7 +6,12 @@ export const dynamic = "force-dynamic";
 // Envoyer une notification push à un client spécifique
 // Appelé automatiquement depuis notify-client après envoi de message coach
 export async function POST(req) {
-  try {  const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "unknown";
+  try {
+  const internalKey = req.headers.get("x-internal-key");
+  if (internalKey !== process.env.CRON_SECRET) {
+    return Response.json({ error: "Non autorise" }, { status: 401 });
+  }
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "unknown";
   if (!checkRateLimit(ip, 10, 60_000)) {
     return Response.json({ error: "Trop de requêtes. Réessaie dans une minute." }, { status: 429 });
   }
