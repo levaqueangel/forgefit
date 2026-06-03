@@ -189,15 +189,15 @@ export default function ClientPage() {
   const saveSessionRating = async (difficulte, energie) => {
     if (!user?.uid || !seanceAujourdhui) return;
     try {
-      const { updateDoc, doc, arrayUnion } = await import("firebase/firestore");
-      const { db } = await import("./firebase");
+      const { updateDoc: _udoc, doc: _doc, arrayUnion: _au } = await import("firebase/firestore");
+      const fbMod = await import("./firebase");
       const entry = {
         date: new Date().toISOString(),
         seance: seanceAujourdhui?.nom || "Séance",
         difficulte, energie,
       };
-      await updateDoc(doc(db, "clients", user.uid), {
-        sessionRatings: arrayUnion(entry),
+      await _udoc(_doc(fbMod.db, "clients", user.uid), {
+        sessionRatings: _au(entry),
         lastSessionRating: entry,
       });
       setSessionRating({ difficulte, energie, submitted: true });
