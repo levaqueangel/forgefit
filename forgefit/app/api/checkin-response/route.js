@@ -1,4 +1,4 @@
-import { getAdminDb } from "../../firebase-admin";
+import { getAdminDb } from "../firebase-admin";
 export const dynamic = "force-dynamic";
 
 export async function GET(req) {
