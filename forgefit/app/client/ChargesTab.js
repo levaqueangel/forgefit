@@ -1,9 +1,9 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
 import { collection, doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 
-export function ChargesTab({ uid, exercices }) {
+function ChargesTab({ uid, exercices }) {
   const [chargesLog, setChargesLog] = useState({});
   const [inputs, setInputs] = useState({});
   const [saving, setSaving] = useState({});
@@ -133,3 +133,5 @@ export function ChargesTab({ uid, exercices }) {
 }
 
 // ── Journal corporel ───────────────────────────────────────────────────
+
+export { memo(ChargesTab) as ChargesTab };
