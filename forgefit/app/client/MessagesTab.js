@@ -1,7 +1,8 @@
+import { memo } from "react";
 "use client";
 import { Bubble } from "./Bubble";
 
-export function MessagesTab({
+function MessagesTab({
   S, messages, newMsg, setNewMsg, sending, sendMessage, sendError, bottomRef,
 }) {
   return (
@@ -38,3 +39,5 @@ export function MessagesTab({
     </div>
   );
 }
+
+export { memo(MessagesTab) as MessagesTab };
