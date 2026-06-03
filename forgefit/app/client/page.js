@@ -186,6 +186,26 @@ export default function ClientPage() {
   }, [user]);
 
   // ── Envoi message ────────────────────────────────────────────
+  const saveSessionRating = async (difficulte, energie) => {
+    if (!user?.uid || !seanceAujourdhui) return;
+    try {
+      const { updateDoc, doc, arrayUnion } = await import("firebase/firestore");
+      const { db } = await import("./firebase");
+      const entry = {
+        date: new Date().toISOString(),
+        seance: seanceAujourdhui?.nom || "Séance",
+        difficulte, energie,
+      };
+      await updateDoc(doc(db, "clients", user.uid), {
+        sessionRatings: arrayUnion(entry),
+        lastSessionRating: entry,
+      });
+      setSessionRating({ difficulte, energie, submitted: true });
+      addToast("Séance notée ✓ Merci !");
+      setTimeout(() => setShowRating(false), 2000);
+    } catch { addToast("Erreur lors de la notation", "error"); }
+  };
+
   const sendMessage = async () => {
     if (!newMsg.trim()||sending) return;
     setSending(true); setSendError("");
