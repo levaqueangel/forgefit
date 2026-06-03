@@ -1,4 +1,4 @@
-import { getAdminDb } from "../firebase-admin";
+import { getAdminDb, verifyAuthToken } from "../firebase-admin";
 import { checkRateLimit } from "../rateLimit";
 export const dynamic = "force-dynamic";
 
@@ -9,7 +9,11 @@ export async function POST(req) {
     return Response.json({ error: "Trop de requêtes. Réessaie dans une minute." }, { status: 429 });
   }
 
+    const decoded = await verifyAuthToken(req);
+    if (!decoded) return Response.json({ error: "Non autorisé" }, { status: 401 });
     const { clientId, clientNom } = await req.json();
+    // Un client ne peut créer que son propre lien de parrainage
+    if (decoded.uid !== clientId) return Response.json({ error: "Interdit" }, { status: 403 });
     if (!clientId) return Response.json({ error: "clientId manquant" }, { status: 400 });
 
     const db = getAdminDb();
