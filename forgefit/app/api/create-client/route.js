@@ -1,5 +1,5 @@
 import { Resend } from "resend";
-import { getAdminAuth, getAdminDb } from "../firebase-admin";
+import { getAdminAuth, getAdminDb, verifyAuthToken } from "../firebase-admin";
 import { checkRateLimit } from "../rateLimit";
 export const dynamic = "force-dynamic";
 
@@ -17,6 +17,16 @@ function generatePassword() {
 }
 
 export async function POST(req) {
+  // Vérifier l'authentification — le coach doit être connecté OU clé interne
+  const internalKey = req.headers.get("x-internal-key");
+  const isInternalCall = internalKey === process.env.CRON_SECRET;
+  if (!isInternalCall) {
+    const decoded = await verifyAuthToken(req);
+    const COACH_EMAIL = process.env.NEXT_PUBLIC_COACH_EMAIL || "levaqueangel@gmail.com";
+    if (!decoded || decoded.email !== COACH_EMAIL) {
+      return Response.json({ error: "Non autorisé" }, { status: 401 });
+    }
+  }
   const { email, nom, plan, programme, programmeData } = await req.json();
 
   if (!isValidEmail(email))
