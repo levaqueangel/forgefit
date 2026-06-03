@@ -32,3 +32,14 @@ export function getAdminDb() {
   _adminDb = getFirestore(getAdminApp());
   return _adminDb;
 }
+
+export async function verifyAuthToken(req) {
+  const header = req.headers.get("authorization") || "";
+  const token  = header.startsWith("Bearer ") ? header.slice(7) : null;
+  if (!token) return null;
+  try {
+    return await getAdminAuth().verifyIdToken(token);
+  } catch {
+    return null;
+  }
+}
