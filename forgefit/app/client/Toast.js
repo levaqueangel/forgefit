@@ -1,7 +1,7 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 
-export function ToastContainer({ toasts }) {
+function ToastContainer({ toasts }) {
   return (
     <div style={{
       position:"fixed",bottom:32,left:"50%",transform:"translateX(-50%)",
@@ -57,3 +57,5 @@ function ToastItem({ toast }) {
     </div>
   );
 }
+
+export { memo(ToastContainer) as ToastContainer };
