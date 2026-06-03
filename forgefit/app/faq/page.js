@@ -63,7 +63,11 @@ const FAQ_DATA = [
         q: "Mon paiement est-il sécurisé ?",
         a: "Oui, à 100%. Le paiement est traité par Stripe, certifié PCI DSS niveau 1 — le niveau de sécurité le plus élevé pour les transactions en ligne. Tes informations bancaires sont chiffrées et ne transitent jamais par nos serveurs."
       },
-    ]
+    
+      {
+        q: "Y a-t-il une garantie satisfait ou remboursé ?"
+        a: "Oui. Dans les 7 jours suivant la réception du programme, si tu n'es pas satisfait, on rembourse intégralement sur simple demande par email.",
+      },]
   },
   {
     cat: "coaching", catLabel: "— Coaching",
@@ -122,7 +126,15 @@ const FAQ_DATA = [
         q: "Dois-je prendre des compléments alimentaires ?",
         a: "Non, ils ne sont pas obligatoires. La créatine monohydrate (3-5g/jour) est le seul supplément avec une vraie evidence base pour la musculation. La whey protéine est utile si tu peines à atteindre ton apport via l'alimentation.",
       },
-    ]
+    
+      {
+        q: "Le plan nutrition est-il adapté aux végétariens ?"
+        a: "Oui. Tu indiques tes contraintes alimentaires lors du bilan. Le programme adapte les sources de protéines — légumineuses, œufs, produits laitiers, tofu — pour atteindre les objectifs sans viande.",
+      },
+      {
+        q: "Dois-je peser tous mes aliments ?"
+        a: "Pas nécessairement. Le plan donne des objectifs en grammes avec des exemples de repas concrets. La pesée est utile au début pour calibrer les portions. Après 2-3 semaines, la plupart des clients estiment les quantités visuellement.",
+      },]
   },
   {
     cat: "progression", catLabel: "— Progression & Résultats",
@@ -139,7 +151,15 @@ const FAQ_DATA = [
         q: "Que se passe-t-il si je stagne ?",
         a: "Contacte le coach via la messagerie. Une analyse est faite : bilan nutritionnel (souvent sous-estimation des calories), qualité du sommeil, niveau de stress global. Le programme est ajusté si nécessaire.",
       },
-    ]
+    
+      {
+        q: "Quand vais-je voir les premiers résultats ?"
+        a: "Les premiers changements arrivent entre 3 et 5 semaines : la force augmente d'abord, puis la composition corporelle change. Les changements visibles au miroir arrivent entre 6 et 10 semaines.",
+      },
+      {
+        q: "Puis-je prendre du muscle et perdre du gras en même temps ?"
+        a: "Oui, principalement chez les débutants. C'est la recomposition corporelle. Pour des résultats optimaux : prise de masse d'abord, puis séche.",
+      },]
   },
   {
     cat: "technique", catLabel: "— Technique",
