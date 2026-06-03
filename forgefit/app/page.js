@@ -286,7 +286,24 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Témoignages mobile ── */}
+            {/* ── Chiffres clés ─────────────────────────────────────────── */}
+      <section style={{borderBottom:"0.5px solid #1A1A1A",background:"#080808"}}>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:1,background:"#1A1A1A"}}>
+          {[
+            {n:"+200",label:"Clients accompagnés",    color:"#C9A84C"},
+            {n:"92%", label:"Objectif atteint 12 sem.",color:"#7AE07A"},
+            {n:"4.9", label:"Note moyenne / 5",        color:"#5DCAA5"},
+            {n:"48h", label:"Délai de livraison",      color:"#E8C87A"},
+          ].map((s,i)=>(
+            <div key={i} style={{background:"#0A0A0A",padding:"2.5rem 2rem",textAlign:"center"}}>
+              <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"clamp(36px,5vw,56px)",fontWeight:600,color:s.color,lineHeight:1,marginBottom:8}}>{s.n}</div>
+              <div style={{fontSize:9,letterSpacing:"2.5px",textTransform:"uppercase",color:"#444"}}>{s.label}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+{/* ── Témoignages mobile ── */}
       <section className="temoignages-mobile" style={{display:"none",padding:"3rem 1.5rem",borderBottom:"0.5px solid #242424"}}>
         <div style={{fontSize:11,letterSpacing:"4px",textTransform:"uppercase",color:"#C9A84C",marginBottom:"1.5rem"}}>{t.methode.testimonials}</div>
         {t.methode.reviews.map(([quote,author])=>(
