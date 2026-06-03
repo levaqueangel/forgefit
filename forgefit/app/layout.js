@@ -33,6 +33,9 @@ export const metadata = {
     icon: "/favicon.ico",
     apple: "/apple-touch-icon.png",
   },
+  alternates: {
+    canonical: "https://apxfitness-brown.vercel.app",
+  },
 };
 
 export default function RootLayout({ children }) {
