@@ -1,7 +1,7 @@
 "use client";
-import { useState, useEffect, memo } from "react";
+import { useState, useEffect } from "react";
 
-function ProgressBar({ value, color, delay = 0, height = 5 }) {
+export function ProgressBar({ value, color, delay = 0, height = 5 }) {
   const [width, setWidth] = useState(0);
   useEffect(() => {
     const t = setTimeout(() => setWidth(value), 100 + delay);
