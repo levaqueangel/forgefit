@@ -1,10 +1,10 @@
 "use client";
-import { useState, memo } from "react";
+import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 import { LangSelector } from "../LangSelector";
 
-function LoginScreen({ lang, setLang, LANGS }) {
+export function LoginScreen({ lang, setLang, LANGS }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
