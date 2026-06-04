@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import import { ProgressBar } from "./ProgressBar";
+import { ProgressBar } from "./ProgressBar";
 import { updateDoc, doc } from "firebase/firestore";
 import { db } from "../firebase";
 
