@@ -1,4 +1,4 @@
-import "use client";
+"use client";
 
 export function NutritionTab({
   S, nutrition, mealPlan, mealLoading, mealError, generateMealPlan,
@@ -108,4 +108,3 @@ export function NutritionTab({
     </div>
   );
 }
-
