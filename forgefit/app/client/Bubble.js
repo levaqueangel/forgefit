@@ -1,7 +1,6 @@
-import { memo } from "react";
-"use client";
+import "use client";
 
-function Bubble({ msg, isCoach }) {
+export function Bubble({ msg, isCoach }) {
   const date = msg.createdAt?.toDate?.() ? msg.createdAt.toDate().toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"}) : "";
   return (
     <div style={{display:"flex",flexDirection:"column",alignItems:isCoach?"flex-start":"flex-end",marginBottom:12}}>
