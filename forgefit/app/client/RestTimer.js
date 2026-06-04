@@ -122,4 +122,3 @@ export function RestTimer({ duration, exerciseName, onDone, onSkip }) {
   );
 }
 
-export { memo(RestTimer) as RestTimer };
