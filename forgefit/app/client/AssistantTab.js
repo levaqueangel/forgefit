@@ -1,7 +1,6 @@
-import { memo } from "react";
-"use client";
+import "use client";
 
-function AssistantTab({
+export function AssistantTab({
   S, chatHistory, chatLoading, chatInput, setChatInput,
   sendChatMessage, chatBottomRef,
 }) {
