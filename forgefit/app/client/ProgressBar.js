@@ -20,4 +20,3 @@ export function ProgressBar({ value, color, delay = 0, height = 5 }) {
   );
 }
 
-export { memo(ProgressBar) as ProgressBar };
