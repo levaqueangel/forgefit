@@ -1,9 +1,9 @@
 "use client";
-import { useState, useEffect, memo } from "react";
+import { useState, useEffect } from "react";
 import { collection, doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 
-function ChargesTab({ uid, exercices }) {
+export function ChargesTab({ uid, exercices }) {
   const [chargesLog, setChargesLog] = useState({});
   const [inputs, setInputs] = useState({});
   const [saving, setSaving] = useState({});
