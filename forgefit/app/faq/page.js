@@ -65,9 +65,10 @@ const FAQ_DATA = [
       },
     
       {
-        q: "Y a-t-il une garantie satisfait ou remboursé ?"
+        q: "Y a-t-il une garantie satisfait ou remboursé ?",
         a: "Oui. Dans les 7 jours suivant la réception du programme, si tu n'es pas satisfait, on rembourse intégralement sur simple demande par email.",
-      },]
+      },
+      ]
   },
   {
     cat: "coaching", catLabel: "— Coaching",
@@ -134,7 +135,8 @@ const FAQ_DATA = [
       {
         q: "Dois-je peser tous mes aliments ?"
         a: "Pas nécessairement. Le plan donne des objectifs en grammes avec des exemples de repas concrets. La pesée est utile au début pour calibrer les portions. Après 2-3 semaines, la plupart des clients estiment les quantités visuellement.",
-      },]
+      },
+      ]
   },
   {
     cat: "progression", catLabel: "— Progression & Résultats",
@@ -159,7 +161,8 @@ const FAQ_DATA = [
       {
         q: "Puis-je prendre du muscle et perdre du gras en même temps ?"
         a: "Oui, principalement chez les débutants. C'est la recomposition corporelle. Pour des résultats optimaux : prise de masse d'abord, puis séche.",
-      },]
+      },
+      ]
   },
   {
     cat: "technique", catLabel: "— Technique",
