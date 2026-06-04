@@ -109,4 +109,3 @@ export function NutritionTab({
   );
 }
 
-export { memo(NutritionTab) as NutritionTab };
