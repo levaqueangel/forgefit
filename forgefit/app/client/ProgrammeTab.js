@@ -1,6 +1,4 @@
 "use client";
-import { ChargesTab } from "./ChargesTab";
-import 
 export function ProgrammeTab({
   S, progSubTab, setProgSubTab,
   seanceAujourdhui, doneExos, exercices, exoDone, setExoDone,
