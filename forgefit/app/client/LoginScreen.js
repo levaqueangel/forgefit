@@ -50,4 +50,3 @@ export function LoginScreen({ lang, setLang, LANGS }) {
   );
 }
 
-export { memo(LoginScreen) as LoginScreen };
