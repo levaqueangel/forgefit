@@ -58,4 +58,3 @@ function ToastItem({ toast }) {
   );
 }
 
-export { memo(ToastContainer) as ToastContainer };
