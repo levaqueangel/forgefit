@@ -1,4 +1,4 @@
-import "use client";
+"use client";
 
 export function AssistantTab({
   S, chatHistory, chatLoading, chatInput, setChatInput,
@@ -64,4 +64,3 @@ export function AssistantTab({
   );
 }
 
-export { memo(AssistantTab) as AssistantTab };
