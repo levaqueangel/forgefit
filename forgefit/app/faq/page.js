@@ -129,11 +129,11 @@ const FAQ_DATA = [
       },
     
       {
-        q: "Le plan nutrition est-il adapté aux végétariens ?"
+        q: "Le plan nutrition est-il adapté aux végétariens ?",
         a: "Oui. Tu indiques tes contraintes alimentaires lors du bilan. Le programme adapte les sources de protéines — légumineuses, œufs, produits laitiers, tofu — pour atteindre les objectifs sans viande.",
       },
       {
-        q: "Dois-je peser tous mes aliments ?"
+        q: "Dois-je peser tous mes aliments ?",
         a: "Pas nécessairement. Le plan donne des objectifs en grammes avec des exemples de repas concrets. La pesée est utile au début pour calibrer les portions. Après 2-3 semaines, la plupart des clients estiment les quantités visuellement.",
       },
       ]
@@ -155,11 +155,11 @@ const FAQ_DATA = [
       },
     
       {
-        q: "Quand vais-je voir les premiers résultats ?"
+        q: "Quand vais-je voir les premiers résultats ?",
         a: "Les premiers changements arrivent entre 3 et 5 semaines : la force augmente d'abord, puis la composition corporelle change. Les changements visibles au miroir arrivent entre 6 et 10 semaines.",
       },
       {
-        q: "Puis-je prendre du muscle et perdre du gras en même temps ?"
+        q: "Puis-je prendre du muscle et perdre du gras en même temps ?",
         a: "Oui, principalement chez les débutants. C'est la recomposition corporelle. Pour des résultats optimaux : prise de masse d'abord, puis séche.",
       },
       ]
