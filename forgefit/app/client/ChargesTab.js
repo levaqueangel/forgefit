@@ -134,4 +134,3 @@ export function ChargesTab({ uid, exercices }) {
 
 // ── Journal corporel ───────────────────────────────────────────────────
 
-export { memo(ChargesTab) as ChargesTab };
