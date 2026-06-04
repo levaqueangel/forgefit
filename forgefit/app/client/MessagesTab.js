@@ -39,4 +39,3 @@ export function MessagesTab({
   );
 }
 
-export { memo(MessagesTab) as MessagesTab };
