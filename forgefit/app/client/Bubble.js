@@ -1,4 +1,4 @@
-import "use client";
+"use client";
 
 export function Bubble({ msg, isCoach }) {
   const date = msg.createdAt?.toDate?.() ? msg.createdAt.toDate().toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"}) : "";
@@ -19,4 +19,3 @@ export function Bubble({ msg, isCoach }) {
   );
 }
 
-export { memo(Bubble) as Bubble };
