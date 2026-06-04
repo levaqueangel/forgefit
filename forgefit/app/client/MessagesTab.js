@@ -1,4 +1,4 @@
-import "use client";
+"use client";
 import { Bubble } from "./Bubble";
 
 export function MessagesTab({
@@ -38,4 +38,3 @@ export function MessagesTab({
     </div>
   );
 }
-
