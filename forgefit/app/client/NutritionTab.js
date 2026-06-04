@@ -1,7 +1,6 @@
-import { memo } from "react";
-"use client";
+import "use client";
 
-function NutritionTab({
+export function NutritionTab({
   S, nutrition, mealPlan, mealLoading, mealError, generateMealPlan,
 }) {
   return (
