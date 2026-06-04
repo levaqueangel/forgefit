@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, memo } from "react";
+import { useEffect, useState } from "react";
 
 function ToastContainer({ toasts }) {
   return (
