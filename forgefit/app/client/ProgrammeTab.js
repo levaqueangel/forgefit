@@ -1,8 +1,7 @@
 "use client";
 import { ChargesTab } from "./ChargesTab";
-import { memo } from "react";
-
-function ProgrammeTab({
+import 
+export function ProgrammeTab({
   S, progSubTab, setProgSubTab,
   seanceAujourdhui, doneExos, exercices, exoDone, setExoDone,
   records, clientData, setTimer, setConfetti, addToast, vibrate,
@@ -132,6 +131,3 @@ function ProgrammeTab({
     </div>
   );
 }
-
-export const ProgrammeTabMemo = memo(ProgrammeTab);
-export { ProgrammeTab };
