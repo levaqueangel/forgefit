@@ -44,6 +44,8 @@ export default function RecettesPage() {
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, async (user) => {
       if (!user) { router.push("/login"); return; }
+      const COACH = process.env.NEXT_PUBLIC_COACH_EMAIL || "coach.apxfitness11@gmail.com";
+      if (user.email === COACH) { setStatus("ok"); return; }
       try {
         const snap = await getDoc(doc(db, "clients", user.uid));
         const data = snap.data();
