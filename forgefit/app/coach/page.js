@@ -139,6 +139,11 @@ export default function CoachPage() {
   const [notesSaving, setNotesSaving] = useState(false);
   const [notesSaved, setNotesSaved] = useState(false);
 
+  // Edition programme
+  const [showEditProg, setShowEditProg] = useState(false);
+  const [editProgText, setEditProgText] = useState("");
+  const [editProgSaving, setEditProgSaving] = useState(false);
+
   // Filtres sidebar
   const [clientFilter, setClientFilter] = useState("all");
   const [clientSort, setClientSort]     = useState("recent");
@@ -296,6 +301,18 @@ export default function CoachPage() {
   };
 
   // ── Export CSV ──────────────────────────────────────────────────────────
+  // ── Edition programme client ─────────────────────────────────────────────────
+  const saveEditedProg = async () => {
+    if (!selectedClient || editProgSaving || !editProgText.trim()) return;
+    setEditProgSaving(true);
+    try {
+      await updateDoc(doc(db,"clients",selectedClient.id), { programme: editProgText.trim() });
+      addToast(`Programme de ${selectedClient.nom?.split(" ")[0]} mis à jour ✓`);
+      setShowEditProg(false);
+    } catch { addToast("Erreur lors de la sauvegarde", "error"); }
+    setEditProgSaving(false);
+  };
+
   const createClientManual = async () => {
     const { nom, email, plan, programme } = newClientForm;
     if (!nom.trim() || !email.trim() || !programme.trim()) {
@@ -429,6 +446,30 @@ export default function CoachPage() {
             }} style={{background:"linear-gradient(135deg,#C9A84C,#A67C2E)",border:"none",color:"#0A0A0A",padding:"12px 28px",fontFamily:"'Syne',sans-serif",fontSize:12,fontWeight:700,letterSpacing:"2px",textTransform:"uppercase",cursor:"pointer",borderRadius:20}}>
               Je suis toujours là →
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* ── Modale édition programme ─────────────────────────────────────────── */}
+      {showEditProg && (
+        <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.92)",zIndex:300,display:"flex",alignItems:"center",justifyContent:"center",padding:"1.5rem"}}>
+          <div style={{background:"#111",border:"0.5px solid #242424",padding:"1.5rem",width:"100%",maxWidth:640,borderRadius:4,display:"flex",flexDirection:"column",gap:12,maxHeight:"85vh"}}>
+            <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+              <div style={{fontSize:9,letterSpacing:"3px",textTransform:"uppercase",color:"#C9A84C"}}>— Programme de {selectedClient?.nom}</div>
+              <button onClick={()=>setShowEditProg(false)} style={{background:"none",border:"none",color:"#555",cursor:"pointer",fontSize:18,lineHeight:1}}>×</button>
+            </div>
+            <div style={{fontSize:11,color:"#444"}}>Modifie le programme texte. Les séances structurées (JSON) ne sont pas modifiées ici.</div>
+            <textarea
+              value={editProgText}
+              onChange={e=>setEditProgText(e.target.value)}
+              style={{flex:1,minHeight:320,background:"#0D0D0D",border:"0.5px solid #242424",color:"#C8C4BC",fontFamily:"'Courier New',monospace",fontSize:12,padding:"14px",resize:"vertical",outline:"none",lineHeight:1.8,borderRadius:4}}
+            />
+            <div style={{display:"flex",gap:8,justifyContent:"flex-end"}}>
+              <button onClick={()=>setShowEditProg(false)} style={{background:"transparent",border:"0.5px solid #242424",color:"#555",fontFamily:"'Syne',sans-serif",fontSize:11,letterSpacing:"2px",textTransform:"uppercase",padding:"10px 20px",cursor:"pointer",borderRadius:2}}>Annuler</button>
+              <button onClick={saveEditedProg} disabled={editProgSaving} style={{background:editProgSaving?"#181818":"linear-gradient(135deg,#C9A84C,#A67C2E)",border:"none",color:"#0A0A0A",fontFamily:"'Syne',sans-serif",fontSize:11,fontWeight:700,letterSpacing:"2px",textTransform:"uppercase",padding:"10px 24px",cursor:editProgSaving?"not-allowed":"pointer",borderRadius:2}}>
+                {editProgSaving?"Sauvegarde...":"Sauvegarder →"}
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -733,7 +774,10 @@ export default function CoachPage() {
                   {/* Programme aperçu */}
                   {clientData?.programmeData && (
                     <div style={{padding:"12px 14px",borderBottom:"0.5px solid #1A1A1A",flexShrink:0}}>
-                      <div style={{fontSize:9,letterSpacing:"3px",textTransform:"uppercase",color:"#555",marginBottom:8}}>Programme</div>
+                      <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:8}}>
+                        <div style={{fontSize:9,letterSpacing:"3px",textTransform:"uppercase",color:"#555"}}>Programme</div>
+                        <button onClick={()=>{ setEditProgText(clientData?.programme||""); setShowEditProg(true); }} style={{fontSize:9,letterSpacing:"1.5px",textTransform:"uppercase",background:"rgba(201,168,76,0.08)",border:"0.5px solid rgba(201,168,76,0.2)",color:"#C9A84C",padding:"3px 10px",cursor:"pointer",borderRadius:10,fontFamily:"'Syne',sans-serif",transition:"all 0.2s"}}>✏️ Modifier</button>
+                      </div>
                       <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:14,color:"#888",lineHeight:1.7}}>
                         {clientData.programmeData.objectif_principal}
                       </div>

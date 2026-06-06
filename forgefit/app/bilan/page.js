@@ -185,9 +185,43 @@ function BilanForm() {
         </div>
       </div>
 
-      {/* Barre progression */}
+      {/* Barre progression + Stepper */}
       <div style={{ height: 2, background: "#181818" }}>
         <div style={{ height: 2, width: `${pct}%`, background: "linear-gradient(90deg,#C9A84C,#E8C87A)", transition: "width 0.4s ease" }} />
+      </div>
+      <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:0, padding:"16px 28px 0", maxWidth:640, margin:"0 auto" }}>
+        {[
+          { n:1, label:"Profil" },
+          { n:2, label:"Objectifs" },
+          { n:3, label:"Entraînement" },
+          { n:4, label:"Contraintes" },
+          { n:5, label:"Résultat" },
+        ].map(({ n, label }, i) => {
+          const done = step > n;
+          const active = step === n;
+          return (
+            <div key={n} style={{ display:"flex", alignItems:"center", flex: i < 4 ? 1 : "none" }}>
+              <div style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:4 }}>
+                <div style={{
+                  width:28, height:28, borderRadius:"50%", display:"flex", alignItems:"center", justifyContent:"center",
+                  background: done ? "#C9A84C" : active ? "transparent" : "transparent",
+                  border: `1.5px solid ${done ? "#C9A84C" : active ? "#C9A84C" : "#242424"}`,
+                  color: done ? "#0A0A0A" : active ? "#C9A84C" : "#444",
+                  fontSize:11, fontWeight:700, transition:"all 0.3s",
+                  flexShrink:0,
+                }}>
+                  {done ? "✓" : n}
+                </div>
+                <div style={{ fontSize:9, letterSpacing:"1.5px", textTransform:"uppercase", color: active ? "#C9A84C" : done ? "#666" : "#333", whiteSpace:"nowrap", transition:"color 0.3s" }}>
+                  {label}
+                </div>
+              </div>
+              {i < 4 && (
+                <div style={{ flex:1, height:1, background: step > n ? "#C9A84C" : "#1A1A1A", margin:"0 6px", marginBottom:18, transition:"background 0.4s" }} />
+              )}
+            </div>
+          );
+        })}
       </div>
 
       <div style={{ padding: "28px 28px 60px", maxWidth: 640, margin: "0 auto" }}>
