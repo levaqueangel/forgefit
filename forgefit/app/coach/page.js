@@ -230,9 +230,11 @@ export default function CoachPage() {
     if (!selectedClient) { setClientMessages([]); return; }
     const q = query(collection(db, "messages"),
       where("clientId","==",selectedClient.id), orderBy("createdAt","asc"));
+    let isFirst = true;
     const unsub = onSnapshot(q, snap => {
       setClientMessages(snap.docs.map(d => ({ id:d.id, ...d.data() })));
-      setAllMsgsCount(c => c + snap.docChanges().filter(ch=>ch.type==="added").length);
+      if (!isFirst) setAllMsgsCount(c => c + snap.docChanges().filter(ch=>ch.type==="added").length);
+      isFirst = false;
     });
     return unsub;
   }, [selectedClient]);
@@ -583,7 +585,7 @@ export default function CoachPage() {
                         {/* Avatar */}
                         <div style={{
                           width:34,height:34,borderRadius:"50%",flexShrink:0,
-                          background:`rgba(${planColor==="$7AE07A"?"122,224,122":planColor==="#C9A84C"?"201,168,76":"232,200,122"},0.12)`,
+                          background:`rgba(${planColor==="#7AE07A"?"122,224,122":planColor==="#C9A84C"?"201,168,76":"232,200,122"},0.12)`,
                           border:`1.5px solid ${isActive?planColor:"#1E1E1E"}`,
                           display:"flex",alignItems:"center",justifyContent:"center",
                           fontSize:13,fontWeight:700,color:planColor,

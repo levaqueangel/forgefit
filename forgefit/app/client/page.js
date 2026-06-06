@@ -44,7 +44,7 @@ const [progSubTab, setProgSubTab] = useState("seance");
 
 // ── Séances & exercices ─────────────────────────────────────
 const [exoDone, setExoDone] = useState({});
-const [seanceDone, setSeanceDone] = useState({ 0:true, 1:true });
+const [seanceDone, setSeanceDone] = useState({});
 const [timer, setTimer] = useState(null);
 const [focusMode, setFocusMode] = useState(false);
 const [focusIdx, setFocusIdx] = useState(0);

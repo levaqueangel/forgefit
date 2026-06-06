@@ -1,7 +1,6 @@
 import { Resend } from "resend";
 
 import { checkRateLimit } from "../rateLimit";
-import { verifyAuthToken } from "../firebase-admin";
 export const dynamic = "force-dynamic";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -179,15 +178,12 @@ function generateCoachHtml(nom, email, plan, programme) {
 }
 
 export async function POST(req) {
-  const internalKey = req.headers.get("x-internal-key");
-    if (internalKey !== process.env.CRON_SECRET) {
-      const decoded = await verifyAuthToken(req);
-      const COACH_EMAIL = process.env.NEXT_PUBLIC_COACH_EMAIL || "coach.apxfitness11@gmail.com";
-      if (!decoded || decoded.email !== COACH_EMAIL) {
-        return Response.json({ error: "Non autorisé" }, { status: 401 });
-      }
-    }
-    const { to, nom, plan, programme } = await req.json();
+  // Rate limiting — pas d'auth requise (route publique appelée depuis /bilan)
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "unknown";
+  if (!checkRateLimit(ip, 5, 60_000)) {
+    return Response.json({ error: "Trop de requêtes. Réessaie dans une minute." }, { status: 429 });
+  }
+  const { to, nom, plan, programme } = await req.json();
 
   try {
     // Email au client — HTML soigné

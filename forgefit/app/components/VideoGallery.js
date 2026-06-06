@@ -107,14 +107,14 @@ export default function VideoGallery() {
     {active !== null && (
       <div className="vg-modal" onClick={e => { if(e.target === e.currentTarget) setActive(null); }}>
         <button className="vg-modal-close" onClick={() => setActive(null)}>×</button>
-        <button className="vg-modal-nav" style={{left:16}} onClick={(e) => { e.stopPropagation(); prev(); setActive(current); }}>‹</button>
+        <button className="vg-modal-nav" style={{left:16}} onClick={(e) => { e.stopPropagation(); const n=(current-1+VIDEOS.length)%VIDEOS.length; setCurrent(n); setActive(n); }}>‹</button>
         <video
           key={active}
           src={VIDEOS[active].src}
           controls autoPlay
           style={{maxWidth:"100%",maxHeight:"85vh",border:"0.5px solid #242424",boxShadow:"0 0 80px rgba(201,168,76,.1)"}}
         />
-        <button className="vg-modal-nav" style={{right:16}} onClick={(e) => { e.stopPropagation(); next(); setActive(current); }}>›</button>
+        <button className="vg-modal-nav" style={{right:16}} onClick={(e) => { e.stopPropagation(); const n=(current+1)%VIDEOS.length; setCurrent(n); setActive(n); }}>›</button>
       </div>
     )}
     </>

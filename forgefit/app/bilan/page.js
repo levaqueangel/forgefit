@@ -406,17 +406,19 @@ function BilanForm() {
 
             {/* Statut compte client */}
             <div style={{ display: "flex", alignItems: "center", gap: 10, justifyContent: "center", marginBottom: 24,
-              padding: "12px 20px", border: `0.5px solid ${clientCreated === false ? "#5A1A1A" : "#1A3A1A"}`,
-              background: clientCreated === false ? "#1A0808" : "#081A08", fontSize: 13 }}>
-              <span style={{ fontSize: 18 }}>{clientCreated === false ? "⚠️" : "✓"}</span>
+              padding: "12px 20px", border: `0.5px solid ${clientCreated === false ? "#5A1A1A" : clientCreated === true ? "#1A3A1A" : "#242424"}`,
+              background: clientCreated === false ? "#1A0808" : clientCreated === true ? "#081A08" : "#111", fontSize: 13 }}>
+              <span style={{ fontSize: 18 }}>{clientCreated === false ? "⚠️" : clientCreated === true ? "✓" : "⏳"}</span>
               {clientCreated === false ? (
                 <span style={{ color: "#E07070" }}>
                   Erreur création espace client — <a href="mailto:coach.apxfitness11@gmail.com" style={{ color: "#E8C87A" }}>contacte le coach</a>
                 </span>
-              ) : (
+              ) : clientCreated === true ? (
                 <span style={{ color: "#7AE07A" }}>
                   Tes identifiants ont été envoyés à <strong style={{ color: "#E8C87A" }}>{form.email}</strong>
                 </span>
+              ) : (
+                <span style={{ color: "#888" }}>Création de ton espace en cours…</span>
               )}
             </div>
             <div style={{ fontSize: 13, color: "#555", marginBottom: 32, lineHeight: 1.8 }}>

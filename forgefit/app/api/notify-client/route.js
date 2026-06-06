@@ -6,7 +6,11 @@ export const dynamic = "force-dynamic";
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req) {
-  const { to, nom, message } = await req.json();
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "unknown";
+  if (!checkRateLimit(ip, 10, 60_000)) {
+    return Response.json({ error: "Trop de requêtes." }, { status: 429 });
+  }
+  const { to, nom, message, clientId } = await req.json();
   try {
     await resend.emails.send({
       from: "APXFITNESS <onboarding@resend.dev>",
