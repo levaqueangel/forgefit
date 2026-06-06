@@ -1,4 +1,4 @@
-export const ARTICLES = [
+﻿export const ARTICLES = [
   {
     slug: "creatine-guide-complet",
     titre: "Creatine : le complement qui fonctionne vraiment en musculation",

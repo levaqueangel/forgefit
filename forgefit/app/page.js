@@ -498,21 +498,42 @@ export default function Home() {
         </button>
       </section>
 
-      {/* ── Footer ── */}
-      <footer className="footer-wrap" style={{padding:"2rem 3rem",display:"flex",justifyContent:"space-between",
-        alignItems:"center",borderTop:`0.5px solid ${T.border}`}}>
-        <div style={{fontSize:18,fontWeight:800,letterSpacing:5}}>APXFIT<span style={{color:"#C9A84C"}}>NESS</span></div>
-        <div style={{fontSize:11,letterSpacing:"2px",color:T.muted,textTransform:"uppercase"}}>{t.footer.copy}</div>
-        <div style={{display:"flex",gap:"1.5rem",alignItems:"center"}}>
-          <span className="footer-link" style={{fontSize:11,letterSpacing:"2px",color:T.muted,textTransform:"uppercase",textDecoration:"underline"}} onClick={()=>router.push("/client")}>Espace client</span>
-          <span style={{color:T.border}}>|</span>
-          <span className="footer-link" style={{fontSize:11,letterSpacing:"2px",color:T.muted,textTransform:"uppercase",textDecoration:"underline"}} onClick={()=>router.push("/blog")}>Blog</span>
-          <span style={{color:T.border}}>|</span>
-          <span className="footer-link" style={{fontSize:11,letterSpacing:"2px",color:T.muted,textTransform:"uppercase",textDecoration:"underline"}} onClick={()=>router.push("/calculateur")}>Calculateur</span>
-          <span style={{color:T.border}}>|</span>
-          <span className="footer-link" style={{fontSize:11,letterSpacing:"2px",color:T.muted,textTransform:"uppercase",textDecoration:"underline"}} onClick={()=>router.push("/faq")}>FAQ</span>
-          <span style={{color:T.border}}>|</span>
-          <span className="footer-link" style={{fontSize:11,letterSpacing:"2px",color:T.muted,textTransform:"uppercase",textDecoration:"underline"}} onClick={()=>router.push("/mentions-legales")}>{t.footer.legal}</span>
+      {/* ── Footer enrichi ── */}
+      <footer style={{borderTop:`0.5px solid ${T.border}`,background:T.bg2}}>
+        <div style={{display:"grid",gridTemplateColumns:"2fr 1fr 1fr 1fr",gap:"2rem",padding:"3rem",maxWidth:1200,margin:"0 auto"}}>
+          {/* Colonne marque */}
+          <div>
+            <div style={{fontSize:20,fontWeight:800,letterSpacing:5,marginBottom:12}}>APXFIT<span style={{color:"#C9A84C"}}>NESS</span></div>
+            <p style={{fontSize:12,color:T.muted,lineHeight:1.9,maxWidth:260,marginBottom:20}}>Coaching fitness personnalisé en ligne. Programmes musculation et nutrition 100% sur mesure générés par IA.</p>
+            <a href="mailto:levaqueangel@gmail.com" style={{fontSize:11,color:"#C9A84C",letterSpacing:"1px",textDecoration:"none",display:"flex",alignItems:"center",gap:6}}>
+              <span>✉</span> levaqueangel@gmail.com
+            </a>
+          </div>
+          {/* Programmes */}
+          <div>
+            <div style={{fontSize:9,letterSpacing:"3px",textTransform:"uppercase",color:"#555",marginBottom:16}}>Programmes</div>
+            {[["Plan Starter — 49€","/bilan?plan=starter"],["Plan Forge — 129€","/bilan?plan=forge"],["Plan Elite — 249€","/bilan?plan=elite"],["Faire mon bilan","/bilan"]].map(([l,h])=>(
+              <div key={h} className="footer-link" style={{fontSize:12,color:T.muted,marginBottom:10,cursor:"pointer"}} onClick={()=>router.push(h)}>{l}</div>
+            ))}
+          </div>
+          {/* Navigation */}
+          <div>
+            <div style={{fontSize:9,letterSpacing:"3px",textTransform:"uppercase",color:"#555",marginBottom:16}}>Navigation</div>
+            {[["À propos","/a-propos"],["Blog","/blog"],["Résultats","/resultats"],["Calculateur","/calculateur"],["FAQ","/faq"]].map(([l,h])=>(
+              <div key={h} className="footer-link" style={{fontSize:12,color:T.muted,marginBottom:10,cursor:"pointer"}} onClick={()=>router.push(h)}>{l}</div>
+            ))}
+          </div>
+          {/* Légal & accès */}
+          <div>
+            <div style={{fontSize:9,letterSpacing:"3px",textTransform:"uppercase",color:"#555",marginBottom:16}}>Légal</div>
+            {[["Mentions légales","/mentions-legales"],["Espace client","/client"]].map(([l,h])=>(
+              <div key={h} className="footer-link" style={{fontSize:12,color:T.muted,marginBottom:10,cursor:"pointer"}} onClick={()=>router.push(h)}>{l}</div>
+            ))}
+          </div>
+        </div>
+        <div style={{borderTop:`0.5px solid ${T.border}`,padding:"1.2rem 3rem",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+          <div style={{fontSize:10,letterSpacing:"2px",color:T.muted,textTransform:"uppercase"}}>{t.footer.copy}</div>
+          <div style={{fontSize:10,letterSpacing:"1px",color:"#333"}}>Fait avec ♥ en France</div>
         </div>
       </footer>
     </div>
