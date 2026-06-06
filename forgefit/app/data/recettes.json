@@ -1,0 +1,482 @@
+[
+  {
+    "id": "e1", "categorie": "entree", "nom": "Salade de poulet grillé citron-herbes",
+    "calories": 210, "proteines": 32, "glucides": 6, "lipides": 7, "temps": "15 min", "portions": 1,
+    "ingredients": ["200g blanc de poulet", "80g roquette", "1/2 concombre", "10 tomates cerises", "1 c.s. huile d'olive", "jus de citron", "herbes de Provence"],
+    "preparation": "Griller le poulet assaisonné. Trancher et disposer sur la roquette avec concombre et tomates. Assaisonner d'huile d'olive, citron et herbes."
+  },
+  {
+    "id": "e2", "categorie": "entree", "nom": "Velouté de brocoli protéiné",
+    "calories": 175, "proteines": 22, "glucides": 12, "lipides": 4, "temps": "20 min", "portions": 1,
+    "ingredients": ["300g brocoli", "150ml bouillon de poulet", "100g fromage blanc 0%", "1 gousse d'ail", "sel, poivre", "muscade"],
+    "preparation": "Cuire le brocoli à la vapeur. Mixer avec bouillon, ail, muscade. Incorporer le fromage blanc hors du feu. Assaisonner."
+  },
+  {
+    "id": "e3", "categorie": "entree", "nom": "Œufs mimosa au thon",
+    "calories": 190, "proteines": 24, "glucides": 2, "lipides": 9, "temps": "15 min", "portions": 2,
+    "ingredients": ["4 œufs durs", "100g thon en conserve nature", "2 c.s. yaourt grec 0%", "1 c.c. moutarde", "ciboulette", "sel, poivre"],
+    "preparation": "Couper les œufs en deux. Écraser les jaunes avec thon, yaourt, moutarde. Farcir les blancs, garnir de ciboulette."
+  },
+  {
+    "id": "e4", "categorie": "entree", "nom": "Carpaccio de bœuf roquette-parmesan",
+    "calories": 220, "proteines": 28, "glucides": 2, "lipides": 11, "temps": "10 min", "portions": 1,
+    "ingredients": ["150g filet de bœuf très frais", "30g roquette", "15g parmesan", "1 c.s. huile d'olive", "câpres", "jus de citron", "poivre"],
+    "preparation": "Trancher le bœuf très finement. Disposer sur assiette. Garnir de roquette, copeaux de parmesan, câpres. Huile d'olive et citron."
+  },
+  {
+    "id": "e5", "categorie": "entree", "nom": "Tartare de saumon avocat",
+    "calories": 255, "proteines": 26, "glucides": 4, "lipides": 14, "temps": "15 min", "portions": 1,
+    "ingredients": ["150g saumon frais", "1/2 avocat", "1 c.c. sauce soja", "jus de citron vert", "gingembre frais", "ciboulette", "sésame"],
+    "preparation": "Couper saumon et avocat en petits dés. Mélanger avec sauce soja, citron vert, gingembre râpé. Dressage avec ciboulette et sésame."
+  },
+  {
+    "id": "e6", "categorie": "entree", "nom": "Soupe miso au tofu et wakamé",
+    "calories": 130, "proteines": 20, "glucides": 8, "lipides": 3, "temps": "10 min", "portions": 1,
+    "ingredients": ["150g tofu ferme", "1 c.s. pâte miso", "500ml eau", "5g wakamé séché", "2 oignons verts", "sauce soja"],
+    "preparation": "Porter l'eau à frémissement. Dissoudre le miso. Ajouter tofu en dés, wakamé réhydraté, oignons verts. Ne pas bouillir."
+  },
+  {
+    "id": "e7", "categorie": "entree", "nom": "Crevettes marinées ail-citron",
+    "calories": 155, "proteines": 28, "glucides": 3, "lipides": 4, "temps": "10 min", "portions": 1,
+    "ingredients": ["200g crevettes décortiquées", "2 gousses d'ail", "jus de citron", "persil", "1 c.c. huile d'olive", "piment doux", "sel"],
+    "preparation": "Faire revenir ail haché. Ajouter crevettes 2-3 min. Déglacer au citron. Finir avec persil haché et piment. Servir chaud."
+  },
+  {
+    "id": "e8", "categorie": "entree", "nom": "Salade de lentilles corail aux épices",
+    "calories": 195, "proteines": 21, "glucides": 22, "lipides": 3, "temps": "25 min", "portions": 1,
+    "ingredients": ["100g lentilles corail sèches", "1/2 oignon", "1 c.c. cumin", "1 c.c. coriandre moulue", "citron", "persil frais", "sel"],
+    "preparation": "Cuire lentilles 15 min. Égoutter et laisser tiédir. Mélanger avec oignon haché, épices, jus de citron, persil."
+  },
+  {
+    "id": "e9", "categorie": "entree", "nom": "Wrap de laitue au poulet épicé",
+    "calories": 180, "proteines": 30, "glucides": 5, "lipides": 5, "temps": "12 min", "portions": 1,
+    "ingredients": ["180g blanc de poulet", "4 grandes feuilles de laitue iceberg", "1/2 poivron rouge", "sauce sriracha", "1 c.c. sauce soja", "ail en poudre"],
+    "preparation": "Cuire poulet haché avec épices. Disposer dans feuilles de laitue avec poivron émincé. Napper de sriracha et sauce soja."
+  },
+  {
+    "id": "e10", "categorie": "entree", "nom": "Gaspacho de tomates protéiné",
+    "calories": 145, "proteines": 20, "glucides": 14, "lipides": 2, "temps": "15 min", "portions": 2,
+    "ingredients": ["500g tomates mûres", "1/2 concombre", "1/2 poivron rouge", "1 gousse d'ail", "150g fromage blanc 0%", "vinaigre de xérès", "sel, poivre"],
+    "preparation": "Mixer tomates, concombre, poivron, ail. Incorporer fromage blanc, vinaigre. Assaisonner et réfrigérer 1h minimum."
+  },
+  {
+    "id": "e11", "categorie": "entree", "nom": "Salade de poulpe à la grecque",
+    "calories": 175, "proteines": 26, "glucides": 4, "lipides": 6, "temps": "30 min", "portions": 2,
+    "ingredients": ["300g poulpe cuit", "1/2 concombre", "10 olives noires", "150g tomates cerises", "origan", "huile d'olive", "citron"],
+    "preparation": "Couper le poulpe en morceaux. Mélanger avec concombre, tomates, olives. Assaisonner origan, huile, citron."
+  },
+  {
+    "id": "e12", "categorie": "entree", "nom": "Skyr aux radis et concombre",
+    "calories": 120, "proteines": 22, "glucides": 8, "lipides": 1, "temps": "5 min", "portions": 1,
+    "ingredients": ["200g skyr nature", "5 radis", "1/4 concombre", "ciboulette", "sel, poivre", "1 c.c. citron"],
+    "preparation": "Découper radis et concombre en rondelles. Mélanger le skyr avec sel, poivre, citron. Garnir des légumes et ciboulette."
+  },
+  {
+    "id": "e13", "categorie": "entree", "nom": "Salade de surimi et pamplemousse",
+    "calories": 160, "proteines": 24, "glucides": 12, "lipides": 2, "temps": "10 min", "portions": 1,
+    "ingredients": ["150g surimi", "1 pamplemousse rose", "salade mélangée", "1 c.c. vinaigre balsamique", "1 c.c. miel", "sel"],
+    "preparation": "Peler le pamplemousse à vif. Mélanger surimi en bâtonnets, segments de pamplemousse sur salade. Vinaigrette miel-balsamique."
+  },
+  {
+    "id": "e14", "categorie": "entree", "nom": "Bruschetta protéinée ricotta-tomates",
+    "calories": 200, "proteines": 21, "glucides": 18, "lipides": 5, "temps": "10 min", "portions": 1,
+    "ingredients": ["2 tranches pain de seigle", "100g ricotta allégée", "10 tomates cerises", "basilic frais", "ail", "sel, poivre"],
+    "preparation": "Toaster le pain. Frotter d'ail. Étaler ricotta assaisonnée. Garnir de tomates cerises coupées et basilic."
+  },
+  {
+    "id": "e15", "categorie": "entree", "nom": "Soupe de pois chiches au cumin",
+    "calories": 220, "proteines": 24, "glucides": 26, "lipides": 4, "temps": "20 min", "portions": 2,
+    "ingredients": ["400g pois chiches cuits", "1 oignon", "2 gousses d'ail", "1 c.c. cumin", "1 c.c. paprika", "bouillon légumes", "citron"],
+    "preparation": "Faire revenir oignon et ail. Ajouter épices, pois chiches, bouillon. Mixer partiellement pour texture crémeuse. Citron."
+  },
+  {
+    "id": "e16", "categorie": "entree", "nom": "Salade de quinoa et edamame",
+    "calories": 240, "proteines": 23, "glucides": 28, "lipides": 5, "temps": "20 min", "portions": 1,
+    "ingredients": ["80g quinoa sec", "100g edamame", "1/2 concombre", "jus de citron vert", "sauce soja", "sésame", "gingembre"],
+    "preparation": "Cuire quinoa. Blanchir edamame 3 min. Mélanger tous les ingrédients. Vinaigrette citron vert-soja-gingembre."
+  },
+  {
+    "id": "e17", "categorie": "entree", "nom": "Plateau de crudités au houmous protéiné",
+    "calories": 185, "proteines": 20, "glucides": 16, "lipides": 5, "temps": "10 min", "portions": 1,
+    "ingredients": ["150g pois chiches cuits", "1 c.s. tahini", "jus de citron", "ail", "cumin", "carottes", "céleri", "concombre"],
+    "preparation": "Mixer pois chiches, tahini, citron, ail, cumin avec peu d'eau. Servir avec légumes coupés en bâtonnets."
+  },
+  {
+    "id": "e18", "categorie": "entree", "nom": "Salade de haricots verts et amandes",
+    "calories": 165, "proteines": 20, "glucides": 10, "lipides": 6, "temps": "15 min", "portions": 1,
+    "ingredients": ["250g haricots verts frais", "100g jambon blanc", "20g amandes effilées", "1 c.c. moutarde à l'ancienne", "vinaigre de cidre", "sel"],
+    "preparation": "Blanchir haricots verts 5 min. Refroidir. Mélanger avec jambon en lanières, amandes grillées. Vinaigrette moutarde."
+  },
+  {
+    "id": "e19", "categorie": "entree", "nom": "Rouleau de printemps au tofu",
+    "calories": 170, "proteines": 21, "glucides": 14, "lipides": 4, "temps": "20 min", "portions": 2,
+    "ingredients": ["4 galettes de riz", "150g tofu ferme", "carottes râpées", "concombre", "menthe fraîche", "sauce nuoc-mâm", "citron vert"],
+    "preparation": "Tremper galettes de riz. Disposer tofu grillé, carottes, concombre, menthe. Rouler. Sauce nuoc-mâm citronné."
+  },
+  {
+    "id": "e20", "categorie": "entree", "nom": "Salade niçoise allégée",
+    "calories": 235, "proteines": 30, "glucides": 10, "lipides": 9, "temps": "15 min", "portions": 1,
+    "ingredients": ["2 œufs durs", "120g thon au naturel", "haricots verts", "tomates cerises", "olives noires", "anchois", "vinaigrette légère"],
+    "preparation": "Assembler tous les ingrédients sur assiette. Thon émietté, œufs coupés, légumes. Vinaigrette légère citron-huile."
+  },
+  {
+    "id": "e21", "categorie": "entree", "nom": "Mousse de poivron rouge au chèvre",
+    "calories": 190, "proteines": 22, "glucides": 8, "lipides": 8, "temps": "20 min", "portions": 2,
+    "ingredients": ["3 poivrons rouges", "150g chèvre frais allégé", "2 feuilles gélatine", "sel, poivre", "basilic", "jus de citron"],
+    "preparation": "Griller et peler les poivrons. Mixer avec chèvre, citron. Incorporer gélatine dissoute. Mouler et réfrigérer 2h."
+  },
+  {
+    "id": "e22", "categorie": "entree", "nom": "Salade de pois chiches et feta",
+    "calories": 210, "proteines": 20, "glucides": 20, "lipides": 7, "temps": "8 min", "portions": 1,
+    "ingredients": ["200g pois chiches cuits", "50g feta légère", "tomates cerises", "concombre", "origan", "huile d'olive", "citron"],
+    "preparation": "Mélanger pois chiches, feta émiettée, légumes coupés. Assaisonner origan, huile d'olive, jus de citron."
+  },
+  {
+    "id": "e23", "categorie": "entree", "nom": "Tzatziki protéiné aux crevettes",
+    "calories": 165, "proteines": 28, "glucides": 7, "lipides": 3, "temps": "10 min", "portions": 1,
+    "ingredients": ["150g crevettes cuites", "150g yaourt grec 0%", "1/2 concombre râpé", "ail", "aneth", "jus de citron", "sel"],
+    "preparation": "Presser le concombre râpé pour ôter l'eau. Mélanger yaourt, concombre, ail haché, aneth, citron. Servir avec crevettes."
+  },
+  {
+    "id": "e24", "categorie": "entree", "nom": "Mini frittata épinards-feta",
+    "calories": 180, "proteines": 23, "glucides": 4, "lipides": 8, "temps": "20 min", "portions": 2,
+    "ingredients": ["4 œufs", "100g épinards frais", "50g feta légère", "1/2 oignon", "sel, poivre", "origan"],
+    "preparation": "Battre œufs, assaisonner. Incorporer épinards poêlés, oignon, feta. Verser dans moules à muffins. Cuire 15 min à 180°."
+  },
+  {
+    "id": "e25", "categorie": "entree", "nom": "Salade d'endives au roquefort allégé",
+    "calories": 175, "proteines": 20, "glucides": 6, "lipides": 8, "temps": "8 min", "portions": 1,
+    "ingredients": ["3 endives", "100g jambon blanc", "30g roquefort allégé", "noix", "1 c.c. vinaigre de noix", "moutarde", "sel"],
+    "preparation": "Couper endives en lamelles. Ajouter jambon, roquefort émietté, cerneaux de noix. Vinaigrette moutarde au vinaigre de noix."
+  },
+  {
+    "id": "p1", "categorie": "plat", "nom": "Poulet tikka masala allégé",
+    "calories": 340, "proteines": 42, "glucides": 18, "lipides": 8, "temps": "35 min", "portions": 2,
+    "ingredients": ["400g blanc de poulet", "200ml yaourt grec 0%", "400g tomates concassées", "1 oignon", "ail, gingembre", "tikka masala", "coriandre"],
+    "preparation": "Mariner poulet dans yaourt+épices 1h. Faire revenir oignon, ail, gingembre. Ajouter poulet, tomates, mijoter 20 min. Coriandre fraîche."
+  },
+  {
+    "id": "p2", "categorie": "plat", "nom": "Saumon en papillote légumes vapeur",
+    "calories": 310, "proteines": 38, "glucides": 10, "lipides": 12, "temps": "25 min", "portions": 1,
+    "ingredients": ["200g filet de saumon", "1 courgette", "1 carotte", "1 citron", "aneth", "1 c.c. huile d'olive", "sel, poivre"],
+    "preparation": "Placer saumon sur papillote avec légumes en julienne, rondelles de citron, aneth, huile. Fermer. Cuire 20 min à 180°."
+  },
+  {
+    "id": "p3", "categorie": "plat", "nom": "Bowl de bœuf haché et légumes sautés",
+    "calories": 380, "proteines": 45, "glucides": 20, "lipides": 10, "temps": "20 min", "portions": 1,
+    "ingredients": ["200g bœuf haché 5%", "100g haricots verts", "1 poivron", "1/2 courgette", "sauce soja", "ail", "gingembre", "sésame"],
+    "preparation": "Faire revenir bœuf haché. Ajouter légumes en morceaux. Assaisonner sauce soja, ail, gingembre. Finir avec sésame toasté."
+  },
+  {
+    "id": "p4", "categorie": "plat", "nom": "Filet de cabillaud et purée de chou-fleur",
+    "calories": 265, "proteines": 40, "glucides": 12, "lipides": 5, "temps": "25 min", "portions": 1,
+    "ingredients": ["200g filet de cabillaud", "1/2 chou-fleur", "100ml lait écrémé", "ail", "curcuma", "jus de citron", "persil", "sel"],
+    "preparation": "Cuire chou-fleur, mixer avec lait, ail, curcuma en purée. Poêler cabillaud 3 min de chaque côté. Citron et persil."
+  },
+  {
+    "id": "p5", "categorie": "plat", "nom": "Dinde sautée aux poivrons façon fajitas",
+    "calories": 320, "proteines": 44, "glucides": 16, "lipides": 7, "temps": "20 min", "portions": 2,
+    "ingredients": ["400g escalope de dinde", "2 poivrons colorés", "1 oignon", "cumin", "paprika fumé", "ail", "jus de citron vert", "coriandre"],
+    "preparation": "Cuire dinde en lamelles avec épices. Ajouter poivrons et oignon. Déglacer au citron vert. Coriandre fraîche."
+  },
+  {
+    "id": "p6", "categorie": "plat", "nom": "Curry de crevettes lait de coco allégé",
+    "calories": 295, "proteines": 36, "glucides": 14, "lipides": 9, "temps": "20 min", "portions": 2,
+    "ingredients": ["300g crevettes", "200ml lait de coco allégé", "1 oignon", "ail", "gingembre", "curry rouge", "épinards", "citron vert"],
+    "preparation": "Faire revenir épices, oignon, ail, gingembre. Ajouter lait de coco, crevettes, épinards. Mijoter 8 min. Citron vert."
+  },
+  {
+    "id": "p7", "categorie": "plat", "nom": "Steak haché façon burger bowl",
+    "calories": 360, "proteines": 46, "glucides": 15, "lipides": 11, "temps": "15 min", "portions": 1,
+    "ingredients": ["200g steak haché 5%", "salade", "tomates", "1/2 oignon rouge", "cornichons", "1 c.s. yaourt grec", "moutarde", "paprika"],
+    "preparation": "Griller steak. Dans un bol, disposer salade, tomates, oignon, cornichons. Poser steak. Sauce yaourt-moutarde-paprika."
+  },
+  {
+    "id": "p8", "categorie": "plat", "nom": "Escalope de dinde panée à l'avoine",
+    "calories": 335, "proteines": 42, "glucides": 20, "lipides": 6, "temps": "20 min", "portions": 1,
+    "ingredients": ["200g escalope de dinde", "50g flocons d'avoine", "1 œuf", "ail en poudre", "paprika", "sel, poivre", "1 c.c. huile"],
+    "preparation": "Tremper l'escalope dans l'œuf battu puis dans les flocons d'avoine assaisonnés. Cuire à la poêle avec peu d'huile 4 min chaque côté."
+  },
+  {
+    "id": "p9", "categorie": "plat", "nom": "Lotte rôtie aux tomates et herbes",
+    "calories": 250, "proteines": 38, "glucides": 8, "lipides": 7, "temps": "30 min", "portions": 2,
+    "ingredients": ["400g lotte", "300g tomates", "ail", "thym", "romarin", "1 c.s. huile d'olive", "sel, poivre", "citron"],
+    "preparation": "Disposer lotte dans plat. Entourer de tomates, ail, herbes. Huile d'olive. Rôtir 25 min à 180°. Citron à la fin."
+  },
+  {
+    "id": "p10", "categorie": "plat", "nom": "Poêlée de tofu croustillant teriyaki",
+    "calories": 290, "proteines": 28, "glucides": 20, "lipides": 10, "temps": "20 min", "portions": 1,
+    "ingredients": ["200g tofu ferme", "2 c.s. sauce soja", "1 c.s. miel", "ail", "gingembre", "sésame", "brocoli", "carottes"],
+    "preparation": "Presser et cuber le tofu. Faire dorer à la poêle. Sauce teriyaki (soja+miel+ail+gingembre). Ajouter légumes. Sésame."
+  },
+  {
+    "id": "p11", "categorie": "plat", "nom": "Poulet rôti aux herbes et légumes",
+    "calories": 330, "proteines": 48, "glucides": 12, "lipides": 9, "temps": "45 min", "portions": 2,
+    "ingredients": ["2 blancs de poulet", "courgettes", "poivrons", "tomates", "herbes de Provence", "ail", "1 c.s. huile d'olive", "citron"],
+    "preparation": "Disposer poulet et légumes en morceaux dans un plat. Assaisonner herbes, ail, huile. Rôtir 40 min à 200°. Citron à la sortie."
+  },
+  {
+    "id": "p12", "categorie": "plat", "nom": "Omelette protéinée aux champignons",
+    "calories": 270, "proteines": 34, "glucides": 5, "lipides": 12, "temps": "12 min", "portions": 1,
+    "ingredients": ["4 œufs", "1 blanc d'œuf", "150g champignons", "1/2 oignon", "persil", "sel, poivre", "1 c.c. huile d'olive"],
+    "preparation": "Faire revenir champignons et oignon. Battre œufs+blanc, assaisonner. Verser sur champignons. Cuire à feu moyen. Plier."
+  },
+  {
+    "id": "p13", "categorie": "plat", "nom": "Thon en steak et ratatouille légère",
+    "calories": 280, "proteines": 40, "glucides": 16, "lipides": 6, "temps": "35 min", "portions": 2,
+    "ingredients": ["2 steaks de thon", "1 courgette", "1 aubergine", "2 tomates", "1 poivron", "ail", "herbes de Provence", "huile d'olive"],
+    "preparation": "Faire mijoter légumes en dés avec ail et herbes 25 min. Saisir thon 2 min chaque côté. Servir ensemble."
+  },
+  {
+    "id": "p14", "categorie": "plat", "nom": "Chili con carne allégé",
+    "calories": 350, "proteines": 40, "glucides": 28, "lipides": 7, "temps": "40 min", "portions": 3,
+    "ingredients": ["400g bœuf haché 5%", "400g haricots rouges", "400g tomates concassées", "1 oignon", "ail", "cumin", "piment", "coriandre"],
+    "preparation": "Faire revenir bœuf, oignon, ail. Ajouter épices, tomates, haricots. Mijoter 30 min. Rectifier assaisonnement. Coriandre."
+  },
+  {
+    "id": "p15", "categorie": "plat", "nom": "Daurade en croûte de sésame",
+    "calories": 275, "proteines": 38, "glucides": 8, "lipides": 10, "temps": "20 min", "portions": 1,
+    "ingredients": ["200g filet de daurade", "3 c.s. graines de sésame", "sauce soja", "jus de citron vert", "ail", "gingembre", "coriandre"],
+    "preparation": "Mariner la daurade soja-citron-ail 15 min. Rouler dans graines de sésame. Poêler 4 min chaque côté. Gingembre et coriandre."
+  },
+  {
+    "id": "p16", "categorie": "plat", "nom": "Boulettes de dinde sauce tomate",
+    "calories": 315, "proteines": 44, "glucides": 15, "lipides": 7, "temps": "30 min", "portions": 2,
+    "ingredients": ["400g viande hachée de dinde", "1 œuf", "ail en poudre", "origan", "400g tomates concassées", "basilic", "sel, poivre"],
+    "preparation": "Mélanger dinde, œuf, ail, origan. Façonner boulettes. Dorer à la poêle. Ajouter tomates concassées. Mijoter 15 min."
+  },
+  {
+    "id": "p17", "categorie": "plat", "nom": "Salade thaï de poulet et mange",
+    "calories": 295, "proteines": 36, "glucides": 22, "lipides": 6, "temps": "15 min", "portions": 1,
+    "ingredients": ["180g blanc de poulet grillé", "1/2 mangue", "carottes râpées", "concombre", "menthe", "coriandre", "arachides", "sauce poisson"],
+    "preparation": "Trancher poulet. Mélanger avec mangue, carottes, concombre. Sauce poisson-citron-piment. Finir menthe, coriandre, arachides."
+  },
+  {
+    "id": "p18", "categorie": "plat", "nom": "Merlan à la vapeur gingembre-soja",
+    "calories": 195, "proteines": 36, "glucides": 5, "lipides": 4, "temps": "15 min", "portions": 1,
+    "ingredients": ["200g filet de merlan", "gingembre frais", "sauce soja", "oignons verts", "huile de sésame", "ail", "piment doux"],
+    "preparation": "Placer merlan dans cuiseur vapeur avec gingembre. Cuire 10 min. Napper de soja+sésame+ail+piment. Oignons verts."
+  },
+  {
+    "id": "p19", "categorie": "plat", "nom": "Poulet basquaise allégé",
+    "calories": 345, "proteines": 46, "glucides": 18, "lipides": 7, "temps": "45 min", "portions": 2,
+    "ingredients": ["400g poulet", "3 poivrons colorés", "400g tomates", "1 oignon", "ail", "piment d'Espelette", "herbes de Provence"],
+    "preparation": "Faire revenir oignon, ail, poivrons. Ajouter tomates et épices. Incorporer poulet doré. Mijoter 30 min à couvert."
+  },
+  {
+    "id": "p20", "categorie": "plat", "nom": "Wrap protéiné dinde-avocat",
+    "calories": 355, "proteines": 40, "glucides": 25, "lipides": 10, "temps": "12 min", "portions": 1,
+    "ingredients": ["1 tortilla de blé complet", "160g escalope de dinde grillée", "1/2 avocat", "tomate", "salade", "yaourt grec", "citron"],
+    "preparation": "Griller l'escalope. Écraser avocat avec citron. Étaler sur tortilla, ajouter dinde, tomate, salade, yaourt. Rouler."
+  },
+  {
+    "id": "p21", "categorie": "plat", "nom": "Risotto de chou-fleur aux Saint-Jacques",
+    "calories": 290, "proteines": 34, "glucides": 14, "lipides": 9, "temps": "25 min", "portions": 2,
+    "ingredients": ["1 chou-fleur râpé (cauli-rice)", "300g noix de Saint-Jacques", "1 échalote", "30ml vin blanc", "parmesan allégé", "citron", "persil"],
+    "preparation": "Faire revenir échalote, ajouter cauli-rice, déglacer vin blanc. Cuire 8 min. Saisir Saint-Jacques 1 min côté. Parmesan, persil."
+  },
+  {
+    "id": "p22", "categorie": "plat", "nom": "Poêlée de crevettes et courgettes",
+    "calories": 230, "proteines": 34, "glucides": 8, "lipides": 7, "temps": "12 min", "portions": 1,
+    "ingredients": ["250g crevettes", "2 courgettes", "ail", "piment", "jus de citron", "huile d'olive", "persil", "sel"],
+    "preparation": "Faire revenir ail et piment. Ajouter courgettes en rondelles, puis crevettes. 5 min à feu vif. Citron et persil."
+  },
+  {
+    "id": "p23", "categorie": "plat", "nom": "Bowl bœuf et légumes façon bulgogi",
+    "calories": 370, "proteines": 42, "glucides": 22, "lipides": 10, "temps": "25 min", "portions": 2,
+    "ingredients": ["400g faux-filet", "sauce soja", "miel", "ail", "gingembre", "sésame", "carottes", "oignons verts", "brocoli"],
+    "preparation": "Mariner bœuf émincé dans soja-miel-ail-gingembre. Faire sauter avec légumes. Sésame et oignons verts."
+  },
+  {
+    "id": "p24", "categorie": "plat", "nom": "Blanquette de veau légère",
+    "calories": 320, "proteines": 40, "glucides": 14, "lipides": 8, "temps": "50 min", "portions": 3,
+    "ingredients": ["600g veau maigre", "carottes", "champignons", "oignon", "bouquet garni", "200ml bouillon", "100g yaourt grec", "citron"],
+    "preparation": "Cuire veau dans bouillon avec légumes 40 min. Réduire le fond. Lier avec yaourt grec et citron hors du feu."
+  },
+  {
+    "id": "p25", "categorie": "plat", "nom": "Pavé de saumon et asperges grillées",
+    "calories": 345, "proteines": 40, "glucides": 6, "lipides": 17, "temps": "20 min", "portions": 1,
+    "ingredients": ["200g pavé de saumon", "200g asperges", "1 c.c. huile d'olive", "citron", "aneth", "sel, poivre"],
+    "preparation": "Griller saumon 4 min chaque côté. Rôtir asperges au four 15 min avec huile. Servir avec citron et aneth."
+  },
+  {
+    "id": "p26", "categorie": "plat", "nom": "Émincé de poulet sauce cacahuète allégée",
+    "calories": 350, "proteines": 44, "glucides": 14, "lipides": 11, "temps": "20 min", "portions": 2,
+    "ingredients": ["400g blanc de poulet", "2 c.s. purée de cacahuète allégée", "sauce soja", "lait de coco allégé", "ail", "citron vert", "coriandre"],
+    "preparation": "Faire revenir poulet en lanières. Préparer sauce cacahuète-soja-coco-ail-citron. Verser sur poulet. Coriandre."
+  },
+  {
+    "id": "p27", "categorie": "plat", "nom": "Galette de pois chiches épinards",
+    "calories": 275, "proteines": 22, "glucides": 28, "lipides": 6, "temps": "25 min", "portions": 2,
+    "ingredients": ["200g farine de pois chiches", "100g épinards frais", "1/2 oignon", "cumin", "coriandre moulue", "sel", "eau"],
+    "preparation": "Mélanger farine, épinards hachés, oignon, épices avec eau pour pâte épaisse. Cuire en galettes à la poêle 3 min chaque côté."
+  },
+  {
+    "id": "p28", "categorie": "plat", "nom": "Filet mignon de porc et champignons",
+    "calories": 295, "proteines": 42, "glucides": 8, "lipides": 8, "temps": "30 min", "portions": 2,
+    "ingredients": ["400g filet mignon de porc", "250g champignons de Paris", "1 échalote", "100g fromage blanc 0%", "thym", "ail", "sel, poivre"],
+    "preparation": "Faire dorer le filet entier. Réserver. Faire revenir champignons, échalote. Déglacer. Ajouter fromage blanc et thym. Napper."
+  },
+  {
+    "id": "p29", "categorie": "plat", "nom": "Tilapia citronné aux épinards",
+    "calories": 220, "proteines": 38, "glucides": 6, "lipides": 5, "temps": "15 min", "portions": 1,
+    "ingredients": ["200g filet de tilapia", "200g épinards frais", "ail", "jus de citron", "zeste de citron", "herbes de Provence", "1 c.c. huile"],
+    "preparation": "Poêler tilapia assaisonné avec zeste et herbes. Faire tomber épinards avec ail. Déglacer au citron. Servir ensemble."
+  },
+  {
+    "id": "p30", "categorie": "plat", "nom": "Salade de pâtes complètes au saumon fumé",
+    "calories": 390, "proteines": 34, "glucides": 40, "lipides": 9, "temps": "20 min", "portions": 1,
+    "ingredients": ["70g pâtes complètes", "100g saumon fumé", "100g fromage blanc 0%", "câpres", "aneth", "jus de citron", "concombre"],
+    "preparation": "Cuire pâtes al dente. Refroidir. Mélanger avec fromage blanc, saumon, câpres, aneth, citron, concombre."
+  },
+  {
+    "id": "p31", "categorie": "plat", "nom": "Poulet shawarma façon bowl",
+    "calories": 360, "proteines": 46, "glucides": 18, "lipides": 9, "temps": "30 min", "portions": 2,
+    "ingredients": ["400g poulet", "cumin", "curcuma", "cannelle", "paprika", "ail", "jus de citron", "salade", "tomates", "concombre", "yaourt grec"],
+    "preparation": "Mariner poulet dans épices+ail+citron. Griller. Trancher. Bowl avec salade, tomates, concombre. Sauce yaourt grec."
+  },
+  {
+    "id": "p32", "categorie": "plat", "nom": "Saint-Jacques poêlées et fenouil braisé",
+    "calories": 255, "proteines": 30, "glucides": 10, "lipides": 9, "temps": "25 min", "portions": 2,
+    "ingredients": ["300g noix de Saint-Jacques", "2 bulbes de fenouil", "1 orange", "1 c.c. huile d'olive", "sel, poivre", "aneth"],
+    "preparation": "Braiser fenouil en tranches avec jus d'orange 15 min. Saisir Saint-Jacques 1 min 30 chaque côté. Sel, poivre. Aneth."
+  },
+  {
+    "id": "p33", "categorie": "plat", "nom": "Moules marinière allégées",
+    "calories": 230, "proteines": 32, "glucides": 10, "lipides": 6, "temps": "15 min", "portions": 2,
+    "ingredients": ["1kg moules", "1 échalote", "ail", "100ml vin blanc sec", "persil", "thym", "sel, poivre"],
+    "preparation": "Faire revenir échalote et ail. Ajouter moules nettoyées, vin blanc, thym. Couvrir 5 min jusqu'à ouverture. Persil."
+  },
+  {
+    "id": "p34", "categorie": "plat", "nom": "Rôti de dinde farci aux herbes",
+    "calories": 295, "proteines": 46, "glucides": 4, "lipides": 9, "temps": "55 min", "portions": 4,
+    "ingredients": ["600g rôti de dinde", "ail", "romarin", "thym", "moutarde", "jus de citron", "sel, poivre"],
+    "preparation": "Badigeonner rôti de moutarde, ail, herbes. Rôtir 50 min à 180°. Laisser reposer 10 min avant de trancher."
+  },
+  {
+    "id": "p35", "categorie": "plat", "nom": "Pad thaï protéiné au tofu et crevettes",
+    "calories": 375, "proteines": 38, "glucides": 28, "lipides": 10, "temps": "20 min", "portions": 2,
+    "ingredients": ["150g nouilles de riz", "150g tofu", "150g crevettes", "2 œufs", "sauce poisson", "citron vert", "arachides", "oignons verts"],
+    "preparation": "Cuire nouilles. Faire revenir tofu et crevettes. Ajouter œufs brouillés. Incorporer nouilles, sauce poisson, citron. Arachides."
+  },
+  {
+    "id": "d1", "categorie": "dessert", "nom": "Mousse au chocolat protéinée",
+    "calories": 180, "proteines": 22, "glucides": 14, "lipides": 5, "temps": "15 min", "portions": 2,
+    "ingredients": ["200g fromage blanc 0%", "2 c.s. cacao non sucré", "2 blancs d'œufs", "1 c.s. édulcorant", "1 c.c. extrait de vanille"],
+    "preparation": "Mélanger fromage blanc, cacao, édulcorant, vanille. Monter blancs en neige ferme. Incorporer délicatement. Réfrigérer 1h."
+  },
+  {
+    "id": "d2", "categorie": "dessert", "nom": "Bol de skyr aux fruits rouges",
+    "calories": 155, "proteines": 20, "glucides": 16, "lipides": 1, "temps": "5 min", "portions": 1,
+    "ingredients": ["200g skyr nature", "100g fruits rouges mélangés", "1 c.c. miel", "menthe fraîche", "1 c.s. graines de chia"],
+    "preparation": "Verser skyr dans un bol. Disposer fruits rouges. Miel, graines de chia, feuilles de menthe. Servir frais."
+  },
+  {
+    "id": "d3", "categorie": "dessert", "nom": "Pancakes protéinés banane-avoine",
+    "calories": 260, "proteines": 24, "glucides": 32, "lipides": 4, "temps": "15 min", "portions": 2,
+    "ingredients": ["1 banane mûre", "2 œufs", "60g flocons d'avoine", "1 c.c. levure", "1 c.c. vanille", "pincée de sel", "fruits frais"],
+    "preparation": "Mixer banane, œufs, avoine, levure, vanille. Cuire petites pancakes à la poêle anti-adhésive. Garnir de fruits frais."
+  },
+  {
+    "id": "d4", "categorie": "dessert", "nom": "Cheesecake protéiné citron sans cuisson",
+    "calories": 195, "proteines": 24, "glucides": 16, "lipides": 4, "temps": "20 min", "portions": 4,
+    "ingredients": ["400g fromage blanc 0%", "2 c.s. jus de citron", "zeste de citron", "2 feuilles de gélatine", "2 c.s. miel", "base de biscuits avoine"],
+    "preparation": "Dissoudre gélatine. Mélanger fromage blanc, citron, miel, zeste. Incorporer gélatine. Verser sur base. Réfrigérer 4h."
+  },
+  {
+    "id": "d5", "categorie": "dessert", "nom": "Glace express banane-protéines",
+    "calories": 175, "proteines": 20, "glucides": 22, "lipides": 2, "temps": "10 min", "portions": 1,
+    "ingredients": ["2 bananes congelées", "1 dose protéine vanille", "100ml lait écrémé", "1 c.c. beurre de cacahuète"],
+    "preparation": "Mixer les bananes congelées avec poudre protéinée, lait, beurre de cacahuète jusqu'à consistance crémeuse. Servir immédiatement."
+  },
+  {
+    "id": "d6", "categorie": "dessert", "nom": "Panna cotta vanille et coulis framboise",
+    "calories": 145, "proteines": 18, "glucides": 14, "lipides": 1, "temps": "15 min", "portions": 2,
+    "ingredients": ["300g fromage blanc 0%", "3 feuilles gélatine", "1 c.c. vanille", "édulcorant", "150g framboises fraîches", "jus de citron"],
+    "preparation": "Chauffer fromage blanc avec vanille et édulcorant. Incorporer gélatine dissoute. Mouler et réfrigérer 3h. Coulis framboises-citron."
+  },
+  {
+    "id": "d7", "categorie": "dessert", "nom": "Crumble pomme-cannelle protéiné",
+    "calories": 235, "proteines": 20, "glucides": 28, "lipides": 4, "temps": "30 min", "portions": 4,
+    "ingredients": ["4 pommes", "80g flocons d'avoine", "40g poudre de protéine vanille", "1 c.c. cannelle", "2 c.s. miel", "pincée de sel"],
+    "preparation": "Couper pommes en cubes, saupoudrer cannelle. Mélanger avoine, protéine, miel pour le crumble. Recouvrir les pommes. 20 min à 180°."
+  },
+  {
+    "id": "d8", "categorie": "dessert", "nom": "Mug cake chocolat protéiné",
+    "calories": 210, "proteines": 26, "glucides": 18, "lipides": 4, "temps": "5 min", "portions": 1,
+    "ingredients": ["30g poudre de protéine chocolat", "1 œuf", "20g cacao", "2 c.s. compote pomme sans sucre", "1 c.c. levure", "édulcorant"],
+    "preparation": "Mélanger tous les ingrédients dans un mug. Cuire au micro-ondes 90 secondes. Laisser reposer 1 min."
+  },
+  {
+    "id": "d9", "categorie": "dessert", "nom": "Tiramisu protéiné sans mascarpone",
+    "calories": 200, "proteines": 24, "glucides": 18, "lipides": 3, "temps": "20 min", "portions": 4,
+    "ingredients": ["300g fromage blanc 0%", "200g skyr", "2 c.s. cacao", "café fort", "boudoirs allégés", "édulcorant", "vanille"],
+    "preparation": "Mélanger fromage blanc, skyr, édulcorant, vanille. Tremper boudoirs dans café. Alterner couches. Cacao par-dessus. 2h au frais."
+  },
+  {
+    "id": "d10", "categorie": "dessert", "nom": "Smoothie bowl mangue-passion protéiné",
+    "calories": 195, "proteines": 22, "glucides": 24, "lipides": 2, "temps": "8 min", "portions": 1,
+    "ingredients": ["200g mangue congelée", "1/2 fruit de la passion", "100g yaourt grec 0%", "1 dose protéine vanille", "granola léger", "kiwi"],
+    "preparation": "Mixer mangue congelée, yaourt, protéine. Verser dans bol. Garnir fruit de la passion, granola, tranche de kiwi."
+  },
+  {
+    "id": "d11", "categorie": "dessert", "nom": "Brownies protéinés aux haricots noirs",
+    "calories": 175, "proteines": 20, "glucides": 20, "lipides": 4, "temps": "35 min", "portions": 8,
+    "ingredients": ["400g haricots noirs cuits", "3 œufs", "40g cacao", "3 c.s. miel", "1 c.c. vanille", "1 c.c. levure", "pincée de sel"],
+    "preparation": "Mixer haricots avec tous les ingrédients jusqu'à pâte lisse. Verser dans moule. Cuire 25 min à 180°. Laisser refroidir."
+  },
+  {
+    "id": "d12", "categorie": "dessert", "nom": "Yaourt glacé aux myrtilles",
+    "calories": 130, "proteines": 18, "glucides": 14, "lipides": 1, "temps": "10 min", "portions": 2,
+    "ingredients": ["400g yaourt grec 0%", "150g myrtilles", "1 c.s. miel", "jus de citron", "menthe"],
+    "preparation": "Mixer yaourt avec myrtilles, miel, citron. Verser dans bac. Congeler 3h. Mixer une nouvelle fois pour texture onctueuse."
+  },
+  {
+    "id": "d13", "categorie": "dessert", "nom": "Chia pudding coco-ananas",
+    "calories": 185, "proteines": 20, "glucides": 20, "lipides": 5, "temps": "10 min", "portions": 1,
+    "ingredients": ["3 c.s. graines de chia", "200ml lait d'amande", "100ml lait de coco allégé", "100g ananas", "édulcorant", "vanille"],
+    "preparation": "Mélanger chia, laits, édulcorant, vanille. Réfrigérer une nuit. Servir avec ananas en morceaux."
+  },
+  {
+    "id": "d14", "categorie": "dessert", "nom": "Fondant au chocolat cœur coulant allégé",
+    "calories": 195, "proteines": 21, "glucides": 16, "lipides": 6, "temps": "20 min", "portions": 4,
+    "ingredients": ["2 œufs + 2 blancs", "80g chocolat noir 85%", "30g farine de coco", "100g fromage blanc 0%", "édulcorant", "vanille"],
+    "preparation": "Faire fondre chocolat. Mélanger avec fromage blanc, œufs, farine, édulcorant. Remplir moules à mi-hauteur. Cuire 10 min à 200°."
+  },
+  {
+    "id": "d15", "categorie": "dessert", "nom": "Compote pomme-poire sans sucre",
+    "calories": 90, "proteines": 18, "glucides": 12, "lipides": 1, "temps": "20 min", "portions": 2,
+    "ingredients": ["2 pommes", "2 poires", "1 c.c. cannelle", "jus de citron", "100g fromage blanc 0%", "édulcorant optionnel"],
+    "preparation": "Cuire pommes et poires en morceaux 15 min avec citron et cannelle. Écraser grossièrement. Servir chaud avec fromage blanc."
+  },
+  {
+    "id": "d16", "categorie": "dessert", "nom": "Cookie protéiné avoine-chocolat",
+    "calories": 145, "proteines": 20, "glucides": 14, "lipides": 4, "temps": "15 min", "portions": 6,
+    "ingredients": ["150g flocons d'avoine", "1 dose protéine chocolat", "2 c.s. beurre de cacahuète allégé", "1 banane mûre", "pépites de chocolat noir", "1 œuf"],
+    "preparation": "Mixer avoine, protéine, banane, œuf, beurre de cacahuète. Former des disques. Pépites. Cuire 10 min à 170°."
+  },
+  {
+    "id": "d17", "categorie": "dessert", "nom": "Clafoutis cerises protéiné",
+    "calories": 185, "proteines": 22, "glucides": 20, "lipides": 3, "temps": "40 min", "portions": 6,
+    "ingredients": ["400g cerises dénoyautées", "3 œufs", "150g fromage blanc 0%", "40g farine de blé complet", "édulcorant", "vanille", "pincée de sel"],
+    "preparation": "Battre œufs avec fromage blanc, farine, édulcorant, vanille. Disposer cerises dans plat huilé. Verser appareil. 35 min à 175°."
+  },
+  {
+    "id": "d18", "categorie": "dessert", "nom": "Smoothie protéiné fraise-menthe",
+    "calories": 160, "proteines": 24, "glucides": 14, "lipides": 1, "temps": "5 min", "portions": 1,
+    "ingredients": ["200g fraises surgelées", "150g yaourt grec 0%", "1 dose protéine vanille", "feuilles de menthe fraîche", "citron", "eau froide"],
+    "preparation": "Mixer tous les ingrédients jusqu'à consistance lisse. Ajuster eau selon épaisseur souhaitée. Servir immédiatement."
+  },
+  {
+    "id": "d19", "categorie": "dessert", "nom": "Tarte au citron allégée",
+    "calories": 170, "proteines": 20, "glucides": 18, "lipides": 3, "temps": "30 min", "portions": 6,
+    "ingredients": ["fond de tarte avoine (flocons+miel)", "3 œufs", "jus de 3 citrons", "zeste", "200g fromage blanc 0%", "édulcorant", "2 feuilles gélatine"],
+    "preparation": "Préparer fond avoine-miel. Mélanger fromage blanc, œufs, citron, édulcorant, gélatine dissoute. Verser sur fond. Réfrigérer 3h."
+  },
+  {
+    "id": "d20", "categorie": "dessert", "nom": "Barre protéinée maison cacahuète-avoine",
+    "calories": 155, "proteines": 20, "glucides": 16, "lipides": 5, "temps": "10 min", "portions": 8,
+    "ingredients": ["150g flocons d'avoine", "80g poudre de protéine vanille", "3 c.s. beurre de cacahuète allégé", "2 c.s. miel", "30ml lait écrémé"],
+    "preparation": "Mélanger tous les ingrédients pour pâte compacte. Étaler dans plat. Réfrigérer 2h. Couper en barres."
+  }
+]

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { ProgressBar } from "./ProgressBar";
 import { updateDoc, doc } from "firebase/firestore";
 import { db } from "../firebase";
+import { useRouter } from "next/navigation";
 
 export function DashboardTab({
   S, doneSeances, doneExos, exercices, pd, realStreak,
@@ -10,6 +11,7 @@ export function DashboardTab({
   user, clientData, setClientData, vibrate, addToast, nutrition,
   currentWeek, totalWeeks,
 }) {
+  const router = useRouter();
   return (
     <div className="fade-in" style={{display:"flex",flexDirection:"column",gap:18}}>
 
@@ -153,6 +155,30 @@ export function DashboardTab({
           </div>
         </div>
       </div>
+
+      {/* Accès Recettes Elite */}
+      {clientData?.plan === "Elite" && (
+        <div onClick={() => router.push("/recettes")} style={{
+          background:"rgba(201,168,76,0.05)",border:"0.5px solid rgba(201,168,76,0.25)",
+          padding:"18px 20px",display:"flex",alignItems:"center",justifyContent:"space-between",gap:16,
+          cursor:"pointer",transition:"border-color .3s,background .3s",flexWrap:"wrap",
+        }}
+        onMouseEnter={e=>{e.currentTarget.style.borderColor="rgba(201,168,76,0.6)";e.currentTarget.style.background="rgba(201,168,76,0.09)"}}
+        onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(201,168,76,0.25)";e.currentTarget.style.background="rgba(201,168,76,0.05)"}}>
+          <div>
+            <div style={{fontSize:10,letterSpacing:"3px",textTransform:"uppercase",color:"#C9A84C",marginBottom:6}}>
+              👑 Espace Elite
+            </div>
+            <p style={{fontFamily:"'Cormorant Garamond',serif",fontSize:18,color:"#F0EDE8",fontWeight:600,marginBottom:4}}>
+              Recettes haute protéine
+            </p>
+            <p style={{fontSize:12,color:"#666",lineHeight:1.5}}>
+              80+ recettes saines — entrées, plats & desserts peu caloriques
+            </p>
+          </div>
+          <div style={{fontSize:24,color:"#C9A84C",fontWeight:300}}>→</div>
+        </div>
+      )}
 
       {/* Section parrainage */}
       <div style={{
