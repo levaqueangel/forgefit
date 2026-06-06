@@ -411,7 +411,7 @@ function BilanForm() {
               <span style={{ fontSize: 18 }}>{clientCreated === false ? "⚠️" : "✓"}</span>
               {clientCreated === false ? (
                 <span style={{ color: "#E07070" }}>
-                  Erreur création espace client — <a href="mailto:levaqueangel@gmail.com" style={{ color: "#E8C87A" }}>contacte le coach</a>
+                  Erreur création espace client — <a href="mailto:coach.apxfitness11@gmail.com" style={{ color: "#E8C87A" }}>contacte le coach</a>
                 </span>
               ) : (
                 <span style={{ color: "#7AE07A" }}>

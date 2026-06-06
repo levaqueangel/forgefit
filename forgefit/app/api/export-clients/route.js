@@ -2,7 +2,7 @@ import { getAdminAuth } from "../firebase-admin";
 import { getAdminDb } from "../firebase-admin";
 export const dynamic = "force-dynamic";
 
-const COACH_EMAIL = process.env.NEXT_PUBLIC_COACH_EMAIL || "levaqueangel@gmail.com";
+const COACH_EMAIL = process.env.NEXT_PUBLIC_COACH_EMAIL || "coach.apxfitness11@gmail.com";
 
 export async function GET(req) {
   // Vérifier que l'appelant est le coach (cookie de session Firebase)

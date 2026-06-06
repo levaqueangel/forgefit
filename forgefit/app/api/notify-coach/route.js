@@ -10,6 +10,7 @@ export async function POST(req) {
   try {
     await resend.emails.send({
       from: "APXFITNESS <onboarding@resend.dev>",
+      replyTo: "coach.apxfitness11@gmail.com",
       to: [process.env.EMAIL_COACH],
       subject: `💬 APXFITNESS — Nouveau message de ${nom}`,
       html: `<!DOCTYPE html><html><head><meta charset="utf-8"/></head>

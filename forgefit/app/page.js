@@ -505,8 +505,8 @@ export default function Home() {
           <div>
             <div style={{fontSize:20,fontWeight:800,letterSpacing:5,marginBottom:12}}>APXFIT<span style={{color:"#C9A84C"}}>NESS</span></div>
             <p style={{fontSize:12,color:T.muted,lineHeight:1.9,maxWidth:260,marginBottom:20}}>Coaching fitness personnalisé en ligne. Programmes musculation et nutrition 100% sur mesure générés par IA.</p>
-            <a href="mailto:levaqueangel@gmail.com" style={{fontSize:11,color:"#C9A84C",letterSpacing:"1px",textDecoration:"none",display:"flex",alignItems:"center",gap:6}}>
-              <span>✉</span> levaqueangel@gmail.com
+            <a href="mailto:coach.apxfitness11@gmail.com" style={{fontSize:11,color:"#C9A84C",letterSpacing:"1px",textDecoration:"none",display:"flex",alignItems:"center",gap:6}}>
+              <span>✉</span> coach.apxfitness11@gmail.com
             </a>
           </div>
           {/* Programmes */}

@@ -34,7 +34,7 @@ export async function POST(req) {
 
     const vapidPublicKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
     const vapidPrivateKey = process.env.VAPID_PRIVATE_KEY;
-    const vapidEmail = process.env.VAPID_EMAIL || "mailto:levaqueangel@gmail.com";
+    const vapidEmail = process.env.VAPID_EMAIL || "mailto:coach.apxfitness11@gmail.com";
 
     if (!vapidPublicKey || !vapidPrivateKey) {
       return Response.json({ success: false, reason: "VAPID keys non configurées" });

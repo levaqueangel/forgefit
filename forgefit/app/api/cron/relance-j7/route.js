@@ -41,6 +41,7 @@ export async function GET(req) {
       try {
         await resend.emails.send({
           from: "APXFITNESS <onboarding@resend.dev>",
+          replyTo: "coach.apxfitness11@gmail.com",
           to: [client.email],
           subject: `${client.nom?.split(" ")[0] || "Toi"}, ton programme t'attend 💪`,
           html: generateRelanceHtml(client.nom?.split(" ")[0] || "là", client.plan || "forge", SITE),

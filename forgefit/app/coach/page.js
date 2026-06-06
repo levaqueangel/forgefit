@@ -11,7 +11,7 @@ import {
 import { auth, db } from "../firebase";
 
 // ── Constantes ─────────────────────────────────────────────────────────────
-const COACH_EMAIL = process.env.NEXT_PUBLIC_COACH_EMAIL || "levaqueangel@gmail.com";
+const COACH_EMAIL = process.env.NEXT_PUBLIC_COACH_EMAIL || "coach.apxfitness11@gmail.com";
 const INACTIVE_LIMIT   = 15 * 60 * 1000;
 const WARNING_BEFORE   =  2 * 60 * 1000;
 

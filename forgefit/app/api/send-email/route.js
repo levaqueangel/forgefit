@@ -101,7 +101,7 @@ function generateHtml(nom, plan, programme) {
             <p style="margin:0 0 20px;font-size:14px;color:#555;font-family:Georgia,serif;font-style:italic;">
               Des questions sur ton programme ?
             </p>
-            <a href="mailto:levaqueangel@gmail.com" style="display:inline-block;background:linear-gradient(135deg,#C9A84C,#A67C2E);color:#0A0A0A;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:14px 32px;text-decoration:none;">
+            <a href="mailto:coach.apxfitness11@gmail.com" style="display:inline-block;background:linear-gradient(135deg,#C9A84C,#A67C2E);color:#0A0A0A;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:14px 32px;text-decoration:none;">
               Contacter le coach →
             </a>
           </td>
@@ -182,7 +182,7 @@ export async function POST(req) {
   const internalKey = req.headers.get("x-internal-key");
     if (internalKey !== process.env.CRON_SECRET) {
       const decoded = await verifyAuthToken(req);
-      const COACH_EMAIL = process.env.NEXT_PUBLIC_COACH_EMAIL || "levaqueangel@gmail.com";
+      const COACH_EMAIL = process.env.NEXT_PUBLIC_COACH_EMAIL || "coach.apxfitness11@gmail.com";
       if (!decoded || decoded.email !== COACH_EMAIL) {
         return Response.json({ error: "Non autorisé" }, { status: 401 });
       }
@@ -193,6 +193,7 @@ export async function POST(req) {
     // Email au client — HTML soigné
     await resend.emails.send({
       from: "APXFITNESS <onboarding@resend.dev>",
+      replyTo: "coach.apxfitness11@gmail.com",
       to: [to],
       subject: `⚡ APXFITNESS — Ton programme ${plan ? plan.charAt(0).toUpperCase() + plan.slice(1) : ""} est prêt, ${nom} !`,
       html: generateHtml(nom, plan, programme),

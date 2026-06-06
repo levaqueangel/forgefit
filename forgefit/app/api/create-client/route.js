@@ -22,7 +22,7 @@ export async function POST(req) {
   const isInternalCall = internalKey === process.env.CRON_SECRET;
   if (!isInternalCall) {
     const decoded = await verifyAuthToken(req);
-    const COACH_EMAIL = process.env.NEXT_PUBLIC_COACH_EMAIL || "levaqueangel@gmail.com";
+    const COACH_EMAIL = process.env.NEXT_PUBLIC_COACH_EMAIL || "coach.apxfitness11@gmail.com";
     if (!decoded || decoded.email !== COACH_EMAIL) {
       return Response.json({ error: "Non autorisé" }, { status: 401 });
     }
@@ -83,6 +83,7 @@ export async function POST(req) {
 
     await resend.emails.send({
       from: "APXFITNESS <onboarding@resend.dev>",
+      replyTo: "coach.apxfitness11@gmail.com",
       to: [safeEmail],
       subject: `🎉 ${prenom}, ton programme APXFITNESS est prêt !`,
       html: `<!DOCTYPE html>

@@ -47,7 +47,7 @@ const jsonLd = {
       "name": "APXFITNESS",
       "description": "Coaching fitness personnalisé en ligne. Programmes musculation et nutrition sur mesure générés par IA.",
       "url": "https://apxfitness-brown.vercel.app",
-      "email": "levaqueangel@gmail.com",
+      "email": "coach.apxfitness11@gmail.com",
       "founder": { "@type": "Person", "name": "Angel Levaque" },
       "foundingDate": "2020",
       "areaServed": { "@type": "Country", "name": "France" },
