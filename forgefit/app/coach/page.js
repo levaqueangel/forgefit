@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import {
-  signInWithEmailAndPassword, signOut, onAuthStateChanged,
+  signInWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail,
 } from "firebase/auth";
 import {
   collection, query, orderBy, onSnapshot, addDoc, updateDoc,
@@ -31,12 +31,23 @@ function LoginCoach() {
   const [password, setPassword] = useState("");
   const [error, setError]     = useState("");
   const [loading, setLoading] = useState(false);
+  const [resetSent, setResetSent] = useState(false);
+  const [resetLoading, setResetLoading] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault(); setLoading(true); setError("");
     try { await signInWithEmailAndPassword(auth, COACH_EMAIL, password); }
     catch { setError("Mot de passe incorrect."); }
     setLoading(false);
+  };
+
+  const handleReset = async () => {
+    setResetLoading(true);
+    try {
+      await sendPasswordResetEmail(auth, COACH_EMAIL);
+      setResetSent(true);
+    } catch { setError("Erreur lors de l'envoi. Réessaie."); }
+    setResetLoading(false);
   };
 
   return (
@@ -55,10 +66,19 @@ function LoginCoach() {
               style={{width:"100%",background:"transparent",border:"none",color:"#F0EDE8",fontFamily:"'Syne',sans-serif",fontSize:13,outline:"none"}}/>
           </div>
           {error && <div style={{background:"#1A0808",border:"0.5px solid #5A1A1A",color:"#E07070",fontSize:12,padding:"10px 14px"}}>{error}</div>}
+          {resetSent && (
+            <div style={{background:"#081A08",border:"0.5px solid #1A3A1A",color:"#7AE07A",fontSize:12,padding:"10px 14px",lineHeight:1.6}}>
+              ✓ Email envoyé à {COACH_EMAIL} — clique sur le lien pour créer ton mot de passe.
+            </div>
+          )}
           <button type="submit" disabled={loading} style={{background:loading?"#181818":"linear-gradient(135deg,#C9A84C,#A67C2E)",border:"none",color:"#0A0A0A",padding:"14px",fontFamily:"'Syne',sans-serif",fontSize:12,fontWeight:700,letterSpacing:"3px",textTransform:"uppercase",cursor:loading?"not-allowed":"pointer",marginTop:2}}>
             {loading ? "Connexion..." : "Accéder →"}
           </button>
         </form>
+        <button onClick={handleReset} disabled={resetLoading || resetSent}
+          style={{marginTop:16,background:"none",border:"none",color:resetSent?"#555":"#C9A84C",fontSize:11,letterSpacing:"2px",textTransform:"uppercase",cursor:resetSent?"default":"pointer",textDecoration:"underline",width:"100%",textAlign:"center",opacity:resetLoading?0.5:1}}>
+          {resetLoading ? "Envoi..." : resetSent ? "Email envoyé ✓" : "Mot de passe oublié ?"}
+        </button>
       </div>
     </div>
   );
