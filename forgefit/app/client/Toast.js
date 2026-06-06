@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 
-function ToastContainer({ toasts }) {
+export function ToastContainer({ toasts }) {
   return (
     <div style={{
       position:"fixed",bottom:32,left:"50%",transform:"translateX(-50%)",
