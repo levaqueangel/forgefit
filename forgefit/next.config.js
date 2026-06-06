@@ -4,6 +4,30 @@ const nextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
 
+  // Headers de cache pour les assets statiques
+  async headers() {
+    return [
+      {
+        source: "/videos/:path*",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
+      },
+      {
+        source: "/:path*.mp4",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
+      },
+      {
+        source: "/(favicon.ico|apple-touch-icon.png|og-default.jpg)",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=86400" },
+        ],
+      },
+    ];
+  },
+
   // Optimisation des images Next.js
   images: {
     formats: ["image/avif", "image/webp"],

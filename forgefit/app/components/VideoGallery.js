@@ -80,6 +80,7 @@ export default function VideoGallery() {
                 ref={el => videoRefs.current[idx] = el}
                 src={VIDEOS[idx].src}
                 muted autoPlay loop playsInline
+                preload={pos === 1 ? "auto" : "none"}
                 style={{width:"100%",height:"100%",objectFit:"cover"}}
               />
               <div className="vg-overlay">

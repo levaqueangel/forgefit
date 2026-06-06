@@ -24,6 +24,30 @@ const GOALS = [
   { id: "masse", label: "Prise de masse",      delta: 250,  pLabel: "Surplus léger (+250 kcal)" },
 ];
 
+const FOOD_TIPS = {
+  perte: [
+    "🥩 Viandes maigres : blanc de poulet, dinde, thon en boîte",
+    "🥚 2–3 œufs entiers + blancs au petit-déjeuner",
+    "🥦 Légumes à volonté : brocoli, haricots verts, épinards",
+    "🫐 Fruits à IG bas : myrtilles, pomme, pamplemousse",
+    "🌾 Féculents en petite portion : riz complet, patate douce",
+  ],
+  recomp: [
+    "🍗 Sources protéiques variées : poulet, poisson, fromage blanc 0%",
+    "🥑 Lipides de qualité : avocat, huile d'olive, noix",
+    "🍚 Féculents autour des séances : riz, pâtes complètes, avoine",
+    "🥗 Légumes à chaque repas pour les fibres et micronutriments",
+    "💧 Hydratation : min 35 ml/kg de poids corporel/jour",
+  ],
+  masse: [
+    "🥩 Augmente les protéines : bœuf haché 5%, saumon, œufs entiers",
+    "🍌 Glucides en quantité : riz blanc, avoine, pain complet, banane",
+    "🫒 Calories denses : beurre de cacahuète, fromage, huile d'olive",
+    "🥛 Lait entier ou fromage blanc pour les protéines + calories",
+    "🕐 4–5 repas/jour pour faciliter l'apport calorique total",
+  ],
+};
+
 function IMCBar({ imc }) {
   const zones = [
     { max: 18.5, label: "Maigreur",      color: "#5DCAA5" },
@@ -92,10 +116,17 @@ export default function CalculateurPage() {
     else { proteines = Math.round(p * 1.8); lipides = Math.round(p * 0.9); }
     const glucides = Math.round(Math.max(0, calories - proteines * 4 - lipides * 9) / 4);
 
+    // Estimation masse grasse (formule simplifiée)
+    const mgPct = form.genre === "homme"
+      ? Math.max(5, Math.min(50, (1.20 * imc) + (0.23 * a) - 16.2))
+      : Math.max(10, Math.min(55, (1.20 * imc) + (0.23 * a) - 5.4));
+    const mgKg = Math.round(p * mgPct / 100 * 10) / 10;
+    const mmKg = Math.round((p - mgKg) * 10) / 10;
+
     setCalcLoading(true);
     setTimeout(() => {
       setCalcLoading(false);
-      setResult({ bmr: Math.round(bmr), tdee, calories, imc, proteines, glucides, lipides, goalLabel: goal.label, pctLabel: goal.pLabel });
+      setResult({ bmr: Math.round(bmr), tdee, calories, imc, proteines, glucides, lipides, goalLabel: goal.label, pctLabel: goal.pLabel, mgPct: Math.round(mgPct), mgKg, mmKg, foodTips: FOOD_TIPS[form.objectif] });
     }, 400);
   };
 
@@ -330,13 +361,48 @@ export default function CalculateurPage() {
                   })}
                 </div>
 
+                {/* Composition corporelle */}
+                <div style={S.card}>
+                  <div style={{ fontSize: 10, letterSpacing: "3px", textTransform: "uppercase", color: "#555", marginBottom: 12 }}>Composition corporelle estimée</div>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8 }}>
+                    {[
+                      { label: "Masse grasse", val: `${result.mgPct}%`, sub: `≈ ${result.mgKg} kg`, color: "#E8C87A" },
+                      { label: "Masse maigre", val: `${result.mmKg} kg`, sub: "muscles + os", color: "#7AE07A" },
+                      { label: "Poids total",  val: `${parseFloat(result.mgKg) + parseFloat(result.mmKg)} kg`, sub: "poids actuel", color: "#5DCAA5" },
+                    ].map((m, i) => (
+                      <div key={i} style={{ background: "#0D0D0D", padding: "10px 8px", borderRadius: 2, textAlign: "center" }}>
+                        <div style={{ fontSize: 10, color: "#444", marginBottom: 4, letterSpacing: "0.5px" }}>{m.label}</div>
+                        <div style={{ fontSize: 18, fontWeight: 700, color: m.color, lineHeight: 1 }}>{m.val}</div>
+                        <div style={{ fontSize: 10, color: "#333", marginTop: 3 }}>{m.sub}</div>
+                      </div>
+                    ))}
+                  </div>
+                  <p style={{ fontSize: 10, color: "#333", marginTop: 8, lineHeight: 1.5 }}>
+                    * Estimation basée sur l'IMC et l'âge (formule Deurenberg). Pour une mesure précise : DEXA ou pince à plis.
+                  </p>
+                </div>
+
+                {/* Conseils alimentaires */}
+                <div style={S.card}>
+                  <div style={{ fontSize: 10, letterSpacing: "3px", textTransform: "uppercase", color: "#555", marginBottom: 10 }}>
+                    Aliments clés — {result.goalLabel}
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
+                    {result.foodTips.map((tip, i) => (
+                      <div key={i} style={{ fontSize: 12, color: "#777", lineHeight: 1.5, padding: "6px 10px", background: "#0D0D0D", borderRadius: 2 }}>
+                        {tip}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
                 {/* CTA */}
                 <div style={{ background: "#0D0D0D", border: "0.5px solid rgba(201,168,76,0.3)", borderRadius: 4, padding: "20px", textAlign: "center" }}>
                   <div style={{ fontSize: 10, letterSpacing: "3px", textTransform: "uppercase", color: "#C9A84C", marginBottom: 8 }}>— Prochaine étape</div>
                   <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 15, color: "#888", lineHeight: 1.7, marginBottom: "1rem" }}>
                     Ces chiffres sont un point de départ. Un programme sur mesure tient compte de bien plus — tes habitudes, ton équipement, tes contraintes.
                   </p>
-                  <button onClick={() => router.push("/#offres")} style={{
+                  <button onClick={() => router.push("/bilan")} style={{
                     background: "linear-gradient(135deg,#C9A84C,#A67C2E)", border: "none", color: "#0A0A0A",
                     padding: "12px 24px", fontFamily: "'Syne',sans-serif", fontSize: 11, fontWeight: 700,
                     letterSpacing: "2px", textTransform: "uppercase", cursor: "pointer", borderRadius: 2,

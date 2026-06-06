@@ -283,7 +283,7 @@ export default function Home() {
         <div className="nav-links" style={{display:"flex",gap:"2rem",fontSize:13,letterSpacing:"1px",color:T.muted}}>
           <span className="nav-link" onClick={()=>document.getElementById("offres").scrollIntoView({behavior:"smooth"})}>{t.nav.programmes}</span>
           <span className="nav-link" onClick={()=>document.getElementById("methode").scrollIntoView({behavior:"smooth"})}>{t.nav.methode}</span>
-          <span className="nav-link" onClick={()=>document.getElementById("offres").scrollIntoView({behavior:"smooth"})}>{t.nav.tarifs}</span>
+          <span className="nav-link" onClick={()=>router.push("/tarifs")}>{t.nav.tarifs}</span>
           <span className="nav-link" onClick={()=>router.push("/calculateur")}>Calculateur</span>
           <span className="nav-link" onClick={()=>router.push("/faq")}>FAQ</span>
           <span className="nav-link" onClick={()=>router.push("/a-propos")}>À propos</span>
@@ -519,7 +519,7 @@ export default function Home() {
           {/* Navigation */}
           <div>
             <div style={{fontSize:9,letterSpacing:"3px",textTransform:"uppercase",color:"#555",marginBottom:16}}>Navigation</div>
-            {[["À propos","/a-propos"],["Blog","/blog"],["Résultats","/resultats"],["Calculateur","/calculateur"],["FAQ","/faq"]].map(([l,h])=>(
+            {[["À propos","/a-propos"],["Blog","/blog"],["Résultats","/resultats"],["Tarifs","/tarifs"],["Calculateur","/calculateur"],["FAQ","/faq"]].map(([l,h])=>(
               <div key={h} className="footer-link" style={{fontSize:12,color:T.muted,marginBottom:10,cursor:"pointer"}} onClick={()=>router.push(h)}>{l}</div>
             ))}
           </div>
