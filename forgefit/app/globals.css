@@ -22,13 +22,18 @@ input, select, textarea { font-family: 'Syne', sans-serif; }
   *, *::before, *::after { cursor: none !important; }
 }
 .cur-dot {
-  position: fixed; width: 8px; height: 8px; border-radius: 50%;
+  position: fixed; width: 10px; height: 10px; border-radius: 50%;
   background: #C9A84C; pointer-events: none; z-index: 9999; top:0; left:0;
-  transition: transform 0.06s linear, width 0.2s, height 0.2s;
-  mix-blend-mode: difference;
+  transform: translate(-50%,-50%);
+  box-shadow: 0 0 8px 2px rgba(201,168,76,.7);
+  transition: width 0.2s, height 0.2s, box-shadow 0.2s;
 }
-.cur-dot.hovering { width: 14px; height: 14px; }
+.cur-dot.hovering { width: 14px; height: 14px; box-shadow: 0 0 16px 4px rgba(201,168,76,.9); }
 .cur-ring { display: none; }
+.cur-trail {
+  position: fixed; border-radius: 50%; background: #C9A84C;
+  pointer-events: none; transform: translate(-50%,-50%); top:0; left:0;
+}
 
 /* ── Scroll reveal ── */
 .reveal {

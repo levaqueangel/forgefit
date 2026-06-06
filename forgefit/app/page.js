@@ -17,20 +17,50 @@ export default function Home() {
   const T = theme === 'dark' ? DARK : LIGHT;
   const toggleTheme = () => setTheme(t => { const n = t==='dark'?'light':'dark'; try{localStorage.setItem('apx_theme',n);}catch{}; return n; });
 
-  // ── Custom cursor ──────────────────────────────────────────────────────
+  // ── Custom cursor + trail ──────────────────────────────────────────────
   const [cur, setCur] = useState({x:-100,y:-100});
   const [hovering, setHovering] = useState(false);
   const hasPointer = useRef(false);
+  const trailRef = useRef([]);
   useEffect(() => {
     hasPointer.current = window.matchMedia('(pointer:fine)').matches;
     if (!hasPointer.current) return;
-    const move = e => setCur({x:e.clientX, y:e.clientY});
+    const TRAIL_LEN = 18;
+    const trails = Array.from({length:TRAIL_LEN}, (_,i) => {
+      const el = document.createElement('div');
+      el.className = 'cur-trail';
+      const size = Math.max(2, 8 - i*0.35);
+      el.style.cssText = `width:${size}px;height:${size}px;opacity:${(1-i/TRAIL_LEN)*0.55};z-index:${9997-i}`;
+      document.body.appendChild(el);
+      return {el, x:-100, y:-100};
+    });
+    trailRef.current = trails;
+    let mx=-100, my=-100, animId;
+    const move = e => { mx=e.clientX; my=e.clientY; setCur({x:mx, y:my}); };
     const over = e => { if(e.target.closest('button,a,[role=button],.plan-card,.nav-link')) setHovering(true); };
     const out  = () => setHovering(false);
     window.addEventListener('mousemove', move);
     document.addEventListener('mouseover', over);
     document.addEventListener('mouseout', out);
-    return () => { window.removeEventListener('mousemove',move); document.removeEventListener('mouseover',over); document.removeEventListener('mouseout',out); };
+    const animTrail = () => {
+      let px=mx, py=my;
+      trails.forEach((t,i) => {
+        t.x += (px-t.x)*(0.28-i*0.008);
+        t.y += (py-t.y)*(0.28-i*0.008);
+        t.el.style.left = t.x+'px';
+        t.el.style.top  = t.y+'px';
+        px=t.x; py=t.y;
+      });
+      animId = requestAnimationFrame(animTrail);
+    };
+    animTrail();
+    return () => {
+      cancelAnimationFrame(animId);
+      window.removeEventListener('mousemove',move);
+      document.removeEventListener('mouseover',over);
+      document.removeEventListener('mouseout',out);
+      trails.forEach(t => t.el.remove());
+    };
   }, []);
 
   // ── Scroll reveal ──────────────────────────────────────────────────────
