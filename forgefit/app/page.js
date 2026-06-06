@@ -15,7 +15,7 @@ export default function Home() {
   // ── Theme ──────────────────────────────────────────────────────────────
   const [theme, setTheme] = useState(() => { try { return localStorage.getItem('apx_theme') || 'dark'; } catch { return 'dark'; } });
   const T = theme === 'dark' ? DARK : LIGHT;
-  const toggleTheme = () => setTheme(t => { const n = t==='dark'?'light':'dark'; try{localStorage.setItem('apx_theme',n);}catch{}; return n; });
+  const toggleTheme = () => setTheme(t => { const n = t==='dark'?'light':'dark'; try{localStorage.setItem('apx_theme',n);}catch{} return n; });
 
   // ── Custom cursor + trail ──────────────────────────────────────────────
   const [cur, setCur] = useState({x:-100,y:-100});

@@ -138,16 +138,19 @@ return () => clearTimeout(timer);
 }
 }, []);
 
+const dataLoadingRef = useRef(false);
 const refreshData = useCallback(async () => {
-if (!user || dataLoading) return;
+if (!user || dataLoadingRef.current) return;
+dataLoadingRef.current = true;
 setDataLoading(true);
 try {
 const snap = await getDoc(doc(db, "clients", user.uid));
 if (snap.exists()) setClientData(snap.data());
 addToast("Données mises à jour ✓", "info");
 } catch { addToast("Erreur de rechargement", "error"); }
+dataLoadingRef.current = false;
 setDataLoading(false);
-}, [user, dataLoading, addToast]);
+}, [user, addToast]);
 
 // ── Swipe ────────────────────────────────────────────────────
 const TABS_ORDER = ["dashboard","programme","nutrition","corps","messages","ia"];

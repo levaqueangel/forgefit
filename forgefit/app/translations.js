@@ -63,7 +63,7 @@ export const LANGS = {
         lieu: ["Salle de sport","Maison avec matériel","Maison sans matériel","Extérieur"],
         regime: ["Omnivore","Végétarien","Vegan","Sans gluten"],
       },
-      labels: { obj:"Objectif principal", seances:"Séances / semaine", duree:"Duréepar séance", niv:"Niveau actuel", lieu:"Lieu d'entraînement", contraintes:"Blessures / contraintes (optionnel)", motivation:"Ta motivation profonde (optionnel)", regime:"Alimentation" },
+      labels: { obj:"Objectif principal", seances:"Séances / semaine", duree:"Durée par séance", niv:"Niveau actuel", lieu:"Lieu d'entraînement", contraintes:"Blessures / contraintes (optionnel)", motivation:"Ta motivation profonde (optionnel)", regime:"Alimentation" },
       placeholders: { prenom:"ex. Sarah", age:"ex. 28", email:"ton@email.com", poids:"ex. 68", taille:"ex. 165", contraintes:"ex. douleur genou gauche...", motivation:"ex. me sentir bien dans mon corps..." },
       entrainement: { title: "Ton ", em: "entraînement", sub: "Ton niveau et ton environnement." },
       lifestyle: { title: "Mode de ", em: "vie", sub: "Pour un programme qui s'adapte à ta réalité." },

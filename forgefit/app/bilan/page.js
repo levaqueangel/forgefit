@@ -138,13 +138,13 @@ function BilanForm() {
       setStatus("done"); setStep(5);
       try { localStorage.removeItem("apx_bilan_progress"); } catch {}
       // Supprimer l'abandon car le bilan est terminé
-      if (sel.email) {
+      if (form.email) {
         fetch("/api/save-abandon", {
           method:"DELETE", headers:{"Content-Type":"application/json"},
-          body: JSON.stringify({ email: sel.email }),
+          body: JSON.stringify({ email: form.email }),
         }).catch(()=>{});
       }
-      try { trackEvent("bilan_complete", { plan: data.plan || "unknown", nom: data.prenom }); } catch {}
+      try { trackEvent("bilan_complete", { plan: planId || "unknown", nom: form.prenom }); } catch {}
     } catch (e) {
       setErrMsg(e.message); setStatus("error");
     }
@@ -286,16 +286,16 @@ function BilanForm() {
               <GoldBtn ghost onClick={() => setStep(2)}>{tb.back}</GoldBtn>
               <GoldBtn onClick={() => {
         // Validation étape 3 — vérifier que les champs obligatoires sont remplis
-        if (!sel.prenom || !sel.prenom.trim()) {
+        if (!form.prenom || !form.prenom.trim()) {
           alert(tb.error_prenom || "Merci de renseigner ton prénom."); return;
         }
-        if (!sel.email || !sel.email.includes("@") || !sel.email.includes(".")) {
+        if (!form.email || !form.email.includes("@") || !form.email.includes(".")) {
           alert(tb.error_email || "Merci de renseigner un email valide."); return;
         }
         // Enregistrer l'abandon potentiel
         fetch("/api/save-abandon", {
           method:"POST", headers:{"Content-Type":"application/json"},
-          body: JSON.stringify({ email:sel.email, prenom:sel.prenom, plan:planId, step:3 }),
+          body: JSON.stringify({ email:form.email, prenom:form.prenom, plan:planId, step:3 }),
         }).catch(()=>{});
         setStep(4);
       }}>{tb.next}</GoldBtn>
