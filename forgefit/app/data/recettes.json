@@ -324,7 +324,7 @@
   {
     "id": "p22", "categorie": "plat", "nom": "Poêlée de crevettes et courgettes",
     "calories": 230, "proteines": 34, "glucides": 8, "lipides": 7, "temps": "12 min", "portions": 1,
-    "image": "https://images.unsplash.com/photo-1559847844-5315695dadae?w=600&q=80&fit=crop",
+    "image": "https://images.unsplash.com/photo-uoKAIdObUlk?w=600&q=80&fit=crop",
     "ingredients": ["250g crevettes", "2 courgettes", "ail", "piment", "jus de citron", "huile d'olive", "persil", "sel"],
     "preparation": "Faire revenir ail et piment. Ajouter courgettes en rondelles, puis crevettes. 5 min à feu vif. Citron et persil."
   },
