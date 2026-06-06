@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useLang } from "./useLang";
 import { LangSelector } from "./LangSelector";
+import VideoGallery from "./components/VideoGallery";
 
 const PLAN_NAMES = ["Starter","Forge","Elite"];
 const PLAN_PRICES = [49,129,249];
@@ -331,7 +332,7 @@ export default function Home() {
         </div>
         <div className="hero-stats" style={{display:"grid",gridTemplateRows:"1fr 1fr",background:T.bg2,position:"relative",overflow:"hidden"}}>
           <video className="hero-video" autoPlay muted loop playsInline>
-            <source src="/hero-video.mp4" type="video/mp4"/>
+            <source src="/videos/v1.mp4" type="video/mp4"/>
           </video>
           <div style={{position:"absolute",inset:0,background:"radial-gradient(circle at 50% 50%,rgba(201,168,76,0.06),transparent 70%)",pointerEvents:"none",zIndex:1}}/>
           <canvas ref={canvasRef} style={{position:"absolute",inset:0,width:"100%",height:"100%",pointerEvents:"none",zIndex:2}} />
@@ -425,6 +426,9 @@ export default function Home() {
           </div>
         ))}
       </section>
+
+      {/* ── Galerie vidéo ── */}
+      <VideoGallery />
 
       {/* ── Offres ── */}
       <section id="offres" className="section-pad reveal" style={{padding:"4rem 3rem",borderBottom:`0.5px solid ${T.border}`,

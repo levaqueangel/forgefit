@@ -373,6 +373,31 @@ export default function APropos() {
         </div>
       </section>
 
+      {/* ── Vidéo hero coach ── */}
+      <section style={{position:"relative",height:420,overflow:"hidden",borderBottom:"0.5px solid #1A1A1A"}}>
+        <video autoPlay muted loop playsInline style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",opacity:.22}}>
+          <source src="/videos/v10.mp4" type="video/mp4"/>
+        </video>
+        <div style={{position:"absolute",inset:0,background:"linear-gradient(to bottom,rgba(10,10,10,.6),rgba(10,10,10,.95))"}}/>
+        <div style={{position:"absolute",inset:0,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",textAlign:"center",padding:"2rem"}}>
+          <div style={{fontSize:10,letterSpacing:"4px",textTransform:"uppercase",color:"#C9A84C",marginBottom:"1rem"}}>— L'entraînement en vidéo</div>
+          <h2 style={{fontFamily:"'Cormorant Garamond',serif",fontSize:48,fontWeight:600,lineHeight:1.1,marginBottom:"1.5rem"}}>
+            Voir la méthode<br/><em style={{fontStyle:"italic",color:"#C9A84C"}}>en mouvement</em>
+          </h2>
+        </div>
+
+        {/* Grille vidéos */}
+        <div style={{position:"absolute",bottom:0,left:0,right:0,display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:1,background:"#242424",height:120}}>
+          {["/videos/v7.mp4","/videos/v8.mp4","/videos/v9.mp4"].map((src,i) => (
+            <div key={i} style={{position:"relative",overflow:"hidden"}}>
+              <video src={src} autoPlay muted loop playsInline
+                style={{width:"100%",height:"100%",objectFit:"cover",opacity:.55}}/>
+              <div style={{position:"absolute",inset:0,background:"rgba(0,0,0,.25)"}}/>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* ── CTA final ── */}
       <section style={{
         padding:"6rem 3.5rem",textAlign:"center",
