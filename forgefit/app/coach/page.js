@@ -514,6 +514,9 @@ export default function CoachPage() {
           <button className="nav-btn" onClick={exportCSV} disabled={exporting}>
             {exporting ? <span style={{width:10,height:10,border:"1.5px solid #333",borderTopColor:"#C9A84C",borderRadius:"50%",animation:"spin 0.7s linear infinite",display:"inline-block"}}/> : "⬇️"} CSV
           </button>
+          <button className="nav-btn" onClick={() => router.push("/recettes")}>
+            🍽 Recettes
+          </button>
           <button className="nav-btn" onClick={() => signOut(auth)}>
             Déconnexion
           </button>
