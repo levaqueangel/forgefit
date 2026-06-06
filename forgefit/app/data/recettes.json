@@ -219,7 +219,7 @@
   {
     "id": "p7", "categorie": "plat", "nom": "Steak haché façon burger bowl",
     "calories": 360, "proteines": 46, "glucides": 15, "lipides": 11, "temps": "15 min", "portions": 1,
-    "image": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600&q=80&fit=crop",
+    "image": "https://images.unsplash.com/photo-au4rTXGydXI?w=600&q=80&fit=crop",
     "ingredients": ["200g steak haché 5%", "salade", "tomates", "1/2 oignon rouge", "cornichons", "1 c.s. yaourt grec", "moutarde", "paprika"],
     "preparation": "Griller steak. Dans un bol, disposer salade, tomates, oignon, cornichons. Poser steak. Sauce yaourt-moutarde-paprika."
   },
