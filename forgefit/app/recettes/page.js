@@ -114,6 +114,7 @@ export default function RecettesPage() {
         *{box-sizing:border-box;margin:0;padding:0}
         .r-card{background:#0D0D0D;border:0.5px solid #242424;cursor:pointer;transition:transform .3s,border-color .3s,box-shadow .3s}
         .r-card:hover{transform:translateY(-4px);border-color:rgba(201,168,76,.4);box-shadow:0 12px 40px rgba(0,0,0,.6)}
+        .r-card:hover img{transform:scale(1.05)}
         .fav-btn{background:none;border:none;cursor:pointer;font-size:18px;transition:transform .2s}
         .fav-btn:hover{transform:scale(1.2)}
         .pill{padding:4px 12px;border-radius:20px;font-size:11px;letter-spacing:2px;cursor:pointer;transition:all .25s;text-transform:uppercase;border:0.5px solid}
@@ -194,28 +195,33 @@ export default function RecettesPage() {
           <div className="r-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
             {filtered.map(r => (
               <div key={r.id} className="r-card" onClick={() => setSelected(r)}>
-                {/* Header carte */}
-                <div style={{ padding: "1rem 1rem 0.75rem", borderBottom: "0.5px solid #1A1A1A" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 6 }}>
-                    <span style={{ fontSize: 10, letterSpacing: 2, color: catColor[r.categorie], textTransform: "uppercase" }}>
-                      {catLabel[r.categorie]}
-                    </span>
-                    <button className="fav-btn" onClick={e => { e.stopPropagation(); toggleFav(r.id); }}
-                      style={{ color: favs.includes(r.id) ? "#C9A84C" : "#333" }}>
-                      {favs.includes(r.id) ? "♥" : "♡"}
-                    </button>
-                  </div>
-                  <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 17, fontWeight: 600, lineHeight: 1.3, color: "#F0EDE8" }}>
+                {/* Image */}
+                <div style={{ position: "relative", height: 160, overflow: "hidden", background: "#111" }}>
+                  <img src={r.image} alt={r.nom} loading="lazy"
+                    style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", transition: "transform .4s" }}
+                    onError={e => { e.target.style.display = "none"; }} />
+                  <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,.6) 0%, transparent 50%)" }} />
+                  <button className="fav-btn" onClick={e => { e.stopPropagation(); toggleFav(r.id); }}
+                    style={{ position: "absolute", top: 8, right: 8, color: favs.includes(r.id) ? "#C9A84C" : "rgba(255,255,255,.5)", textShadow: "0 1px 4px rgba(0,0,0,.8)" }}>
+                    {favs.includes(r.id) ? "♥" : "♡"}
+                  </button>
+                  <span style={{ position: "absolute", bottom: 8, left: 10, fontSize: 10, letterSpacing: 2, color: catColor[r.categorie], textTransform: "uppercase", textShadow: "0 1px 4px rgba(0,0,0,.9)" }}>
+                    {catLabel[r.categorie]}
+                  </span>
+                </div>
+                {/* Titre */}
+                <div style={{ padding: "0.75rem 1rem 0.5rem" }}>
+                  <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 16, fontWeight: 600, lineHeight: 1.3, color: "#F0EDE8" }}>
                     {r.nom}
                   </div>
                 </div>
                 {/* Macros */}
-                <div style={{ padding: "0.75rem 1rem", display: "flex", gap: 6, flexWrap: "wrap" }}>
+                <div style={{ padding: "0 1rem 0.75rem", display: "flex", gap: 6, flexWrap: "wrap" }}>
                   <span className="macro-badge" style={{ background: "rgba(201,168,76,.08)", color: "#C9A84C" }}>
                     🔥 {r.calories} kcal
                   </span>
                   <span className="macro-badge" style={{ background: "rgba(122,224,122,.08)", color: "#7AE07A" }}>
-                    💪 {r.proteines}g prot
+                    💪 {r.proteines}g
                   </span>
                   <span className="macro-badge" style={{ background: "rgba(255,255,255,.04)", color: "#888" }}>
                     ⏱ {r.temps}
@@ -231,6 +237,14 @@ export default function RecettesPage() {
       {selected && (
         <div className="modal-bg" onClick={e => { if (e.target === e.currentTarget) setSelected(null); }}>
           <div className="modal-box">
+            {/* Image modal */}
+            {selected.image && (
+              <div style={{ height: 220, overflow: "hidden", marginBottom: "1.5rem", position: "relative" }}>
+                <img src={selected.image} alt={selected.nom}
+                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(13,13,13,1) 0%, transparent 60%)" }} />
+              </div>
+            )}
             {/* Header modal */}
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "1.5rem" }}>
               <div>
