@@ -4,6 +4,6 @@ export default function robots() {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://apxfitness.vercel.app/sitemap.xml",
+    sitemap: "https://apxfitness-brown.vercel.app/sitemap.xml",
   };
 }

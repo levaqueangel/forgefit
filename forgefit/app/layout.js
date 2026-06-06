@@ -38,10 +38,44 @@ export const metadata = {
   },
 };
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "LocalBusiness",
+      "@id": "https://apxfitness-brown.vercel.app/#business",
+      "name": "APXFITNESS",
+      "description": "Coaching fitness personnalisé en ligne. Programmes musculation et nutrition sur mesure générés par IA.",
+      "url": "https://apxfitness-brown.vercel.app",
+      "email": "levaqueangel@gmail.com",
+      "founder": { "@type": "Person", "name": "Angel Levaque" },
+      "foundingDate": "2020",
+      "areaServed": { "@type": "Country", "name": "France" },
+      "priceRange": "€€",
+      "serviceType": "Coaching fitness en ligne",
+    },
+    {
+      "@type": "Service",
+      "name": "Programme Fitness Personnalisé",
+      "provider": { "@id": "https://apxfitness-brown.vercel.app/#business" },
+      "description": "Programme musculation et nutrition 100% personnalisé, généré par IA en moins de 48h selon ton profil et tes objectifs.",
+      "offers": [
+        { "@type": "Offer", "name": "Plan Starter", "price": "49", "priceCurrency": "EUR" },
+        { "@type": "Offer", "name": "Plan Forge",   "price": "129", "priceCurrency": "EUR" },
+        { "@type": "Offer", "name": "Plan Elite",   "price": "249", "priceCurrency": "EUR" },
+      ],
+    },
+  ],
+};
+
 export default function RootLayout({ children }) {
   return (
     <html lang="fr" suppressHydrationWarning>
       <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
