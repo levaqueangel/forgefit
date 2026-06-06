@@ -1,6 +1,6 @@
 "use client";
 export const dynamic = "force-dynamic";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useLang } from "./useLang";
 import { LangSelector } from "./LangSelector";
@@ -38,6 +38,52 @@ export default function Home() {
     setPopupLoading(false);
   };
   const router = useRouter();
+
+  // ── Canvas particules ────────────────────────────────────────────────
+  const canvasRef = useRef(null);
+  useEffect(() => {
+    const cv = canvasRef.current;
+    if (!cv) return;
+    const par = cv.parentElement;
+    let animId;
+    const resize = () => { cv.width = par.offsetWidth; cv.height = par.offsetHeight; };
+    resize();
+    const ctx = cv.getContext("2d");
+    const N = 140;
+    const pts = Array.from({length:N}, () => ({
+      x:Math.random()*cv.width, y:Math.random()*cv.height,
+      vx:(Math.random()-.5)*.22, vy:(Math.random()-.5)*.22,
+      r:Math.random()*2.4+0.5, a:Math.random()*.5+0.14,
+      ph:Math.random()*Math.PI*2,
+    }));
+    let mx=cv.width/2, my=cv.height/2;
+    const onMove = e => { const r=cv.getBoundingClientRect(); mx=e.clientX-r.left; my=e.clientY-r.top; };
+    par.addEventListener("mousemove", onMove);
+    const draw = () => {
+      ctx.clearRect(0,0,cv.width,cv.height);
+      for (let i=0; i<N; i++) {
+        const p=pts[i]; p.ph+=.025;
+        const dx=mx-p.x, dy=my-p.y, d=Math.hypot(dx,dy);
+        if(d<200){p.vx+=dx/d*.005; p.vy+=dy/d*.005;}
+        const sp=Math.hypot(p.vx,p.vy); if(sp>.48){p.vx=p.vx/sp*.48; p.vy=p.vy/sp*.48;}
+        p.x+=p.vx; p.y+=p.vy;
+        if(p.x<0)p.x=cv.width; if(p.x>cv.width)p.x=0;
+        if(p.y<0)p.y=cv.height; if(p.y>cv.height)p.y=0;
+        for(let j=i+1;j<N;j++){
+          const dx2=p.x-pts[j].x, dy2=p.y-pts[j].y, d2=Math.hypot(dx2,dy2);
+          if(d2<130){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(201,168,76,${.2*(1-d2/130)})`;ctx.lineWidth=.55;ctx.stroke();}
+        }
+        const pr=p.r*(1+.15*Math.sin(p.ph));
+        ctx.beginPath();ctx.arc(p.x,p.y,pr,0,6.28);ctx.fillStyle=`rgba(201,168,76,${p.a*(.8+.2*Math.sin(p.ph))})`;ctx.fill();
+      }
+      animId=requestAnimationFrame(draw);
+    };
+    draw();
+    window.addEventListener("resize", resize);
+    return () => { cancelAnimationFrame(animId); par.removeEventListener("mousemove",onMove); window.removeEventListener("resize",resize); };
+  }, []);
+
+
   const { lang, setLang, t, LANGS } = useLang();
 
   return (
@@ -89,7 +135,19 @@ export default function Home() {
         @keyframes typing{from{width:0}to{width:3.8em}}
         @keyframes borderPulse{0%,100%{border-color:#242424}50%{border-color:#C9A84C}}
         @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
-        @keyframes particleFloat{0%{transform:translateY(0) translateX(0);opacity:0.6}50%{transform:translateY(-20px) translateX(10px);opacity:1}100%{transform:translateY(0) translateX(0);opacity:0.6}}
+        @keyframes scanDown{0%{opacity:0;transform:translateY(-100%)}6%{opacity:.8}93%{opacity:.8}100%{opacity:0;transform:translateY(2000%)}}
+@keyframes shimmerSlide{0%{left:-100%}100%{left:200%}}
+@keyframes countPop{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.scan-line-el{position:absolute;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(201,168,76,.6),transparent);animation:scanDown 4s 1.2s ease both;pointer-events:none;z-index:10}
+.plan-card-shimmer{position:absolute;top:0;left:-100%;width:55%;height:100%;background:linear-gradient(90deg,transparent,rgba(201,168,76,.05),transparent);pointer-events:none;transition:left .8s ease}
+.plan-card:hover .plan-card-shimmer{left:200%}
+.plan-card{overflow:hidden}
+.plan-card:hover .plan-price{animation:countPop .35s ease}
+.step-box:hover{background:#111 !important;transform:translateY(-3px);transition:transform .3s,background .2s}
+.plan-feat-item:hover{color:#F0EDE8 !important;padding-left:6px;transition:all .2s}
+
+@keyframes particleFloat{0%{transform:translateY(0) translateX(0);opacity:0.6}50%{transform:translateY(-20px) translateX(10px);opacity:1}100%{transform:translateY(0) translateX(0);opacity:0.6}}
         .a1{animation:fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 0.1s both}
         .a2{animation:fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 0.25s both}
         .a3{animation:fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 0.4s both}
@@ -197,6 +255,7 @@ export default function Home() {
 
       {/* ── Hero ── */}
       <section className="hero-grid" style={{display:"grid",gridTemplateColumns:"1fr 1fr",minHeight:"520px",borderBottom:"0.5px solid #242424"}}>
+        <div className="scan-line-el" />
         <div className="hero-left" style={{padding:"5rem 3rem",display:"flex",flexDirection:"column",justifyContent:"center",borderRight:"0.5px solid #242424"}}>
           <div className="a1" style={{fontSize:11,letterSpacing:"4px",textTransform:"uppercase",color:"#C9A84C",marginBottom:"1.5rem"}}>{t.hero.tag}</div>
           <h1 className="a2 hero-title" style={{fontFamily:"'Cormorant Garamond',serif",fontSize:72,fontWeight:600,lineHeight:0.95,marginBottom:"1.5rem"}}>
@@ -222,7 +281,7 @@ export default function Home() {
         </div>
         <div className="hero-stats" style={{display:"grid",gridTemplateRows:"1fr 1fr",background:"#0D0D0D",position:"relative",overflow:"hidden"}}>
           <div style={{position:"absolute",inset:0,background:"radial-gradient(circle at 50% 50%,rgba(201,168,76,0.04),transparent 70%)",pointerEvents:"none"}}/>
-          <div className="p1"/><div className="p2"/><div className="p3"/><div className="p4"/>
+          <canvas ref={canvasRef} style={{position:"absolute",inset:0,width:"100%",height:"100%",pointerEvents:"none",zIndex:1}} />
           <svg style={{position:"absolute",inset:0,opacity:0.03,width:"100%",height:"100%"}} viewBox="0 0 300 260" preserveAspectRatio="xMidYMid slice">
             <defs><pattern id="g" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M 30 0 L 0 0 0 30" fill="none" stroke="#C9A84C" strokeWidth="0.5"/></pattern></defs>
             <rect width="300" height="260" fill="url(#g)"/>
@@ -324,11 +383,15 @@ export default function Home() {
         </div>
         <div className="plans-grid" style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:1,background:"#242424"}}>
           {PLAN_NAMES.map((name,i)=>(
-            <div key={name} className="plan-card" style={{
+            <div key={name} className="plan-card"
+              onMouseMove={e=>{const rect=e.currentTarget.getBoundingClientRect();const x=(e.clientX-rect.left)/rect.width-.5,y=(e.clientY-rect.top)/rect.height-.5;e.currentTarget.style.transition="transform .05s";e.currentTarget.style.transform=`perspective(700px) rotateY(${x*8}deg) rotateX(${-y*8}deg) translateZ(7px)`;}}
+              onMouseLeave={e=>{e.currentTarget.style.transition="transform .5s cubic-bezier(.2,0,0,1)";e.currentTarget.style.transform="perspective(700px) rotateY(0) rotateX(0) translateZ(0)";}}
+              style={{
               background:i===1?"#181818":"#111",padding:"2.5rem 2rem",
               border:`0.5px solid ${i===1?"#C9A84C":"#242424"}`,
               display:"flex",flexDirection:"column",position:"relative",
               borderTop:i===1?"2px solid #C9A84C":"0.5px solid #242424"}}>
+              <div className="plan-card-shimmer" />
               {i===1&&<div style={{position:"absolute",top:0,right:0,background:"#C9A84C",color:"#0A0A0A",
                 fontSize:10,fontWeight:700,letterSpacing:"2px",padding:"5px 14px",textTransform:"uppercase"}}>{t.plans.popular}</div>}
               <div className="plan-name" style={{fontFamily:"'Cormorant Garamond',serif",fontSize:36,fontWeight:600,
