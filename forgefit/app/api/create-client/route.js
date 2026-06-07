@@ -48,18 +48,22 @@ export async function POST(req) {
   const password  = generatePassword();
 
   try {
-    // Vérifier si le client existe déjà
+    // Vérifier si le client existe déjà dans Firebase Auth
+    let uid;
+    let isNewUser = false;
     try {
-      await getAdminAuth().getUserByEmail(safeEmail);
-      return Response.json({ success: false, error: "Un compte existe déjà pour cet email." }, { status: 409 });
+      const existingUser = await getAdminAuth().getUserByEmail(safeEmail);
+      uid = existingUser.uid;
+      // Compte existant — on met à jour le doc Firestore sans toucher au mot de passe
     } catch (e) {
       if (e.code !== "auth/user-not-found") throw e;
+      // Nouveau compte — on le crée
+      const newUser = await getAdminAuth().createUser({
+        email: safeEmail, password, displayName: nom.trim()
+      });
+      uid = newUser.uid;
+      isNewUser = true;
     }
-
-    const newUser = await getAdminAuth().createUser({
-      email: safeEmail, password, displayName: nom.trim()
-    });
-    const uid = newUser.uid;
 
     await getAdminDb().collection("clients").doc(uid).set({
       nom: nom.trim(), email: safeEmail, plan: safePlan,
@@ -85,11 +89,16 @@ export async function POST(req) {
       .map(e => `${e.nom} — ${e.series}×${e.reps}`)
       .join("<br/>") || "";
 
+    // Si compte existant, adapter le sujet (pas d'envoi de mot de passe)
+    const emailSubject = isNewUser
+      ? `🎉 ${prenom}, ton programme APXFITNESS est prêt !`
+      : `🔄 ${prenom}, ton programme APXFITNESS a été mis à jour !`;
+
     await resend.emails.send({
       from: "APXFITNESS <onboarding@resend.dev>",
       replyTo: "coach.apxfitness11@gmail.com",
       to: [safeEmail],
-      subject: `🎉 ${prenom}, ton programme APXFITNESS est prêt !`,
+      subject: emailSubject,
       html: `<!DOCTYPE html>
 <html lang="fr"><head><meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
@@ -187,6 +196,7 @@ export async function POST(req) {
   ` : ''}
 
   <!-- Accès compte -->
+  ${isNewUser ? `
   <tr><td style="background:#111;padding:0 40px 28px;">
     <p style="margin:0 0 14px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:${planColor};font-family:Arial,sans-serif;">— Tes identifiants de connexion</p>
     <div style="background:#0A0A0A;border:0.5px solid #242424;padding:20px 24px;">
@@ -204,7 +214,14 @@ export async function POST(req) {
         Change ton mot de passe lors de ta première connexion
       </p>
     </div>
-  </td></tr>
+  </td></tr>` : `
+  <tr><td style="background:#111;padding:0 40px 28px;">
+    <div style="background:#0A0A0A;border:0.5px solid #242424;padding:20px 24px;text-align:center;">
+      <p style="margin:0;font-size:13px;color:#888;font-family:Arial,sans-serif;">
+        Connecte-toi avec ton email habituel : <strong style="color:#E8C87A;">${safeEmail}</strong>
+      </p>
+    </div>
+  </td></tr>`}
 
   <!-- CTA -->
   <tr><td style="background:#111;padding:0 40px 40px;text-align:center;">
