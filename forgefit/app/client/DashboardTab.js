@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+// React importé globalement pour React.useState dans le composant
 import { ProgressBar } from "./ProgressBar";
 import { updateDoc, doc } from "firebase/firestore";
 import { db } from "../firebase";
@@ -7,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { BadgesSection } from "./BadgesSection";
 import { ObjectifsSection } from "./ObjectifsSection";
 import { ReadinessScore } from "./ReadinessScore";
+import { RapportHebdo } from "./RapportHebdo";
 
 export function DashboardTab({
   S, doneSeances, doneExos, exercices, pd, realStreak,
@@ -15,6 +17,7 @@ export function DashboardTab({
   currentWeek, totalWeeks,
 }) {
   const router = useRouter();
+  const [showRapport, setShowRapport] = React.useState(false);
   return (
     <div className="fade-in" style={{display:"flex",flexDirection:"column",gap:18}}>
 
@@ -195,6 +198,32 @@ export function DashboardTab({
       <div style={S.card}>
         <BadgesSection clientData={clientData} />
       </div>
+
+      {/* ── Rapport hebdomadaire ── */}
+      <button onClick={() => setShowRapport(true)} style={{
+        background:"rgba(201,168,76,0.04)", border:"0.5px solid rgba(201,168,76,0.2)",
+        color:"#C9A84C", fontFamily:"'Syne',sans-serif", fontSize:11, fontWeight:700,
+        letterSpacing:"2px", textTransform:"uppercase", padding:"14px 0",
+        cursor:"pointer", width:"100%", transition:"all 0.2s",
+        display:"flex", alignItems:"center", justifyContent:"center", gap:10,
+      }}>
+        📊 Mon bilan de la semaine
+      </button>
+
+      {showRapport && user?.uid && (
+        <div style={{
+          position:"fixed", inset:0, background:"rgba(0,0,0,0.85)",
+          zIndex:1000, display:"flex", alignItems:"center", justifyContent:"center", padding:16,
+        }} onClick={e => e.target === e.currentTarget && setShowRapport(false)}>
+          <div style={{
+            background:"#0D0D0D", border:"0.5px solid #1A1A1A",
+            width:"100%", maxWidth:500, maxHeight:"90vh",
+            overflow:"hidden", display:"flex", flexDirection:"column",
+          }}>
+            <RapportHebdo clientId={user.uid} user={user} isCoach={false} onClose={() => setShowRapport(false)} />
+          </div>
+        </div>
+      )}
 
       {/* Section parrainage */}
       <div style={{

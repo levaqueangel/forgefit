@@ -9,6 +9,7 @@ import {
   doc, serverTimestamp, where, getDoc,
 } from "firebase/firestore";
 import { auth, db } from "../firebase";
+import { RapportHebdo } from "../client/RapportHebdo";
 
 // ── Constantes ─────────────────────────────────────────────────────────────
 const COACH_EMAIL = process.env.NEXT_PUBLIC_COACH_EMAIL || "coach.apxfitness11@gmail.com";
@@ -158,6 +159,9 @@ export default function CoachPage() {
   const [notes, setNotes]           = useState("");
   const [notesSaving, setNotesSaving] = useState(false);
   const [notesSaved, setNotesSaved] = useState(false);
+
+  // Rapport hebdo
+  const [showRapport, setShowRapport] = useState(false);
 
   // Edition programme
   const [showEditProg, setShowEditProg] = useState(false);
@@ -819,6 +823,42 @@ export default function CoachPage() {
                           ))}
                         </div>
                       )}
+                    </div>
+                  )}
+
+                  {/* Rapport hebdomadaire */}
+                  <div style={{padding:"8px 14px"}}>
+                    <button onClick={() => setShowRapport(true)} style={{
+                      width:"100%", background:"rgba(201,168,76,0.06)",
+                      border:"0.5px solid rgba(201,168,76,0.25)", color:"#C9A84C",
+                      fontFamily:"'Syne',sans-serif", fontSize:10, fontWeight:700,
+                      letterSpacing:"1.5px", textTransform:"uppercase",
+                      padding:"10px 0", cursor:"pointer", transition:"all 0.15s",
+                      display:"flex", alignItems:"center", justifyContent:"center", gap:8,
+                    }}>
+                      📊 Bilan de la semaine
+                    </button>
+                  </div>
+
+                  {/* Modal rapport */}
+                  {showRapport && selectedClient && (
+                    <div style={{
+                      position:"fixed", inset:0, background:"rgba(0,0,0,0.85)",
+                      zIndex:1000, display:"flex", alignItems:"center", justifyContent:"center",
+                      padding:16,
+                    }} onClick={e => e.target === e.currentTarget && setShowRapport(false)}>
+                      <div style={{
+                        background:"#0D0D0D", border:"0.5px solid #1A1A1A",
+                        width:"100%", maxWidth:520, maxHeight:"90vh",
+                        overflow:"hidden", display:"flex", flexDirection:"column",
+                      }}>
+                        <RapportHebdo
+                          clientId={selectedClient.id}
+                          user={user}
+                          isCoach={true}
+                          onClose={() => setShowRapport(false)}
+                        />
+                      </div>
                     </div>
                   )}
 
