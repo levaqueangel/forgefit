@@ -6,17 +6,22 @@ export const dynamic = "force-dynamic";
 // Envoyer une notification push à un client spécifique
 // Appelé automatiquement depuis notify-client après envoi de message coach
 export async function POST(req) {
-  try {
-  const internalKey = req.headers.get("x-internal-key");
-  if (internalKey !== process.env.CRON_SECRET) {
-    return Response.json({ error: "Non autorise" }, { status: 401 });
-  }
-  const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "unknown";
-  if (!checkRateLimit(ip, 10, 60_000)) {
-    return Response.json({ error: "Trop de requêtes. Réessaie dans une minute." }, { status: 429 });
-  }
+  // Lire le body UNE SEULE FOIS avant le try/catch pour pouvoir y accéder partout
+  let parsedBody = {};
+  try { parsedBody = await req.json(); } catch {}
 
-    const { clientId, title, body, url } = await req.json();
+  const { clientId, title, body, url } = parsedBody;
+
+  try {
+    const internalKey = req.headers.get("x-internal-key");
+    if (internalKey !== process.env.CRON_SECRET) {
+      return Response.json({ error: "Non autorise" }, { status: 401 });
+    }
+    const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "unknown";
+    if (!checkRateLimit(ip, 10, 60_000)) {
+      return Response.json({ error: "Trop de requêtes. Réessaie dans une minute." }, { status: 429 });
+    }
+
     if (!clientId) return Response.json({ error: "clientId manquant" }, { status: 400 });
 
     const db = getAdminDb();
@@ -54,10 +59,9 @@ export async function POST(req) {
     await webpush.sendNotification(subscription, payload);
     return Response.json({ success: true });
   } catch (e) {
-    // Subscription invalide/expirée — supprimer
+    // Subscription invalide/expirée — supprimer (clientId disponible car lu avant le try)
     if (e.statusCode === 410 || e.statusCode === 404) {
       try {
-        const { clientId } = await req.json().catch(() => ({}));
         if (clientId) {
           const db = getAdminDb();
           await db.collection("clients").doc(clientId).update({ pushSubscription: null });

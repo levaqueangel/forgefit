@@ -12,9 +12,9 @@ export async function POST(req) {
     const decoded = await verifyAuthToken(req);
     if (!decoded) return Response.json({ error: "Non autorisé" }, { status: 401 });
     const { clientId, clientNom } = await req.json();
+    if (!clientId) return Response.json({ error: "clientId manquant" }, { status: 400 });
     // Un client ne peut créer que son propre lien de parrainage
     if (decoded.uid !== clientId) return Response.json({ error: "Interdit" }, { status: 403 });
-    if (!clientId) return Response.json({ error: "clientId manquant" }, { status: 400 });
 
     const db = getAdminDb();
     const clientRef = db.collection("clients").doc(clientId);
