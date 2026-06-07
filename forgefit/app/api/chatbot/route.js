@@ -193,8 +193,9 @@ Note : Ce client n'est pas encore identifié — réponds de façon générale e
           controller.enqueue(encoder.encode("data: [DONE]\n\n"));
           controller.close();
         } catch (e) {
+          console.error("chatbot stream error:", e.message);
           controller.enqueue(
-            encoder.encode(`data: ${JSON.stringify({ error: e.message })}\n\n`)
+            encoder.encode(`data: ${JSON.stringify({ error: "Erreur lors de la génération." })}\n\n`)
           );
           controller.close();
         }

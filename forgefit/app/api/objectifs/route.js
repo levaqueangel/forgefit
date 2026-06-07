@@ -30,7 +30,8 @@ export async function GET(req) {
       coches: data.objectifsCoches || {},
     });
   } catch (e) {
-    return Response.json({ error: e.message }, { status: 500 });
+    console.error("objectifs:", e.message);
+    return Response.json({ error: "Erreur interne." }, { status: 500 });
   }
 }
 
@@ -62,7 +63,8 @@ export async function POST(req) {
 
     return Response.json({ success: true });
   } catch (e) {
-    return Response.json({ error: e.message }, { status: 500 });
+    console.error("objectifs:", e.message);
+    return Response.json({ error: "Erreur interne." }, { status: 500 });
   }
 }
 
@@ -103,7 +105,8 @@ export async function PATCH(req) {
     await db.collection("clients").doc(decoded.uid).update(update);
     return Response.json({ success: true, tousFaits });
   } catch (e) {
-    return Response.json({ error: e.message }, { status: 500 });
+    console.error("objectifs:", e.message);
+    return Response.json({ error: "Erreur interne." }, { status: 500 });
   }
 }
 
