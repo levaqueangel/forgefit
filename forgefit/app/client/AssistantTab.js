@@ -149,7 +149,7 @@ function ChatBubble({ msg, isStreaming }) {
         )}
       </div>
       <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 2 }}>
-        <span style={{ fontSize: 10, color: "#2A2A2A" }}>
+        <span style={{ fontSize: 10, color: "#555" }}>
           {isUser ? "Toi" : "Assistant IA"}{ts ? ` · ${ts}` : ""}
         </span>
         {!isUser && !isStreaming && msg.content && <CopyBtn text={msg.content} />}

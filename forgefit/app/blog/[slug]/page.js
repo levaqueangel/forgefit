@@ -1,5 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 import { ARTICLES } from "../articles";
 import { useLang } from "../../useLang";
 import { LangSelector } from "../../LangSelector";
@@ -10,6 +11,19 @@ export default function ArticlePage({ params }) {
   const router = useRouter();
   const { lang, setLang, LANGS } = useLang();
   const article = ARTICLES.find(a => a.slug === params.slug);
+
+  /* ── Barre de progression lecture ── */
+  const [readPct, setReadPct] = useState(0);
+  useEffect(() => {
+    const onScroll = () => {
+      const scrollTop  = window.scrollY;
+      const docHeight  = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = docHeight > 0 ? Math.min(100, Math.round((scrollTop / docHeight) * 100)) : 0;
+      setReadPct(pct);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   if (!article) {
     return (
@@ -148,6 +162,15 @@ export default function ArticlePage({ params }) {
         .footer-link{cursor:pointer;transition:color 0.2s}
         .footer-link:hover{color:#E8C87A !important}
       `}</style>
+
+      {/* ── Barre de progression lecture — sticky en haut ── */}
+      <div style={{ position:"fixed", top:0, left:0, right:0, height:3, background:"transparent", zIndex:200, pointerEvents:"none" }}>
+        <div style={{
+          height:"100%", width:`${readPct}%`,
+          background:"linear-gradient(90deg,#C9A84C,#7AE07A)",
+          transition:"width 0.1s linear",
+        }}/>
+      </div>
 
       {/* Nav */}
       <nav style={{ display:"flex", alignItems:"center", justifyContent:"space-between", padding:"18px 28px", borderBottom:"0.5px solid #1A1A1A", position:"sticky", top:0, background:"#0A0A0A", zIndex:100 }}>
