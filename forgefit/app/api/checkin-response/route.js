@@ -1,5 +1,6 @@
 import { getAdminDb } from "../firebase-admin";
 export const dynamic = "force-dynamic";
+const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://apxfitness-brown.vercel.app";
 
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
@@ -22,7 +23,7 @@ export async function GET(req) {
 
   const emoji = ["🔥","😊","😐","😴"][response - 1];
   return new Response(
-    `<html><head><meta charset="utf-8"/><meta http-equiv="refresh" content="3;url=https://apxfitness-brown.vercel.app/client"></head>
+    `<html><head><meta charset="utf-8"/><meta http-equiv="refresh" content="3;url=${SITE}/client"></head>
     <body style="background:#0A0A0A;color:#F0EDE8;font-family:Arial,sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;text-align:center;padding:2rem">
       <div style="font-size:48px;margin-bottom:1rem">${emoji}</div>
       <h2 style="font-size:28px;font-family:Georgia,serif;font-style:italic;color:#C9A84C;margin-bottom:0.5rem">Réponse enregistrée !</h2>
