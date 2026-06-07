@@ -8,6 +8,8 @@ import { BadgesSection } from "./BadgesSection";
 import { ObjectifsSection } from "./ObjectifsSection";
 import { ReadinessScore } from "./ReadinessScore";
 import { RapportHebdo } from "./RapportHebdo";
+import { PartagerCard } from "./PartagerCard";
+import { ProgressPhotos } from "./ProgressPhotos";
 
 export function DashboardTab({
   S, doneSeances, doneExos, exercices, pd, realStreak,
@@ -197,6 +199,24 @@ export function DashboardTab({
       <div style={S.card}>
         <BadgesSection clientData={clientData} />
       </div>
+
+      {/* ── Photos de progression ── */}
+      <ProgressPhotos
+        user={user}
+        clientData={clientData}
+        setClientData={setClientData}
+        addToast={addToast}
+      />
+
+      {/* ── Partager mes progrès ── */}
+      <PartagerCard
+        clientData={clientData}
+        pd={pd}
+        doneSeances={doneSeances}
+        realStreak={realStreak}
+        currentWeek={currentWeek}
+        totalWeeks={totalWeeks}
+      />
 
       {/* ── Rapport hebdomadaire ── */}
       <button onClick={() => setShowRapport(true)} style={{
