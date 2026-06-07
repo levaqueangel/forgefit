@@ -212,7 +212,7 @@ function BilanForm() {
                 }}>
                   {done ? "✓" : n}
                 </div>
-                <div style={{ fontSize:9, letterSpacing:"1.5px", textTransform:"uppercase", color: active ? "#C9A84C" : done ? "#666" : "#333", whiteSpace:"nowrap", transition:"color 0.3s" }}>
+                <div style={{ fontSize:9, letterSpacing:"1.5px", textTransform:"uppercase", color: active ? "#C9A84C" : done ? "#666" : "#555", whiteSpace:"nowrap", transition:"color 0.3s" }}>
                   {label}
                 </div>
               </div>
@@ -319,18 +319,13 @@ function BilanForm() {
             <div style={{ display: "flex", justifyContent: "space-between", marginTop: 20 }}>
               <GoldBtn ghost onClick={() => setStep(2)}>{tb.back}</GoldBtn>
               <GoldBtn onClick={() => {
-        // Validation étape 3 — vérifier que les champs obligatoires sont remplis
-        if (!form.prenom || !form.prenom.trim()) {
-          alert(tb.error_prenom || "Merci de renseigner ton prénom."); return;
-        }
-        if (!form.email || !form.email.includes("@") || !form.email.includes(".")) {
-          alert(tb.error_email || "Merci de renseigner un email valide."); return;
-        }
         // Enregistrer l'abandon potentiel
-        fetch("/api/save-abandon", {
-          method:"POST", headers:{"Content-Type":"application/json"},
-          body: JSON.stringify({ email:form.email, prenom:form.prenom, plan:planId, step:3 }),
-        }).catch(()=>{});
+        if (form.email) {
+          fetch("/api/save-abandon", {
+            method:"POST", headers:{"Content-Type":"application/json"},
+            body: JSON.stringify({ email:form.email, prenom:form.prenom, plan:planId, step:3 }),
+          }).catch(()=>{});
+        }
         setStep(4);
       }}>{tb.next}</GoldBtn>
             </div>

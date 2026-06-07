@@ -78,7 +78,7 @@ export function ProgrammeTab({
                   <button onClick={() => {
                     try {
                       const win = window.open("","_blank");
-                      if (!win) { navigator.clipboard?.writeText(clientData.programme||"").then(()=>alert("Programme copié !")).catch(()=>{}); return; }
+                      if (!win) { navigator.clipboard?.writeText(clientData.programme||"").then(()=>addToast?.("Programme copié ✓","success")).catch(()=>{}); return; }
                       win.document.write(`<!DOCTYPE html><html><head><title>Programme APXFITNESS</title><style>body{font-family:Arial,sans-serif;padding:40px;max-width:800px;margin:0 auto;color:#222}h1{color:#C9A84C;border-bottom:2px solid #C9A84C;padding-bottom:12px}pre{white-space:pre-wrap;font-family:Arial,sans-serif;line-height:1.8;font-size:14px;background:#f9f9f9;padding:20px;border-left:3px solid #C9A84C}.footer{margin-top:40px;padding-top:16px;border-top:1px solid #ddd;font-size:12px;color:#888;text-align:center}@media print{button{display:none}}</style></head><body><h1>Mon Programme APXFITNESS</h1><p>Plan ${clientData?.plan||""}</p><pre>${(clientData.programme||"").replace(/</g,"&lt;").replace(/>/g,"&gt;")}</pre><div class="footer">APXFITNESS — ${(process.env.NEXT_PUBLIC_SITE_URL || "https://apxfitness-brown.vercel.app").replace("https://","")}</div><script>window.onload=()=>window.print();<\/script></body></html>`);
                       win.document.close();
                     } catch(e) { navigator.clipboard?.writeText(clientData.programme||""); }
