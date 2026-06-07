@@ -91,6 +91,11 @@ export function ScanRepas({ user, onSave }) {
     if (!file) return;
     setError(""); setResult(null); setSaved(false);
 
+    if (file.size > 20 * 1024 * 1024) {
+      setError("Image trop lourde (max 20 Mo). Utilise une photo moins volumineuse.");
+      return;
+    }
+
     const compressed = await compressImage(file);
     if (!compressed) { setError("Impossible de lire l'image."); return; }
 

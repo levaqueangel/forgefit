@@ -77,17 +77,16 @@
   - checkRateLimitDouble(ip, uid, 30, 20) si UID présent → bloque par IP ET par compte
   - Fallback checkRateLimit(ip) si non connecté
 
-- [ ] **17. `ScanRepas.js` — Pas de vérification taille fichier avant compression**
-  - Un fichier RAW 40MB peut bloquer le navigateur
-  - Ajouter `if (file.size > 20 * 1024 * 1024) return setError("Fichier trop lourd")`
+- [x] **17. `ScanRepas.js` — Pas de vérification taille fichier avant compression** ✅ 2026-06-08
+  - Rejet immédiat si file.size > 20MB avant compressImage → pas de blocage navigateur
 
-- [ ] **18. Variables d'env — Pas de validation au démarrage**
-  - Si `ANTHROPIC_API_KEY` ou `FIREBASE_PROJECT_ID` absent → erreurs cryptiques
-  - Ajouter validation dans `firebase-admin.js`
+- [x] **18. Variables d'env — Pas de validation au démarrage** ✅ 2026-06-08
+  - firebase-admin.js : validateEnv() vérifie FIREBASE_* + ANTHROPIC_API_KEY au 1er appel
+  - Lève une erreur explicite avec liste des variables manquantes
 
-- [ ] **19. Règles Firestore `messages` — Audit post-modification**
-  - Vérifier qu'un client ne peut pas lire les messages d'un autre client
-  - Le filtre `clientId` doit être dans les rules, pas seulement dans le JS
+- [x] **19. Règles Firestore `messages` — Audit post-modification** ✅ 2026-06-08
+  - Rules déjà correctes : resource.data.clientId == request.auth.uid
+  - Bonus : suppression du doublon "Elite" dans community (plan stocké en lowercase)
 
 ---
 
@@ -204,7 +203,7 @@
 |----------|-------|------|---------|
 | 🔴 P1 Bloquants | 5 | 2 | 3 |
 | 🟠 P2 Bugs | 8 | 7 | 1 |
-| 🟡 P3 Sécurité | 6 | 3 | 3 |
+| 🟡 P3 Sécurité | 6 | 6 | 0 |
 | 🔵 P4 Features | 13 | 0 | 13 |
 | ⚪ P5 Optim | 9 | 0 | 9 |
-| **TOTAL** | **41** | **12** | **29** |
+| **TOTAL** | **41** | **15** | **26** |

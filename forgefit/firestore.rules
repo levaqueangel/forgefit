@@ -1,0 +1,69 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Fonctions utilitaires ──────────────────────────────────────────────
+    function isAuth() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return isAuth() && request.auth.uid == uid;
+    }
+
+    function isCoach() {
+      return isAuth() && request.auth.token.email == "coach.apxfitness11@gmail.com";
+    }
+
+    // ── Collection clients ────────────────────────────────────────────────
+    // Lecture : le client lui-même (par UID) OU le coach
+    // Écriture directe : INTERDITE — passe par Admin SDK uniquement
+    match /clients/{clientId} {
+      allow read: if isOwner(clientId) || isCoach();
+      allow write: if false;
+    }
+
+    // ── Collection orders (commandes Stripe) ──────────────────────────────
+    // Lecture : coach uniquement
+    // Écriture : INTERDITE — uniquement via webhook Admin SDK
+    match /orders/{orderId} {
+      allow read: if isCoach();
+      allow write: if false;
+    }
+
+    // ── Collection messages ───────────────────────────────────────────────
+    // Lecture : coach OU client concerné
+    // Écriture : coach OU client authentifié (pour envoyer un message)
+    match /messages/{msgId} {
+      allow read: if isCoach() || (isAuth() && resource.data.clientId == request.auth.uid);
+      allow create: if isCoach() || (isAuth() && request.resource.data.clientId == request.auth.uid);
+      allow update: if isCoach(); // le coach marque les messages comme lus
+      allow delete: if false;
+    }
+
+    // ── Collection community (forum Elite) ───────────────────────────────
+    match /community/{postId} {
+      allow read: if isCoach() || (isAuth() && (
+        get(/databases/$(database)/documents/clients/$(request.auth.uid)).data.plan == "elite"
+      ));
+      allow write: if false;
+    }
+
+    // ── Collection error_logs ────────────────────────────────────────────
+    match /error_logs/{logId} {
+      allow read: if isCoach();
+      allow write: if false;
+    }
+
+    // ── Collection abandons ──────────────────────────────────────────────
+    match /abandons/{abandonId} {
+      allow read: if isCoach();
+      allow write: if false;
+    }
+
+    // ── Tout le reste — refus par défaut ─────────────────────────────────
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

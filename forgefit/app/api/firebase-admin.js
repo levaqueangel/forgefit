@@ -2,8 +2,27 @@ let _adminApp = null;
 let _adminAuth = null;
 let _adminDb = null;
 
+// Validation des variables d'environnement critiques au premier appel
+// Évite les erreurs cryptiques ("Cannot read property of undefined") en production
+const REQUIRED_ENV = [
+  "FIREBASE_PROJECT_ID",
+  "FIREBASE_CLIENT_EMAIL",
+  "FIREBASE_PRIVATE_KEY",
+  "ANTHROPIC_API_KEY",
+];
+
+function validateEnv() {
+  const missing = REQUIRED_ENV.filter(k => !process.env[k]);
+  if (missing.length > 0) {
+    const msg = `Variables d'environnement manquantes : ${missing.join(", ")}`;
+    console.error("[firebase-admin]", msg);
+    throw new Error(msg);
+  }
+}
+
 function getAdminApp() {
   if (_adminApp) return _adminApp;
+  validateEnv();
   const { initializeApp, getApps, getApp, cert } = require("firebase-admin/app");
   if (getApps().length > 0) {
     _adminApp = getApp();
