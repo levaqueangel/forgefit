@@ -4,7 +4,7 @@ import { ARTICLES } from "../articles";
 import { useLang } from "../../useLang";
 import { LangSelector } from "../../LangSelector";
 
-const SITE = "https://apxfitness-brown.vercel.app";
+const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://apxfitness-brown.vercel.app";
 
 export default function ArticlePage({ params }) {
   const router = useRouter();
@@ -95,14 +95,14 @@ export default function ArticlePage({ params }) {
     "author": {
       "@type": "Organization",
       "name": "APXFITNESS",
-      "url": "https://apxfitness-brown.vercel.app"
+      "url": SITE
     },
     "publisher": {
       "@type": "Organization",
       "name": "APXFITNESS",
-      "url": "https://apxfitness-brown.vercel.app"
+      "url": SITE
     },
-    "url": `https://apxfitness-brown.vercel.app/blog/${article.slug}`,
+    "url": `${SITE}/blog/${article.slug}`,
     "articleSection": article.categorie,
     "timeRequired": `PT${article.lecture}M`,
     "wordCount": article.contenu.split(" ").length,

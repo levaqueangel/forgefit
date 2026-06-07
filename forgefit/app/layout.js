@@ -45,7 +45,7 @@ const jsonLd = {
   "@graph": [
     {
       "@type": "LocalBusiness",
-      "@id": "https://apxfitness-brown.vercel.app/#business",
+      "@id": `${SITE_URL}/#business`,
       "name": "APXFITNESS",
       "description": "Coaching fitness personnalisé en ligne. Programmes musculation et nutrition sur mesure générés par IA.",
       "url": SITE_URL,
@@ -59,7 +59,7 @@ const jsonLd = {
     {
       "@type": "Service",
       "name": "Programme Fitness Personnalisé",
-      "provider": { "@id": "https://apxfitness-brown.vercel.app/#business" },
+      "provider": { "@id": `${SITE_URL}/#business` },
       "description": "Programme musculation et nutrition 100% personnalisé, généré par IA en moins de 48h selon ton profil et tes objectifs.",
       "offers": [
         { "@type": "Offer", "name": "Plan Starter", "price": "49", "priceCurrency": "EUR" },

@@ -141,7 +141,7 @@ export default function CalculateurPage() {
     "@type": "WebApplication",
     "name": "Calculateur IMC & Calories APXFITNESS",
     "description": "Calculez votre IMC, TDEE et macros personnalisés selon votre objectif fitness — outil gratuit APXFITNESS.",
-    "url": "https://apxfitness-brown.vercel.app/calculateur",
+    "url": `${process.env.NEXT_PUBLIC_SITE_URL || `${process.env.NEXT_PUBLIC_SITE_URL || "https://apxfitness-brown.vercel.app"}`}/calculateur`,
     "applicationCategory": "HealthApplication",
     "operatingSystem": "Web",
     "offers": {
@@ -152,7 +152,7 @@ export default function CalculateurPage() {
     "author": {
       "@type": "Organization",
       "name": "APXFITNESS",
-      "url": "https://apxfitness-brown.vercel.app",
+      "url": `${process.env.NEXT_PUBLIC_SITE_URL || "https://apxfitness-brown.vercel.app"}`,
     },
     "featureList": [
       "Calcul de l'IMC",

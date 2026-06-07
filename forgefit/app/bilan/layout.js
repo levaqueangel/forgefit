@@ -1,4 +1,4 @@
-﻿const SITE = "https://apxfitness-brown.vercel.app";
+﻿const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://apxfitness-brown.vercel.app";
 export const metadata = {
   title: "Bilan Fitness Gratuit — Reçois Ton Programme en 48h | APXFITNESS",
   description: "Complète ton bilan en 5 min et reçois un programme musculation 100% personnalisé. Nutrition, entraînement, objectifs. Gratuit et sans engagement.",

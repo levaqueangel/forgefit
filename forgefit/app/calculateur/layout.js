@@ -1,4 +1,4 @@
-﻿const SITE = "https://apxfitness-brown.vercel.app";
+﻿const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://apxfitness-brown.vercel.app";
 export const metadata = {
   title: "Calculateur IMC, Calories & Macros Gratuit | APXFITNESS",
   description: "Calcule ton IMC, ton métabolisme de base (TDEE) et tes macronutriments avec la formule Harris-Benedict. Résultats instantanés et gratuits.",

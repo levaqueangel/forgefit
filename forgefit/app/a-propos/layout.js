@@ -1,4 +1,4 @@
-﻿const SITE = "https://apxfitness-brown.vercel.app";
+﻿const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://apxfitness-brown.vercel.app";
 export const metadata = {
   title: "Angel Levaque — Coach Fitness Personnel | APXFITNESS",
   description: "Découvrez Angel Levaque, coach fitness certifié spécialisé musculation et nutrition sportive. +200 clients transformés depuis 2020.",

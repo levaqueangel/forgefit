@@ -1,3 +1,4 @@
+const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://apxfitness-brown.vercel.app";
 export const metadata = {
   title: "Statut des Services | APXFITNESS",
   description: "État en temps réel des services APXFITNESS : API, Firebase, emails, IA.",
@@ -5,7 +6,7 @@ export const metadata = {
   openGraph: {
     title: "Statut des Services | APXFITNESS",
     description: "État en temps réel des services APXFITNESS : API, Firebase, emails, IA.",
-    url: "https://apxfitness-brown.vercel.app/status",
+    url: SITE + "/status",
     siteName: "APXFITNESS",
     locale: "fr_FR",
     type: "website",
@@ -16,7 +17,7 @@ export const metadata = {
     description: "État en temps réel des services APXFITNESS : API, Firebase, emails, IA.",
   },
   alternates: {
-    canonical: "https://apxfitness-brown.vercel.app/status",
+    canonical: SITE + "/status",
   },
 };
 export default function Layout({ children }) { return children; }

@@ -28,7 +28,7 @@ export default function OgImage() {
       </div>
       {/* URL */}
       <div style={{ position:"absolute", bottom:32, fontSize:14, color:"#333", letterSpacing:2, display:"flex" }}>
-        apxfitness-brown.vercel.app
+        {(process.env.NEXT_PUBLIC_SITE_URL || "https://apxfitness-brown.vercel.app").replace("https://", "")}
       </div>
     </div>,
     { ...size }

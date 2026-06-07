@@ -1,3 +1,4 @@
+const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://apxfitness-brown.vercel.app";
 export const metadata = {
   title: "Mentions Légales | APXFITNESS",
   description: "Mentions légales, politique de confidentialité et conditions générales d utilisation de APXFITNESS.",
@@ -5,7 +6,7 @@ export const metadata = {
   openGraph: {
     title: "Mentions Légales | APXFITNESS",
     description: "Mentions légales, politique de confidentialité et conditions générales d utilisation de APXFITNESS.",
-    url: "https://apxfitness-brown.vercel.app/mentions-legales",
+    url: SITE + "/mentions-legales",
     siteName: "APXFITNESS",
     locale: "fr_FR",
     type: "website",
@@ -16,7 +17,7 @@ export const metadata = {
     description: "Mentions légales, politique de confidentialité et conditions générales d utilisation de APXFITNESS.",
   },
   alternates: {
-    canonical: "https://apxfitness-brown.vercel.app/mentions-legales",
+    canonical: SITE + "/mentions-legales",
   },
 };
 export default function Layout({ children }) { return children; }
