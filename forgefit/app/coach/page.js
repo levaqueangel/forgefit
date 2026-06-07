@@ -10,6 +10,7 @@ import {
 } from "firebase/firestore";
 import { auth, db } from "../firebase";
 import { RapportHebdo } from "../client/RapportHebdo";
+import { ProgrammeManuelEditor } from "./ProgrammeManuelEditor";
 
 // ── Constantes ─────────────────────────────────────────────────────────────
 const COACH_EMAIL = process.env.NEXT_PUBLIC_COACH_EMAIL || "coach.apxfitness11@gmail.com";
@@ -360,6 +361,7 @@ export default function CoachPage() {
 
   // ── Génération programme IA ──────────────────────────────────────────────────
   const [showProgModal, setShowProgModal]     = useState(false);
+  const [progMode, setProgMode]               = useState("ia"); // "ia" | "manuel"
   const [progGenerating, setProgGenerating]   = useState(false);
   const [progGenerated, setProgGenerated]     = useState(null); // programmeData généré
   const [progSaving, setProgSaving]           = useState(false);
@@ -390,6 +392,29 @@ export default function CoachPage() {
       }
     } catch (e) { addToast("Erreur réseau : " + e.message, "error"); }
     setProgGenerating(false);
+  };
+
+  const sauvegarderProgrammeManuel = async (programmeData) => {
+    if (!selectedClient || progSaving) return;
+    setProgSaving(true);
+    try {
+      const token = await user.getIdToken();
+      const res = await fetch("/api/save-programme", {
+        method: "POST",
+        headers: { "Content-Type":"application/json", "Authorization":`Bearer ${token}` },
+        body: JSON.stringify({ clientUid: selectedClient.id, programmeData }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        addToast(`✅ Programme de ${selectedClient.nom?.split(" ")[0]} sauvegardé !`);
+        setShowProgModal(false);
+        const snap = await getDoc(doc(db, "clients", selectedClient.id));
+        if (snap.exists()) setClientData(snap.data());
+      } else {
+        addToast(data.error || "Erreur de sauvegarde", "error");
+      }
+    } catch (e) { addToast("Erreur : " + e.message, "error"); }
+    setProgSaving(false);
   };
 
   const sauvegarderProgramme = async () => {
@@ -589,15 +614,40 @@ export default function CoachPage() {
             {/* Header */}
             <div style={{padding:"20px 24px",borderBottom:"0.5px solid #1A1A1A",display:"flex",alignItems:"center",justifyContent:"space-between",position:"sticky",top:0,background:"#0D0D0D",zIndex:1}}>
               <div>
-                <div style={{fontSize:9,letterSpacing:"3px",textTransform:"uppercase",color:"#C9A84C"}}>— Programme IA</div>
+                <div style={{fontSize:9,letterSpacing:"3px",textTransform:"uppercase",color:"#C9A84C"}}>— Programme</div>
                 <div style={{fontSize:15,fontWeight:700,color:"#F0EDE8",fontFamily:"'Syne',sans-serif",marginTop:2}}>{selectedClient.nom}</div>
               </div>
-              <button onClick={() => { setShowProgModal(false); setProgGenerated(null); }} style={{background:"none",border:"none",color:"#555",cursor:"pointer",fontSize:20}}>×</button>
+              <div style={{display:"flex",alignItems:"center",gap:8}}>
+                {/* Toggle IA / Manuel */}
+                <div style={{display:"flex",background:"#111",border:"0.5px solid #242424",borderRadius:6,overflow:"hidden"}}>
+                  {[{key:"ia",label:"🤖 IA"},{key:"manuel",label:"✏️ Manuel"}].map(m => (
+                    <button key={m.key} onClick={() => { setProgMode(m.key); setProgGenerated(null); }}
+                      style={{background:progMode===m.key?"rgba(201,168,76,0.15)":"none",border:"none",
+                        color:progMode===m.key?"#C9A84C":"#555",padding:"6px 12px",
+                        fontSize:11,fontFamily:"'Syne',sans-serif",cursor:"pointer",
+                        borderRight:m.key==="ia"?"0.5px solid #242424":"none"}}>
+                      {m.label}
+                    </button>
+                  ))}
+                </div>
+                <button onClick={() => { setShowProgModal(false); setProgGenerated(null); }} style={{background:"none",border:"none",color:"#555",cursor:"pointer",fontSize:20}}>×</button>
+              </div>
             </div>
 
             <div style={{padding:"20px 24px",display:"flex",flexDirection:"column",gap:16}}>
+
+              {/* ── Mode Manuel ─────────────────────────────────────────────── */}
+              {progMode === "manuel" && (
+                <ProgrammeManuelEditor
+                  clientNom={selectedClient.nom}
+                  onSave={sauvegarderProgrammeManuel}
+                  saving={progSaving}
+                />
+              )}
+
+              {/* ── Mode IA ─────────────────────────────────────────────────── */}
               {/* Formulaire profil */}
-              {!progGenerated && (
+              {progMode === "ia" && !progGenerated && (
                 <>
                   <div style={{fontSize:10,color:"#555",letterSpacing:"2px",textTransform:"uppercase"}}>— Profil client</div>
                   <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
@@ -666,8 +716,8 @@ export default function CoachPage() {
                 </>
               )}
 
-              {/* Aperçu du programme généré */}
-              {progGenerated && (
+              {/* Aperçu du programme généré (mode IA uniquement) */}
+              {progMode === "ia" && progGenerated && (
                 <>
                   <div style={{background:"rgba(122,224,122,0.06)",border:"0.5px solid rgba(122,224,122,0.2)",borderRadius:8,padding:"12px 16px"}}>
                     <div style={{fontSize:10,color:"#7AE07A",letterSpacing:"2px",textTransform:"uppercase",marginBottom:6}}>✓ Programme généré</div>

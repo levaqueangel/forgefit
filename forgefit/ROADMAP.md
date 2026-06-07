@@ -103,9 +103,10 @@
   - clearHistory efface aussi Firestore
   - 30 derniers messages max (MAX_HISTORY)
 
-- [ ] **22. Éditeur de programme manuel — Coach dashboard**
-  - Pas d'interface pour créer/modifier manuellement un programme
-  - Ajouter un éditeur : liste d'exercices, séries, charges, repos
+- [x] **22. Éditeur de programme manuel — Coach dashboard** ✅ 2026-06-08
+  - ProgrammeManuelEditor.js : séances + exercices + nutrition + méta
+  - Toggle IA / Manuel dans la modale programme du coach
+  - sauvegarderProgrammeManuel() → même API save-programme que le mode IA
 
 - [ ] **23. Notifications push PWA — Triggers à configurer**
   - Infra en place mais aucun déclencheur
@@ -206,6 +207,6 @@
 | 🔴 P1 Bloquants | 5 | 2 | 3 |
 | 🟠 P2 Bugs | 8 | 7 | 1 |
 | 🟡 P3 Sécurité | 6 | 6 | 0 |
-| 🔵 P4 Features | 13 | 2 | 11 |
+| 🔵 P4 Features | 13 | 3 | 10 |
 | ⚪ P5 Optim | 9 | 0 | 9 |
-| **TOTAL** | **41** | **17** | **24** |
+| **TOTAL** | **41** | **18** | **23** |
