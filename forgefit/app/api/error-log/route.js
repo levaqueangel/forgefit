@@ -1,11 +1,11 @@
-import { getAdminDb } from "../firebase-admin";
+﻿import { getAdminDb } from "../firebase-admin";
 import { checkRateLimit } from "../rateLimit";
 export const dynamic = "force-dynamic";
 
 // Recevoir et stocker les erreurs runtime des clients
 export async function POST(req) {
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "unknown";
-  if (!checkRateLimit(ip, 20, 60_000)) return Response.json({ ok: false }, { status: 429 });
+  if (!await checkRateLimit(ip, 20, 60_000)) return Response.json({ ok: false }, { status: 429 });
 
   try {
     const { uid, error, page, userAgent, timestamp } = await req.json();

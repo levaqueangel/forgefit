@@ -1,4 +1,4 @@
-import { getAdminDb, verifyAuthToken } from "../firebase-admin";
+﻿import { getAdminDb, verifyAuthToken } from "../firebase-admin";
 import { checkRateLimit } from "../rateLimit";
 export const dynamic = "force-dynamic";
 
@@ -25,7 +25,7 @@ function getRecommandation(score) {
 // ── POST — enregistrer le check-in du jour ────────────────────────────────────
 export async function POST(req) {
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "unknown";
-  if (!checkRateLimit(ip, 10, 60_000))
+  if (!await checkRateLimit(ip, 10, 60_000))
     return Response.json({ error: "Trop de requêtes." }, { status: 429 });
 
   try {
@@ -69,7 +69,7 @@ export async function POST(req) {
 // ── GET — check-in du jour + historique ───────────────────────────────────────
 export async function GET(req) {
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "unknown";
-  if (!checkRateLimit(ip, 30, 60_000))
+  if (!await checkRateLimit(ip, 30, 60_000))
     return Response.json({ error: "Trop de requêtes." }, { status: 429 });
 
   try {

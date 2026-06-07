@@ -1,4 +1,4 @@
-import { getAdminAuth } from "../firebase-admin";
+﻿import { getAdminAuth } from "../firebase-admin";
 import { getAdminDb } from "../firebase-admin";
 import { checkRateLimit } from "../rateLimit";
 export const dynamic = "force-dynamic";
@@ -8,7 +8,7 @@ const COACH_EMAIL = process.env.COACH_EMAIL || process.env.NEXT_PUBLIC_COACH_EMA
 export async function GET(req) {
   // Rate limit — même pour admin : évite les exports répétés accidentels
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "unknown";
-  if (!checkRateLimit(ip, 5, 60_000))
+  if (!await checkRateLimit(ip, 5, 60_000))
     return new Response("Too Many Requests", { status: 429 });
 
   const authHeader = req.headers.get("authorization");

@@ -1,4 +1,4 @@
-import { Resend } from "resend";
+﻿import { Resend } from "resend";
 
 import { checkRateLimit } from "../rateLimit";
 export const dynamic = "force-dynamic";
@@ -180,7 +180,7 @@ function generateCoachHtml(nom, email, plan, programme) {
 export async function POST(req) {
   // Rate limiting — pas d'auth requise (route publique appelée depuis /bilan)
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "unknown";
-  if (!checkRateLimit(ip, 5, 60_000)) {
+  if (!await checkRateLimit(ip, 5, 60_000)) {
     return Response.json({ error: "Trop de requêtes. Réessaie dans une minute." }, { status: 429 });
   }
   const { to, nom, plan, programme } = await req.json();

@@ -1,4 +1,4 @@
-import Anthropic from "@anthropic-ai/sdk";
+﻿import Anthropic from "@anthropic-ai/sdk";
 import { getAdminDb, verifyAuthToken } from "../firebase-admin";
 import { checkRateLimit } from "../rateLimit";
 export const dynamic = "force-dynamic";
@@ -8,7 +8,7 @@ const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 // ── POST — analyser un repas en texte libre avec Claude ──────────────────
 export async function POST(req) {
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "unknown";
-  if (!checkRateLimit(ip, 10, 60_000)) return Response.json({ error: "Trop de requêtes." }, { status: 429 });
+  if (!await checkRateLimit(ip, 10, 60_000)) return Response.json({ error: "Trop de requêtes." }, { status: 429 });
 
   const decoded = await verifyAuthToken(req);
   if (!decoded) return Response.json({ error: "Non autorisé" }, { status: 401 });
@@ -106,7 +106,7 @@ Si tu n'es pas sûr, mets fiable:false. Estime au mieux même si vague.`,
 // ── GET — récupérer le journal du jour ────────────────────────────────────
 export async function GET(req) {
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "unknown";
-  if (!checkRateLimit(ip, 30, 60_000)) return Response.json({ error: "Trop de requêtes." }, { status: 429 });
+  if (!await checkRateLimit(ip, 30, 60_000)) return Response.json({ error: "Trop de requêtes." }, { status: 429 });
 
   const decoded = await verifyAuthToken(req);
   if (!decoded) return Response.json({ error: "Non autorisé" }, { status: 401 });

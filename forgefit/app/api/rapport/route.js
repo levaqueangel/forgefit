@@ -1,4 +1,4 @@
-import Anthropic from "@anthropic-ai/sdk";
+﻿import Anthropic from "@anthropic-ai/sdk";
 import { getAdminDb, verifyAuthToken } from "../firebase-admin";
 import { checkRateLimit } from "../rateLimit";
 export const dynamic = "force-dynamic";
@@ -26,7 +26,7 @@ function inWeek(dateStr, monday, sunday) {
 // ── GET — générer le rapport hebdomadaire d'un client ────────────────────────
 export async function GET(req) {
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "unknown";
-  if (!checkRateLimit(ip, 10, 60_000))
+  if (!await checkRateLimit(ip, 10, 60_000))
     return Response.json({ error: "Trop de requêtes." }, { status: 429 });
 
   try {

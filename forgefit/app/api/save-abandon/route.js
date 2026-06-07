@@ -1,4 +1,4 @@
-import { getAdminDb } from "../firebase-admin";
+﻿import { getAdminDb } from "../firebase-admin";
 import { checkRateLimit } from "../rateLimit";
 export const dynamic = "force-dynamic";
 
@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 // sans que le paiement soit complété
 export async function POST(req) {
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "unknown";
-  if (!checkRateLimit(ip, 20, 60_000)) {
+  if (!await checkRateLimit(ip, 20, 60_000)) {
     return Response.json({ error: "Trop de requêtes. Réessaie dans une minute." }, { status: 429 });
   }
 

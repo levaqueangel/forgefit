@@ -1,4 +1,4 @@
-import Anthropic from "@anthropic-ai/sdk";
+﻿import Anthropic from "@anthropic-ai/sdk";
 import { checkRateLimit } from "../rateLimit";
 
 export const dynamic = "force-dynamic";
@@ -421,7 +421,7 @@ function validateGenerateInput(data) {
 // ── Handler principal ────────────────────────────────────────────────
 export async function POST(req) {
   const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown";
-  if (!checkRateLimit(ip)) {
+  if (!await checkRateLimit(ip)) {
     return Response.json({ error: "Trop de requêtes. Attends 1 minute avant de réessayer." }, { status: 429 });
   }
 

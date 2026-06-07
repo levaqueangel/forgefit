@@ -1,4 +1,4 @@
-import { getAdminDb } from "../firebase-admin";
+﻿import { getAdminDb } from "../firebase-admin";
 import { checkRateLimit } from "../rateLimit";
 export const dynamic = "force-dynamic";
 
@@ -13,7 +13,7 @@ const htmlError = (msg) =>
 export async function GET(req) {
   // Rate limit par IP — 10 clics / minute max (anti-spam)
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "unknown";
-  if (!checkRateLimit(ip, 10, 60_000)) return htmlError("Trop de requêtes");
+  if (!await checkRateLimit(ip, 10, 60_000)) return htmlError("Trop de requêtes");
 
   const { searchParams } = new URL(req.url);
   const uid      = searchParams.get("uid");
