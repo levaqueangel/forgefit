@@ -15,5 +15,7 @@ const firebaseConfig = {
 // Guard robuste contre l'initialisation multiple
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 export const auth = getAuth(app);
-export const db = getFirestore(app);
+// La base Firestore de ce projet est nommée "default" (sans parenthèses)
+// getFirestore(app) se connecte à "(default)" qui n'existe pas — on spécifie explicitement
+export const db = getFirestore(app, "default");
 export const storage = getStorage(app);
