@@ -29,7 +29,8 @@ export function getAdminAuth() {
 export function getAdminDb() {
   if (_adminDb) return _adminDb;
   const { getFirestore } = require("firebase-admin/firestore");
-  _adminDb = getFirestore(getAdminApp(), "(default)");
+  _adminDb = getFirestore(getAdminApp());
+  _adminDb.settings({ preferRest: true });
   return _adminDb;
 }
 
