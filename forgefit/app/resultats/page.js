@@ -102,7 +102,7 @@ export default function ResultatsPage() {
               <div style={{ position:"absolute", top:0, left:0, right:0, height:2, background:r.color }}/>
               <div style={{ height:180, background:"#111", display:"flex", alignItems:"center", justifyContent:"center", flexDirection:"column", gap:10, borderBottom:"0.5px solid #1A1A1A" }}>
                 <div style={{ width:64, height:64, borderRadius:"50%", background:`rgba(201,168,76,0.06)`, border:`1.5px solid ${r.color}`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:24, fontWeight:800, color:r.color }}>{r.initiale}</div>
-                <div style={{ fontSize:9, letterSpacing:"2px", textTransform:"uppercase", color:"#2A2A2A" }}>Photo à venir</div>
+                <div style={{ fontSize:9, letterSpacing:"2px", textTransform:"uppercase", color:"#555" }}>Photo à venir</div>
               </div>
               <div style={{ padding:"20px" }}>
                 <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:12 }}>
@@ -118,7 +118,7 @@ export default function ResultatsPage() {
                 <div style={{ display:"flex", gap:6, marginBottom:14 }}>
                   {Object.entries(r.avant).map(([key, val]) => (
                     <div key={key} style={{ flex:1, background:"#111", borderRadius:6, padding:"8px 10px" }}>
-                      <div style={{ fontSize:8, letterSpacing:"1.5px", textTransform:"uppercase", color:"#333", marginBottom:4 }}>Avant → Après</div>
+                      <div style={{ fontSize:8, letterSpacing:"1.5px", textTransform:"uppercase", color:"#555", marginBottom:4 }}>Avant → Après</div>
                       <div style={{ display:"flex", justifyContent:"space-between" }}>
                         <span style={{ fontSize:12, fontWeight:700, color:"#E07070" }}>{val}{key==="poids"||key==="taille_tour"||key==="squat"?" "+(key==="poids"?"kg":"cm"):""}</span>
                         <span style={{ fontSize:12, fontWeight:700, color:"#7AE07A" }}>{r.apres[key]}{key==="poids"||key==="taille_tour"||key==="squat"?" "+(key==="poids"?"kg":"cm"):""}</span>
@@ -181,7 +181,7 @@ export default function ResultatsPage() {
       {/* Footer */}
       <footer style={{ padding:"1.5rem 2rem", display:"flex", justifyContent:"space-between", alignItems:"center", borderTop:"0.5px solid #1A1A1A" }}>
         <div style={{ fontSize:16, fontWeight:800, letterSpacing:5, cursor:"pointer" }} onClick={() => router.push("/")}>APXFIT<span style={{ color:"#C9A84C" }}>NESS</span></div>
-        <div style={{ fontSize:11, letterSpacing:"2px", color:"#333", textTransform:"uppercase" }}>© 2026 APXFITNESS</div>
+        <div style={{ fontSize:11, letterSpacing:"2px", color:"#555", textTransform:"uppercase" }}>© 2026 APXFITNESS</div>
         <div style={{ display:"flex", gap:"1rem" }}>
           {[["Accueil","/"],["Blog","/blog"],["FAQ","/faq"],["Mentions","/mentions-legales"]].map(([l,h])=>(
             <span key={h} className="footer-link" style={{ fontSize:11, letterSpacing:"2px", color:"#555", textTransform:"uppercase", cursor:"pointer" }} onClick={()=>router.push(h)}>{l}</span>

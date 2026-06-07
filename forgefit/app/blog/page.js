@@ -172,7 +172,7 @@ export default function BlogPage() {
                 </p>
               </div>
               <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginTop:"1.5rem", paddingTop:"1rem", borderTop:"0.5px solid #1A1A1A" }}>
-                <span style={{ fontSize:11, color:"#333", letterSpacing:"1px" }}>
+                <span style={{ fontSize:11, color:"#555", letterSpacing:"1px" }}>
                   {new Date(featured.date).toLocaleDateString("fr-FR", { day:"numeric", month:"long", year:"numeric" })}
                 </span>
                 <span style={{ fontSize:12, color:"#C9A84C", fontWeight:700 }}>Lire l'article →</span>
@@ -226,7 +226,7 @@ export default function BlogPage() {
               </p>
 
               <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", paddingTop:"0.75rem", borderTop:"0.5px solid #141414" }}>
-                <span style={{ fontSize:10, color:"#333", letterSpacing:"1px" }}>
+                <span style={{ fontSize:10, color:"#555", letterSpacing:"1px" }}>
                   {new Date(article.date).toLocaleDateString("fr-FR", { day:"numeric", month:"long" })}
                 </span>
                 <span style={{ fontSize:11, color:"#C9A84C", fontWeight:700 }}>Lire →</span>
@@ -237,7 +237,7 @@ export default function BlogPage() {
 
         {/* Aucun résultat */}
         {articles.length === 0 && (
-          <div style={{ textAlign:"center", padding:"4rem", color:"#333", fontFamily:"'Cormorant Garamond',serif", fontSize:18 }}>
+          <div style={{ textAlign:"center", padding:"4rem", color:"#555", fontFamily:"'Cormorant Garamond',serif", fontSize:18 }}>
             Aucun article {search ? `pour "${search}"` : `dans "${cat}"`} pour l'instant.
             <br/>
             <button onClick={() => { setCat("Tout"); setSearch(""); }} style={{ marginTop:"1rem", background:"transparent", border:"0.5px solid #242424", color:"#555", padding:"8px 20px", fontFamily:"'Syne',sans-serif", fontSize:11, letterSpacing:"2px", textTransform:"uppercase", cursor:"pointer" }}>
@@ -264,7 +264,7 @@ export default function BlogPage() {
       {/* Footer */}
       <footer style={{ padding:"1.5rem 2rem", display:"flex", justifyContent:"space-between", alignItems:"center", borderTop:"0.5px solid #1A1A1A" }}>
         <div style={{ fontSize:16, fontWeight:800, letterSpacing:5, cursor:"pointer" }} onClick={() => router.push("/")}><span>APXFIT</span><span style={{ color:"#C9A84C" }}>NESS</span></div>
-        <div style={{ fontSize:11, letterSpacing:"2px", color:"#333", textTransform:"uppercase" }}>© 2026 APXFITNESS</div>
+        <div style={{ fontSize:11, letterSpacing:"2px", color:"#555", textTransform:"uppercase" }}>© 2026 APXFITNESS</div>
         <div style={{ display:"flex", gap:"1rem" }}>
           {[["Accueil","/"],["FAQ","/faq"],["Mentions légales","/mentions-legales"]].map(([label,href])=>(
             <span key={href} className="footer-link" style={{ fontSize:11, letterSpacing:"2px", color:"#555", textTransform:"uppercase", cursor:"pointer" }} onClick={() => router.push(href)}>{label}</span>

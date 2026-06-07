@@ -235,7 +235,7 @@ export default function TarifsPage() {
 
         {/* En-tête tableau */}
         <div className="compare-row" style={{ borderBottom:"0.5px solid #2A2A2A", paddingBottom:12, marginBottom:0 }}>
-          <div style={{ fontSize:11, letterSpacing:"2px", color:"#333", textTransform:"uppercase" }}>Fonctionnalité</div>
+          <div style={{ fontSize:11, letterSpacing:"2px", color:"#555", textTransform:"uppercase" }}>Fonctionnalité</div>
           {PLANS.map(p => (
             <div key={p.id} style={{ textAlign:"center", fontSize:12, fontWeight:700, color: p.highlight ? "#C9A84C" : "#F0EDE8", letterSpacing:"1px" }}>
               {p.name}
@@ -245,7 +245,7 @@ export default function TarifsPage() {
 
         {COMPARE.map((section) => (
           <div key={section.cat}>
-            <div style={{ padding:"12px 16px 6px", fontSize:10, letterSpacing:"3px", textTransform:"uppercase", color:"#333" }}>
+            <div style={{ padding:"12px 16px 6px", fontSize:10, letterSpacing:"3px", textTransform:"uppercase", color:"#555" }}>
               {section.cat}
             </div>
             {section.rows.map((row, ri) => (
@@ -320,7 +320,7 @@ export default function TarifsPage() {
       {/* Footer */}
       <footer style={{ padding:"1.5rem 2rem", display:"flex", justifyContent:"space-between", alignItems:"center", borderTop:"0.5px solid #1A1A1A", flexWrap:"wrap", gap:12 }}>
         <div style={{ fontSize:16, fontWeight:800, letterSpacing:5 }}>APXFIT<span style={{ color:"#C9A84C" }}>NESS</span></div>
-        <div style={{ fontSize:11, letterSpacing:"2px", color:"#333", textTransform:"uppercase" }}>© 2026 APXFITNESS</div>
+        <div style={{ fontSize:11, letterSpacing:"2px", color:"#555", textTransform:"uppercase" }}>© 2026 APXFITNESS</div>
         <span onClick={() => router.push("/mentions-legales")} style={{ fontSize:11, color:"#555", textDecoration:"underline", cursor:"pointer" }}>
           Mentions légales
         </span>

@@ -450,7 +450,7 @@ export default function APropos() {
           onClick={()=>router.push("/")}>
           APXFIT<span style={{color:"#C9A84C"}}>NESS</span>
         </div>
-        <div style={{fontSize:11,letterSpacing:"2px",color:"#333",textTransform:"uppercase"}}>
+        <div style={{fontSize:11,letterSpacing:"2px",color:"#555",textTransform:"uppercase"}}>
           © 2026 APXFITNESS
         </div>
         <div style={{display:"flex",gap:"1.5rem",alignItems:"center"}}>
