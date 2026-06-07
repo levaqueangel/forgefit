@@ -1459,6 +1459,28 @@ function CommandesView({ orders, clients, user, activatingOrder, setActivatingOr
   const PLAN_COLORS = { starter:"#7AE07A", forge:"#C9A84C", elite:"#E8C87A" };
   const [filter, setFilter] = useState("all"); // all | pending | activated
   const [activatedIds, setActivatedIds] = useState(new Set());
+  const [cleanupState, setCleanupState] = useState(null); // null | "scanning" | {phantoms:[]} | "deleting" | "done"
+
+  const scanPhantoms = async () => {
+    setCleanupState("scanning");
+    try {
+      const token = await user.getIdToken();
+      const res = await fetch("/api/admin/cleanup-phantom-clients", { headers: { Authorization: `Bearer ${token}` } });
+      const data = await res.json();
+      setCleanupState(data);
+    } catch (e) { addToast("Erreur scan : " + e.message, "error"); setCleanupState(null); }
+  };
+
+  const deletePhantoms = async () => {
+    setCleanupState("deleting");
+    try {
+      const token = await user.getIdToken();
+      const res = await fetch("/api/admin/cleanup-phantom-clients?confirm=true", { method: "DELETE", headers: { Authorization: `Bearer ${token}` } });
+      const data = await res.json();
+      setCleanupState("done");
+      addToast(`✅ ${data.deletedCount} doc(s) fantôme(s) supprimé(s)`, "success");
+    } catch (e) { addToast("Erreur suppression : " + e.message, "error"); setCleanupState(null); }
+  };
 
   // Détecter les commandes déjà activées via le champ activated dans l'order
   const filteredOrders = orders.filter(o => {
@@ -1527,6 +1549,36 @@ function CommandesView({ orders, clients, user, activatingOrder, setActivatingOr
               <div style={{fontSize:9,letterSpacing:"1.5px",textTransform:"uppercase",color:"#555",marginTop:4}}>{k.label}</div>
             </div>
           ))}
+        </div>
+      </div>
+
+      {/* ── Nettoyage docs fantômes ── */}
+      <div style={{background:"rgba(224,112,112,0.04)",border:"0.5px solid rgba(224,112,112,0.15)",borderRadius:8,padding:"12px 16px",display:"flex",alignItems:"center",justifyContent:"space-between",gap:12,flexWrap:"wrap"}}>
+        <div>
+          <div style={{fontSize:10,letterSpacing:"2px",textTransform:"uppercase",color:"#E07070",marginBottom:2}}>🧹 Nettoyage Firestore</div>
+          <div style={{fontSize:11,color:"#555",lineHeight:1.5}}>
+            {cleanupState === null && "Supprime les docs clients sans compte Firebase Auth (créés par erreur)"}
+            {cleanupState === "scanning" && "Scan en cours…"}
+            {cleanupState === "deleting" && "Suppression en cours…"}
+            {cleanupState === "done" && "✅ Nettoyage terminé — actualise la page"}
+            {cleanupState && typeof cleanupState === "object" && (
+              cleanupState.phantomCount === 0
+                ? "✅ Aucun doc fantôme trouvé — Firestore est propre"
+                : `⚠ ${cleanupState.phantomCount} doc(s) fantôme(s) trouvé(s) : ${cleanupState.phantoms.map(p => p.email || p.id).join(", ")}`
+            )}
+          </div>
+        </div>
+        <div style={{display:"flex",gap:8,flexShrink:0}}>
+          {(cleanupState === null || cleanupState === "done") && (
+            <button onClick={scanPhantoms} style={{background:"transparent",border:"0.5px solid rgba(224,112,112,0.4)",color:"#E07070",fontFamily:"'Syne',sans-serif",fontSize:10,fontWeight:700,letterSpacing:"1.5px",textTransform:"uppercase",padding:"6px 14px",cursor:"pointer",borderRadius:20}}>
+              🔍 Scanner
+            </button>
+          )}
+          {cleanupState && typeof cleanupState === "object" && cleanupState.phantomCount > 0 && (
+            <button onClick={deletePhantoms} style={{background:"rgba(224,112,112,0.15)",border:"0.5px solid rgba(224,112,112,0.4)",color:"#E07070",fontFamily:"'Syne',sans-serif",fontSize:10,fontWeight:700,letterSpacing:"1.5px",textTransform:"uppercase",padding:"6px 14px",cursor:"pointer",borderRadius:20}}>
+              🗑 Supprimer ({cleanupState.phantomCount})
+            </button>
+          )}
         </div>
       </div>
 
