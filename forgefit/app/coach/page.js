@@ -353,6 +353,65 @@ export default function CoachPage() {
     setEditProgSaving(false);
   };
 
+  // ── Génération programme IA ──────────────────────────────────────────────────
+  const [showProgModal, setShowProgModal]     = useState(false);
+  const [progGenerating, setProgGenerating]   = useState(false);
+  const [progGenerated, setProgGenerated]     = useState(null); // programmeData généré
+  const [progSaving, setProgSaving]           = useState(false);
+  const [progForm, setProgForm] = useState({
+    objectif:"prise de masse", niveau:"intermédiaire",
+    seances_par_semaine:3, duree_semaines:8,
+    materiel:"salle complète", blessures:"aucune",
+    regime:"standard", age:"", poids:"", taille:"", sexe:"homme",
+  });
+
+  const genererProgramme = async () => {
+    if (!selectedClient || progGenerating) return;
+    setProgGenerating(true);
+    setProgGenerated(null);
+    try {
+      const token = await user.getIdToken();
+      const res = await fetch("/api/generate-programme", {
+        method: "POST",
+        headers: { "Content-Type":"application/json", "Authorization":`Bearer ${token}` },
+        body: JSON.stringify({ nom: selectedClient.nom, ...progForm }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setProgGenerated(data.programmeData);
+        addToast("Programme généré ✓ — Vérifie et sauvegarde");
+      } else {
+        addToast(data.error || "Erreur de génération", "error");
+      }
+    } catch (e) { addToast("Erreur réseau : " + e.message, "error"); }
+    setProgGenerating(false);
+  };
+
+  const sauvegarderProgramme = async () => {
+    if (!selectedClient || !progGenerated || progSaving) return;
+    setProgSaving(true);
+    try {
+      const token = await user.getIdToken();
+      const res = await fetch("/api/save-programme", {
+        method: "POST",
+        headers: { "Content-Type":"application/json", "Authorization":`Bearer ${token}` },
+        body: JSON.stringify({ clientUid: selectedClient.id, programmeData: progGenerated }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        addToast(`✅ Programme de ${selectedClient.nom?.split(" ")[0]} sauvegardé !`);
+        setShowProgModal(false);
+        setProgGenerated(null);
+        // Rafraîchir clientData
+        const snap = await import("firebase/firestore").then(m => m.getDoc(m.doc(db,"clients",selectedClient.id)));
+        if (snap.exists()) setClientData(snap.data());
+      } else {
+        addToast(data.error || "Erreur de sauvegarde", "error");
+      }
+    } catch (e) { addToast("Erreur : " + e.message, "error"); }
+    setProgSaving(false);
+  };
+
   const createClientManual = async () => {
     const { nom, email, plan, programme } = newClientForm;
     if (!nom.trim() || !email.trim() || !programme.trim()) {
@@ -509,6 +568,166 @@ export default function CoachPage() {
               <button onClick={saveEditedProg} disabled={editProgSaving} style={{background:editProgSaving?"#181818":"linear-gradient(135deg,#C9A84C,#A67C2E)",border:"none",color:"#0A0A0A",fontFamily:"'Syne',sans-serif",fontSize:11,fontWeight:700,letterSpacing:"2px",textTransform:"uppercase",padding:"10px 24px",cursor:editProgSaving?"not-allowed":"pointer",borderRadius:2}}>
                 {editProgSaving?"Sauvegarde...":"Sauvegarder →"}
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── Modale génération programme IA ──────────────────────────────────── */}
+      {showProgModal && selectedClient && (
+        <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.95)",zIndex:400,display:"flex",alignItems:"center",justifyContent:"center",padding:16,overflowY:"auto"}}>
+          <div style={{background:"#0D0D0D",border:"0.5px solid #242424",width:"100%",maxWidth:600,borderRadius:8,maxHeight:"95vh",overflowY:"auto"}}>
+            {/* Header */}
+            <div style={{padding:"20px 24px",borderBottom:"0.5px solid #1A1A1A",display:"flex",alignItems:"center",justifyContent:"space-between",position:"sticky",top:0,background:"#0D0D0D",zIndex:1}}>
+              <div>
+                <div style={{fontSize:9,letterSpacing:"3px",textTransform:"uppercase",color:"#C9A84C"}}>— Programme IA</div>
+                <div style={{fontSize:15,fontWeight:700,color:"#F0EDE8",fontFamily:"'Syne',sans-serif",marginTop:2}}>{selectedClient.nom}</div>
+              </div>
+              <button onClick={() => { setShowProgModal(false); setProgGenerated(null); }} style={{background:"none",border:"none",color:"#555",cursor:"pointer",fontSize:20}}>×</button>
+            </div>
+
+            <div style={{padding:"20px 24px",display:"flex",flexDirection:"column",gap:16}}>
+              {/* Formulaire profil */}
+              {!progGenerated && (
+                <>
+                  <div style={{fontSize:10,color:"#555",letterSpacing:"2px",textTransform:"uppercase"}}>— Profil client</div>
+                  <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
+                    {[
+                      {label:"Sexe", key:"sexe", type:"select", options:["homme","femme"]},
+                      {label:"Âge", key:"age", type:"number", placeholder:"Ex: 28"},
+                      {label:"Poids (kg)", key:"poids", type:"number", placeholder:"Ex: 80"},
+                      {label:"Taille (cm)", key:"taille", type:"number", placeholder:"Ex: 178"},
+                    ].map(f => (
+                      <div key={f.key}>
+                        <div style={{fontSize:10,color:"#555",marginBottom:4}}>{f.label}</div>
+                        {f.type === "select" ? (
+                          <select value={progForm[f.key]} onChange={e => setProgForm(p=>({...p,[f.key]:e.target.value}))}
+                            style={{width:"100%",background:"#111",border:"0.5px solid #242424",color:"#F0EDE8",padding:"8px 10px",borderRadius:6,fontSize:12,outline:"none"}}>
+                            {f.options.map(o => <option key={o} value={o}>{o}</option>)}
+                          </select>
+                        ) : (
+                          <input type={f.type} value={progForm[f.key]} placeholder={f.placeholder}
+                            onChange={e => setProgForm(p=>({...p,[f.key]:e.target.value}))}
+                            style={{width:"100%",boxSizing:"border-box",background:"#111",border:"0.5px solid #242424",color:"#F0EDE8",padding:"8px 10px",borderRadius:6,fontSize:12,outline:"none"}} />
+                        )}
+                      </div>
+                    ))}
+                  </div>
+
+                  <div style={{fontSize:10,color:"#555",letterSpacing:"2px",textTransform:"uppercase",marginTop:4}}>— Programme</div>
+                  <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
+                    {[
+                      {label:"Objectif", key:"objectif", type:"select", options:["prise de masse","perte de poids","remise en forme","force","endurance","sèche"]},
+                      {label:"Niveau", key:"niveau", type:"select", options:["débutant","intermédiaire","avancé"]},
+                      {label:"Séances/semaine", key:"seances_par_semaine", type:"select", options:[2,3,4,5,6]},
+                      {label:"Durée (semaines)", key:"duree_semaines", type:"select", options:[4,6,8,12,16]},
+                      {label:"Matériel", key:"materiel", type:"select", options:["salle complète","haltères seulement","maison sans matériel","crossfit","haltères + barre"]},
+                      {label:"Régime", key:"regime", type:"select", options:["standard","végétarien","végétalien","sans gluten","prise de masse","keto"]},
+                    ].map(f => (
+                      <div key={f.key}>
+                        <div style={{fontSize:10,color:"#555",marginBottom:4}}>{f.label}</div>
+                        <select value={progForm[f.key]} onChange={e => setProgForm(p=>({...p,[f.key]:e.target.value}))}
+                          style={{width:"100%",background:"#111",border:"0.5px solid #242424",color:"#F0EDE8",padding:"8px 10px",borderRadius:6,fontSize:12,outline:"none"}}>
+                          {f.options.map(o => <option key={o} value={o}>{o}</option>)}
+                        </select>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div>
+                    <div style={{fontSize:10,color:"#555",marginBottom:4}}>Blessures / contre-indications</div>
+                    <input value={progForm.blessures} onChange={e => setProgForm(p=>({...p,blessures:e.target.value}))}
+                      placeholder="Ex: douleur épaule droite, pas de squat lourd"
+                      style={{width:"100%",boxSizing:"border-box",background:"#111",border:"0.5px solid #242424",color:"#F0EDE8",padding:"8px 10px",borderRadius:6,fontSize:12,outline:"none"}} />
+                  </div>
+
+                  <button onClick={genererProgramme} disabled={progGenerating} style={{
+                    background:progGenerating?"#181818":"linear-gradient(135deg,#C9A84C,#A67C2E)",
+                    border:"none",color:"#0A0A0A",fontFamily:"'Syne',sans-serif",fontSize:11,fontWeight:700,
+                    letterSpacing:"2px",textTransform:"uppercase",padding:"14px",cursor:progGenerating?"not-allowed":"pointer",
+                    borderRadius:6,display:"flex",alignItems:"center",justifyContent:"center",gap:8,
+                  }}>
+                    {progGenerating ? (
+                      <>
+                        <div style={{width:14,height:14,border:"2px solid rgba(255,255,255,0.2)",borderTopColor:"#C9A84C",borderRadius:"50%",animation:"spin 0.8s linear infinite"}}/>
+                        Génération en cours (15-30s)...
+                      </>
+                    ) : "🤖 Générer le programme avec l'IA"}
+                  </button>
+                </>
+              )}
+
+              {/* Aperçu du programme généré */}
+              {progGenerated && (
+                <>
+                  <div style={{background:"rgba(122,224,122,0.06)",border:"0.5px solid rgba(122,224,122,0.2)",borderRadius:8,padding:"12px 16px"}}>
+                    <div style={{fontSize:10,color:"#7AE07A",letterSpacing:"2px",textTransform:"uppercase",marginBottom:6}}>✓ Programme généré</div>
+                    <div style={{fontSize:14,fontWeight:700,color:"#F0EDE8",fontFamily:"'Syne',sans-serif"}}>{progGenerated.objectif_principal}</div>
+                    <div style={{fontSize:12,color:"#555",marginTop:4}}>
+                      {progGenerated.seances_par_semaine} séances/sem · {progGenerated.duree_programme_semaines} semaines · niveau {progGenerated.niveau}
+                    </div>
+                  </div>
+
+                  {/* Macros */}
+                  {progGenerated.nutrition && (
+                    <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:8}}>
+                      {[
+                        {l:"Calories",v:progGenerated.nutrition.calories_jour,u:"kcal",c:"#C9A84C"},
+                        {l:"Protéines",v:progGenerated.nutrition.proteines_g,u:"g",c:"#7AE07A"},
+                        {l:"Glucides",v:progGenerated.nutrition.glucides_g,u:"g",c:"#5DCAA5"},
+                        {l:"Lipides",v:progGenerated.nutrition.lipides_g,u:"g",c:"#E07070"},
+                      ].map(m => (
+                        <div key={m.l} style={{background:"#111",borderRadius:8,padding:"10px 8px",textAlign:"center"}}>
+                          <div style={{fontSize:16,fontWeight:700,color:m.c}}>{m.v}</div>
+                          <div style={{fontSize:9,color:"#555",textTransform:"uppercase"}}>{m.u}</div>
+                          <div style={{fontSize:9,color:"#333",marginTop:2}}>{m.l}</div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Séances */}
+                  <div style={{fontSize:10,color:"#555",letterSpacing:"2px",textTransform:"uppercase"}}>— Séances ({progGenerated.seances?.length})</div>
+                  {progGenerated.seances?.map((s,i) => (
+                    <div key={i} style={{background:"#111",border:"0.5px solid #1A1A1A",borderRadius:8,padding:"12px 16px"}}>
+                      <div style={{fontSize:12,fontWeight:700,color:"#F0EDE8",marginBottom:4}}>{s.nom}</div>
+                      <div style={{fontSize:10,color:"#555",marginBottom:8}}>{s.jour_type} · {s.duree_min} min · semaines {s.semaines}</div>
+                      {s.exercices?.map((e,j) => (
+                        <div key={j} style={{display:"flex",justifyContent:"space-between",padding:"5px 0",borderBottom:"0.5px solid #1A1A1A",fontSize:11}}>
+                          <span style={{color:"#888"}}>{e.nom}</span>
+                          <span style={{color:"#C9A84C",fontFamily:"'Syne',sans-serif",fontWeight:700}}>{e.series}×{e.reps}</span>
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+
+                  {progGenerated.conseils_generaux && (
+                    <div style={{background:"#111",borderRadius:8,padding:"12px 16px"}}>
+                      <div style={{fontSize:10,color:"#C9A84C",letterSpacing:"2px",textTransform:"uppercase",marginBottom:6}}>— Conseils</div>
+                      <div style={{fontSize:12,color:"#666",lineHeight:1.7}}>{progGenerated.conseils_generaux}</div>
+                    </div>
+                  )}
+
+                  {/* Actions */}
+                  <div style={{display:"flex",gap:10,marginTop:4}}>
+                    <button onClick={() => { setProgGenerated(null); }} style={{
+                      flex:1,background:"transparent",border:"0.5px solid #333",color:"#555",
+                      fontFamily:"'Syne',sans-serif",fontSize:10,fontWeight:700,letterSpacing:"2px",
+                      textTransform:"uppercase",padding:"12px",cursor:"pointer",borderRadius:6,
+                    }}>
+                      ↺ Régénérer
+                    </button>
+                    <button onClick={sauvegarderProgramme} disabled={progSaving} style={{
+                      flex:2,background:progSaving?"#181818":"linear-gradient(135deg,#7AE07A,#5AB85A)",
+                      border:"none",color:"#0A0A0A",fontFamily:"'Syne',sans-serif",fontSize:10,fontWeight:700,
+                      letterSpacing:"2px",textTransform:"uppercase",padding:"12px",cursor:progSaving?"not-allowed":"pointer",borderRadius:6,
+                      display:"flex",alignItems:"center",justifyContent:"center",gap:8,
+                    }}>
+                      {progSaving ? "Sauvegarde..." : "✓ Sauvegarder dans l'espace client"}
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -846,8 +1065,22 @@ export default function CoachPage() {
                     </div>
                   )}
 
+                  {/* Bouton programme IA */}
+                  <div style={{padding:"8px 14px 4px"}}>
+                    <button onClick={() => setShowProgModal(true)} style={{
+                      width:"100%", background:"linear-gradient(135deg,rgba(201,168,76,0.12),rgba(201,168,76,0.06))",
+                      border:"0.5px solid rgba(201,168,76,0.4)", color:"#C9A84C",
+                      fontFamily:"'Syne',sans-serif", fontSize:10, fontWeight:700,
+                      letterSpacing:"1.5px", textTransform:"uppercase",
+                      padding:"10px 0", cursor:"pointer", transition:"all 0.15s",
+                      display:"flex", alignItems:"center", justifyContent:"center", gap:8,
+                    }}>
+                      🤖 Générer programme IA
+                    </button>
+                  </div>
+
                   {/* Rapport hebdomadaire */}
-                  <div style={{padding:"8px 14px"}}>
+                  <div style={{padding:"4px 14px 8px"}}>
                     <button onClick={() => setShowRapport(true)} style={{
                       width:"100%", background:"rgba(201,168,76,0.06)",
                       border:"0.5px solid rgba(201,168,76,0.25)", color:"#C9A84C",
