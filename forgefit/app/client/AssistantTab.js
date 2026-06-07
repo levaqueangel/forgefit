@@ -79,6 +79,31 @@ function renderInline(text) {
   return parts.length === 1 && typeof parts[0] === "string" ? parts[0] : parts;
 }
 
+// ── Follow-up contextuel après chaque réponse ─────────────────────────────────
+function getFollowUps(userMsg, hasProgramme) {
+  const q = (userMsg || "").toLowerCase();
+  const TOPICS = [
+    { k: ["squat","jambe","quadri","genoux","cuisse"], q: ["Comment éviter les douleurs aux genoux au squat ?","Squat avant ou arrière — quelle différence ?","Quel volume de squat optimal par semaine ?"] },
+    { k: ["développé","couché","pecto","poitrine","bench","press"], q: ["Technique développé couché : comment placer les coudes ?","Quel écartement de prise pour cibler les pectoraux ?","Fréquence optimale pour les pectoraux ?"] },
+    { k: ["protéine","protein","macros","gramme"], q: ["Meilleures sources de protéines pour sportifs ?","Protéines avant ou après l'entraînement ?","Comment atteindre mes besoins protéiques au quotidien ?"] },
+    { k: ["récupér","courbatur","repos","fatigue","douleur"], q: ["Comment réduire les courbatures rapidement ?","Combien de jours de repos par semaine ?","Puis-je m'entraîner avec des courbatures ?"] },
+    { k: ["sèche","séche","séche","gras","définition","perd","maigr"], q: ["Quel déficit calorique pour perdre du gras sans perdre du muscle ?","Cardio ou musculation pour la sèche ?","Comment préserver le muscle en restriction calorique ?"] },
+    { k: ["masse","prise","gain","grossir","bulk"], q: ["Quel surplus calorique pour prendre de la masse ?","Fréquence optimale en prise de masse ?","Meilleurs exercices pour maximiser la prise de masse ?"] },
+    { k: ["sommeil","nuit","dorm","repos"], q: ["Durée de sommeil optimale pour la récupération musculaire ?","Comment optimiser son sommeil pour progresser ?","Faut-il faire une sieste après l'entraînement ?"] },
+    { k: ["charge","progression","1rm","max","stagne"], q: ["Comment débloquer une stagnation en force ?","Principe de surcharge progressive — comment l'appliquer ?","Quand est-ce bon d'augmenter les poids ?"] },
+    { k: ["créatine","whey","bcaa","supplément","complément"], q: ["La créatine est-elle réellement efficace ?","Whey ou sources alimentaires — que choisir ?","Les BCAA sont-ils utiles si l'apport protéique est bon ?"] },
+    { k: ["nutrition","aliment","manger","repas","calori","kcal"], q: ["Que manger avant une séance de musculation ?","Que manger dans l'heure après l'entraînement ?","Comment calculer mes besoins caloriques journaliers ?"] },
+    { k: ["cardio","course","vélo","endurance"], q: ["Comment combiner cardio et musculation ?","Cardio à jeun : mythe ou réalité ?","Quelle durée de cardio pour brûler du gras efficacement ?"] },
+    { k: ["traction","dos","rowing","dorsaux"], q: ["Comment progresser en tractions ?","Technique du rowing barre — points clés ?","Quel volume pour développer le dos ?"] },
+  ];
+  for (const { k, q: suggestions } of TOPICS) {
+    if (k.some(kw => q.includes(kw))) return suggestions;
+  }
+  return hasProgramme
+    ? ["Explique-moi un exercice de mon programme","Mes macros sont-elles adaptées à mon objectif ?","Comment optimiser mes séances cette semaine ?"]
+    : ["Comment structurer ma semaine d'entraînement ?","Exercices fondamentaux pour débutant ?","Comment calculer mes besoins caloriques ?"];
+}
+
 // ── Suggestions rapides contextuelles ────────────────────────────────────────
 const SUGGESTIONS_DEFAULT = [
   "Comment bien exécuter un squat ?",
@@ -178,6 +203,7 @@ export function AssistantTab({ S, clientData, user }) {
   const [streaming, setStreaming] = useState(false);
   const [streamingIdx, setStreamingIdx] = useState(null);
   const [showSuggestions, setShowSuggestions] = useState(true);
+  const [followUps, setFollowUps] = useState([]);
 
   const bottomRef = useRef(null);
   const inputRef = useRef(null);
@@ -202,6 +228,7 @@ export function AssistantTab({ S, clientData, user }) {
 
     setInput("");
     setShowSuggestions(false);
+    setFollowUps([]);
     setStreaming(true);
 
     // Ajouter le message utilisateur
@@ -278,15 +305,18 @@ export function AssistantTab({ S, clientData, user }) {
       setStreaming(false);
       setStreamingIdx(null);
       abortRef.current = null;
+      /* Générer les questions de suivi selon le topic */
+      setFollowUps(getFollowUps(msg, hasProgramme));
       setTimeout(() => inputRef.current?.focus(), 100);
     }
-  }, [input, streaming, history, user]);
+  }, [input, streaming, history, user, hasProgramme]);
 
   const stopStream = () => { abortRef.current?.abort(); };
 
   const clearHistory = () => {
     setHistory([{ role: "assistant", content: "Conversation réinitialisée. Que puis-je faire pour toi ?", ts: Date.now() }]);
     setShowSuggestions(true);
+    setFollowUps([]);
     try { localStorage.removeItem(STORAGE_KEY); } catch {}
   };
 
@@ -343,6 +373,29 @@ export function AssistantTab({ S, clientData, user }) {
 
           <div ref={bottomRef} />
         </div>
+
+        {/* ── Follow-ups contextuels ── */}
+        {followUps.length > 0 && !streaming && (
+          <div style={{ padding: "0 18px 10px", flexShrink: 0 }}>
+            <div style={{ fontSize: 8, letterSpacing: "2px", textTransform: "uppercase", color: "#3A3A3A", marginBottom: 7 }}>
+              Continuer avec →
+            </div>
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+              {followUps.map((s, i) => (
+                <button key={i} onClick={() => { setFollowUps([]); send(s); }} style={{
+                  background: "rgba(93,202,165,0.04)", border: "0.5px solid rgba(93,202,165,0.2)",
+                  color: "#888", fontFamily: "'Cormorant Garamond',serif", fontStyle: "italic",
+                  fontSize: 12, padding: "5px 12px", borderRadius: 20, cursor: "pointer",
+                  transition: "all 0.15s", lineHeight: 1.4,
+                }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(93,202,165,0.5)"; e.currentTarget.style.color = "#5DCAA5"; }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(93,202,165,0.2)"; e.currentTarget.style.color = "#888"; }}>
+                  {s}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* ── Suggestions rapides ── */}
         {showSuggestions && !streaming && (
