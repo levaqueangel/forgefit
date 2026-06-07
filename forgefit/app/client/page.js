@@ -517,6 +517,14 @@ APXFIT<span style={{color:"#C9A84C"}}>NESS</span>
 {dataLoading?<div className="spinner" style={{borderTopColor:"#C9A84C",width:12,height:12}}/>:"↻"}
 </button>
 <button onClick={()=>setShowPwdModal(true)} style={{background:"transparent",border:"0.5px solid #1E1E1E",color:"#555",fontFamily:"'Syne',sans-serif",fontSize:11,letterSpacing:"2px",textTransform:"uppercase",padding:"7px 14px",cursor:"pointer",borderRadius:2}}>🔑</button>
+<button onClick={async()=>{
+  try{
+    const token=await user.getIdToken();
+    const res=await fetch("/api/stripe-portal",{method:"POST",headers:{"Authorization":`Bearer ${token}`,"Content-Type":"application/json"}});
+    const d=await res.json();
+    if(d.url) window.location.href=d.url;
+  }catch{}
+}} style={{background:"transparent",border:"0.5px solid #1E1E1E",color:"#555",fontFamily:"'Syne',sans-serif",fontSize:11,letterSpacing:"2px",textTransform:"uppercase",padding:"7px 14px",cursor:"pointer",borderRadius:2}} title="Gérer mon abonnement / factures">🧾</button>
 <button onClick={()=>signOut(auth)} style={{background:"transparent",border:"0.5px solid #1E1E1E",color:"#555",fontFamily:"'Syne',sans-serif",fontSize:11,letterSpacing:"2px",textTransform:"uppercase",padding:"7px 14px",cursor:"pointer",borderRadius:2}}>Déconnexion</button>
 </div>
 </nav>

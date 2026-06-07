@@ -118,13 +118,13 @@
   - Poids (sparkline + delta), calories 7j (sparkline), séances top 5 (barres), streak + total
   - Intégré dans le panneau client du coach dashboard
 
-- [ ] **25. Stripe Customer Portal**
-  - Clients ne peuvent pas gérer leur abonnement/factures seuls
-  - Implémenter en 10 lignes via `stripe.billingPortal.sessions.create`
+- [x] **25. Stripe Customer Portal** ✅ 2026-06-08
+  - api/stripe-portal/route.js → billingPortal.sessions.create
+  - Lookup stripeCustomerId par email si absent, sauvegarde pour prochaines fois
+  - Bouton 🧾 dans la nav client → redirige vers le portail Stripe
 
-- [ ] **26. Page `/paiement-succes` — Vérifier qu'elle existe**
-  - Stripe redirige vers cette page après paiement
-  - Si 404 → client pense que la transaction a échoué
+- [x] **26. Page `/paiement-succes` — Vérifier qu'elle existe** ✅ déjà en place
+  - app/paiement-succes/page.js existe avec messages adaptés par plan
 
 - [ ] **27. Programme client — Affichage structuré (pas `<pre>`)**
   - Actuellement affiché en texte monospace brut dans `ProgrammeTab.js`
