@@ -31,10 +31,7 @@ export const metadata = {
     index: true, follow: true,
     googleBot: { index: true, follow: true, "max-image-preview": "large" },
   },
-  icons: {
-    icon: "/favicon.ico",
-    // apple-icon auto-généré depuis app/apple-icon.js
-  },
+  // icons: auto-géré par app/icon.js et app/apple-icon.js (Next.js App Router)
   alternates: {
     canonical: SITE_URL,
   },
