@@ -15,7 +15,7 @@ export async function GET(req) {
 
   // Seul le client lui-même ou le coach peut lire
   const db = getAdminDb();
-  const coachEmail = process.env.NEXT_PUBLIC_COACH_EMAIL || "coach.apxfitness11@gmail.com";
+  const coachEmail = process.env.COACH_EMAIL || process.env.NEXT_PUBLIC_COACH_EMAIL || "coach.apxfitness11@gmail.com";
   if (decoded.uid !== clientId && decoded.email !== coachEmail) {
     return Response.json({ error: "Interdit" }, { status: 403 });
   }
@@ -43,7 +43,7 @@ export async function POST(req) {
   const decoded = await verifyAuthToken(req);
   if (!decoded) return Response.json({ error: "Non autorisé" }, { status: 401 });
 
-  const coachEmail = process.env.NEXT_PUBLIC_COACH_EMAIL || "coach.apxfitness11@gmail.com";
+  const coachEmail = process.env.COACH_EMAIL || process.env.NEXT_PUBLIC_COACH_EMAIL || "coach.apxfitness11@gmail.com";
   if (decoded.email !== coachEmail) return Response.json({ error: "Réservé au coach" }, { status: 403 });
 
   try {

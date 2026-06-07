@@ -3,7 +3,7 @@ import { getAdminDb } from "../firebase-admin";
 import { checkRateLimit } from "../rateLimit";
 export const dynamic = "force-dynamic";
 
-const COACH_EMAIL = process.env.NEXT_PUBLIC_COACH_EMAIL || "coach.apxfitness11@gmail.com";
+const COACH_EMAIL = process.env.COACH_EMAIL || process.env.NEXT_PUBLIC_COACH_EMAIL || "coach.apxfitness11@gmail.com";
 
 export async function GET(req) {
   // Rate limit — même pour admin : évite les exports répétés accidentels
