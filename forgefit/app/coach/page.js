@@ -1218,17 +1218,15 @@ function CommandesView({ orders, clients, user, activatingOrder, setActivatingOr
   const [filter, setFilter] = useState("all"); // all | pending | activated
   const [activatedIds, setActivatedIds] = useState(new Set());
 
-  // Détecter les commandes déjà activées (client existant dans la collection clients)
-  const clientEmails = new Set(clients.map(c => c.email?.toLowerCase()));
-
+  // Détecter les commandes déjà activées via le champ activated dans l'order
   const filteredOrders = orders.filter(o => {
-    const hasClient = clientEmails.has(o.email?.toLowerCase()) || activatedIds.has(o.id);
-    if (filter === "pending")   return !hasClient;
-    if (filter === "activated") return hasClient;
+    const isAct = o.activated === true || activatedIds.has(o.id);
+    if (filter === "pending")   return !isAct && o.plan !== "starter";
+    if (filter === "activated") return isAct;
     return true;
   });
 
-  const pendingCount = orders.filter(o => !clientEmails.has(o.email?.toLowerCase()) && !activatedIds.has(o.id)).length;
+  const pendingCount = orders.filter(o => o.activated !== true && !activatedIds.has(o.id) && o.plan !== "starter").length;
 
   const activerClient = async (order) => {
     if (activatingOrder) return;
@@ -1312,7 +1310,7 @@ function CommandesView({ orders, clients, user, activatingOrder, setActivatingOr
       ) : (
         <div style={{display:"flex",flexDirection:"column",gap:8}}>
           {filteredOrders.map(order => {
-            const isActivated = clientEmails.has(order.email?.toLowerCase()) || activatedIds.has(order.id);
+            const isActivated = order.activated === true || activatedIds.has(order.id);
             const isActivating = activatingOrder === order.id;
             const planColor = PLAN_COLORS[order.plan?.toLowerCase()] || "#555";
             const date = order.createdAt ? new Date(order.createdAt).toLocaleDateString("fr-FR",{day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"}) : "—";
