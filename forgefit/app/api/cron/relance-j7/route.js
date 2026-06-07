@@ -10,8 +10,7 @@ const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://apxfitness-brown.verce
 export async function GET(req) {
   // Vérifier la clé secrète pour sécuriser le cron
   const authHeader = req.headers.get("authorization");
-  const cronSecret = process.env.CRON_SECRET || "apxfitness-cron-secret";
-  if (authHeader !== `Bearer ${cronSecret}`) {
+  if (!process.env.CRON_SECRET || authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -59,8 +58,8 @@ export async function GET(req) {
 
     return Response.json({ success: true, sent, total: toRemind.length });
   } catch (e) {
-    console.error("Cron relance error:", e);
-    return Response.json({ error: e.message }, { status: 500 });
+    console.error("Cron relance-j7 error:", e.message);
+    return Response.json({ error: "Erreur interne." }, { status: 500 });
   }
 }
 

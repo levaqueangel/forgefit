@@ -116,6 +116,7 @@ export async function GET(req) {
 
     return Response.json({ ok: true, sent, total: eligible.length });
   } catch (e) {
-    return Response.json({ error: e.message }, { status: 500 });
+    console.error("Cron relance-abandon error:", e.message);
+    return Response.json({ error: "Erreur interne." }, { status: 500 });
   }
 }

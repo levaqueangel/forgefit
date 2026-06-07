@@ -84,6 +84,7 @@ export async function GET(req) {
 
     return Response.json({ ok: true, sent, total: activeClients.length });
   } catch (e) {
-    return Response.json({ error: e.message }, { status: 500 });
+    console.error("Cron checkin-hebdo error:", e.message);
+    return Response.json({ error: "Erreur interne." }, { status: 500 });
   }
 }

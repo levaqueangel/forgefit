@@ -8,8 +8,7 @@ const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://apxfitness-brown.verce
 // Envoi du bilan J+28 : résumé de progression + invitation renouvellement
 export async function GET(req) {
   const authHeader = req.headers.get("authorization");
-  const cronSecret = process.env.CRON_SECRET || "apxfitness-cron-secret";
-  if (authHeader !== `Bearer ${cronSecret}`) {
+  if (!process.env.CRON_SECRET || authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -60,8 +59,8 @@ export async function GET(req) {
 
     return Response.json({ success: true, sent, total: eligible.length });
   } catch (e) {
-    console.error("Cron recap J28 error:", e);
-    return Response.json({ error: e.message }, { status: 500 });
+    console.error("Cron recap J28 error:", e.message);
+    return Response.json({ error: "Erreur interne." }, { status: 500 });
   }
 }
 
