@@ -3,8 +3,6 @@ import { getAdminDb } from "../firebase-admin";
 import { Resend } from "resend";
 export const dynamic = "force-dynamic";
 
-// Désactiver le body parsing automatique de Next.js — Stripe a besoin du raw body
-export const config = { api: { bodyParser: false } };
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const resend = new Resend(process.env.RESEND_API_KEY);
