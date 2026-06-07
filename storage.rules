@@ -1,0 +1,33 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // ── Photos de progression ────────────────────────────────────────────────
+    // Chaque utilisateur authentifié peut lire, écrire et supprimer
+    // uniquement ses propres photos (sous progress_photos/{son_uid}/)
+    match /progress_photos/{userId}/{fileName} {
+      // Lecture : uniquement le propriétaire
+      allow read: if request.auth != null && request.auth.uid == userId;
+
+      // Upload : propriétaire + validation type/taille
+      allow create: if request.auth != null
+        && request.auth.uid == userId
+        && request.resource.size < 10 * 1024 * 1024        // max 10 Mo
+        && request.resource.contentType.matches('image/.*'); // images seulement
+
+      // Mise à jour : même règle
+      allow update: if request.auth != null
+        && request.auth.uid == userId
+        && request.resource.size < 10 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+
+      // Suppression : uniquement le propriétaire
+      allow delete: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // ── Règle par défaut — tout refuser ────────────────────────────────────
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

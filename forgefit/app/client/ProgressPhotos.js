@@ -32,8 +32,9 @@ export function ProgressPhotos({ user, clientData, setClientData, addToast }) {
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [selectedTag, setSelectedTag] = useState("progres");
-  const [compare, setCompare] = useState(null); // { avant, apres }
-  const [preview, setPreview] = useState(null);  // URL photo plein écran
+  const [compare, setCompare] = useState(null);       // { avant, apres }
+  const [preview, setPreview] = useState(null);        // URL photo plein écran
+  const [deleteConfirm, setDeleteConfirm] = useState(null); // path en attente de confirmation
   const inputRef = useRef(null);
 
   /* Charge les photos depuis Firestore */
@@ -127,7 +128,7 @@ export function ProgressPhotos({ user, clientData, setClientData, addToast }) {
           <div style={{ fontSize: 9, letterSpacing: "3px", textTransform: "uppercase", color: "#555", marginBottom: 4 }}>
             📸 Photos de progression
           </div>
-          <div style={{ fontSize: 11, color: "#333", fontFamily: "'Cormorant Garamond',serif" }}>
+          <div style={{ fontSize: 11, color: "#555", fontFamily: "'Cormorant Garamond',serif" }}>
             Documente ta transformation
           </div>
         </div>
@@ -238,19 +239,36 @@ export function ProgressPhotos({ user, clientData, setClientData, addToast }) {
               }}>
                 {(TAG_LABELS[photo.tag] || photo.tag).toUpperCase()}
               </div>
-              {/* Bouton suppression */}
+              {/* Bouton suppression avec confirmation 2 clics */}
               <button
-                onClick={(e) => { e.stopPropagation(); handleDelete(photo); }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (deleteConfirm === photo.path) {
+                    handleDelete(photo);
+                    setDeleteConfirm(null);
+                  } else {
+                    setDeleteConfirm(photo.path);
+                    setTimeout(() => setDeleteConfirm(null), 3000);
+                  }
+                }}
+                title={deleteConfirm === photo.path ? "Confirmer la suppression" : "Supprimer"}
                 style={{
                   position: "absolute", top: 5, right: 5,
-                  width: 24, height: 24, borderRadius: "50%",
-                  background: "rgba(10,10,10,0.85)", border: "0.5px solid #333",
-                  color: "#888", fontSize: 12, cursor: "pointer",
+                  width: deleteConfirm === photo.path ? 52 : 24,
+                  height: 24, borderRadius: 12,
+                  background: deleteConfirm === photo.path ? "rgba(224,112,112,0.9)" : "rgba(10,10,10,0.85)",
+                  border: `0.5px solid ${deleteConfirm === photo.path ? "#E07070" : "#333"}`,
+                  color: deleteConfirm === photo.path ? "#fff" : "#888",
+                  fontSize: deleteConfirm === photo.path ? 9 : 12,
+                  fontWeight: 700, letterSpacing: "0.5px",
+                  fontFamily: "'Syne',sans-serif",
+                  cursor: "pointer",
                   display: "flex", alignItems: "center", justifyContent: "center",
-                  transition: "all 0.15s",
+                  transition: "all 0.2s", whiteSpace: "nowrap", overflow: "hidden",
+                  padding: deleteConfirm === photo.path ? "0 6px" : 0,
                 }}
               >
-                ×
+                {deleteConfirm === photo.path ? "Suppr ?" : "×"}
               </button>
               {/* Date */}
               <div style={{
@@ -266,10 +284,10 @@ export function ProgressPhotos({ user, clientData, setClientData, addToast }) {
       ) : (
         <div style={{ textAlign: "center", padding: "24px 0" }}>
           <div style={{ fontSize: 28, marginBottom: 10 }}>📷</div>
-          <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 15, color: "#333", fontStyle: "italic" }}>
+          <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 15, color: "#666", fontStyle: "italic" }}>
             Ajoute ta première photo de progression
           </div>
-          <div style={{ fontSize: 11, color: "#2A2A2A", marginTop: 6 }}>
+          <div style={{ fontSize: 11, color: "#555", marginTop: 6 }}>
             Sélectionne "Avant", "Après" ou "Progrès"<br/>puis clique sur + Ajouter
           </div>
         </div>

@@ -377,7 +377,7 @@ export function AssistantTab({ S, clientData, user }) {
         {/* ── Follow-ups contextuels ── */}
         {followUps.length > 0 && !streaming && (
           <div style={{ padding: "0 18px 10px", flexShrink: 0 }}>
-            <div style={{ fontSize: 8, letterSpacing: "2px", textTransform: "uppercase", color: "#3A3A3A", marginBottom: 7 }}>
+            <div style={{ fontSize: 8, letterSpacing: "2px", textTransform: "uppercase", color: "#555", marginBottom: 7 }}>
               Continuer avec →
             </div>
             <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
@@ -400,7 +400,7 @@ export function AssistantTab({ S, clientData, user }) {
         {/* ── Suggestions rapides ── */}
         {showSuggestions && !streaming && (
           <div style={{ padding: "0 18px 10px", flexShrink: 0 }}>
-            <div style={{ fontSize: 8, letterSpacing: "2px", textTransform: "uppercase", color: "#333", marginBottom: 7 }}>
+            <div style={{ fontSize: 8, letterSpacing: "2px", textTransform: "uppercase", color: "#555", marginBottom: 7 }}>
               Questions fréquentes
             </div>
             <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>

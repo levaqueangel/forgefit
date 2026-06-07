@@ -5,13 +5,20 @@ export const dynamic = "force-dynamic";
 
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
-function sanitizeMessage(raw) {
+function sanitizeUserInput(raw) {
+  // Sécurité : nettoie l'input utilisateur (max 800 chars, retire les injections de rôle)
   if (typeof raw !== "string") return "";
   let msg = raw.slice(0, 800).trim();
   msg = msg.replace(/\[INST\]|\[\/INST\]|<\|im_start\|>|<\|im_end\|>/gi, "");
   msg = msg.replace(/^(system|assistant|human|user)\s*:/gim, "");
   msg = msg.replace(/\n{4,}/g, "\n\n\n");
   return msg.trim();
+}
+
+function sanitizeAssistantMessage(raw) {
+  // Les réponses IA peuvent être longues — on ne les tronque pas mais on nettoie
+  if (typeof raw !== "string") return "";
+  return raw.slice(0, 3000).replace(/\n{5,}/g, "\n\n\n").trim();
 }
 
 export async function POST(req) {
@@ -22,7 +29,7 @@ export async function POST(req) {
 
   try {
     const { message, history = [], uid } = await req.json();
-    const clean = sanitizeMessage(message);
+    const clean = sanitizeUserInput(message);
     if (!clean) return Response.json({ error: "Message vide." }, { status: 400 });
 
     // ── Contexte client enrichi ──────────────────────────────────────────────
@@ -70,6 +77,24 @@ export async function POST(req) {
               ? `${repasToday.reduce((s, r) => s + (r.calories || 0), 0)} kcal mangées (${repasToday.length} repas loggés)`
               : "";
 
+            // Check-in bien-être le plus récent
+            const checkinStr = d.lastCheckinResponse
+              ? `Dernière humeur déclarée: ${d.lastCheckinResponse}${d.lastCheckinResponseAt ? ` (${new Date(d.lastCheckinResponseAt).toLocaleDateString("fr-FR")})` : ""}`
+              : "";
+
+            // Séances complétées cette semaine
+            const weekStart = new Date();
+            weekStart.setDate(weekStart.getDate() - weekStart.getDay());
+            weekStart.setHours(0, 0, 0, 0);
+            const seancesWeek = (d.seancesCompletees || []).filter(s => new Date(s.date || s) >= weekStart).length;
+            const seancesWeekStr = seancesWeek > 0 ? `Séances complétées cette semaine: ${seancesWeek}` : "";
+
+            // Progression dans le programme
+            const totalSeancesTotal = (d.seancesCompletees || []).length;
+            const semaineProg = pd?.duree_programme_semaines
+              ? `Semaine ~${Math.min(Math.ceil(totalSeancesTotal / (pd.seances_par_semaine || 3) + 1), pd.duree_programme_semaines)}/${pd.duree_programme_semaines}`
+              : "";
+
             clientContext = [
               d.nom           ? `Prénom: ${d.nom.split(" ")[0]}`                 : "",
               d.plan          ? `Plan: ${d.plan}`                                 : "",
@@ -78,10 +103,12 @@ export async function POST(req) {
               pd?.age         ? `Âge: ${pd.age} ans`                              : "",
               pd?.genre       ? `Genre: ${pd.genre}`                              : "",
               pd?.seances_par_semaine ? `Séances/sem: ${pd.seances_par_semaine}`  : "",
-              pd?.duree_programme_semaines ? `Programme: ${pd.duree_programme_semaines} semaines` : "",
+              semaineProg     ? `Avancement programme: ${semaineProg}`            : "",
               nutrition       ? `Nutrition cible: ${nutrition}`                   : "",
               mesuresStr      ? `Mensurations récentes: ${mesuresStr}`            : "",
               d.streakDays    ? `Streak: ${d.streakDays} jours consécutifs`       : "",
+              checkinStr      ? checkinStr                                         : "",
+              seancesWeekStr  ? seancesWeekStr                                    : "",
               ratingsStr      ? `Dernières séances notées: ${ratingsStr}`         : "",
               objectifs       ? `Objectifs cette semaine: ${objectifs}`           : "",
               repasStr        ? `Alimentation aujourd'hui: ${repasStr}`           : "",
@@ -92,29 +119,50 @@ export async function POST(req) {
       } catch {}
     }
 
-    const systemPrompt = `Tu es l'assistant IA d'APXFITNESS, expert en musculation, nutrition sportive et récupération.
+    // Construire les instructions de personnalisation selon les données disponibles
+    const clientInstructions = clientContext ? `
 
-Ton rôle :
-- Répondre aux questions sur l'entraînement, la nutrition, la récupération, le sommeil, la motivation
-- Expliquer les exercices du programme du client en détail (technique, muscles ciblés, erreurs communes)
-- Donner des conseils personnalisés basés sur les données du client
-- Être concis (3-6 phrases max) sauf si une réponse longue est vraiment nécessaire
-- Utiliser **du gras** pour les points importants, et des listes à puces quand c'est utile
-- Toujours répondre en français, avec un ton motivant et bienveillant mais direct
-
-Tu NE dois PAS :
-- Générer un nouveau programme complet (c'est le rôle du coach humain)
-- Donner des conseils médicaux ou diagnostiquer des douleurs sérieuses
-- Promettre des résultats garantis${clientContext ? `
-
---- Profil du client ---
+--- Données du client (utilise-les pour personnaliser tes réponses) ---
 ${clientContext}
----` : ""}`;
+---
+
+Consignes de personnalisation :
+- Si tu connais son prénom, utilise-le de façon naturelle (pas à chaque phrase)
+- Si son streak > 7 jours et que c'est pertinent dans la conversation, mentionne-le pour encourager
+- Si ses calories du jour sont loggées, tu peux commenter ou encourager sur sa nutrition
+- Fais référence à ses exercices réels quand on te pose des questions techniques
+- Si on te pose une question qui touche directement son programme, réponds en tenant compte de ses données spécifiques` : `
+
+Note : Ce client n'est pas encore identifié — réponds de façon générale et professionnelle.`;
+
+    const systemPrompt = `Tu es Alex, l'assistant IA fitness d'APXFITNESS — expert en musculation, nutrition sportive et récupération.
+
+## Règles de format (non négociables)
+- JAMAIS de phrases d'introduction vides : interdit d'écrire "Bien sûr !", "Absolument !", "Bien entendu !", "C'est une excellente question !", "En effet,", "Évidemment !" — commence toujours directement par la réponse
+- **Gras** uniquement pour les points vraiment essentiels (max 2-3 par réponse), pas pour décorer
+- Listes à puces (3+ éléments distincts seulement) ou texte fluide — jamais de liste pour 1-2 points
+- Questions simples/factuelles → 2-4 phrases directes
+- Explications techniques → titre bref en gras + liste structurée si besoin
+- Ton : direct, motivant, sans bullshit — comme un vrai coach, pas un chatbot générique
+
+## Tes connaissances clés
+**Nutrition :** besoins protéiques 1.6-2.2g/kg pour hypertrophie, déficit modéré -300 à -500 kcal/j pour sèche préservant le muscle, surplus +200 à +400 kcal/j pour prise de masse maîtrisée, fenêtre anabolique flexible (0-2h post-séance)
+**Musculation :** volume optimal 10-20 séries par groupe musculaire/semaine, progression de charge recommandée quand objectif de reps atteint 2 séances consécutives (+2.5kg exercices du bas, +1.25kg exercices du haut), RIR (Reps In Reserve) 1-3 pour les dernières séries
+**Récupération :** 7-9h de sommeil pour optimiser les hormones anaboliques, décharge toutes les 4-8 semaines selon les signaux de fatigue, 48-72h de récupération par groupe musculaire
+
+## Limites absolues
+- Ne génère JAMAIS un programme d'entraînement complet → "Parle directement à Angel (ton coach) pour ça"
+- Ne modifie JAMAIS le programme actuel du client → redirige vers le coach
+- Ne diagnostique JAMAIS une douleur physique → conseille de consulter un kiné ou médecin du sport
+- Ne promets jamais des résultats garantis${clientInstructions}`;
+
 
     const messages = [
       ...history.slice(-10).map(m => ({
         role: m.role,
-        content: sanitizeMessage(String(m.content)),
+        content: m.role === "user"
+          ? sanitizeUserInput(String(m.content))
+          : sanitizeAssistantMessage(String(m.content)),
       })),
       { role: "user", content: clean },
     ];
