@@ -18,12 +18,12 @@ function sanitizeUserInput(raw) {
 function sanitizeAssistantMessage(raw) {
   // Les réponses IA peuvent être longues — on ne les tronque pas mais on nettoie
   if (typeof raw !== "string") return "";
-  return raw.slice(0, 3000).replace(/\n{5,}/g, "\n\n\n").trim();
+  return raw.slice(0, 5000).replace(/\n{5,}/g, "\n\n\n").trim();
 }
 
 export async function POST(req) {
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "unknown";
-  if (!checkRateLimit(ip, 20, 60_000)) {
+  if (!checkRateLimit(ip, 30, 60_000)) {
     return Response.json({ error: "Trop de requêtes. Réessaie dans une minute." }, { status: 429 });
   }
 
@@ -100,8 +100,8 @@ export async function POST(req) {
               d.plan          ? `Plan: ${d.plan}`                                 : "",
               pd?.objectif_principal ? `Objectif: ${pd.objectif_principal}`       : "",
               pd?.niveau      ? `Niveau: ${pd.niveau}`                            : "",
-              pd?.age         ? `Âge: ${pd.age} ans`                              : "",
-              pd?.genre       ? `Genre: ${pd.genre}`                              : "",
+              d.age           ? `Âge: ${d.age} ans`                               : "",
+              d.genre         ? `Genre: ${d.genre}`                               : "",
               pd?.seances_par_semaine ? `Séances/sem: ${pd.seances_par_semaine}`  : "",
               semaineProg     ? `Avancement programme: ${semaineProg}`            : "",
               nutrition       ? `Nutrition cible: ${nutrition}`                   : "",
@@ -174,7 +174,7 @@ Note : Ce client n'est pas encore identifié — réponds de façon générale e
         try {
           const anthropicStream = await anthropic.messages.stream({
             model: "claude-haiku-4-5",
-            max_tokens: 1000,
+            max_tokens: 1200,
             system: systemPrompt,
             messages,
           });

@@ -400,7 +400,11 @@ export default function CoachPage() {
       const res = await fetch("/api/save-programme", {
         method: "POST",
         headers: { "Content-Type":"application/json", "Authorization":`Bearer ${token}` },
-        body: JSON.stringify({ clientUid: selectedClient.id, programmeData: progGenerated }),
+        body: JSON.stringify({
+          clientUid: selectedClient.id,
+          programmeData: progGenerated,
+          profil: { age: progForm.age, genre: progForm.sexe, poids: progForm.poids, taille: progForm.taille },
+        }),
       });
       const data = await res.json();
       if (data.success) {
