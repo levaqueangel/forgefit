@@ -28,6 +28,7 @@ import { MessagesTab } from "./MessagesTab";
 import { AssistantTab } from "./AssistantTab";
 import { CommunauteTab } from "./CommunauteTab";
 import { RepasJournal } from "./RepasJournal";
+import { RecettesTab } from "./RecettesTab";
 
 export default function ClientPage() {
 const router = useRouter();
@@ -150,7 +151,7 @@ setDataLoading(false);
 }, [user, addToast]);
 
 // ── Swipe ────────────────────────────────────────────────────
-const TABS_ORDER = ["dashboard","programme","nutrition","repas","corps","messages","ia","communaute"];
+const TABS_ORDER = ["dashboard","programme","nutrition","repas","recettes","corps","messages","ia","communaute"];
 const handleTouchStart = useCallback((e) => {
 touchStartX.current = e.touches[0].clientX;
 touchStartY.current = e.touches[0].clientY;
@@ -569,6 +570,7 @@ Bonjour <em style={{color:"#C9A84C",fontStyle:"italic"}}>{clientData?.nom||user.
 {id:"programme",   label:"Programme",  icon:"🏋️", badge:exercices.length>0?`${doneExos}/${exercices.length}`:null},
 {id:"nutrition",   label:"Nutrition",  icon:"🥗", badge:null},
 {id:"repas",       label:"Repas",      icon:"🍽️", badge:null},
+{id:"recettes",    label:"Recettes",   icon:"👨‍🍳", badge:null},
 {id:"corps",       label:"Corps",      icon:"📐", badge:null},
 {id:"messages",    label:"Messages",   icon:"💬", badge:messages.filter(m=>m.sender==="coach"&&!m.read).length||null},
 {id:"ia",          label:"IA",         icon:"🤖", badge:null},
@@ -623,6 +625,7 @@ onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
   </div>
 )}
 
+{activeTab==="recettes" && <RecettesTab clientData={clientData} />}
 {activeTab==="communaute" && <CommunauteTab S={S} clientData={clientData} user={user} />}
 
 </div>
