@@ -96,6 +96,7 @@ export function SeanceGuidee({ seance, user, addToast, onClose, onComplete }) {
   const [lastSeance, setLastSeance] = useState(null);
   const [rating, setRating] = useState({ difficulte: 3, energie: "bonne" });
   const [saveResult, setSaveResult] = useState(null);
+  const [showAbandon, setShowAbandon] = useState(false);
 
   // ── Log par exercice × série ──────────────────────────────────────────────
   const [log, setLog] = useState(() =>
@@ -286,7 +287,7 @@ export function SeanceGuidee({ seance, user, addToast, onClose, onComplete }) {
   };
   const card = {
     background: "#111", border: "0.5px solid #1A1A1A",
-    padding: "18px", width: "100%",
+    borderRadius: 10, padding: "18px", width: "100%",
   };
 
   // ══ PHASE : INTRO ═══════════════════════════════════════════════════════════
@@ -358,7 +359,7 @@ export function SeanceGuidee({ seance, user, addToast, onClose, onComplete }) {
     return (
       <div style={overlay}>
         <div style={header}>
-          <button onClick={() => { if(confirm("Abandonner la séance ?")) { clearTimer(); onClose(); } }}
+          <button onClick={() => setShowAbandon(true)}
             style={{ background:"transparent", border:"none", color:"#444", fontSize:13, cursor:"pointer", letterSpacing:"1px" }}>
             ✕ Abandonner
           </button>
@@ -452,6 +453,37 @@ export function SeanceGuidee({ seance, user, addToast, onClose, onComplete }) {
             </Btn>
           </div>
         </div>
+
+        {/* Modal abandon */}
+        {showAbandon && (
+          <div style={{
+            position:"fixed", inset:0, background:"rgba(0,0,0,0.85)", zIndex:2000,
+            display:"flex", alignItems:"center", justifyContent:"center", padding:24,
+          }}>
+            <div style={{
+              background:"#111", border:"0.5px solid #2A2A2A",
+              borderRadius:16, padding:"28px 24px", maxWidth:320, width:"100%",
+              textAlign:"center",
+            }}>
+              <div style={{ fontSize:32, marginBottom:12 }}>⚠️</div>
+              <div style={{ fontSize:16, fontWeight:700, color:"#F0EDE8", marginBottom:8, fontFamily:"'Syne',sans-serif" }}>
+                Abandonner la séance ?
+              </div>
+              <div style={{ fontSize:12, color:"#555", marginBottom:24, lineHeight:1.7 }}>
+                {doneCount} série{doneCount !== 1 ? "s" : ""} validée{doneCount !== 1 ? "s" : ""} sur {totalCount}.<br/>
+                Ta progression ne sera pas enregistrée.
+              </div>
+              <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
+                <Btn variant="danger" onClick={() => { clearTimer(); onClose(); }}>
+                  Oui, abandonner
+                </Btn>
+                <Btn variant="secondary" onClick={() => setShowAbandon(false)}>
+                  Continuer la séance
+                </Btn>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
@@ -471,7 +503,7 @@ export function SeanceGuidee({ seance, user, addToast, onClose, onComplete }) {
 
         <div style={{ ...content, justifyContent:"center" }}>
           <div style={{ fontSize:12, color:"#555", letterSpacing:"2px", textTransform:"uppercase" }}>
-            Série {serieIdx} validée ✓
+            Série {serieIdx + 1} validée ✓
           </div>
 
           {/* Timer circulaire */}
@@ -503,26 +535,44 @@ export function SeanceGuidee({ seance, user, addToast, onClose, onComplete }) {
           </div>
 
           {/* Ajuster le repos */}
-          <div style={{ display:"flex", gap:8 }}>
-            {[30, 60, 90, 120].map(t => (
-              <button key={t} onClick={() => {
-                clearTimer();
-                setRestTime(t); setRestMax(t);
-                intervalRef.current = setInterval(() => {
-                  setRestTime(prev => {
-                    if (prev <= 1) { clearTimer(); advanceRef.current?.(); return 0; }
-                    return prev - 1;
-                  });
-                }, 1000);
+          <div style={{ display:"flex", flexDirection:"column", gap:8, alignItems:"center" }}>
+            <div style={{ fontSize:9, letterSpacing:"2px", textTransform:"uppercase", color:"#444" }}>Durée du repos</div>
+            <div style={{ display:"flex", gap:6 }}>
+              {[30, 60, 90, 120].map(t => (
+                <button key={t} onClick={() => {
+                  clearTimer();
+                  setRestTime(t); setRestMax(t);
+                  intervalRef.current = setInterval(() => {
+                    setRestTime(prev => {
+                      if (prev <= 1) { clearTimer(); advanceRef.current?.(); return 0; }
+                      return prev - 1;
+                    });
+                  }, 1000);
+                }} style={{
+                  background: restMax === t ? "rgba(201,168,76,0.15)" : "#111",
+                  border: `0.5px solid ${restMax === t ? "rgba(201,168,76,0.4)" : "#1A1A1A"}`,
+                  color: restMax === t ? "#C9A84C" : "#555",
+                  padding:"6px 12px", fontSize:11, cursor:"pointer", fontFamily:"'Syne',sans-serif",
+                  borderRadius: 6,
+                }}>
+                  {t}s
+                </button>
+              ))}
+              {/* Étendre le repos en cours */}
+              <button onClick={() => {
+                const added = restTime + 30;
+                setRestTime(added);
+                setRestMax(prev => Math.max(prev, added));
               }} style={{
-                background: restMax === t ? "rgba(201,168,76,0.15)" : "#111",
-                border: `0.5px solid ${restMax === t ? "rgba(201,168,76,0.4)" : "#1A1A1A"}`,
-                color: restMax === t ? "#C9A84C" : "#555",
+                background: "rgba(93,202,165,0.08)",
+                border: "0.5px solid rgba(93,202,165,0.25)",
+                color: "#5DCAA5",
                 padding:"6px 12px", fontSize:11, cursor:"pointer", fontFamily:"'Syne',sans-serif",
+                borderRadius: 6, fontWeight: 700,
               }}>
-                {t}s
+                +30s
               </button>
-            ))}
+            </div>
           </div>
 
           <div style={{ width:"100%", paddingBottom:24 }}>
