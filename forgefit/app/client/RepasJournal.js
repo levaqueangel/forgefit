@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useCallback } from "react";
 import { auth } from "../firebase";
+import { ScanRepas } from "./ScanRepas";
 
 function MacroBar({ label, val, max, color }) {
   const pct = max ? Math.min(100, Math.round((val / max) * 100)) : 0;
@@ -52,6 +53,7 @@ export function RepasJournal({ nutrition, user }) {
   const [preview, setPreview] = useState(null);
   const [error, setError] = useState("");
   const [saved, setSaved] = useState(false);
+  const [saisieMode, setSaisieMode] = useState("texte"); // "texte" | "photo"
 
   const getToken = useCallback(async () => {
     if (!auth.currentUser) return null;
@@ -141,60 +143,95 @@ export function RepasJournal({ nutrition, user }) {
 
       {/* Zone de saisie */}
       <div>
-        <div style={{ fontSize:9, letterSpacing:"3px", textTransform:"uppercase", color:"#555", marginBottom:8 }}>
-          Logger un repas
+        {/* Toggle texte / photo */}
+        <div style={{ display:"flex", gap:0, marginBottom:12, border:"0.5px solid #1A1A1A", width:"fit-content" }}>
+          {[
+            { id:"texte", label:"✏️ Décrire" },
+            { id:"photo", label:"📸 Photo" },
+          ].map(m => (
+            <button key={m.id} onClick={() => setSaisieMode(m.id)} style={{
+              background: saisieMode === m.id ? "rgba(201,168,76,0.12)" : "transparent",
+              border: "none", borderRight: m.id === "texte" ? "0.5px solid #1A1A1A" : "none",
+              color: saisieMode === m.id ? "#C9A84C" : "#555",
+              fontFamily:"'Syne',sans-serif", fontSize:10, fontWeight:700,
+              letterSpacing:"1.5px", textTransform:"uppercase",
+              padding:"8px 16px", cursor:"pointer", transition:"all 0.15s",
+            }}>{m.label}</button>
+          ))}
         </div>
-        <div style={{ display:"flex", gap:8 }}>
-          <input
-            value={input}
-            onChange={e => setInput(e.target.value.slice(0, 300))}
-            onKeyDown={e => e.key === "Enter" && analyser()}
-            placeholder="ex: 2 œufs brouillés, 1 tartine complète et un café"
-            style={{
-              flex:1, background:"#0D0D0D", border:"0.5px solid #242424",
-              borderRadius:10, padding:"11px 14px", color:"#F0EDE8",
-              fontFamily:"'Cormorant Garamond',serif", fontSize:14,
-              outline:"none", transition:"border-color 0.15s",
+
+        {/* Mode photo */}
+        {saisieMode === "photo" && (
+          <ScanRepas
+            user={user}
+            onSave={(result) => {
+              setRepas(prev => [...prev, {
+                ...result,
+                description: result.nom,
+                jour: new Date().toDateString(),
+                viaPhoto: true,
+              }]);
             }}
           />
-          <button onClick={analyser} disabled={!input.trim() || loading} style={{
-            background: input.trim() ? "rgba(201,168,76,0.12)" : "transparent",
-            border: `0.5px solid ${input.trim() ? "rgba(201,168,76,0.4)" : "#1A1A1A"}`,
-            color: input.trim() ? "#C9A84C" : "#333",
-            fontFamily:"'Syne',sans-serif", fontSize:10, fontWeight:700,
-            letterSpacing:"1.5px", textTransform:"uppercase",
-            padding:"0 16px", borderRadius:10, cursor: input.trim() ? "pointer" : "not-allowed",
-            transition:"all 0.15s", whiteSpace:"nowrap",
-          }}>
-            {loading ? "⏳" : "Analyser"}
-          </button>
-        </div>
-        {error && <div style={{ fontSize:11, color:"#E07070", marginTop:6 }}>{error}</div>}
+        )}
 
-        {/* Preview */}
-        {preview && (
-          <div style={{ marginTop:10, background:"rgba(201,168,76,0.04)", border:"0.5px solid rgba(201,168,76,0.2)", borderRadius:10, padding:"12px 14px" }}>
-            <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:8 }}>
-              <div>
-                <div style={{ fontSize:12, fontWeight:700, color:"#F0EDE8", fontFamily:"'Syne',sans-serif", marginBottom:4 }}>
-                  {preview.nom}
-                </div>
-                <div style={{ display:"flex", gap:10, flexWrap:"wrap" }}>
-                  <span style={{ fontSize:11, color:"#C9A84C" }}>⚡ {preview.calories} kcal</span>
-                  <span style={{ fontSize:11, color:"#7AE07A" }}>P {preview.proteines}g</span>
-                  <span style={{ fontSize:11, color:"#E8C87A" }}>G {preview.glucides}g</span>
-                  <span style={{ fontSize:11, color:"#88A0E0" }}>L {preview.lipides}g</span>
-                </div>
-                {!preview.fiable && <div style={{ fontSize:9, color:"#555", marginTop:4 }}>* estimation approximative</div>}
-              </div>
-              <div style={{ display:"flex", gap:6 }}>
-                <button onClick={() => setPreview(null)} style={{ background:"transparent", border:"0.5px solid #242424", color:"#555", fontFamily:"'Syne',sans-serif", fontSize:10, letterSpacing:"1px", padding:"6px 10px", borderRadius:8, cursor:"pointer" }}>✕</button>
-                <button onClick={sauvegarder} disabled={loading} style={{ background:"linear-gradient(135deg,#C9A84C,#A67C2E)", border:"none", color:"#0A0A0A", fontFamily:"'Syne',sans-serif", fontSize:10, fontWeight:700, letterSpacing:"1.5px", textTransform:"uppercase", padding:"6px 14px", borderRadius:8, cursor:"pointer" }}>
-                  {saved ? "✓" : "Enregistrer"}
-                </button>
-              </div>
+        {/* Mode texte */}
+        {saisieMode === "texte" && (
+          <>
+            <div style={{ display:"flex", gap:8 }}>
+              <input
+                value={input}
+                onChange={e => setInput(e.target.value.slice(0, 300))}
+                onKeyDown={e => e.key === "Enter" && analyser()}
+                placeholder="ex: 2 œufs brouillés, 1 tartine complète et un café"
+                style={{
+                  flex:1, background:"#0D0D0D", border:"0.5px solid #242424",
+                  borderRadius:10, padding:"11px 14px", color:"#F0EDE8",
+                  fontFamily:"'Cormorant Garamond',serif", fontSize:14,
+                  outline:"none", transition:"border-color 0.15s",
+                }}
+              />
+              <button onClick={analyser} disabled={!input.trim() || loading} style={{
+                background: input.trim() ? "rgba(201,168,76,0.12)" : "transparent",
+                border: `0.5px solid ${input.trim() ? "rgba(201,168,76,0.4)" : "#1A1A1A"}`,
+                color: input.trim() ? "#C9A84C" : "#333",
+                fontFamily:"'Syne',sans-serif", fontSize:10, fontWeight:700,
+                letterSpacing:"1.5px", textTransform:"uppercase",
+                padding:"0 16px", borderRadius:10, cursor: input.trim() ? "pointer" : "not-allowed",
+                transition:"all 0.15s", whiteSpace:"nowrap",
+              }}>
+                {loading ? "⏳" : "Analyser"}
+              </button>
             </div>
-          </div>
+
+            {error && <div style={{ fontSize:11, color:"#E07070", marginTop:6 }}>{error}</div>}
+
+            {/* Preview texte */}
+            {preview && (
+              <div style={{ marginTop:10, background:"rgba(201,168,76,0.04)", border:"0.5px solid rgba(201,168,76,0.2)", borderRadius:10, padding:"12px 14px" }}>
+                <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:8 }}>
+                  <div>
+                    <div style={{ fontSize:12, fontWeight:700, color:"#F0EDE8", fontFamily:"'Syne',sans-serif", marginBottom:4 }}>
+                      {preview.nom}
+                    </div>
+                    <div style={{ display:"flex", gap:10, flexWrap:"wrap" }}>
+                      <span style={{ fontSize:11, color:"#C9A84C" }}>⚡ {preview.calories} kcal</span>
+                      <span style={{ fontSize:11, color:"#7AE07A" }}>P {preview.proteines}g</span>
+                      <span style={{ fontSize:11, color:"#E8C87A" }}>G {preview.glucides}g</span>
+                      <span style={{ fontSize:11, color:"#88A0E0" }}>L {preview.lipides}g</span>
+                    </div>
+                    {!preview.fiable && <div style={{ fontSize:9, color:"#555", marginTop:4 }}>* estimation approximative</div>}
+                  </div>
+                  <div style={{ display:"flex", gap:6 }}>
+                    <button onClick={() => setPreview(null)} style={{ background:"transparent", border:"0.5px solid #242424", color:"#555", fontFamily:"'Syne',sans-serif", fontSize:10, letterSpacing:"1px", padding:"6px 10px", borderRadius:8, cursor:"pointer" }}>✕</button>
+                    <button onClick={sauvegarder} disabled={loading} style={{ background:"linear-gradient(135deg,#C9A84C,#A67C2E)", border:"none", color:"#0A0A0A", fontFamily:"'Syne',sans-serif", fontSize:10, fontWeight:700, letterSpacing:"1.5px", textTransform:"uppercase", padding:"6px 14px", borderRadius:8, cursor:"pointer" }}>
+                      {saved ? "✓" : "Enregistrer"}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </>
         )}
       </div>
 

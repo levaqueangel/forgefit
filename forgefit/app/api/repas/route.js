@@ -14,14 +14,21 @@ export async function POST(req) {
   if (!decoded) return Response.json({ error: "Non autorisé" }, { status: 401 });
 
   try {
-    const { description, save } = await req.json();
-    if (!description || description.trim().length < 3) {
-      return Response.json({ error: "Description trop courte" }, { status: 400 });
-    }
-    if (description.length > 300) {
-      return Response.json({ error: "Description trop longue (300 caractères max)" }, { status: 400 });
+    const { description, save, override } = await req.json();
+
+    // Si on a déjà les valeurs nutritionnelles (venant du scan photo), on bypasse l'IA
+    let analyse = override || null;
+
+    if (!analyse) {
+      if (!description || description.trim().length < 3) {
+        return Response.json({ error: "Description trop courte" }, { status: 400 });
+      }
+      if (description.length > 300) {
+        return Response.json({ error: "Description trop longue (300 caractères max)" }, { status: 400 });
+      }
     }
 
+    if (!analyse) {
     // Analyser avec Claude Haiku (rapide + pas cher)
     const response = await anthropic.messages.create({
       model: "claude-haiku-4-5",
@@ -39,7 +46,6 @@ Si tu n'es pas sûr, mets fiable:false. Estime au mieux même si vague.`,
       }],
     });
 
-    let analyse = null;
     try {
       const raw = response.content[0]?.text || "";
       const cleaned = raw.replace(/^```json\s*/i, "").replace(/\s*```$/i, "").trim();
@@ -47,6 +53,7 @@ Si tu n'es pas sûr, mets fiable:false. Estime au mieux même si vague.`,
     } catch {
       return Response.json({ error: "Impossible d'analyser ce repas. Sois plus précis." }, { status: 422 });
     }
+    } // fin if(!analyse)
 
     // Sauvegarder dans Firestore si demandé
     if (save) {
@@ -59,9 +66,10 @@ Si tu n'es pas sûr, mets fiable:false. Estime au mieux même si vague.`,
 
         const entry = {
           ...analyse,
-          description: description.trim(),
+          description: (description || analyse?.nom || "").trim(),
           date: new Date().toISOString(),
           jour: today,
+          viaPhoto: !!override,
         };
 
         // Garder 90 jours d'historique max (3 repas/jour × 90 = 270)
