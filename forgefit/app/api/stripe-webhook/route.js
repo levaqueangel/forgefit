@@ -172,8 +172,7 @@ export async function POST(req) {
 
     return new Response("OK", { status: 200 });
   } catch (e) {
-    const detail = `code=${e.code} msg=${e.message} details=${e.details} stack=${e.stack?.slice(0,300)}`;
-    console.error("stripe-webhook error:", detail);
-    return new Response(`ERREUR: ${detail}`, { status: 200 });
+    console.error("stripe-webhook error:", e.code, e.message);
+    return new Response("OK — erreur interne loguée", { status: 200 });
   }
 }
