@@ -1,0 +1,61 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Fonctions utilitaires ──────────────────────────────────────────────
+    function isAuth() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return isAuth() && request.auth.uid == uid;
+    }
+
+    function isCoach() {
+      // Le coach est identifié par son UID stocké en variable d'environnement
+      // Remplace cette valeur par le vrai UID Firebase du coach (pas l'email)
+      // firebase auth:export pour trouver l'UID, ou console Firebase
+      return isAuth() && (
+        request.auth.token.email == "coach.apxfitness11@gmail.com"
+      );
+    }
+
+    // ── Collection clients ────────────────────────────────────────────────
+    // Lecture : le client lui-même OU le coach
+    // Écriture directe via SDK client : INTERDITE — tout passe par Admin SDK
+    match /clients/{clientId} {
+      allow read: if isOwner(clientId) || isCoach();
+      // Aucune écriture directe depuis le client — toutes les écritures passent
+      // par les API routes (firebase-admin) qui s'affranchissent des rules
+      allow write: if false;
+    }
+
+    // ── Collection community (forum Elite) ───────────────────────────────
+    // Lecture : utilisateur authentifié ayant le plan elite (vérifié en lecture)
+    // Écriture : via API uniquement
+    match /community/{postId} {
+      allow read: if isAuth() && (
+        get(/databases/$(database)/documents/clients/$(request.auth.uid)).data.plan == "elite"
+        || get(/databases/$(database)/documents/clients/$(request.auth.uid)).data.plan == "Elite"
+      );
+      allow write: if false;
+    }
+
+    // ── Collection error_logs ────────────────────────────────────────────
+    // Aucun accès direct — géré par Admin SDK uniquement
+    match /error_logs/{logId} {
+      allow read, write: if false;
+    }
+
+    // ── Collection abandons ──────────────────────────────────────────────
+    // Aucun accès direct — géré par Admin SDK uniquement
+    match /abandons/{abandonId} {
+      allow read, write: if false;
+    }
+
+    // ── Tout le reste — refus par défaut ─────────────────────────────────
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

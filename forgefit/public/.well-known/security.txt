@@ -1,0 +1,3 @@
+Contact: mailto:coach.apxfitness11@gmail.com
+Preferred-Languages: fr, en
+Policy: Si vous découvrez une vulnérabilité de sécurité sur APXFITNESS, merci de nous contacter par email avant toute divulgation publique.
