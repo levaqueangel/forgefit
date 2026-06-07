@@ -4,25 +4,25 @@ const nextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
 
-  // Headers de cache pour les assets statiques
+  // Headers de cache + sécurité
   async headers() {
     return [
+      // Vidéos — immutable (hash dans le nom)
+      { source: "/videos/:path*", headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }] },
+      { source: "/:path*.mp4",    headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }] },
+      // Images statiques — 7 jours + stale-while-revalidate
+      { source: "/images/:path*", headers: [{ key: "Cache-Control", value: "public, max-age=604800, stale-while-revalidate=86400" }] },
+      { source: "/:path*\\.(?:png|jpg|jpeg|webp|avif|gif|svg)", headers: [{ key: "Cache-Control", value: "public, max-age=604800, stale-while-revalidate=86400" }] },
+      // Assets nommés
+      { source: "/(favicon.ico|apple-touch-icon.png|og-default.jpg)", headers: [{ key: "Cache-Control", value: "public, max-age=86400" }] },
+      // Headers sécurité globaux
       {
-        source: "/videos/:path*",
+        source: "/(.*)",
         headers: [
-          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
-        ],
-      },
-      {
-        source: "/:path*.mp4",
-        headers: [
-          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
-        ],
-      },
-      {
-        source: "/(favicon.ico|apple-touch-icon.png|og-default.jpg)",
-        headers: [
-          { key: "Cache-Control", value: "public, max-age=86400" },
+          { key: "X-Content-Type-Options",  value: "nosniff" },
+          { key: "X-Frame-Options",          value: "DENY" },
+          { key: "Referrer-Policy",          value: "strict-origin-when-cross-origin" },
+          { key: "Permissions-Policy",       value: "camera=(), microphone=(), geolocation=()" },
         ],
       },
     ];

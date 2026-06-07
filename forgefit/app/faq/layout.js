@@ -1,4 +1,4 @@
-﻿const SITE = "https://apxfitness-brown.vercel.app";
+﻿const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://apxfitness-brown.vercel.app";
 export const metadata = {
   title: "FAQ Coaching Fitness — Toutes Vos Questions | APXFITNESS",
   description: "Réponses complètes sur le coaching en ligne APXFITNESS : programmes, tarifs, nutrition, résultats, remboursement.",

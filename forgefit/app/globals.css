@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap');
-
+/* Polices chargées via <link> dans app/layout.js — pas d'@import ici pour éviter le double chargement */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 /* ── Design tokens ── */

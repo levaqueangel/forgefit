@@ -1,4 +1,4 @@
-﻿const SITE = "https://apxfitness-brown.vercel.app";
+﻿const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://apxfitness-brown.vercel.app";
 export const metadata = {
   title: "Blog Fitness & Musculation — Conseils Coach | APXFITNESS",
   description: "Articles sur la musculation, la nutrition sportive et la récupération rédigés par un coach certifié. Conseils pratiques pour progresser.",

@@ -4,6 +4,7 @@ import { auth, db } from "../firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
+import NextImage from "next/image";
 import recettesData from "../data/recettes.json";
 
 const CATS = [
@@ -197,9 +198,12 @@ export default function RecettesPage() {
               <div key={r.id} className="r-card" onClick={() => setSelected(r)}>
                 {/* Image */}
                 <div style={{ position: "relative", height: 160, overflow: "hidden", background: "#111" }}>
-                  <img src={r.image} alt={r.nom} loading="lazy"
-                    style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", transition: "transform .4s" }}
-                    onError={e => { e.target.style.display = "none"; }} />
+                  <NextImage
+                    src={r.image} alt={r.nom} fill
+                    sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 33vw"
+                    style={{ objectFit: "cover", transition: "transform .4s" }}
+                    onError={e => { e.currentTarget.style.display = "none"; }}
+                  />
                   <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,.6) 0%, transparent 50%)" }} />
                   <button className="fav-btn" onClick={e => { e.stopPropagation(); toggleFav(r.id); }}
                     style={{ position: "absolute", top: 8, right: 8, color: favs.includes(r.id) ? "#C9A84C" : "rgba(255,255,255,.5)", textShadow: "0 1px 4px rgba(0,0,0,.8)" }}>
@@ -240,8 +244,11 @@ export default function RecettesPage() {
             {/* Image modal */}
             {selected.image && (
               <div style={{ height: 220, overflow: "hidden", marginBottom: "1.5rem", position: "relative" }}>
-                <img src={selected.image} alt={selected.nom}
-                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                <NextImage
+                  src={selected.image} alt={selected.nom} fill
+                  sizes="(max-width:640px) 100vw, 500px"
+                  style={{ objectFit: "cover" }}
+                />
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(13,13,13,1) 0%, transparent 60%)" }} />
               </div>
             )}

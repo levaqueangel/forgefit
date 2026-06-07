@@ -1,8 +1,8 @@
 import { ARTICLES } from "./blog/articles";
 
-const SITE_URL = "https://apxfitness-brown.vercel.app";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://apxfitness-brown.vercel.app";
 
-export const dynamic = "force-dynamic";
+// ISR : regénéré toutes les heures, mis en cache entre-temps (force-dynamic retiré — était contradictoire)
 export const revalidate = 3600;
 
 export default async function sitemap() {

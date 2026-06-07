@@ -2,8 +2,10 @@ import { GoogleAnalytics } from "./GoogleAnalytics";
 import ServiceWorkerRegistration from "./ServiceWorkerRegistration";
 import ErrorBoundary from "./ErrorBoundary";
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://apxfitness-brown.vercel.app";
+
 export const metadata = {
-  metadataBase: new URL("https://apxfitness-brown.vercel.app"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "APXFITNESS — Coaching Fitness Personnalisé en Ligne",
     template: "%s | APXFITNESS",
@@ -34,7 +36,7 @@ export const metadata = {
     apple: "/apple-touch-icon.png",
   },
   alternates: {
-    canonical: "https://apxfitness-brown.vercel.app",
+    canonical: SITE_URL,
   },
 };
 
@@ -46,7 +48,7 @@ const jsonLd = {
       "@id": "https://apxfitness-brown.vercel.app/#business",
       "name": "APXFITNESS",
       "description": "Coaching fitness personnalisé en ligne. Programmes musculation et nutrition sur mesure générés par IA.",
-      "url": "https://apxfitness-brown.vercel.app",
+      "url": SITE_URL,
       "email": "coach.apxfitness11@gmail.com",
       "founder": { "@type": "Person", "name": "Angel Levaque" },
       "foundingDate": "2020",
@@ -79,7 +81,7 @@ export default function RootLayout({ children }) {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Syne:wght@400;600;700;800&display=optional"
+          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=optional"
           rel="stylesheet"
         />
       </head>

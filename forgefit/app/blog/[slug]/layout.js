@@ -1,6 +1,6 @@
 import { ARTICLES } from "../articles";
 
-const SITE_URL = "https://apxfitness-brown.vercel.app";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://apxfitness-brown.vercel.app";
 
 export async function generateMetadata({ params }) {
   const article = ARTICLES.find(a => a.slug === params.slug);
@@ -31,6 +31,41 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default function ArticleLayout({ children }) {
-  return children;
+export default function ArticleLayout({ children, params }) {
+  const article = ARTICLES.find(a => a.slug === params.slug);
+  const blogJsonLd = article ? {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": article.titre,
+    "description": article.description,
+    "datePublished": article.date,
+    "dateModified": article.date,
+    "author": {
+      "@type": "Person",
+      "name": "APXFITNESS Coach",
+      "url": `${SITE_URL}/a-propos`,
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "APXFITNESS",
+      "url": SITE_URL,
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `${SITE_URL}/blog/${article.slug}`,
+    },
+    "url": `${SITE_URL}/blog/${article.slug}`,
+    "inLanguage": "fr-FR",
+    "articleSection": article.categorie,
+    "timeRequired": `PT${article.lecture || 5}M`,
+  } : null;
+
+  return (
+    <>
+      {blogJsonLd && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(blogJsonLd) }} />
+      )}
+      {children}
+    </>
+  );
 }
