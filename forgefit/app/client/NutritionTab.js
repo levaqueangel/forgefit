@@ -1,5 +1,90 @@
 "use client";
 
+/* ── Donut SVG — répartition calorique des macros ───────────────────────────── */
+function MacroDonut({ nutrition }) {
+  if (!nutrition) return null;
+  const P = nutrition.proteines_g * 4;
+  const C = nutrition.glucides_g  * 4;
+  const L = nutrition.lipides_g   * 9;
+  const total = P + C + L || 1;
+
+  const R = 44, STROKE = 11, CX = 54, CY = 54;
+  const circ = 2 * Math.PI * R;
+
+  const segs = [
+    { label: "Protéines", kcal: P, g: nutrition.proteines_g, color: "#7AE07A" },
+    { label: "Glucides",  kcal: C, g: nutrition.glucides_g,  color: "#C9A84C" },
+    { label: "Lipides",   kcal: L, g: nutrition.lipides_g,   color: "#5DCAA5" },
+  ];
+
+  let offset = 0;
+  const arcs = segs.map(s => {
+    const dash = (s.kcal / total) * circ;
+    const gap  = circ - dash;
+    const arc  = { ...s, dash, gap, offset };
+    offset += dash;
+    return arc;
+  });
+
+  return (
+    <div style={{
+      display: "flex", alignItems: "center", gap: 20,
+      padding: "14px 16px",
+      background: "#0D0D0D", border: "0.5px solid #1A1A1A", borderRadius: 12,
+      marginBottom: 0,
+    }}>
+      {/* SVG donut */}
+      <svg width={CX * 2} height={CY * 2} viewBox={`0 0 ${CX * 2} ${CY * 2}`} style={{ flexShrink: 0, transform: "rotate(-90deg)" }}>
+        {/* Track */}
+        <circle cx={CX} cy={CY} r={R} fill="none" stroke="#1A1A1A" strokeWidth={STROKE} />
+        {/* Segments */}
+        {arcs.map((a, i) => (
+          <circle
+            key={i} cx={CX} cy={CY} r={R} fill="none"
+            stroke={a.color} strokeWidth={STROKE}
+            strokeDasharray={`${a.dash.toFixed(2)} ${a.gap.toFixed(2)}`}
+            strokeDashoffset={-a.offset}
+            strokeLinecap="butt"
+            style={{ transition: "stroke-dasharray 0.6s ease" }}
+          />
+        ))}
+        {/* Centre : calories — on re-rotate dans un groupe */}
+        <g transform={`rotate(90, ${CX}, ${CY})`}>
+          <text x={CX} y={CY - 5} textAnchor="middle" fontSize="16" fontWeight="700"
+            fill="#C9A84C" fontFamily="Syne, sans-serif">
+            {nutrition.calories_jour}
+          </text>
+          <text x={CX} y={CY + 11} textAnchor="middle" fontSize="9"
+            fill="#555" fontFamily="Syne, sans-serif">
+            kcal
+          </text>
+        </g>
+      </svg>
+
+      {/* Légende */}
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 8 }}>
+        {arcs.map((a, i) => (
+          <div key={i} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <div style={{ width: 8, height: 8, borderRadius: "50%", background: a.color, flexShrink: 0 }} />
+            <div style={{ flex: 1 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <span style={{ fontSize: 11, color: "#888", fontFamily: "'Syne',sans-serif" }}>{a.label}</span>
+                <span style={{ fontSize: 12, fontWeight: 700, color: a.color, fontFamily: "'Syne',sans-serif" }}>{a.g}g</span>
+              </div>
+              <div style={{ height: 3, background: "#1A1A1A", borderRadius: 2, marginTop: 3, overflow: "hidden" }}>
+                <div style={{ height: "100%", width: `${(a.kcal / total) * 100}%`, background: a.color, borderRadius: 2, transition: "width 0.6s ease" }} />
+              </div>
+              <div style={{ fontSize: 9, color: "#444", marginTop: 2 }}>
+                {Math.round((a.kcal / total) * 100)}% · {Math.round(a.kcal)} kcal
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function NutritionTab({
   S, nutrition, mealPlan, mealLoading, mealError, generateMealPlan,
 }) {
@@ -22,6 +107,9 @@ export function NutritionTab({
           </div>
         ))}
       </div>
+
+      {/* Donut répartition macros */}
+      {nutrition && <MacroDonut nutrition={nutrition} />}
 
       <div className="grid2" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14}}>
         {/* Plan alimentaire */}
