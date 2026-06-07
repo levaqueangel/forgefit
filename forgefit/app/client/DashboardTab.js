@@ -72,7 +72,7 @@ export function DashboardTab({
             {seances.length > 0 ? seances.map((s,i) => (
               <div key={i} className={`seance-row${s.today?" today-s":""}`}
                 onClick={async ()=>{
-                  if(seanceDone[i]||i<2) return;
+                  if(seanceDone[i]) return;
                   setSeanceDone(prev=>({...prev,[i]:!prev[i]}));
                   addToast(`✓ ${s.nom} — Séance validée !`,"success");
                   if (user) {
@@ -183,7 +183,7 @@ export function DashboardTab({
       </div>
 
       {/* Accès Recettes Elite */}
-      {clientData?.plan === "Elite" && (
+      {clientData?.plan?.toLowerCase() === "elite" && (
         <div onClick={() => router.push("/recettes")} style={{
           background:"rgba(201,168,76,0.05)",border:"0.5px solid rgba(201,168,76,0.25)",
           padding:"18px 20px",display:"flex",alignItems:"center",justifyContent:"space-between",gap:16,

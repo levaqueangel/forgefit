@@ -52,7 +52,7 @@ export async function GET(req) {
     </p>
     <div style="height:1px;background:linear-gradient(90deg,${color},transparent);margin:14px 0;"></div>
     <p style="margin:0 0 20px;font-size:15px;color:#888;line-height:1.9;font-family:Georgia,serif;font-style:italic;">
-      On est lundi — comment tu te sens après cette semaine d entraînement ?
+      On est lundi — comment tu te sens après cette semaine d'entraînement ?
       Réponds en un clic, ça prend 5 secondes.
     </p>
     <table width="100%" cellpadding="0" cellspacing="8">

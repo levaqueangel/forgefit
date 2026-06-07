@@ -5,23 +5,30 @@ export const dynamic = "force-dynamic";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://apxfitness-brown.vercel.app";
 
+// Prix en centimes — configurable via variables d'environnement Vercel
+// PRICE_STARTER, PRICE_FORGE, PRICE_ELITE (ex: 4900 = 49€)
+// Fallback sur les prix par défaut si non définis
+const PRICE_STARTER = parseInt(process.env.PRICE_STARTER || "4900", 10);
+const PRICE_FORGE   = parseInt(process.env.PRICE_FORGE   || "12900", 10);
+const PRICE_ELITE   = parseInt(process.env.PRICE_ELITE   || "24900", 10);
+
 const PLANS = {
   starter: {
     name: "Plan Starter APXFITNESS",
     description: "Programme musculation personnalisé + plan nutrition. Livraison en 48h.",
-    price: 4900, // centimes
+    price: PRICE_STARTER,
     images: [`${SITE}/og-image.jpg`],
   },
   forge: {
     name: "Plan Forge APXFITNESS",
     description: "Programme + nutrition + suivi mensuel + accès espace client privé. Livraison en 48h.",
-    price: 12900,
+    price: PRICE_FORGE,
     images: [`${SITE}/og-image.jpg`],
   },
   elite: {
     name: "Plan Elite APXFITNESS",
     description: "Coaching haut de gamme : programme, nutrition, suivi, messagerie directe, révisions illimitées.",
-    price: 24900,
+    price: PRICE_ELITE,
     images: [`${SITE}/og-image.jpg`],
   },
 };

@@ -64,9 +64,13 @@ Si tu n'es pas sûr, mets fiable:false. Estime au mieux même si vague.`,
         const today = new Date().toDateString();
         const journal = data.repasJournal || [];
 
+        // description = texte libre ou result.nom (depuis scan photo)
+        // analyse.nom = nom détecté par l'IA (photo ou texte)
+        // Fallback "Repas scanné" si les deux sont vides (edge case)
+        const descFinal = (description?.trim() || analyse?.nom?.trim() || "Repas scanné");
         const entry = {
           ...analyse,
-          description: (description || analyse?.nom || "").trim(),
+          description: descFinal,
           date: new Date().toISOString(),
           jour: today,
           viaPhoto: !!override,

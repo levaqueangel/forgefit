@@ -26,8 +26,17 @@ export async function GET(req) {
     }
 
     const db = getAdminDb();
-    const snapshot = await db.collection("clients").orderBy("createdAt", "desc").get();
-    const clients = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+    // On récupère TOUS les docs sans orderBy pour éviter d'exclure les docs
+    // qui n'ont pas createdAt (créés par activate-client → champ activatedAt)
+    const snapshot = await db.collection("clients").get();
+    const clients = snapshot.docs
+      .map(d => ({ id: d.id, ...d.data() }))
+      .sort((a, b) => {
+        // Fallback : activatedAt si createdAt absent
+        const dateA = a.createdAt || a.activatedAt || "";
+        const dateB = b.createdAt || b.activatedAt || "";
+        return dateB.localeCompare(dateA); // desc
+      });
 
     // Construire le CSV
     const headers = [
@@ -51,7 +60,7 @@ export async function GET(req) {
       escapeCsv(c.nom || ""),
       escapeCsv(c.email || ""),
       escapeCsv(c.plan || ""),
-      escapeCsv(c.createdAt ? new Date(c.createdAt).toLocaleDateString("fr-FR") : ""),
+      escapeCsv((c.createdAt || c.activatedAt) ? new Date(c.createdAt || c.activatedAt).toLocaleDateString("fr-FR") : ""),
       c.streakDays || 0,
       escapeCsv(c.lastActiveDate ? new Date(c.lastActiveDate).toLocaleDateString("fr-FR") : ""),
       escapeCsv(c.programmeData?.objectif_principal || ""),

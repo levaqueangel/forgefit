@@ -145,10 +145,10 @@ export function ScanRepas({ user, onSave }) {
         },
         body: JSON.stringify({
           uid: user?.uid,
-          description: result.nom,
+          description: result.nom?.trim() || "Repas scanné",
           save: true,
           override: {
-            nom: result.nom,
+            nom: result.nom?.trim() || "Repas scanné",
             calories: result.calories,
             proteines: result.proteines,
             glucides: result.glucides,

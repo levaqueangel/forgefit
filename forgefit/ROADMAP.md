@@ -28,36 +28,36 @@
 
 ## 🟠 PRIORITÉ 2 — BUGS FONCTIONNELS
 
-- [ ] **6. Bug plan Elite — casse `"Elite"` vs `"elite"`**
-  - `DashboardTab.js` ligne 186 : `clientData?.plan === "Elite"` ne matche jamais
-  - Le plan est stocké en minuscules dans Firestore → bloc "Espace Elite" invisible
+- [x] **6. Bug plan Elite — casse `"Elite"` vs `"elite"`** ✅ 2026-06-08
+  - `DashboardTab.js` ligne 186 : `clientData?.plan?.toLowerCase() === "elite"` (corrigé)
+  - Le plan est stocké en minuscules dans Firestore → bloc "Espace Elite" maintenant visible
 
 - [ ] **7. Webhook Stripe — Arrêter la création de docs fantômes**
   - Supprimer le bloc de création `clients/{randomId}` dans `stripe-webhook/route.js`
   - Seul `activate-client` doit créer des docs clients
 
-- [ ] **8. `DashboardTab.js` — Bug séances index 0 et 1 non cochables**
-  - Ligne 75 : `if(seanceDone[i]||i<2) return;` bloque les 2 premières séances
-  - Corriger la condition logique
+- [x] **8. `DashboardTab.js` — Bug séances index 0 et 1 non cochables** ✅ 2026-06-08
+  - Ligne 75 : `if(seanceDone[i]) return;` — supprimé `||i<2` qui bloquait les 2 premières séances
 
-- [ ] **9. Prix Stripe hardcodés dans le code**
-  - 4900, 12900, 24900 centimes dans `stripe-checkout/route.js`
-  - Migrer vers variables d'environnement : `PRICE_STARTER`, `PRICE_FORGE`, `PRICE_ELITE`
+- [x] **9. Prix Stripe hardcodés dans le code** ✅ 2026-06-08
+  - `stripe-checkout/route.js` : lit `PRICE_STARTER`, `PRICE_FORGE`, `PRICE_ELITE` depuis l'env
+  - Fallback sur 4900 / 12900 / 24900 si variables non définies → pas de breaking change
 
-- [ ] **10. `repas/route.js` — Champ `description` vide si override photo**
-  - Journal peut avoir des entrées avec `description = ""`
-  - Utiliser `analyse.nom` comme fallback fiable
+- [x] **10. `repas/route.js` — Champ `description` vide si override photo** ✅ 2026-06-08
+  - `repas/route.js` : fallback `description?.trim() || analyse?.nom?.trim() || "Repas scanné"`
+  - `ScanRepas.js` : `result.nom?.trim() || "Repas scanné"` — journal jamais vide
 
-- [ ] **11. `export-clients/route.js` — `orderBy("createdAt")` instable**
-  - Champ `createdAt` absent sur docs créés par `activate-client` (utilise `activatedAt`)
-  - Peut faire planter l'export CSV
+- [x] **11. `export-clients/route.js` — `orderBy("createdAt")` instable** ✅ 2026-06-08
+  - Supprimé `orderBy("createdAt")` → récupère tous les docs sans exclusion
+  - Tri JS côté serveur avec fallback `createdAt || activatedAt`
+  - Colonne "Date inscription" affiche aussi `activatedAt` si `createdAt` absent
 
-- [ ] **12. Email check-in — Faute d'apostrophe**
-  - `checkin-hebdo/route.js` ligne 56 : `"d entraînement"` → `"d'entraînement"`
+- [x] **12. Email check-in — Faute d'apostrophe** ✅ 2026-06-08
+  - `cron/checkin-hebdo/route.js` ligne 55 : `"d'entraînement"` corrigé
 
-- [ ] **13. Crons — Horaire UTC vs heure française**
-  - `0 9 * * *` UTC = 11h en été (UTC+2), 10h en hiver (UTC+1)
-  - Ajuster selon la stratégie de communication souhaitée
+- [x] **13. Crons — Horaire UTC vs heure française** ✅ 2026-06-08
+  - Décalé à 07:00 UTC → 9h en été (UTC+2), 8h en hiver (UTC+1) — heure idéale
+  - relance-j7: 07h, recap-j28: 08h, relance-abandon: 09h, checkin-hebdo lundi: 07h
 
 ---
 
@@ -200,8 +200,8 @@
 | Priorité | Total | Fait | Restant |
 |----------|-------|------|---------|
 | 🔴 P1 Bloquants | 5 | 2 | 3 |
-| 🟠 P2 Bugs | 8 | 0 | 8 |
+| 🟠 P2 Bugs | 8 | 7 | 1 |
 | 🟡 P3 Sécurité | 6 | 0 | 6 |
 | 🔵 P4 Features | 13 | 0 | 13 |
 | ⚪ P5 Optim | 9 | 0 | 9 |
-| **TOTAL** | **41** | **2** | **39** |
+| **TOTAL** | **41** | **9** | **32** |

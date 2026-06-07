@@ -2,19 +2,19 @@
   "crons": [
     {
       "path": "/api/cron/relance-j7",
-      "schedule": "0 9 * * *"
+      "schedule": "0 7 * * *"
     },
     {
       "path": "/api/cron/recap-j28",
-      "schedule": "0 10 * * *"
+      "schedule": "0 8 * * *"
     },
     {
       "path": "/api/cron/relance-abandon",
-      "schedule": "0 11 * * *"
+      "schedule": "0 9 * * *"
     },
     {
       "path": "/api/cron/checkin-hebdo",
-      "schedule": "0 9 * * 1"
+      "schedule": "0 7 * * 1"
     }
   ],
   "headers": [
