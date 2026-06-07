@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { signInWithEmailAndPassword, signOut, onAuthStateChanged,
 updatePassword, EmailAuthProvider, reauthenticateWithCredential } from "firebase/auth";
 import { collection, query, where, onSnapshot, addDoc,
-serverTimestamp, doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
+serverTimestamp, doc, getDoc, updateDoc, arrayUnion, orderBy } from "firebase/firestore";
 import { auth, db } from "../firebase";
 import { useLang } from "../useLang";
 import { LangSelector } from "../LangSelector";
@@ -185,10 +185,9 @@ return () => { unsub(); clearTimeout(authTimer); };
 // ── Messages temps réel ──────────────────────────────────────
 useEffect(() => {
 if (!user) return;
-const q = query(collection(db,"messages"), where("clientId","==",user.uid));
+const q = query(collection(db,"messages"), where("clientId","==",user.uid), orderBy("createdAt","asc"));
 const unsub = onSnapshot(q, snap => {
-const msgs = snap.docs.map(d=>({id:d.id,...d.data()}))
-.sort((a,b)=>(a.createdAt?.toMillis?.()||0)-(b.createdAt?.toMillis?.()||0));
+const msgs = snap.docs.map(d=>({id:d.id,...d.data()}));
 setMessages(msgs);
 setTimeout(()=>bottomRef.current?.scrollIntoView({behavior:"smooth"}),100);
 });

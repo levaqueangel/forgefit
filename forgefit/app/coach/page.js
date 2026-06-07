@@ -270,9 +270,14 @@ export default function CoachPage() {
       where("clientId","==",selectedClient.id), orderBy("createdAt","asc"));
     let isFirst = true;
     const unsub = onSnapshot(q, snap => {
-      setClientMessages(snap.docs.map(d => ({ id:d.id, ...d.data() })));
+      const msgs = snap.docs.map(d => ({ id:d.id, ...d.data() }));
+      setClientMessages(msgs);
       if (!isFirst) setAllMsgsCount(c => c + snap.docChanges().filter(ch=>ch.type==="added").length);
       isFirst = false;
+      // Marquer tous les messages client comme lus à l'ouverture
+      snap.docs
+        .filter(d => d.data().sender === "client" && !d.data().read)
+        .forEach(d => updateDoc(doc(db,"messages",d.id), { read: true }).catch(()=>{}));
     });
     return unsub;
   }, [selectedClient]);
