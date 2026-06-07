@@ -1,6 +1,8 @@
 "use client";
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import NextImage from "next/image";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { db } from "../firebase";
 import recettesData from "../data/recettes.json";
 
 const CATS = [
@@ -17,7 +19,7 @@ const PROT_FILTERS = [
   { key: "40",  label: "> 40g prot" },
 ];
 
-export function RecettesTab({ clientData }) {
+export function RecettesTab({ clientData, user }) {
   const [cat, setCat]           = useState("all");
   const [search, setSearch]     = useState("");
   const [protFilter, setProtFilter] = useState("all");
@@ -28,13 +30,32 @@ export function RecettesTab({ clientData }) {
     try { return JSON.parse(localStorage.getItem("apx_favs") || "[]"); } catch { return []; }
   });
 
-  const toggleFav = useCallback((id) => {
+  // Chargement des favoris depuis Firestore au montage (sync multi-appareils)
+  useEffect(() => {
+    if (!user?.uid) return;
+    getDoc(doc(db, "clients", user.uid)).then(snap => {
+      if (snap.exists()) {
+        const remote = snap.data().recettesFavoris;
+        if (Array.isArray(remote)) {
+          setFavs(remote);
+          try { localStorage.setItem("apx_favs", JSON.stringify(remote)); } catch {}
+        }
+      }
+    }).catch(() => {}); // fallback silencieux sur localStorage
+  }, [user?.uid]);
+
+  const toggleFav = useCallback(async (id) => {
     setFavs(prev => {
       const next = prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id];
+      // Sauvegarde localStorage (immédiat)
       try { localStorage.setItem("apx_favs", JSON.stringify(next)); } catch {}
+      // Sauvegarde Firestore (async, si connecté)
+      if (user?.uid) {
+        updateDoc(doc(db, "clients", user.uid), { recettesFavoris: next }).catch(() => {});
+      }
       return next;
     });
-  }, []);
+  }, [user?.uid]);
 
   const filtered = useMemo(() => {
     let list = recettesData;

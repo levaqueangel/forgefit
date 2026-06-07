@@ -92,9 +92,10 @@
 
 ## 🔵 PRIORITÉ 4 — FONCTIONNALITÉS MANQUANTES
 
-- [ ] **20. Favoris Recettes → Firestore (pas localStorage)**
-  - Perte des favoris au changement d'appareil
-  - Stocker dans `clients/{uid}.recettesFavoris[]`
+- [x] **20. Favoris Recettes → Firestore (pas localStorage)** ✅ 2026-06-08
+  - RecettesTab reçoit `user` prop → charge recettesFavoris depuis Firestore au montage
+  - toggleFav : sauvegarde localStorage (immédiat) + Firestore (async)
+  - Fallback silencieux sur localStorage si non connecté ou erreur réseau
 
 - [ ] **21. Historique chatbot IA → Firestore**
   - Conversations perdues au changement d'appareil
@@ -204,6 +205,6 @@
 | 🔴 P1 Bloquants | 5 | 2 | 3 |
 | 🟠 P2 Bugs | 8 | 7 | 1 |
 | 🟡 P3 Sécurité | 6 | 6 | 0 |
-| 🔵 P4 Features | 13 | 0 | 13 |
+| 🔵 P4 Features | 13 | 1 | 12 |
 | ⚪ P5 Optim | 9 | 0 | 9 |
-| **TOTAL** | **41** | **15** | **26** |
+| **TOTAL** | **41** | **16** | **25** |

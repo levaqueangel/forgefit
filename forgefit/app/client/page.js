@@ -624,7 +624,7 @@ onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
   </div>
 )}
 
-{activeTab==="recettes" && <RecettesTab clientData={clientData} />}
+{activeTab==="recettes" && <RecettesTab clientData={clientData} user={user} />}
 {activeTab==="communaute" && <CommunauteTab S={S} clientData={clientData} user={user} />}
 
 </div>
