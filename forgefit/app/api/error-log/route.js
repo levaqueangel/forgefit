@@ -1,8 +1,12 @@
 import { getAdminDb } from "../firebase-admin";
+import { checkRateLimit } from "../rateLimit";
 export const dynamic = "force-dynamic";
 
 // Recevoir et stocker les erreurs runtime des clients
 export async function POST(req) {
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "unknown";
+  if (!checkRateLimit(ip, 20, 60_000)) return Response.json({ ok: false }, { status: 429 });
+
   try {
     const { uid, error, page, userAgent, timestamp } = await req.json();
     if (!error) return Response.json({ ok: false });
@@ -40,6 +44,7 @@ export async function GET(req) {
     const logs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     return Response.json({ logs });
   } catch (e) {
-    return Response.json({ error: e.message }, { status: 500 });
+    console.error("error-log GET:", e.message);
+    return Response.json({ error: "Erreur interne." }, { status: 500 });
   }
 }

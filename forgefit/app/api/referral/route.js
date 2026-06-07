@@ -4,11 +4,12 @@ export const dynamic = "force-dynamic";
 
 // ── Générer un lien de parrainage unique pour un client ────────────────
 export async function POST(req) {
-  try {  const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "unknown";
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "unknown";
   if (!checkRateLimit(ip, 15, 60_000)) {
     return Response.json({ error: "Trop de requêtes. Réessaie dans une minute." }, { status: 429 });
   }
 
+  try {
     const decoded = await verifyAuthToken(req);
     if (!decoded) return Response.json({ error: "Non autorisé" }, { status: 401 });
     const { clientId, clientNom } = await req.json();
@@ -49,8 +50,8 @@ export async function POST(req) {
     const url = `${process.env.NEXT_PUBLIC_SITE_URL || "https://apxfitness-brown.vercel.app"}/bilan?ref=${code}`;
     return Response.json({ success: true, code, url, stats: { totalReferrals: 0 } });
   } catch (e) {
-    console.error("referral error:", e);
-    return Response.json({ error: e.message }, { status: 500 });
+    console.error("referral POST:", e.message);
+    return Response.json({ error: "Erreur interne." }, { status: 500 });
   }
 }
 
@@ -72,6 +73,7 @@ export async function GET(req) {
       discount: 0, // à implémenter quand Stripe est actif
     });
   } catch (e) {
-    return Response.json({ valid: false, error: e.message });
+    console.error("referral GET:", e.message);
+    return Response.json({ valid: false, error: "Erreur interne." });
   }
 }

@@ -5,11 +5,12 @@ export const dynamic = "force-dynamic";
 // Appelée quand le bilan atteint l'étape 3 (données personnelles saisies)
 // sans que le paiement soit complété
 export async function POST(req) {
-  try {  const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "unknown";
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "unknown";
   if (!checkRateLimit(ip, 20, 60_000)) {
     return Response.json({ error: "Trop de requêtes. Réessaie dans une minute." }, { status: 429 });
   }
 
+  try {
     const { email, prenom, plan, step } = await req.json();
     if (!email || !email.includes("@")) return Response.json({ ok: false });
 

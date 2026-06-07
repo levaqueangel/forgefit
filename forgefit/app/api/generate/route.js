@@ -485,6 +485,7 @@ export async function POST(req) {
 
   } catch (e) {
     clearTimeout(timeoutId);
-    return Response.json({ error: e.message }, { status: 500 });
+    console.error("generate POST:", e.message);
+    return Response.json({ error: "Erreur lors de la génération. Réessaie dans quelques secondes." }, { status: 500 });
   }
 }
