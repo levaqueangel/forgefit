@@ -1,7 +1,89 @@
 "use client";
 import { useState, useEffect } from "react";
-import { collection, doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
+
+/* ── SVG courbe charge ─────────────────────────────────────────────────────── */
+function ChargeChart({ hist }) {
+  const vals = hist.map(h => parseFloat(h.v)).filter(v => !isNaN(v));
+  if (vals.length < 2) return null;
+
+  const W = 280, H = 54, PAD = { x: 4, y: 6 };
+  const min = Math.min(...vals);
+  const max = Math.max(...vals);
+  const range = (max - min) || 1;
+
+  const toX = i => PAD.x + (i / (vals.length - 1)) * (W - PAD.x * 2);
+  const toY = v => H - PAD.y - ((v - min) / range) * (H - PAD.y * 2);
+
+  const pts = vals.map((v, i) => [toX(i), toY(v)]);
+
+  /* Courbe lissée via bezier cubique */
+  const linePath = pts.map((p, i) => {
+    if (i === 0) return `M ${p[0].toFixed(1)} ${p[1].toFixed(1)}`;
+    const prev = pts[i - 1];
+    const cx = (((prev[0] + p[0]) / 2)).toFixed(1);
+    return `C ${cx} ${prev[1].toFixed(1)} ${cx} ${p[1].toFixed(1)} ${p[0].toFixed(1)} ${p[1].toFixed(1)}`;
+  }).join(" ");
+
+  const areaPath = `${linePath} L ${pts[pts.length - 1][0].toFixed(1)} ${H} L ${pts[0][0].toFixed(1)} ${H} Z`;
+
+  const last = vals[vals.length - 1];
+  const prev = vals[vals.length - 2];
+  const trend = last - prev;
+  const trendColor = trend > 0 ? "#7AE07A" : trend < 0 ? "#E07070" : "#C9A84C";
+  const trendLabel = trend > 0 ? `↑ +${trend.toFixed(1)}` : trend < 0 ? `↓ ${trend.toFixed(1)}` : "→ stable";
+
+  return (
+    <div style={{ marginBottom: 10 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 }}>
+        <span style={{ fontSize: 9, letterSpacing: "1.5px", textTransform: "uppercase", color: "#444" }}>
+          {hist.length} sessions
+        </span>
+        <span style={{ fontSize: 11, fontWeight: 700, color: trendColor, fontFamily: "'Syne',sans-serif" }}>
+          {trendLabel}
+        </span>
+      </div>
+      <svg width="100%" viewBox={`0 0 ${W} ${H}`} style={{ display: "block", overflow: "visible" }}>
+        <defs>
+          <linearGradient id={`cg-${vals[0]}`} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#C9A84C" stopOpacity="0.3" />
+            <stop offset="100%" stopColor="#C9A84C" stopOpacity="0" />
+          </linearGradient>
+        </defs>
+        {/* Aire remplie */}
+        <path d={areaPath} fill={`url(#cg-${vals[0]})`} />
+        {/* Courbe */}
+        <path d={linePath} fill="none" stroke="#C9A84C" strokeWidth="1.5" strokeLinecap="round" />
+        {/* Points */}
+        {pts.map((p, i) => (
+          <circle
+            key={i}
+            cx={p[0]} cy={p[1]} r={i === pts.length - 1 ? 3 : 2}
+            fill={i === pts.length - 1 ? "#C9A84C" : "#0A0A0A"}
+            stroke="#C9A84C"
+            strokeWidth={i === pts.length - 1 ? 0 : 1.5}
+          />
+        ))}
+        {/* Labels dernière valeur */}
+        <text
+          x={pts[pts.length - 1][0]} y={pts[pts.length - 1][1] - 7}
+          textAnchor="middle" fontSize="10" fill="#C9A84C"
+          fontFamily="Syne, sans-serif" fontWeight="700"
+        >
+          {last}
+        </text>
+        {/* Dates premier / dernier */}
+        <text x={pts[0][0]} y={H} textAnchor="start" fontSize="8" fill="#444" fontFamily="Syne, sans-serif">
+          {hist[0].d}
+        </text>
+        <text x={pts[pts.length - 1][0]} y={H} textAnchor="end" fontSize="8" fill="#444" fontFamily="Syne, sans-serif">
+          {hist[hist.length - 1].d}
+        </text>
+      </svg>
+    </div>
+  );
+}
 
 export function ChargesTab({ uid, exercices }) {
   const [chargesLog, setChargesLog] = useState({});
@@ -83,20 +165,13 @@ export function ChargesTab({ uid, exercices }) {
                 </div>
               )}
             </div>
-            {/* Historique mini-graphique */}
-            {hist.length > 0 && (
-              <div style={{display:"flex",gap:4,marginBottom:10,alignItems:"flex-end",height:36}}>
-                {hist.slice(-6).map((h, j) => {
-                  const vals = hist.map(x => parseFloat(x.v)).filter(Boolean);
-                  const max = Math.max(...vals) || 1;
-                  const pct = (parseFloat(h.v) / max) * 100;
-                  return (
-                    <div key={j} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",gap:2}}>
-                      <div style={{width:"100%",background:"#C9A84C",borderRadius:2,height:`${Math.max(pct * 0.32, 4)}px`,opacity:j === hist.slice(-6).length-1 ? 1 : 0.45,transition:"height 0.5s ease"}}/>
-                      <div style={{fontSize:9,color:"#444"}}>{h.d}</div>
-                    </div>
-                  );
-                })}
+            {/* Historique — graphique SVG courbe */}
+            {hist.length >= 2 && (
+              <ChargeChart hist={hist.slice(-8)} />
+            )}
+            {hist.length === 1 && (
+              <div style={{fontSize:11,color:"#555",marginBottom:10,fontFamily:"'Cormorant Garamond',serif",fontStyle:"italic"}}>
+                Encore {7 - hist.length} entrée{7 - hist.length > 1 ? "s" : ""} pour voir le graphique.
               </div>
             )}
             {/* Saisie */}

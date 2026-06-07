@@ -10,6 +10,7 @@ import { ReadinessScore } from "./ReadinessScore";
 import { RapportHebdo } from "./RapportHebdo";
 import { PartagerCard } from "./PartagerCard";
 import { ProgressPhotos } from "./ProgressPhotos";
+import { RappelsSection } from "./RappelsSection";
 
 export function DashboardTab({
   S, doneSeances, doneExos, exercices, pd, realStreak,
@@ -207,6 +208,9 @@ export function DashboardTab({
         setClientData={setClientData}
         addToast={addToast}
       />
+
+      {/* ── Rappels d'entraînement ── */}
+      <RappelsSection addToast={addToast} />
 
       {/* ── Partager mes progrès ── */}
       <PartagerCard
