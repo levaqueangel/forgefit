@@ -70,44 +70,11 @@ export async function POST(req) {
     const orderRef = await db.collection("orders").add(orderData);
     console.log(`Commande créée: ${orderRef.id} — Plan ${plan} — ${clientEmail}`);
 
-    // Si le plan donne accès à l'espace client, créer/mettre à jour le doc client
-    if (PLANS_WITH_ACCESS.includes(plan) && clientEmail) {
-      // Chercher si un client existe déjà avec cet email
-      const existing = await db.collection("clients")
-        .where("email", "==", clientEmail)
-        .limit(1)
-        .get();
-
-      if (existing.empty) {
-        // Nouveau client — créer le document
-        const newClientRef = db.collection("clients").doc();
-        await newClientRef.set({
-          email: clientEmail,
-          nom: clientName || clientEmail.split("@")[0],
-          plan,
-          orderId: orderRef.id,
-          stripeSessionId,
-          paymentIntentId,
-          dateInscription: new Date().toISOString(),
-          status: "actif",
-          programme: null,
-          readinessScores: [],
-          seances: [],
-          objectifs: [],
-        });
-        console.log(`Client créé: ${newClientRef.id}`);
-      } else {
-        // Client existant — mettre à jour le plan
-        await existing.docs[0].ref.update({
-          plan,
-          orderId: orderRef.id,
-          stripeSessionId,
-          status: "actif",
-          updatedAt: new Date().toISOString(),
-        });
-        console.log(`Client mis à jour: ${existing.docs[0].id}`);
-      }
-    }
+    // NOTE : on ne crée PAS de doc clients ici.
+    // Le doc clients/{uid} est créé par /api/activate-client (coach dashboard)
+    // qui utilise le vrai Firebase Auth UID comme ID de document.
+    // Créer un doc avec un ID aléatoire ici générerait des "fantômes" inutilisables.
+    // Le coach voit la commande dans son dashboard et active manuellement le compte.
 
     // Email de confirmation au client
     if (clientEmail) {
