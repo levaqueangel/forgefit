@@ -63,16 +63,19 @@
 
 ## 🟡 PRIORITÉ 3 — SÉCURITÉ ET ROBUSTESSE
 
-- [ ] **14. Rate limiter → Redis Upstash**
-  - Map en mémoire non partagé entre instances Vercel
-  - Remplacer par Upstash Redis (gratuit jusqu'à 10k req/jour)
+- [x] **14. Rate limiter → Redis Upstash** ✅ 2026-06-08
+  - rateLimit.js réécrit : sliding window Redis si UPSTASH_REDIS_REST_URL/TOKEN présents
+  - Fallback automatique mémoire si Redis absent → zéro breaking change
+  - await ajouté sur 27 appels checkRateLimit dans 20 fichiers
+  - À faire : créer base Upstash + ajouter 2 variables sur Vercel
 
-- [ ] **15. `referral/route.js` — Pas de vérification Auth**
-  - Appel sans `Authorization` header → n'importe qui peut générer des liens
-  - Ajouter `verifyAuthToken` + vérification UID
+- [x] **15. `referral/route.js` — Pas de vérification Auth** ✅ déjà corrigé
+  - POST : verifyAuthToken + decoded.uid !== clientId (403 si mismatch)
+  - GET : public intentionnel (visiteur non connecté doit pouvoir valider un code ref)
 
-- [ ] **16. Chatbot — Rate limit uniquement par IP**
-  - Ajouter `checkRateLimitDouble(ip, decoded.uid)` pour limiter aussi par compte
+- [x] **16. Chatbot — Rate limit uniquement par IP** ✅ 2026-06-08
+  - checkRateLimitDouble(ip, uid, 30, 20) si UID présent → bloque par IP ET par compte
+  - Fallback checkRateLimit(ip) si non connecté
 
 - [ ] **17. `ScanRepas.js` — Pas de vérification taille fichier avant compression**
   - Un fichier RAW 40MB peut bloquer le navigateur
@@ -201,7 +204,7 @@
 |----------|-------|------|---------|
 | 🔴 P1 Bloquants | 5 | 2 | 3 |
 | 🟠 P2 Bugs | 8 | 7 | 1 |
-| 🟡 P3 Sécurité | 6 | 0 | 6 |
+| 🟡 P3 Sécurité | 6 | 3 | 3 |
 | 🔵 P4 Features | 13 | 0 | 13 |
 | ⚪ P5 Optim | 9 | 0 | 9 |
-| **TOTAL** | **41** | **9** | **32** |
+| **TOTAL** | **41** | **12** | **29** |
