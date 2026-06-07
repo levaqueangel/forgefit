@@ -364,10 +364,10 @@ export default function CoachPage() {
     setNewClientLoading(true); setNewClientError("");
     try {
       const token = await user.getIdToken();
-      const res = await fetch("/api/create-client", {
+      const res = await fetch("/api/activate-client", {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
-        body: JSON.stringify({ nom: nom.trim(), email: email.trim().toLowerCase(), plan, programme }),
+        body: JSON.stringify({ nom: nom.trim(), email: email.trim().toLowerCase(), plan }),
       });
       const data = await res.json();
       if (data.success) {
@@ -1240,23 +1240,20 @@ function CommandesView({ orders, clients, user, activatingOrder, setActivatingOr
     setActivatingOrder(order.id);
     try {
       const token = await user.getIdToken();
-      const res = await fetch("/api/create-client", {
+      const res = await fetch("/api/activate-client", {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
         body: JSON.stringify({
           email: order.email,
           nom: order.nom || order.email.split("@")[0],
           plan: order.plan,
-          programme: `Programme ${order.plan} APXFITNESS — à configurer via le tableau de bord.`,
+          orderId: order.id,
         }),
       });
       const data = await res.json();
       if (data.success) {
         setActivatedIds(prev => new Set([...prev, order.id]));
         addToast(`✅ Compte activé pour ${order.nom || order.email}`);
-      } else if (data.error?.includes("déjà")) {
-        setActivatedIds(prev => new Set([...prev, order.id]));
-        addToast("Compte déjà existant — marqué comme activé", "info");
       } else {
         addToast(data.error || "Erreur lors de l'activation", "error");
       }
