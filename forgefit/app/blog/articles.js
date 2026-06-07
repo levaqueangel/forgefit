@@ -2024,4 +2024,91 @@ Le développé couché est un mouvement qui se perfectionne sur des années. Ne 
 Maîtrise d'abord la rétraction des omoplates, la trajectoire de barre et l'angle des coudes. Les charges suivront naturellement, et tes pectoraux se développeront de façon beaucoup plus efficace.
     `,
   },
+  {
+    slug: "sommeil-musculation-recuperation",
+    titre: "Sommeil et musculation : pourquoi 8 heures valent mieux que 2 séances",
+    description: "Le sommeil est le levier le plus sous-estimé en musculation. Moins de 7h par nuit réduit les gains de 40%. Voici ce qui se passe pendant que tu dors et comment optimiser ta récupération.",
+    categorie: "Récupération",
+    date: "2026-06-07",
+    lecture: 8,
+    image: null,
+    contenu: `Le sommeil est gratuit, accessible à tout le monde, et pourtant c'est le levier de progression le plus ignoré en musculation. Une étude de l'Université de Chicago (Leproult & Van Cauter, 2011) a montré que dormir 5h30 au lieu de 8h30 pendant une semaine réduit de 60% la fraction musculaire de la perte de poids lors d'un régime — et divise par 2 la synthèse protéique.
+
+## Ce qui se passe pendant que tu dors
+
+La récupération musculaire n'est pas passive. Pendant le sommeil, ton corps orchestre plusieurs processus anaboliques essentiels.
+
+**Hormone de croissance (GH)** : environ 70% de la sécrétion quotidienne de GH se produit pendant le sommeil profond (phases N3). La GH déclenche directement la synthèse protéique musculaire et stimule la lipolyse (brûlage des graisses). Moins de sommeil profond = moins de GH = moins de muscle.
+
+**Testostérone** : le pic de testostérone se produit en fin de nuit, entre 6h et 8h du matin. Des nuits coupées ou trop courtes abaissent significativement les taux de testostérone — jusqu'à 15% après une semaine à 5h de sommeil (Leproult, 2011).
+
+**Réparation musculaire** : les micro-déchirures créées à l'entraînement sont réparées pendant le sommeil via la synthèse protéique. Sans sommeil suffisant, le muscle ne peut pas être reconstruit correctement — les effets de la séance sont partiellement perdus.
+
+**Cortisol** : le manque de sommeil augmente le cortisol (hormone de stress), qui est catabolique — il dégrade le tissu musculaire. L'équilibre testostérone/cortisol est un indicateur clé de l'environnement hormonal : le sommeil penche la balance du bon côté.
+
+## Combien d'heures faut-il vraiment ?
+
+La réponse générique "8 heures" est juste dans l'ensemble, mais la réalité est plus nuancée.
+
+**7 à 9 heures** est la plage recommandée pour les adultes en bonne santé par la National Sleep Foundation. Pour les athlètes et pratiquants réguliers, se rapprocher de 9 heures optimise davantage la récupération.
+
+**En dessous de 7 heures**, les effets négatifs deviennent mesurables : réduction de la force, baisse de la précision technique, humeur dégradée, appétit augmenté (notamment pour les aliments sucrés — la ghréline monte avec le manque de sommeil).
+
+**La dette de sommeil** se rattrape partiellement mais pas totalement. Dormir 10h un weekend après 5h les nuits précédentes ne compense pas complètement le déficit hormonal et métabolique accumulé.
+
+## Les 5 habitudes qui sabotent ton sommeil de sportif
+
+**La caféine trop tard** : la demi-vie de la caféine est de 5 à 6 heures. Un café à 16h = encore 50% de caféine dans le sang à 22h. Coupure à 14h maximum pour ceux qui se couchent avant 23h.
+
+**L'entraînement tardif** : une séance intense après 20h augmente la température corporelle et le cortisol, retardant l'endormissement de 30 à 60 minutes. Idéalement, terminer les séances intenses 3h avant le coucher. Si impossible, favoriser les exercices légers le soir.
+
+**L'alcool** : l'alcool endort vite mais dégrade la qualité du sommeil en supprimant les phases de sommeil paradoxal (REM). Même un verre de vin réduit mesurement le sommeil réparateur.
+
+**Les écrans avant le coucher** : la lumière bleue des écrans supprime la mélatonine (l'hormone du sommeil). Mode nuit ou lunettes anti-lumière bleue 1h avant de dormir.
+
+**La chambre trop chaude** : la température corporelle doit baisser légèrement pour faciliter l'endormissement. Chambre entre 16°C et 18°C est optimal. Une chambre à 22°C dégrade significativement les phases de sommeil profond.
+
+## Protocole de récupération optimale : le "sleep stack" du sportif
+
+Voici un protocole concret basé sur ce qui fonctionne :
+
+**1. Heure de lever fixe** : se lever à la même heure chaque jour (y compris le weekend) régule l'horloge biologique mieux que n'importe quel autre ajustement. C'est le levier n°1.
+
+**2. Exposition lumineuse matinale** : 10 à 20 minutes de lumière naturelle dans l'heure qui suit le réveil synchronise le cortisol matinal et avance la phase de sommeil le soir.
+
+**3. Magnésium bisglycinate** : 300 à 400mg avant le coucher. Plusieurs méta-analyses montrent un effet positif sur la durée du sommeil profond chez les personnes en légère déficience (ce qui concerne la majorité des sportifs). C'est l'un des rares compléments vraiment utiles pour le sommeil.
+
+**4. Fenêtre de détente** : 45 minutes sans écrans, lumière tamisée, activité calme (lecture, étirements légers). Ritual de coucher répété = signal pavlovien pour le cerveau.
+
+**5. Température** : douche froide ou bain tiède 1h avant de dormir (paradoxalement, les deux abaissent la température corporelle centrale par réflexe vasculaire).
+
+## La sieste : alliée ou ennemie ?
+
+La sieste courte (10 à 20 minutes) est un outil de récupération puissant, utilisé par de nombreux athlètes professionnels. Elle améliore la vigilance, la vitesse de réaction et la récupération musculaire.
+
+Au-delà de 30 minutes, la sieste entre dans du sommeil profond et provoque une inertie au réveil (sensation de "groggy"). Elle peut aussi décaler l'heure d'endormissement le soir si prise après 15h.
+
+**Protocole sieste** : 10 à 20 minutes, avant 15h. Certains sportifs utilisent le "nap café" : boire un café juste avant la sieste de 20 minutes — la caféine met 20 à 30 minutes pour agir, tu te réveilles donc au moment où elle commence à faire effet.
+
+## Sommeil et alimentation : les connexions
+
+**Protéines avant le coucher** : 30 à 40g de caséine (fromage blanc, skyr) avant de dormir maintient la synthèse protéique pendant la nuit. C'est scientifiquement démontré — Res et al. (2012) ont montré une augmentation de 22% de la synthèse protéique nocturne avec une prise de caséine avant le coucher.
+
+**Glucides le soir** : contrairement à l'idée reçue, les glucides le soir peuvent améliorer le sommeil en favorisant la production de sérotonine et de mélatonine. Riz, patate douce, avoine — pas à éviter le soir si tu t'entraînes le soir.
+
+**Alcool** : déjà mentionné, mais à répéter — c'est l'ennemi numéro un de la récupération nocturne chez le sportif.
+
+## Ce que ça change concrètement
+
+Pour donner un ordre de grandeur : un pratiquant dormant 6h plutôt que 8h perd environ 40% du bénéfice anabolique de ses séances (selon les données de Dattilo et al., méta-analyse 2011). Autrement dit, faire 5 séances en dormant 6h équivaut approximativement à faire 3 séances en dormant 8h.
+
+Si tu cherches à optimiser ta progression et que tu n'as pas le temps d'ajouter une séance par semaine, commence par dormir une heure de plus. Le retour sur investissement est probablement supérieur à toute autre modification de ton entraînement.
+
+## Conclusion
+
+Le sommeil n'est pas du temps perdu — c'est le moment où le travail accompli en salle se transforme en résultats. L'entraînement crée le signal, la nutrition fournit les matériaux, le sommeil construit le muscle.
+
+Optimise les trois piliers de façon équilibrée. Un pratiquant qui dort 8h et s'entraîne 3 fois par semaine progressera plus vite qu'un pratiquant qui s'entraîne 5 fois par semaine en dormant 5h30.
+    `,
+  },
 ];

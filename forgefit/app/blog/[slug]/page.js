@@ -99,60 +99,8 @@ export default function ArticlePage({ params }) {
     return elements;
   }
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": article.titre,
-    "description": article.description,
-    "datePublished": article.date,
-    "dateModified": article.date,
-    "author": {
-      "@type": "Organization",
-      "name": "APXFITNESS",
-      "url": SITE
-    },
-    "publisher": {
-      "@type": "Organization",
-      "name": "APXFITNESS",
-      "url": SITE
-    },
-    "url": `${SITE}/blog/${article.slug}`,
-    "articleSection": article.categorie,
-    "timeRequired": `PT${article.lecture}M`,
-    "wordCount": article.contenu.split(" ").length,
-  };
-
-  // Construire le JSON-LD Schema.org Article
-  const articleJsonLd = JSON.stringify({
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": article.titre,
-    "description": article.description,
-    "datePublished": article.date,
-    "dateModified": article.date,
-    "author": {
-      "@type": "Person",
-      "name": "Angel Levaque",
-      "url": `${SITE}/a-propos`,
-    },
-    "publisher": {
-      "@type": "Organization",
-      "name": "APXFITNESS",
-      "logo": { "@type": "ImageObject", "url": `${SITE}/icon-192.png` },
-    },
-    "mainEntityOfPage": { "@type": "WebPage", "@id": `${SITE}/blog/${article.slug}` },
-    "articleSection": article.categorie,
-    "timeRequired": `PT${article.lecture}M`,
-    "url": `${SITE}/blog/${article.slug}`,
-  });
-
   return (
     <div style={{ background:"#0A0A0A", color:"#F0EDE8", minHeight:"100vh", fontFamily:"'Syne',sans-serif" }}>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{__html: articleJsonLd}} />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
       <style>{`
         *{box-sizing:border-box;margin:0;padding:0}
         @keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}

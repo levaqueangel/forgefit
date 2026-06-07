@@ -6,7 +6,6 @@ export const metadata = {
     title: "FAQ Coaching Fitness — Toutes Vos Questions | APXFITNESS",
     description: "Réponses complètes sur le coaching en ligne : programmes, tarifs, nutrition, résultats.",
     url: SITE + "/faq", siteName: "APXFITNESS", locale: "fr_FR", type: "website",
-    images: [{ url: SITE + "/og-default.jpg", width: 1200, height: 630, alt: "FAQ APXFITNESS" }],
   },
   twitter: { card: "summary_large_image", title: "FAQ Coaching Fitness | APXFITNESS", description: "Toutes les réponses sur nos programmes." },
   alternates: { canonical: SITE + "/faq" },

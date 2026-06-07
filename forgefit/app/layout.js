@@ -12,7 +12,7 @@ export const metadata = {
   },
   description: "Programme musculation 100% sur mesure généré par IA en 48h. Nutrition calculée, séances adaptées à ton niveau. Coach personnel en ligne dès 49€.",
   keywords: ["coaching fitness","programme musculation","coach personnel en ligne","nutrition sportive","prise de masse","perte de poids"],
-  authors: [{ name: "Angel Levaque", url: "https://apxfitness-brown.vercel.app/a-propos" }],
+  authors: [{ name: "Angel Levaque", url: `${SITE_URL}/a-propos` }],
   creator: "APXFITNESS",
   openGraph: {
     type: "website",
@@ -20,12 +20,12 @@ export const metadata = {
     siteName: "APXFITNESS",
     title: "APXFITNESS — Coaching Fitness Personnalisé en Ligne",
     description: "Programme musculation 100% sur mesure généré par IA en 48h.",
-    images: [{ url: "/og-default.jpg", width: 1200, height: 630, alt: "APXFITNESS" }],
+    // images: auto-généré depuis app/opengraph-image.js
   },
   twitter: {
     card: "summary_large_image",
     creator: "@apxfitness",
-    images: ["/og-default.jpg"],
+    // images: auto-généré depuis app/opengraph-image.js
   },
   robots: {
     index: true, follow: true,
@@ -33,7 +33,7 @@ export const metadata = {
   },
   icons: {
     icon: "/favicon.ico",
-    apple: "/apple-touch-icon.png",
+    // apple-icon auto-généré depuis app/apple-icon.js
   },
   alternates: {
     canonical: SITE_URL,

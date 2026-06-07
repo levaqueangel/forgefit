@@ -14,7 +14,7 @@ const nextConfig = {
       { source: "/images/:path*", headers: [{ key: "Cache-Control", value: "public, max-age=604800, stale-while-revalidate=86400" }] },
       { source: "/:path*\\.(?:png|jpg|jpeg|webp|avif|gif|svg)", headers: [{ key: "Cache-Control", value: "public, max-age=604800, stale-while-revalidate=86400" }] },
       // Assets nommés
-      { source: "/(favicon.ico|apple-touch-icon.png|og-default.jpg)", headers: [{ key: "Cache-Control", value: "public, max-age=86400" }] },
+      { source: "/(favicon.ico|apple-icon.png|opengraph-image)", headers: [{ key: "Cache-Control", value: "public, max-age=86400" }] },
       // Headers sécurité globaux
       {
         source: "/(.*)",
