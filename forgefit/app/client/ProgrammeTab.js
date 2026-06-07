@@ -1,4 +1,8 @@
 "use client";
+import { ChargesTab } from "./ChargesTab";
+import { ExerciceGif } from "./ExerciceGif";
+import { OneRMCalc } from "./OneRMCalc";
+
 export function ProgrammeTab({
   S, progSubTab, setProgSubTab,
   seanceAujourdhui, doneExos, exercices, exoDone, setExoDone,
@@ -8,9 +12,10 @@ export function ProgrammeTab({
   return (
     <div className="fade-in" style={{display:"flex",flexDirection:"column",gap:16}}>
       {/* Sous-onglets pill */}
-      <div style={{display:"flex",gap:8}}>
+      <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
         <button className={`sub-tab${progSubTab==="seance"?" active":""}`} onClick={()=>setProgSubTab("seance")}>🏋️ Séance du jour</button>
-        <button className={`sub-tab${progSubTab==="charges"?" active":""}`} onClick={()=>setProgSubTab("charges")}>📊 Suivi des charges</button>
+        <button className={`sub-tab${progSubTab==="charges"?" active":""}`} onClick={()=>setProgSubTab("charges")}>📊 Charges</button>
+        <button className={`sub-tab${progSubTab==="1rm"?" active":""}`} onClick={()=>setProgSubTab("1rm")}>💪 1RM</button>
       </div>
 
       {progSubTab === "seance" && (
@@ -68,7 +73,7 @@ export function ProgrammeTab({
                       if (wasUndone && e.reposSec > 0) setTimer({duration:e.reposSec,name:e.nom,startedAt:Date.now()});
                       else if (!wasUndone) setTimer(null);
                     }}>
-                    {/* Checkbox circulaire — style app */}
+                    {/* Checkbox circulaire */}
                     <div style={{
                       width:24,height:24,borderRadius:"50%",flexShrink:0,
                       background:exoDone[i]?"#1A3A1A":"transparent",
@@ -83,7 +88,9 @@ export function ProgrammeTab({
                       <div style={{fontSize:11,color:"#444",fontFamily:"'Syne',sans-serif",marginTop:2}}>{e.det}</div>
                       {e.conseil&&!exoDone[i]&&<div style={{fontSize:11,color:"rgba(201,168,76,0.6)",marginTop:3}}>⚡ {e.conseil}</div>}
                     </div>
-                    <div style={{display:"flex",flexDirection:"column",alignItems:"flex-end",gap:3,flexShrink:0}}>
+                    <div style={{display:"flex",flexDirection:"column",alignItems:"flex-end",gap:4,flexShrink:0}} onClick={ev=>ev.stopPropagation()}>
+                      {/* Bouton GIF démo */}
+                      <ExerciceGif nom={e.nom} />
                       {exoDone[i]
                         ? <span style={{fontSize:9,color:"#7AE07A",letterSpacing:"1.5px",textTransform:"uppercase",fontFamily:"'Syne',sans-serif",background:"rgba(122,224,122,0.08)",padding:"2px 8px",borderRadius:10}}>FAIT</span>
                         : <span style={{fontSize:10,color:"#333",fontFamily:"'Syne',sans-serif"}}>⏱ {e.reposSec}s</span>
@@ -124,6 +131,12 @@ export function ProgrammeTab({
         <div style={S.card}>
           <div style={S.cardTitle}>📊 Suivi des charges <span style={{fontSize:10,color:"#444",marginLeft:"auto",letterSpacing:"1px",textTransform:"uppercase",fontFamily:"'Syne',sans-serif"}}>Saisie semaine par semaine</span></div>
           <ChargesTab uid={user?.uid} exercices={exercices} />
+        </div>
+      )}
+
+      {progSubTab === "1rm" && (
+        <div style={S.card}>
+          <OneRMCalc />
         </div>
       )}
     </div>

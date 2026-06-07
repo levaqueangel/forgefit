@@ -26,6 +26,8 @@ import { ProgrammeTab } from "./ProgrammeTab";
 import { NutritionTab } from "./NutritionTab";
 import { MessagesTab } from "./MessagesTab";
 import { AssistantTab } from "./AssistantTab";
+import { CommunauteTab } from "./CommunauteTab";
+import { RepasJournal } from "./RepasJournal";
 
 export default function ClientPage() {
 const router = useRouter();
@@ -153,7 +155,7 @@ setDataLoading(false);
 }, [user, addToast]);
 
 // ── Swipe ────────────────────────────────────────────────────
-const TABS_ORDER = ["dashboard","programme","nutrition","corps","messages","ia"];
+const TABS_ORDER = ["dashboard","programme","nutrition","repas","corps","messages","ia","communaute"];
 const handleTouchStart = useCallback((e) => {
 touchStartX.current = e.touches[0].clientX;
 touchStartY.current = e.touches[0].clientY;
@@ -587,12 +589,14 @@ Bonjour <em style={{color:"#C9A84C",fontStyle:"italic"}}>{clientData?.nom||user.
 </div>
 <div className="tabs-wrap">
 {[
-{id:"dashboard", label:"Dashboard", icon:"📊", badge:null},
-{id:"programme", label:"Programme", icon:"🏋️", badge:exercices.length>0?`${doneExos}/${exercices.length}`:null},
-{id:"nutrition", label:"Nutrition", icon:"🥗", badge:null},
-{id:"corps", label:"Corps", icon:"📐", badge:null},
-{id:"messages", label:"Messages", icon:"💬", badge:messages.filter(m=>m.sender==="coach"&&!m.read).length||null},
-{id:"ia", label:"IA", icon:"🤖", badge:null},
+{id:"dashboard",   label:"Dashboard",  icon:"📊", badge:null},
+{id:"programme",   label:"Programme",  icon:"🏋️", badge:exercices.length>0?`${doneExos}/${exercices.length}`:null},
+{id:"nutrition",   label:"Nutrition",  icon:"🥗", badge:null},
+{id:"repas",       label:"Repas",      icon:"🍽️", badge:null},
+{id:"corps",       label:"Corps",      icon:"📐", badge:null},
+{id:"messages",    label:"Messages",   icon:"💬", badge:messages.filter(m=>m.sender==="coach"&&!m.read).length||null},
+{id:"ia",          label:"IA",         icon:"🤖", badge:null},
+{id:"communaute",  label:"Communauté", icon:"👥", badge:null},
 ].map(tab=>(
 <button key={tab.id} className={`tab-btn${activeTab===tab.id?" active":""}`}
 onClick={()=>{setPrevTab(activeTab);setActiveTab(tab.id);vibrate([30]);}}
@@ -630,6 +634,20 @@ onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
 {activeTab==="ia" && <AssistantTab S={S} chatHistory={chatHistory} chatLoading={chatLoading} chatInput={chatInput} setChatInput={setChatInput} sendChatMessage={sendChatMessage} chatBottomRef={chatBottomRef} />}
 
 {activeTab==="messages" && <MessagesTab S={S} messages={messages} newMsg={newMsg} setNewMsg={setNewMsg} sending={sending} sendMessage={sendMessage} sendError={sendError} bottomRef={bottomRef} />}
+
+{activeTab==="repas" && (
+  <div className="fade-in" style={{display:"flex",flexDirection:"column",gap:16}}>
+    <div style={S.card}>
+      <div style={S.cardTitle}>🍽️ Journal alimentaire <span style={{...S.tag,marginLeft:"auto"}}>Analyse IA</span></div>
+      <RepasJournal nutrition={nutrition} user={user} />
+    </div>
+    <div style={{background:"rgba(201,168,76,0.04)",border:"0.5px solid rgba(201,168,76,0.15)",borderRadius:4,padding:"14px",fontSize:12,color:"#555",lineHeight:1.7}}>
+      💡 <strong style={{color:"#C9A84C"}}>Comment ça marche :</strong> Décris ton repas en texte libre — l'IA extrait les macros automatiquement. Plus tu es précis, plus l'estimation est fiable.
+    </div>
+  </div>
+)}
+
+{activeTab==="communaute" && <CommunauteTab S={S} clientData={clientData} user={user} />}
 
 </div>
 </div>

@@ -4,6 +4,8 @@ import { ProgressBar } from "./ProgressBar";
 import { updateDoc, doc } from "firebase/firestore";
 import { db } from "../firebase";
 import { useRouter } from "next/navigation";
+import { BadgesSection } from "./BadgesSection";
+import { ObjectifsSection } from "./ObjectifsSection";
 
 export function DashboardTab({
   S, doneSeances, doneExos, exercices, pd, realStreak,
@@ -179,6 +181,14 @@ export function DashboardTab({
           <div style={{fontSize:24,color:"#C9A84C",fontWeight:300}}>→</div>
         </div>
       )}
+
+      {/* ── Objectifs hebdomadaires ── */}
+      <ObjectifsSection user={user} clientData={clientData} addToast={addToast} />
+
+      {/* ── Badges ── */}
+      <div style={S.card}>
+        <BadgesSection clientData={clientData} />
+      </div>
 
       {/* Section parrainage */}
       <div style={{
