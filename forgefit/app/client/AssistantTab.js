@@ -1,5 +1,7 @@
 "use client";
 import { useRef, useState, useEffect, useCallback } from "react";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { db } from "../firebase";
 
 // ── Rendu Markdown simplifié ──────────────────────────────────────────────────
 function MarkdownText({ text }) {
@@ -217,10 +219,29 @@ export function AssistantTab({ S, clientData, user }) {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [history]);
 
-  // Persistance localStorage
+  // Chargement depuis Firestore au montage (sync multi-appareils)
   useEffect(() => {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(-MAX_HISTORY))); } catch {}
-  }, [history]);
+    if (!user?.uid) return;
+    getDoc(doc(db, "clients", user.uid)).then(snap => {
+      if (snap.exists()) {
+        const remote = snap.data().chatHistory;
+        if (Array.isArray(remote) && remote.length > 0) {
+          setHistory(remote);
+          try { localStorage.setItem(STORAGE_KEY, JSON.stringify(remote)); } catch {}
+        }
+      }
+    }).catch(() => {});
+  }, [user?.uid]);
+
+  // Persistance localStorage + Firestore (hors streaming pour ne pas spammer)
+  useEffect(() => {
+    if (streaming) return;
+    const slice = history.slice(-MAX_HISTORY);
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(slice)); } catch {}
+    if (user?.uid) {
+      updateDoc(doc(db, "clients", user.uid), { chatHistory: slice }).catch(() => {});
+    }
+  }, [history, streaming, user?.uid]);
 
   const send = useCallback(async (text) => {
     const msg = (text || input).trim();
@@ -314,10 +335,14 @@ export function AssistantTab({ S, clientData, user }) {
   const stopStream = () => { abortRef.current?.abort(); };
 
   const clearHistory = () => {
-    setHistory([{ role: "assistant", content: "Conversation réinitialisée. Que puis-je faire pour toi ?", ts: Date.now() }]);
+    const reset = [{ role: "assistant", content: "Conversation réinitialisée. Que puis-je faire pour toi ?", ts: Date.now() }];
+    setHistory(reset);
     setShowSuggestions(true);
     setFollowUps([]);
     try { localStorage.removeItem(STORAGE_KEY); } catch {}
+    if (user?.uid) {
+      updateDoc(doc(db, "clients", user.uid), { chatHistory: reset }).catch(() => {});
+    }
   };
 
   return (

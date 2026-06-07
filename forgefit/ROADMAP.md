@@ -97,10 +97,11 @@
   - toggleFav : sauvegarde localStorage (immédiat) + Firestore (async)
   - Fallback silencieux sur localStorage si non connecté ou erreur réseau
 
-- [ ] **21. Historique chatbot IA → Firestore**
-  - Conversations perdues au changement d'appareil
-  - Stocker les 30 derniers messages dans `clients/{uid}.chatHistory[]`
-  - Bonus : le coach voit les questions fréquentes
+- [x] **21. Historique chatbot IA → Firestore** ✅ 2026-06-08
+  - Chargement chatHistory depuis Firestore au montage
+  - Sauvegarde après chaque échange (hors streaming) → localStorage + Firestore
+  - clearHistory efface aussi Firestore
+  - 30 derniers messages max (MAX_HISTORY)
 
 - [ ] **22. Éditeur de programme manuel — Coach dashboard**
   - Pas d'interface pour créer/modifier manuellement un programme
@@ -205,6 +206,6 @@
 | 🔴 P1 Bloquants | 5 | 2 | 3 |
 | 🟠 P2 Bugs | 8 | 7 | 1 |
 | 🟡 P3 Sécurité | 6 | 6 | 0 |
-| 🔵 P4 Features | 13 | 1 | 12 |
+| 🔵 P4 Features | 13 | 2 | 11 |
 | ⚪ P5 Optim | 9 | 0 | 9 |
-| **TOTAL** | **41** | **16** | **25** |
+| **TOTAL** | **41** | **17** | **24** |
