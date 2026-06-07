@@ -68,12 +68,7 @@ const [mealPlan, setMealPlan] = useState(null);
 const [mealLoading, setMealLoading] = useState(false);
 const [mealError, setMealError] = useState("");
 
-// ── Chatbot ──────────────────────────────────────────────────
-const [chatHistory, setChatHistory] = useState([
-{ role:"assistant", content:"Bonjour ! Je suis ton assistant fitness APXFITNESS. Pose-moi tes questions sur la musculation, la nutrition ou ta récupération 💪" }
-]);
-const [chatInput, setChatInput] = useState("");
-const [chatLoading, setChatLoading] = useState(false);
+// ── Chatbot — état géré dans AssistantTab ─────────────────────
 
 // ── Mot de passe ─────────────────────────────────────────────
 const [showPwdModal, setShowPwdModal] = useState(false);
@@ -101,7 +96,7 @@ const [showPushBanner, setShowPushBanner] = useState(false);
 
 // ── Refs ─────────────────────────────────────────────────────
 const bottomRef = useRef(null);
-const chatBottomRef = useRef(null);
+// chatBottomRef removed — AssistantTab manages its own scroll
 const touchStartX = useRef(null);
 const touchStartY = useRef(null);
 
@@ -266,26 +261,7 @@ setMealPlan(JSON.parse(cleaned));
 setMealLoading(false);
 };
 
-// ── Chatbot ──────────────────────────────────────────────────
-const sendChatMessage = async () => {
-if (!chatInput.trim()||chatLoading) return;
-const msg = chatInput.trim();
-setChatInput("");
-setChatHistory(h=>[...h,{role:"user",content:msg}]);
-setChatLoading(true);
-try {
-const res = await fetch("/api/chatbot",{method:"POST",headers:{"Content-Type":"application/json"},
-body:JSON.stringify({message:msg,programmeData:clientData?.programmeData||null,history:chatHistory.slice(-6)}),
-});
-const data = await res.json();
-setChatHistory(h=>[...h.slice(-48),{role:"assistant",content:data.reply||"Désolé, je n'ai pas pu répondre."}]);
-} catch {
-setChatHistory(h=>[...h,{role:"assistant",content:"Erreur de connexion. Réessaie dans un instant."}]);
-} finally {
-setChatLoading(false);
-setTimeout(()=>chatBottomRef.current?.scrollIntoView({behavior:"smooth"}),100);
-}
-};
+// ── Chatbot — logique SSE gérée dans AssistantTab ────────────
 
 // ── Changement MDP ───────────────────────────────────────────
 const handleChangePassword = async () => {
@@ -631,7 +607,7 @@ onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
 </div>
 )}
 
-{activeTab==="ia" && <AssistantTab S={S} chatHistory={chatHistory} chatLoading={chatLoading} chatInput={chatInput} setChatInput={setChatInput} sendChatMessage={sendChatMessage} chatBottomRef={chatBottomRef} />}
+{activeTab==="ia" && <AssistantTab S={S} clientData={clientData} user={user} />}
 
 {activeTab==="messages" && <MessagesTab S={S} messages={messages} newMsg={newMsg} setNewMsg={setNewMsg} sending={sending} sendMessage={sendMessage} sendError={sendError} bottomRef={bottomRef} />}
 
