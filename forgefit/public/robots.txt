@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+Allow: /blog/
+Allow: /tarifs
+Allow: /a-propos
+Allow: /faq
+Allow: /resultats
+
+# Bloquer les routes sensibles
+Disallow: /api/
+Disallow: /client
+Disallow: /client/
+Disallow: /admin
+Disallow: /bilan
+Disallow: /calculateur
+
+# Sitemap
+Sitemap: https://apxfitness.fr/sitemap.xml

@@ -22,17 +22,26 @@ export async function POST(req) {
   if (!checkRateLimit(ip, 3, 60_000)) {
     return Response.json({ error: "Trop de requêtes. Réessaie dans une minute." }, { status: 429 });
   }
-  const { email, nom, plan, programme, programmeData } = await req.json();
+  const body = await req.json();
+  const { email, nom, plan } = body;
+  // Cap strict sur les champs texte longs pour éviter les abus Firestore
+  const programme     = typeof body.programme     === "string" ? body.programme.slice(0, 50_000)     : "";
+  const programmeData = body.programmeData && typeof body.programmeData === "object" ? body.programmeData : null;
 
   if (!isValidEmail(email))
     return Response.json({ success: false, error: "Email invalide." }, { status: 400 });
-  if (!nom || typeof nom !== "string" || nom.trim().length < 1)
-    return Response.json({ success: false, error: "Nom manquant." }, { status: 400 });
+  if (!nom || typeof nom !== "string" || nom.trim().length < 1 || nom.trim().length > 100)
+    return Response.json({ success: false, error: "Nom invalide." }, { status: 400 });
   const validPlans = ["starter", "forge", "elite"];
   if (!plan || !validPlans.includes(plan.toLowerCase()))
     return Response.json({ success: false, error: "Plan invalide." }, { status: 400 });
-  if (!programme || typeof programme !== "string" || programme.trim().length < 10)
+  if (!programme || programme.trim().length < 10)
     return Response.json({ success: false, error: "Programme manquant." }, { status: 400 });
+
+  // Cap sur programmeData — Firestore limite ~1MB par document
+  // On vérifie que l'objet sérialisé ne dépasse pas 200KB
+  if (programmeData && JSON.stringify(programmeData).length > 200_000)
+    return Response.json({ success: false, error: "Données programme trop volumineuses." }, { status: 400 });
 
   const safeEmail = email.trim().toLowerCase();
   const safePlan  = plan.trim().toLowerCase();
@@ -249,6 +258,6 @@ export async function POST(req) {
     return Response.json({ success: true, uid });
   } catch (e) {
     console.error("create-client error:", e.message);
-    return Response.json({ success: false, error: e.message }, { status: 500 });
+    return Response.json({ success: false, error: "Erreur lors de la création du compte." }, { status: 500 });
   }
 }

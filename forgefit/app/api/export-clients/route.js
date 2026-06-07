@@ -1,11 +1,16 @@
 import { getAdminAuth } from "../firebase-admin";
 import { getAdminDb } from "../firebase-admin";
+import { checkRateLimit } from "../rateLimit";
 export const dynamic = "force-dynamic";
 
 const COACH_EMAIL = process.env.NEXT_PUBLIC_COACH_EMAIL || "coach.apxfitness11@gmail.com";
 
 export async function GET(req) {
-  // Vérifier que l'appelant est le coach (cookie de session Firebase)
+  // Rate limit — même pour admin : évite les exports répétés accidentels
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "unknown";
+  if (!checkRateLimit(ip, 5, 60_000))
+    return new Response("Too Many Requests", { status: 429 });
+
   const authHeader = req.headers.get("authorization");
   if (!authHeader?.startsWith("Bearer ")) {
     return new Response("Unauthorized", { status: 401 });
@@ -73,8 +78,8 @@ export async function GET(req) {
       },
     });
   } catch (e) {
-    console.error("CSV export error:", e);
-    return new Response("Error: " + e.message, { status: 500 });
+    console.error("CSV export error:", e.message);
+    return new Response("Erreur interne.", { status: 500 });
   }
 }
 
