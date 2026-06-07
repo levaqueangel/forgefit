@@ -166,7 +166,7 @@ export default function Home() {
                   {popupLoading?"...":"Envoyer"}
                 </button>
               </div>
-              <p style={{fontSize:11,color:"#333",marginTop:10,textAlign:"center"}}>Pas de spam. Tu te désinscris quand tu veux.</p>
+              <p style={{fontSize:11,color:"#666",marginTop:10,textAlign:"center"}}>Pas de spam. Tu te désinscris quand tu veux.</p>
             </>
           )}
         </div>
@@ -343,7 +343,7 @@ export default function Home() {
           {[["100%",t.stats[0]],["+340",t.stats[1]]].map(([num,label],i)=>(
             <div key={i} className="stat-box a5" style={{padding:"2.5rem",borderBottom:i===0?`0.5px solid ${T.border2}`:"none",display:"flex",flexDirection:"column",justifyContent:"flex-end",background:"transparent",animationDelay:`${0.5+i*0.2}s`,position:"relative",zIndex:3}}>
               <div className="stat-num gold-text" style={{fontFamily:"'Cormorant Garamond',serif",fontSize:80,fontWeight:600,lineHeight:1}}>{num}</div>
-              <div style={{fontSize:12,letterSpacing:"3px",textTransform:"uppercase",color:"#333",marginTop:6}}>{label}</div>
+              <div style={{fontSize:11,letterSpacing:"3px",textTransform:"uppercase",color:"#888",marginTop:8}}>{label}</div>
             </div>
           ))}
         </div>
@@ -366,7 +366,7 @@ export default function Home() {
           <div key={i} className="step-box a6" style={{background:T.bg2,padding:"1.5rem",animationDelay:`${0.9+i*0.15}s`}}>
             <div className="step-num" style={{fontFamily:"'Cormorant Garamond',serif",fontSize:40,fontWeight:600,color:T.border2,lineHeight:1,marginBottom:8,transition:"opacity 0.3s"}}>{num}</div>
             <div className="step-title" style={{fontSize:12,fontWeight:700,textTransform:"uppercase",letterSpacing:"1px",marginBottom:6,transition:"color 0.3s"}}>{title}</div>
-            <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:13,color:T.muted,lineHeight:1.5}}>{desc}</div>
+            <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:14,color:T.muted,lineHeight:1.6}}>{desc}</div>
           </div>
         ))}
       </div>
@@ -409,8 +409,8 @@ export default function Home() {
             {n:"48h", label:"Délai de livraison",      color:"#E8C87A"},
           ].map((s,i)=>(
             <div key={i} style={{background:T.bg,padding:"2.5rem 2rem",textAlign:"center",transition:"background 0.3s"}}>
-              <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"clamp(36px,5vw,56px)",fontWeight:600,color:s.color,lineHeight:1,marginBottom:8}}>{s.n}</div>
-              <div style={{fontSize:9,letterSpacing:"2.5px",textTransform:"uppercase",color:T.muted}}>{s.label}</div>
+              <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"clamp(40px,5vw,60px)",fontWeight:600,color:s.color,lineHeight:1,marginBottom:10}}>{s.n}</div>
+              <div style={{fontSize:11,letterSpacing:"2px",textTransform:"uppercase",color:"#888"}}>{s.label}</div>
             </div>
           ))}
         </div>
@@ -511,21 +511,21 @@ export default function Home() {
           </div>
           {/* Programmes */}
           <div>
-            <div style={{fontSize:9,letterSpacing:"3px",textTransform:"uppercase",color:"#555",marginBottom:16}}>Programmes</div>
+            <div style={{fontSize:10,letterSpacing:"3px",textTransform:"uppercase",color:"#888",marginBottom:16}}>Programmes</div>
             {[["Plan Starter — 49€","/bilan?plan=starter"],["Plan Forge — 129€","/bilan?plan=forge"],["Plan Elite — 249€","/bilan?plan=elite"],["Faire mon bilan","/bilan"]].map(([l,h])=>(
               <div key={h} className="footer-link" style={{fontSize:12,color:T.muted,marginBottom:10,cursor:"pointer"}} onClick={()=>router.push(h)}>{l}</div>
             ))}
           </div>
           {/* Navigation */}
           <div>
-            <div style={{fontSize:9,letterSpacing:"3px",textTransform:"uppercase",color:"#555",marginBottom:16}}>Navigation</div>
+            <div style={{fontSize:10,letterSpacing:"3px",textTransform:"uppercase",color:"#888",marginBottom:16}}>Navigation</div>
             {[["À propos","/a-propos"],["Blog","/blog"],["Résultats","/resultats"],["Tarifs","/tarifs"],["Calculateur","/calculateur"],["FAQ","/faq"]].map(([l,h])=>(
               <div key={h} className="footer-link" style={{fontSize:12,color:T.muted,marginBottom:10,cursor:"pointer"}} onClick={()=>router.push(h)}>{l}</div>
             ))}
           </div>
           {/* Légal & accès */}
           <div>
-            <div style={{fontSize:9,letterSpacing:"3px",textTransform:"uppercase",color:"#555",marginBottom:16}}>Légal</div>
+            <div style={{fontSize:10,letterSpacing:"3px",textTransform:"uppercase",color:"#888",marginBottom:16}}>Légal</div>
             {[["Mentions légales","/mentions-legales"],["Espace client","/client"]].map(([l,h])=>(
               <div key={h} className="footer-link" style={{fontSize:12,color:T.muted,marginBottom:10,cursor:"pointer"}} onClick={()=>router.push(h)}>{l}</div>
             ))}
@@ -533,7 +533,7 @@ export default function Home() {
         </div>
         <div style={{borderTop:`0.5px solid ${T.border}`,padding:"1.2rem 3rem",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
           <div style={{fontSize:10,letterSpacing:"2px",color:T.muted,textTransform:"uppercase"}}>{t.footer.copy}</div>
-          <div style={{fontSize:10,letterSpacing:"1px",color:"#333"}}>Fait avec ♥ en France</div>
+          <div style={{fontSize:10,letterSpacing:"1px",color:"#666"}}>Fait avec ♥ en France</div>
         </div>
       </footer>
     </div>

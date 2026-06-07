@@ -123,7 +123,7 @@ function Bubble({ msg }) {
         color:isCoach?"#E8C87A":"#C8C4BC",
         borderRadius:isCoach?"14px 14px 4px 14px":"14px 14px 14px 4px",
       }}>{msg.text}</div>
-      <span style={{fontSize:10,color:"#2A2A2A",marginTop:3,fontFamily:"'Syne',sans-serif"}}>
+      <span style={{fontSize:10,color:"#555",marginTop:3,fontFamily:"'Syne',sans-serif"}}>
         {isCoach ? "Toi" : "Client"} · {time}
       </span>
     </div>
@@ -484,7 +484,7 @@ export default function CoachPage() {
               <div style={{fontSize:9,letterSpacing:"3px",textTransform:"uppercase",color:"#C9A84C"}}>— Programme de {selectedClient?.nom}</div>
               <button onClick={()=>setShowEditProg(false)} style={{background:"none",border:"none",color:"#555",cursor:"pointer",fontSize:18,lineHeight:1}}>×</button>
             </div>
-            <div style={{fontSize:11,color:"#444"}}>Modifie le programme texte. Les séances structurées (JSON) ne sont pas modifiées ici.</div>
+            <div style={{fontSize:11,color:"#666"}}>Modifie le programme texte. Les séances structurées (JSON) ne sont pas modifiées ici.</div>
             <textarea
               value={editProgText}
               onChange={e=>setEditProgText(e.target.value)}
@@ -529,7 +529,7 @@ export default function CoachPage() {
 
         {/* Actions droite */}
         <div style={{marginLeft:"auto",display:"flex",alignItems:"center",gap:8}}>
-          <span style={{fontSize:11,color:"#444",letterSpacing:"1px"}}>
+          <span style={{fontSize:11,color:"#777",letterSpacing:"1px"}}>
             {clients.length} client{clients.length > 1 ? "s" : ""}
           </span>
           <button className="nav-btn" onClick={() => setShowAddClient(true)}>
@@ -587,7 +587,7 @@ export default function CoachPage() {
                     <option value="name">A-Z</option>
                   </select>
                 </div>
-                <div style={{fontSize:9,color:"#2A2A2A",letterSpacing:"1.5px",textTransform:"uppercase"}}>
+                <div style={{fontSize:10,color:"#666",letterSpacing:"1.5px",textTransform:"uppercase"}}>
                   {filteredClients.length}/{clients.length} clients
                 </div>
               </div>
@@ -656,12 +656,12 @@ export default function CoachPage() {
 
             {/* Zone centrale messages */}
             {!selectedClient ? (
-              <div style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:16,color:"#222"}}>
+              <div style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:16,color:"#555"}}>
                 <div style={{fontSize:48}}>💬</div>
-                <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:20,fontStyle:"italic",color:"#333"}}>
+                <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:20,fontStyle:"italic",color:"#888"}}>
                   Sélectionne un client
                 </div>
-                <div style={{fontSize:11,color:"#2A2A2A",letterSpacing:"2px",textTransform:"uppercase"}}>
+                <div style={{fontSize:11,color:"#555",letterSpacing:"2px",textTransform:"uppercase"}}>
                   {filteredClients.length} client{filteredClients.length>1?"s":""} · {totalUnread} message{totalUnread>1?"s":""} non lu{totalUnread>1?"s":""}
                 </div>
               </div>
@@ -693,7 +693,7 @@ export default function CoachPage() {
                           Plan {selectedClient.plan}
                         </span>
                       </div>
-                      <div style={{fontSize:11,color:"#444",letterSpacing:"0.5px"}}>
+                      <div style={{fontSize:11,color:"#666",letterSpacing:"0.5px"}}>
                         {selectedClient.email}
                         {selectedClient.createdAt && ` · Client depuis le ${new Date(selectedClient.createdAt).toLocaleDateString("fr-FR",{day:"numeric",month:"short",year:"numeric"})}`}
                       </div>
@@ -703,7 +703,7 @@ export default function CoachPage() {
                       {clientData?.streakDays > 0 && (
                         <div style={{textAlign:"center"}}>
                           <div style={{fontSize:14,fontWeight:700,color:"#C9A84C"}}>🔥{clientData.streakDays}</div>
-                          <div style={{fontSize:8,color:"#444",letterSpacing:"1px",textTransform:"uppercase"}}>streak</div>
+                          <div style={{fontSize:9,color:"#666",letterSpacing:"1px",textTransform:"uppercase"}}>streak</div>
                         </div>
                       )}
                       {clientData?.programmeData?.objectif_principal && (
@@ -717,7 +717,7 @@ export default function CoachPage() {
                   {/* Zone messages scrollable */}
                   <div style={{flex:1,overflowY:"auto",padding:"16px 20px"}}>
                     {clientMessages.length === 0 ? (
-                      <div style={{textAlign:"center",padding:"3rem 2rem",color:"#333",fontFamily:"'Cormorant Garamond',serif",fontSize:17,fontStyle:"italic",lineHeight:1.7}}>
+                      <div style={{textAlign:"center",padding:"3rem 2rem",color:"#666",fontFamily:"'Cormorant Garamond',serif",fontSize:17,fontStyle:"italic",lineHeight:1.7}}>
                         Pas encore de messages avec {selectedClient.nom?.split(" ")[0]}.<br/>
                         Envoie un message de bienvenue !
                       </div>
@@ -741,7 +741,7 @@ export default function CoachPage() {
                   {/* Templates rapides */}
                   {showTemplates && (
                     <div style={{padding:"10px 16px",borderTop:"0.5px solid #1A1A1A",background:"#080808",display:"flex",flexWrap:"wrap",gap:6,flexShrink:0}}>
-                      <div style={{width:"100%",fontSize:9,letterSpacing:"2px",textTransform:"uppercase",color:"#333",marginBottom:4}}>Réponses rapides</div>
+                      <div style={{width:"100%",fontSize:10,letterSpacing:"2px",textTransform:"uppercase",color:"#666",marginBottom:4}}>Réponses rapides</div>
                       {TEMPLATES.map((t,i) => (
                         <button key={i} className="template-pill" onClick={() => { setNewMsg(t.text); setShowTemplates(false); }}>
                           {t.label}
@@ -794,7 +794,7 @@ export default function CoachPage() {
                         <div key={i} className="stat-card">
                           <div style={{position:"absolute",top:0,left:8,right:8,height:2,background:s.color,opacity:0.6,borderRadius:"0 0 2px 2px"}}/>
                           <div style={{fontSize:16,fontWeight:700,color:s.color,marginTop:4}}>{s.val}</div>
-                          <div style={{fontSize:8,letterSpacing:"1.5px",textTransform:"uppercase",color:"#444",marginTop:2}}>{s.label}</div>
+                          <div style={{fontSize:9,letterSpacing:"1.5px",textTransform:"uppercase",color:"#666",marginTop:2}}>{s.label}</div>
                         </div>
                       ))}
                     </div>
@@ -999,7 +999,7 @@ function ObjectifsCoach({ clientId, token, addToast }) {
       </div>
       {open && (
         <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
-          {loading ? <div style={{ fontSize:11, color:"#333" }}>Chargement...</div> : (
+          {loading ? <div style={{ fontSize:11, color:"#666" }}>Chargement...</div> : (
             <>
               {objectifs.map((o,i) => (
                 <div key={i} style={{ display:"flex", alignItems:"center", gap:6, background:"#0D0D0D", borderRadius:8, padding:"6px 10px" }}>
@@ -1096,7 +1096,7 @@ function StatsView({ clients, allMsgsCount }) {
             <div style={{position:"absolute",top:0,left:12,right:12,height:2,background:m.color,opacity:0.6,borderRadius:"0 0 2px 2px"}}/>
             <div style={{fontSize:20,marginBottom:10,marginTop:4}}>{m.icon}</div>
             <div style={{fontSize:22,fontWeight:700,color:m.color,lineHeight:1,marginBottom:4}}>{m.val}</div>
-            <div style={{fontSize:9,letterSpacing:"1.5px",textTransform:"uppercase",color:"#444"}}>{m.label}</div>
+            <div style={{fontSize:10,letterSpacing:"1.5px",textTransform:"uppercase",color:"#666"}}>{m.label}</div>
           </div>
         ))}
       </div>
@@ -1123,9 +1123,9 @@ function StatsView({ clients, allMsgsCount }) {
             </div>
             <MiniSparkline data={weeks} color="#C9A84C"/>
             <div style={{display:"flex",justifyContent:"space-between",marginTop:6}}>
-              <span style={{fontSize:9,color:"#333"}}>{labels[0]}</span>
-              <span style={{fontSize:9,color:"#333"}}>{labels[3]}</span>
-              <span style={{fontSize:9,color:"#333"}}>{labels[6]}</span>
+              <span style={{fontSize:10,color:"#666"}}>{labels[0]}</span>
+              <span style={{fontSize:10,color:"#666"}}>{labels[3]}</span>
+              <span style={{fontSize:10,color:"#666"}}>{labels[6]}</span>
             </div>
           </div>
         );
@@ -1147,7 +1147,7 @@ function StatsView({ clients, allMsgsCount }) {
                 <div style={{height:"100%",background:color,borderRadius:4,width:`${pct}%`,transition:"width 1.2s ease"}}/>
               </div>
               <span style={{fontSize:11,color:"#F0EDE8",fontWeight:700,width:24,textAlign:"right"}}>{count}</span>
-              <span style={{fontSize:10,color:"#444",width:36,textAlign:"right"}}>{pct}%</span>
+              <span style={{fontSize:10,color:"#666",width:36,textAlign:"right"}}>{pct}%</span>
             </div>
           );
         })}
@@ -1259,7 +1259,7 @@ function TemplatesView({ onSelect }) {
               </div>
             </div>
             <p style={{fontSize:13,color:"#555",lineHeight:1.7,marginBottom:12}}>{t.desc}</p>
-            <div style={{background:"rgba(255,255,255,0.02)",borderRadius:8,padding:"8px 12px",fontSize:11,color:"#444",fontFamily:"'Courier New',monospace",lineHeight:1.7}}>
+            <div style={{background:"rgba(255,255,255,0.02)",borderRadius:8,padding:"8px 12px",fontSize:11,color:"#777",fontFamily:"'Courier New',monospace",lineHeight:1.7}}>
               {t.preview}
             </div>
           </div>

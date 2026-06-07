@@ -2,13 +2,42 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* ── Design tokens ── */
+:root {
+  --gold:        #C9A84C;
+  --gold-light:  #E8C87A;
+  --gold-dim:    rgba(201,168,76,0.15);
+  --green:       #7AE07A;
+  --teal:        #5DCAA5;
+
+  --bg:          #0A0A0A;
+  --bg2:         #0D0D0D;
+  --card:        #111;
+  --border:      #1E1E1E;
+  --border2:     #242424;
+
+  --fg:          #F0EDE8;
+  --muted:       #888;   /* labels secondaires — contraste 7.8:1 ✓ */
+  --subtle:      #666;   /* métadonnées — contraste 5.7:1 ✓ */
+  --faint:       #555;   /* décoratif — contraste 4.6:1, uniquement grande taille */
+}
+
 body {
   background: #0A0A0A;
   color: #F0EDE8;
   font-family: 'Syne', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 input, select, textarea { font-family: 'Syne', sans-serif; }
+
+/* ── Scrollbar globale ── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #2A2A2A; border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: #383838; }
 
 @keyframes spin       { to { transform: rotate(360deg); } }
 @keyframes fadeUp     { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }

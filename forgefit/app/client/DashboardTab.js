@@ -31,9 +31,9 @@ export function DashboardTab({
           <div key={i} className="metric-card" style={{position:"relative",overflow:"hidden"}}>
             {/* Accent top */}
             <div style={{position:"absolute",top:0,left:16,right:16,height:2,background:m.color,borderRadius:"0 0 2px 2px",opacity:0.6}}/>
-            <div style={{fontSize:9,letterSpacing:"2px",textTransform:"uppercase",color:"#555",marginBottom:10,marginTop:8}}>{m.label}</div>
-            <div style={{fontSize:24,fontWeight:700,color:m.color,lineHeight:1,marginBottom:4,animation:"metricCount 0.4s ease forwards",fontFamily:"'Syne',sans-serif"}}>{m.val}</div>
-            <div style={{fontSize:10,color:"#444",fontFamily:"'Syne',sans-serif"}}>{m.sub}</div>
+            <div style={{fontSize:10,letterSpacing:"2px",textTransform:"uppercase",color:"#666",marginBottom:10,marginTop:8}}>{m.label}</div>
+            <div style={{fontSize:26,fontWeight:700,color:m.color,lineHeight:1,marginBottom:6,animation:"metricCount 0.4s ease forwards",fontFamily:"'Syne',sans-serif"}}>{m.val}</div>
+            <div style={{fontSize:11,color:"#666",fontFamily:"'Syne',sans-serif"}}>{m.sub}</div>
           </div>
         ))}
       </div>
@@ -50,7 +50,7 @@ export function DashboardTab({
           <div style={{display:"flex",gap:6,marginBottom:16}}>
             {semaine.map((d,i) => (
               <div key={i} style={{display:"flex",flexDirection:"column",alignItems:"center",gap:4,flex:1}}>
-                <span style={{fontSize:9,color:"#444",fontFamily:"'Syne',sans-serif",letterSpacing:"1px"}}>{d}</span>
+                <span style={{fontSize:10,color:"#666",fontFamily:"'Syne',sans-serif",letterSpacing:"1px"}}>{d}</span>
                 <div style={{
                   width:28,height:28,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",
                   fontSize:11,fontWeight:700,fontFamily:"'Syne',sans-serif",transition:"all 0.2s",
@@ -95,8 +95,8 @@ export function DashboardTab({
                   {seanceDone[i]&&"✓"}
                 </div>
                 <div style={{flex:1,minWidth:0}}>
-                  <div style={{fontSize:12,fontWeight:700,color:seanceDone[i]?"#4A4A4A":"#F0EDE8",fontFamily:"'Syne',sans-serif",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{s.nom}</div>
-                  <div style={{fontSize:10,color:"#444",fontFamily:"'Syne',sans-serif",marginTop:2}}>{s.det}</div>
+                  <div style={{fontSize:13,fontWeight:700,color:seanceDone[i]?"#4A4A4A":"#F0EDE8",fontFamily:"'Syne',sans-serif",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{s.nom}</div>
+                  <div style={{fontSize:11,color:"#666",fontFamily:"'Syne',sans-serif",marginTop:3}}>{s.det}</div>
                 </div>
                 <span style={{fontSize:10,padding:"3px 10px",borderRadius:20,flexShrink:0,fontFamily:"'Syne',sans-serif",
                   background:seanceDone[i]?"rgba(90,186,90,0.1)":s.today?"rgba(201,168,76,0.1)":"rgba(255,255,255,0.04)",
@@ -126,7 +126,7 @@ export function DashboardTab({
             ].map((p,i)=>(
               <div key={i} style={{marginBottom:i<2?14:0}}>
                 <div style={{display:"flex",justifyContent:"space-between",marginBottom:7}}>
-                  <span style={{fontSize:12,color:"#888",fontFamily:"'Syne',sans-serif"}}>{p.label}</span>
+                  <span style={{fontSize:12,color:"#aaa",fontFamily:"'Syne',sans-serif"}}>{p.label}</span>
                   <span style={{fontSize:12,color:p.color,fontWeight:700,fontFamily:"'Syne',sans-serif"}}>{p.pct}%</span>
                 </div>
                 <ProgressBar value={p.pct} color={p.color} delay={i*150}/>
@@ -149,8 +149,8 @@ export function DashboardTab({
                 ].map((c,i)=>(
                   <div key={i}>
                     <div style={{display:"flex",justifyContent:"space-between",marginBottom:6}}>
-                      <span style={{fontSize:11,color:"#555",fontFamily:"'Syne',sans-serif"}}>{c.nom}</span>
-                      <span style={{fontSize:11,fontWeight:700,color:"#888",fontFamily:"'Syne',sans-serif"}}>{c.val}</span>
+                      <span style={{fontSize:12,color:"#888",fontFamily:"'Syne',sans-serif"}}>{c.nom}</span>
+                      <span style={{fontSize:12,fontWeight:700,color:"#aaa",fontFamily:"'Syne',sans-serif"}}>{c.val}</span>
                     </div>
                     <ProgressBar value={c.pct} color={c.color} delay={i*80} height={6}/>
                   </div>

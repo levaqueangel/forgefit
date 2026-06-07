@@ -326,9 +326,9 @@ const showRenew = clientData?.createdAt
 ? (Date.now()-new Date(clientData.createdAt).getTime())>28*24*3600*1000 : false;
 
 const S = {
-card: {background:"#111",border:"0.5px solid #1E1E1E",borderRadius:14,padding:"18px"},
-cardTitle: {fontSize:11,letterSpacing:"3px",textTransform:"uppercase",color:"#C9A84C",marginBottom:14,display:"flex",alignItems:"center",gap:6},
-tag: {fontSize:11,letterSpacing:"2px",textTransform:"uppercase",color:"#555"},
+card: {background:"#0D0D0D",border:"0.5px solid #222",borderRadius:16,padding:"20px"},
+cardTitle: {fontSize:11,letterSpacing:"3px",textTransform:"uppercase",color:"#C9A84C",marginBottom:16,display:"flex",alignItems:"center",gap:8,fontWeight:700},
+tag: {fontSize:10,letterSpacing:"2px",textTransform:"uppercase",color:"#666"},
 };
 
 const planName = clientData?.plan ? clientData.plan.charAt(0).toUpperCase()+clientData.plan.slice(1) : "—";
@@ -385,11 +385,11 @@ textarea:focus,input:focus{border-color:#C9A84C !important;outline:none}
 @keyframes focusIn{from{opacity:0;transform:scale(0.96)}to{opacity:1;transform:scale(1)}}
 @keyframes timerSlideIn{from{opacity:0;transform:translateY(20px) scale(0.95)}to{opacity:1;transform:translateY(0) scale(1)}}
 @keyframes pillIn{from{opacity:0;transform:scale(0.85)}to{opacity:1;transform:scale(1)}}
-.tabs-wrap{display:flex;gap:6px;padding:10px 0;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tabs-wrap{display:flex;gap:4px;padding:10px 0;overflow-x:auto;-webkit-overflow-scrolling:touch}
 .tabs-wrap::-webkit-scrollbar{display:none}
-.tab-btn{background:transparent;border:none;color:#555;font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;padding:8px 14px;border-radius:20px;transition:all 0.2s;white-space:nowrap;display:flex;align-items:center;gap:5px;position:relative}
-.tab-btn.active{background:rgba(201,168,76,0.14);color:#E8C87A;border:0.5px solid rgba(201,168,76,0.35)}
-.tab-btn:hover:not(.active){background:rgba(255,255,255,0.04);color:#888}
+.tab-btn{background:transparent;border:0.5px solid transparent;color:#666;font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;padding:8px 16px;border-radius:20px;transition:all 0.2s;white-space:nowrap;display:flex;align-items:center;gap:5px;position:relative}
+.tab-btn.active{background:rgba(201,168,76,0.12);color:#E8C87A;border:0.5px solid rgba(201,168,76,0.3);box-shadow:0 0 12px rgba(201,168,76,0.08)}
+.tab-btn:hover:not(.active){background:rgba(255,255,255,0.04);color:#999;border-color:#1E1E1E}
 .sub-tab{background:transparent;border:0.5px solid #222;color:#555;font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:8px 18px;cursor:pointer;transition:all 0.18s;border-radius:20px}
 .sub-tab.active{border-color:rgba(201,168,76,0.5);color:#C9A84C;background:rgba(201,168,76,0.1)}
 .sub-tab:hover:not(.active){border-color:#333;color:#888;background:rgba(255,255,255,0.03)}
