@@ -6,21 +6,23 @@ export const dynamic = "force-dynamic";
 // Envoyer une notification push à un client spécifique
 // Appelé automatiquement depuis notify-client après envoi de message coach
 export async function POST(req) {
-  // Lire le body UNE SEULE FOIS avant le try/catch pour pouvoir y accéder partout
+  // Auth interne — vérifiée avant tout parsing
+  const internalKey = req.headers.get("x-internal-key");
+  if (!process.env.CRON_SECRET || internalKey !== process.env.CRON_SECRET) {
+    return Response.json({ error: "Non autorisé." }, { status: 401 });
+  }
+
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "unknown";
+  if (!checkRateLimit(ip, 10, 60_000)) {
+    return Response.json({ error: "Trop de requêtes." }, { status: 429 });
+  }
+
+  // Lire le body après les guards
   let parsedBody = {};
   try { parsedBody = await req.json(); } catch {}
-
   const { clientId, title, body, url } = parsedBody;
 
   try {
-    const internalKey = req.headers.get("x-internal-key");
-    if (internalKey !== process.env.CRON_SECRET) {
-      return Response.json({ error: "Non autorise" }, { status: 401 });
-    }
-    const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "unknown";
-    if (!checkRateLimit(ip, 10, 60_000)) {
-      return Response.json({ error: "Trop de requêtes. Réessaie dans une minute." }, { status: 429 });
-    }
 
     if (!clientId) return Response.json({ error: "clientId manquant" }, { status: 400 });
 
@@ -69,6 +71,6 @@ export async function POST(req) {
       } catch {}
     }
     console.error("Push notification error:", e.message);
-    return Response.json({ success: false, error: e.message });
+    return Response.json({ success: false, error: "Erreur lors de l'envoi de la notification." });
   }
 }
