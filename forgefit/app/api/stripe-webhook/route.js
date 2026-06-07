@@ -172,7 +172,8 @@ export async function POST(req) {
 
     return new Response("OK", { status: 200 });
   } catch (e) {
-    console.error("stripe-webhook error:", e.code, e.message, e.stack);
-    return new Response(`ERREUR: ${e.code} — ${e.message}`, { status: 200 });
+    const detail = `code=${e.code} msg=${e.message} details=${e.details} stack=${e.stack?.slice(0,300)}`;
+    console.error("stripe-webhook error:", detail);
+    return new Response(`ERREUR: ${detail}`, { status: 200 });
   }
 }
