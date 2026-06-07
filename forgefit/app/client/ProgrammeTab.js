@@ -15,6 +15,140 @@ function parseReposSec(str) {
   return (min ? parseInt(min[1]) * 60 : 0) + (sec ? parseInt(sec[1]) : 0) || 90;
 }
 
+// ── Affichage structuré du programme complet ──────────────────────────────────
+function ProgrammeComplet({ data, texte, S }) {
+  const [openSeance, setOpenSeance] = useState(null);
+
+  // Pas de données structurées → fallback texte
+  if (!data?.seances?.length) {
+    return (
+      <div style={S.card}>
+        <div style={S.cardTitle}>📋 Programme complet</div>
+        <pre style={{fontFamily:"'Courier New',monospace",fontSize:12,color:"#555",whiteSpace:"pre-wrap",lineHeight:1.8,paddingTop:4}}>
+          {texte}
+        </pre>
+      </div>
+    );
+  }
+
+  // Grouper les séances par phase (semaines)
+  const phases = {};
+  data.seances.forEach(s => {
+    const key = s.semaines || "Programme";
+    if (!phases[key]) phases[key] = { label: s.phase || key, seances: [] };
+    phases[key].seances.push(s);
+  });
+
+  return (
+    <div style={S.card}>
+      {/* En-tête */}
+      <div style={{marginBottom:16}}>
+        <div style={S.cardTitle}>📋 Programme complet</div>
+        {data.message_perso && (
+          <div style={{fontSize:12,color:"rgba(201,168,76,0.7)",fontStyle:"italic",lineHeight:1.6,marginTop:4,borderLeft:"2px solid rgba(201,168,76,0.3)",paddingLeft:10}}>
+            {data.message_perso}
+          </div>
+        )}
+      </div>
+
+      {/* Méta : objectif / niveau / durée */}
+      <div style={{display:"flex",gap:8,flexWrap:"wrap",marginBottom:16}}>
+        {data.objectif_principal && <span style={tagStyle("#C9A84C")}>🎯 {data.objectif_principal}</span>}
+        {data.niveau && <span style={tagStyle("#5DCAA5")}>📶 {data.niveau}</span>}
+        {data.seances_par_semaine && <span style={tagStyle("#7A8ECC")}>📅 {data.seances_par_semaine}×/sem</span>}
+        {data.duree_programme_semaines && <span style={tagStyle("#888")}>⏳ {data.duree_programme_semaines} sem.</span>}
+      </div>
+
+      {/* Nutrition */}
+      {data.nutrition && (
+        <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:8,marginBottom:18}}>
+          {[
+            { label:"Calories", val:`${data.nutrition.calories_jour} kcal`, color:"#C9A84C" },
+            { label:"Protéines", val:`${data.nutrition.proteines_g}g`, color:"#7AE07A" },
+            { label:"Glucides", val:`${data.nutrition.glucides_g}g`, color:"#5DCAA5" },
+            { label:"Lipides", val:`${data.nutrition.lipides_g}g`, color:"#CC8844" },
+          ].map((m,i) => (
+            <div key={i} style={{background:"rgba(255,255,255,0.02)",border:"0.5px solid #1E1E1E",borderRadius:8,padding:"8px 10px",textAlign:"center"}}>
+              <div style={{fontSize:13,fontWeight:700,color:m.color,fontFamily:"'Syne',sans-serif"}}>{m.val}</div>
+              <div style={{fontSize:9,color:"#444",textTransform:"uppercase",letterSpacing:"1px",marginTop:2}}>{m.label}</div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Phases & séances */}
+      {Object.entries(phases).map(([key, phase]) => (
+        <div key={key} style={{marginBottom:16}}>
+          {/* En-tête de phase */}
+          <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:8}}>
+            <div style={{flex:1,height:"0.5px",background:"#1A1A1A"}} />
+            <span style={{fontSize:9,color:"#C9A84C",letterSpacing:"2px",textTransform:"uppercase",whiteSpace:"nowrap"}}>
+              Sem. {key} — {phase.label}
+            </span>
+            <div style={{flex:1,height:"0.5px",background:"#1A1A1A"}} />
+          </div>
+
+          {/* Cartes séances */}
+          <div style={{display:"flex",flexDirection:"column",gap:8}}>
+            {phase.seances.map((s, si) => {
+              const id = `${key}-${si}`;
+              const open = openSeance === id;
+              return (
+                <div key={si} style={{border:"0.5px solid #1A1A1A",borderRadius:10,overflow:"hidden"}}>
+                  {/* Header séance — cliquable */}
+                  <button
+                    onClick={() => setOpenSeance(open ? null : id)}
+                    style={{width:"100%",display:"flex",alignItems:"center",justifyContent:"space-between",padding:"10px 14px",background:"rgba(255,255,255,0.015)",border:"none",cursor:"pointer",textAlign:"left",gap:12}}>
+                    <div style={{display:"flex",alignItems:"center",gap:10,flex:1,minWidth:0}}>
+                      <span style={{fontSize:14}}>🏋️</span>
+                      <div style={{minWidth:0}}>
+                        <div style={{fontSize:12,fontWeight:700,color:"#F0EDE8",fontFamily:"'Syne',sans-serif",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{s.nom}</div>
+                        <div style={{fontSize:10,color:"#444",marginTop:1}}>{s.jour} · {s.duree_min} min · {s.exercices?.length||0} exercices</div>
+                      </div>
+                    </div>
+                    <span style={{fontSize:12,color:"#C9A84C",flexShrink:0,transition:"transform 0.2s",transform:open?"rotate(180deg)":"none"}}>▾</span>
+                  </button>
+
+                  {/* Corps séance — accordéon */}
+                  {open && (
+                    <div style={{borderTop:"0.5px solid #111",padding:"10px 14px",display:"flex",flexDirection:"column",gap:0}}>
+                      {(s.exercices||[]).map((ex, ei) => (
+                        <div key={ei} style={{display:"flex",alignItems:"flex-start",gap:10,padding:"8px 0",borderBottom:ei<s.exercices.length-1?"0.5px solid #0F0F0F":"none"}}>
+                          <div style={{width:20,height:20,borderRadius:"50%",background:"rgba(201,168,76,0.1)",border:"0.5px solid rgba(201,168,76,0.25)",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center"}}>
+                            <span style={{fontSize:9,color:"#C9A84C",fontWeight:700,fontFamily:"'Syne',sans-serif"}}>{ei+1}</span>
+                          </div>
+                          <div style={{flex:1,minWidth:0}}>
+                            <div style={{fontSize:12,fontWeight:700,color:"#E8E4DE",fontFamily:"'Syne',sans-serif"}}>{ex.nom}</div>
+                            <div style={{display:"flex",gap:12,marginTop:3,flexWrap:"wrap"}}>
+                              {ex.series && <span style={pillStyle}>{ex.series} séries</span>}
+                              {ex.reps && <span style={pillStyle}>{ex.reps} reps</span>}
+                              {ex.charge && ex.charge !== "—" && <span style={pillStyle}>⚖ {ex.charge}</span>}
+                              {ex.repos_sec && <span style={pillStyle}>⏱ {ex.repos_sec}s repos</span>}
+                            </div>
+                            {ex.conseil && <div style={{fontSize:10,color:"rgba(201,168,76,0.55)",marginTop:4,fontStyle:"italic"}}>⚡ {ex.conseil}</div>}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+const tagStyle = (color) => ({
+  fontSize:10,color,background:`${color}14`,border:`0.5px solid ${color}33`,
+  borderRadius:20,padding:"3px 10px",fontFamily:"'Syne',sans-serif",whiteSpace:"nowrap",
+});
+const pillStyle = {
+  fontSize:10,color:"#555",background:"#111",borderRadius:4,padding:"1px 6px",whiteSpace:"nowrap",
+};
+
 export function ProgrammeTab({
   S, progSubTab, setProgSubTab,
   seanceAujourdhui, doneExos, exercices, exoDone, setExoDone,
@@ -150,13 +284,8 @@ export function ProgrammeTab({
             </div>
           )}
 
-          {clientData?.programme && (
-            <div style={S.card}>
-              <div style={S.cardTitle}>📋 Programme complet</div>
-              <pre style={{fontFamily:"'Courier New',monospace",fontSize:12,color:"#555",whiteSpace:"pre-wrap",lineHeight:1.8,paddingTop:4}}>
-                {clientData.programme}
-              </pre>
-            </div>
+          {(clientData?.programmeData || clientData?.programme) && (
+            <ProgrammeComplet data={clientData.programmeData} texte={clientData.programme} S={S} />
           )}
         </>
       )}
