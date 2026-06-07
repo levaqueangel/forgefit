@@ -14,6 +14,7 @@ export default async function sitemap() {
     { url: `${SITE_URL}/blog`,             lastModified: today, changeFrequency: "weekly",  priority: 0.8 },
     { url: `${SITE_URL}/resultats`,        lastModified: today, changeFrequency: "monthly", priority: 0.8 },
     { url: `${SITE_URL}/calculateur`,      lastModified: today, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${SITE_URL}/tarifs`,          lastModified: today, changeFrequency: "monthly", priority: 0.8 },
     { url: `${SITE_URL}/faq`,             lastModified: today, changeFrequency: "monthly", priority: 0.6 },
     { url: `${SITE_URL}/a-propos`,         lastModified: today, changeFrequency: "monthly", priority: 0.6 },
     { url: `${SITE_URL}/status`, lastModified: today, changeFrequency: "monthly", priority: 0.2 },

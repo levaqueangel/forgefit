@@ -75,7 +75,7 @@ Cuisiner pour la semaine en une seule session de 90 minutes le dimanche. Poulet 
     slug: "flexibilite-mobilite-entrainement",
     titre: "Mobilite articulaire : pourquoi c est indispensable en musculation",
     description: "La mobilite est negligee par 90% des pratiquants. Voici pourquoi c est une erreur et la routine de 10 minutes qui peut ajouter 5 kg sur ton squat.",
-    categorie: "Recuperation",
+    categorie: "Récupération",
     date: "2026-06-14",
     lecture: 6,
     image: null,
@@ -1737,6 +1737,291 @@ C'est : **vas-tu vraiment t'entraîner régulièrement ?**
 La meilleure méthode d'entraînement est celle que tu vas pratiquer de façon consistante sur le long terme. Une séance à domicile faite régulièrement bat largement une salle d'élite fréquentée irrégulièrement.
 
 L'important est d'avoir un programme adapté à TON environnement, TON niveau et TES objectifs — que ce soit en salle ou chez toi.
+    `,
+  },
+  {
+    slug: "jeune-intermittent-musculation",
+    titre: "Jeûne intermittent et musculation : ce que la science dit vraiment",
+    description: "Le jeûne intermittent détruit-il le muscle ? Faut-il manger avant l'entraînement ? Ce que disent vraiment les études sur le IF et la prise de masse.",
+    categorie: "Nutrition",
+    date: "2026-06-07",
+    lecture: 8,
+    image: null,
+    contenu: `Le jeûne intermittent est l'une des approches nutritionnelles les plus débattues en musculation. D'un côté, des pratiquants qui jurent l'avoir aidés à perdre du gras sans perdre de muscle. De l'autre, des coaches qui affirment que ne pas manger toutes les 3 heures est catastrophique pour la croissance musculaire. La réalité est plus nuancée.
+
+## Qu'est-ce que le jeûne intermittent ?
+
+Le jeûne intermittent (IF pour Intermittent Fasting) ne désigne pas un régime spécifique mais une **organisation temporelle des repas**. Les protocoles les plus courants :
+
+- **16/8** : 16 heures de jeûne, 8 heures pour manger (ex. 12h00-20h00)
+- **18/6** : 18 heures de jeûne, 6 heures pour manger
+- **5:2** : 5 jours normaux, 2 jours à ~500 kcal (plus radical)
+- **OMAD** (One Meal A Day) : 1 seul repas par jour (difficile à maintenir)
+
+La grande majorité des pratiquants utilisent le protocole 16/8.
+
+## Le mythe de la "fenêtre anabolique" de 30 minutes
+
+Pendant des décennies, la nutrition sportive a affirmé qu'il fallait absolument consommer des protéines dans les 30 minutes suivant l'entraînement, sous peine de "perdre" les bénéfices de la séance.
+
+**Les meta-analyses récentes ont réfuté cette vision simpliste.**
+
+Une revue systématique de 2013 (Aragon & Schoenfeld) et de nombreuses études postérieures montrent que la **fenêtre anabolique est beaucoup plus large qu'on ne le pensait** — plusieurs heures, voire toute la journée si l'apport protéique total est adéquat.
+
+Ce qui compte vraiment : **atteindre ton objectif protéique quotidien** (1.6-2.2g/kg), pas le timing précis à la minute près.
+
+## Ce que disent les études sur IF + musculation
+
+### Pas de perte de masse musculaire mesurable
+
+Une étude de 2020 (Moro et al.) a comparé deux groupes de pratiquants :
+- Groupe 1 : alimentation normale répartie sur la journée
+- Groupe 2 : protocole 16/8 avec entraînement dans la fenêtre alimentaire
+
+Résultat après 8 semaines : **aucune différence significative sur le maintien et le gain de masse musculaire**. Le groupe IF a perdu plus de graisse.
+
+### Force et performance préservées
+
+Une méta-analyse de 2022 portant sur 11 études a conclu que le jeûne intermittent **ne diminue pas la force** ni la performance à l'entraînement lorsque l'apport calorique et protéique total est maintenu.
+
+### Légère infériorité pour la prise de masse maximale
+
+Soyons honnêtes : si l'objectif est la prise de masse maximale (bulking agressif), plusieurs études suggèrent qu'une **fréquence alimentaire plus élevée** (4-6 repas) optimise légèrement la synthèse protéique en maintenant les acides aminés plasmatiques constamment élevés.
+
+Mais la différence est **marginale** pour la plupart des pratiquants. Et en pratique, la cohérence de l'approche compte plus que l'optimisation théorique.
+
+## Les avantages réels du jeûne intermittent en musculation
+
+**Simplification de la gestion calorique**
+En concentrant les repas sur 6-8 heures, beaucoup de pratiquants trouvent plus facile de contrôler leur apport sans peser chaque aliment. La satiété des repas plus conséquents aide à respecter le déficit calorique.
+
+**Amélioration de la sensibilité à l'insuline**
+Des études montrent une amélioration de la sensibilité à l'insuline avec le IF, ce qui peut favoriser une meilleure utilisation des glucides par les muscles et un stockage de graisse réduit.
+
+**Facilité d'adaptation pour certains profils**
+Les personnes qui n'ont pas faim le matin, qui ont du mal à préparer 5 repas par jour, ou qui ont un mode de vie chargé trouvent le 16/8 beaucoup plus simple à tenir sur la durée.
+
+**Confort digestif**
+Pour certains pratiquants, s'entraîner à jeun (ou avec un léger pré-workout) évite les problèmes digestifs liés à l'entraînement après un repas.
+
+## L'entraînement à jeun : bonne ou mauvaise idée ?
+
+S'entraîner à jeun est possible et même efficace pour certains objectifs. Ce qu'il faut savoir :
+
+**Pour la perte de graisse** : les études sur le cardio à jeun sont mitigées. La combustion des graisses est légèrement supérieure à jeun, mais cet avantage disparaît sur 24h si l'apport calorique total est identique. Ce n'est pas un game changer.
+
+**Pour la musculation** : s'entraîner à jeun est acceptable si tu es habitué et que tes séances ne sont pas trop intenses. En revanche, pour des séances de force maximale ou de haute intensité, manger **dans les 1-2 heures avant** ou consommer des **BCAA ou une petite quantité de protéines** avant la séance peut préserver la performance.
+
+**Pratiquement** : si ton entraînement est dans ta fenêtre alimentaire, ce point ne se pose pas.
+
+## Comment adapter le IF à la musculation
+
+### Protocole recommandé pour la prise de masse
+
+- **Fenêtre : 12h00 - 20h00** (ou décalée selon horaires d'entraînement)
+- **Entraînement dans la fenêtre** (idéalement entre 13h et 18h)
+- **Premier repas : repas pré-séance** riche en protéines + glucides
+- **Post-séance : repas protéiné** dans l'heure suivant l'entraînement
+- **Dernier repas : protéines lentes** (fromage blanc, caséine) pour optimiser la récupération nocturne
+
+### Protocole recommandé pour la sèche
+
+- **Fenêtre : 13h00 - 19h00** pour maximiser la période de lipolyse
+- **Entraînement à jeun (avec BCAA) ou juste avant le premier repas** pour profiter de l'effet potentialisé sur la mobilisation des graisses
+- **Apport protéique maintenu à 2.2g/kg** malgré le déficit calorique
+
+### Les erreurs à éviter
+
+**Négliger l'apport protéique total** : c'est la principale erreur. Le timing importe peu si tu n'atteins pas tes grammes de protéines sur la journée.
+
+**Fenêtre trop courte avec un fort volume d'entraînement** : en OMAD ou sur 4 heures, il devient très difficile d'avaler suffisamment de calories et protéines pour soutenir un volume d'entraînement élevé.
+
+**Ignorer les signaux de ton corps** : si tu te sens épuisé, si tes performances chutent ou si tu perds de la force, le IF n'est peut-être pas adapté à ta situation actuelle. Il n'y a aucune obligation à pratiquer le jeûne intermittent.
+
+## Pour qui le jeûne intermittent est-il adapté ?
+
+**Oui, ça marche pour :**
+- Les pratiquants en sèche ou en recomposition corporelle
+- Ceux qui n'ont pas faim le matin
+- Les personnes avec un mode de vie chargé qui simplifient leur organisation alimentaire
+- Les pratiquants intermédiaires à avancés qui connaissent leurs besoins
+
+**À éviter ou adapter pour :**
+- Les débutants (complexifier inutilement l'alimentation au début)
+- Les pratiquants en prise de masse sérieuse (l'objectif est souvent difficile à atteindre caloriquement)
+- Les personnes avec un historique de troubles alimentaires
+- Les athlètes de force en période de peak (performance maximale = nutrition optimisée)
+
+## Conclusion
+
+Le jeûne intermittent est un outil, pas une obligation. Il **ne détruit pas le muscle** si l'apport protéique total est adéquat. Il ne crée pas non plus de magie particulière pour la prise de masse.
+
+Son principal avantage est **pratique** : il simplifie la gestion alimentaire pour beaucoup de personnes, ce qui améliore l'adhérence sur le long terme. Et en nutrition sportive, l'approche que tu tiens sur la durée est toujours supérieure à l'approche "parfaite" que tu abandonnes après 3 semaines.
+    `,
+  },
+  {
+    slug: "developpe-couche-guide-complet",
+    titre: "Développé couché : technique parfaite, erreurs courantes et programme 12 semaines",
+    description: "Le guide complet du développé couché. Placement, trajets de barre, erreurs à corriger, variantes et un programme progressif pour dépasser ton record.",
+    categorie: "Musculation",
+    date: "2026-06-05",
+    lecture: 10,
+    image: null,
+    contenu: `Le développé couché est l'exercice le plus populaire en salle de sport. C'est aussi celui dont la technique est le plus souvent mal exécutée. Un mauvais développé couché ne signifie pas seulement des gains sous-optimaux — il signifie aussi un risque élevé de blessures à l'épaule, au coude et au poignet.
+
+Ce guide couvre tout ce que tu dois savoir pour maîtriser cet exercice fondamental.
+
+## Anatomie : quels muscles travaille réellement le développé couché ?
+
+Le développé couché est souvent présenté comme "l'exercice des pectoraux". C'est vrai, mais incomplet :
+
+**Pectoraux (moteur principal)** : grand pectoral, en particulier le faisceau sternal (portion inférieure et externe).
+
+**Deltoïdes antérieurs** : les épaules contribuent significativement, particulièrement en début de mouvement. C'est souvent ce qui fatigue en premier sur les séries longues.
+
+**Triceps brachial** : muscle synergiste qui prend en charge la phase finale d'extension du coude.
+
+**Sérratus antérieur et muscles stabilisateurs** : essentiels pour la stabilité de l'omoplate et la bonne transmission des forces.
+
+Comprendre cela permet d'adapter l'angle et l'écartement de prise pour cibler préférentiellement un groupe.
+
+## Installation et position de base
+
+### La position des pieds
+
+**Pieds à plat au sol** ou **pieds sur le banc** selon l'école.
+
+- **Pieds au sol, bas du dos légèrement cambré** : permet la transmission de force depuis les jambes et stabilise l'ensemble du corps. Recommandé pour la performance et la force maximale.
+- **Pieds sur le banc, dos à plat** : protège davantage le bas du dos, recommandé après blessure lombaire ou pour l'isolation pure des pectoraux.
+
+### La cambrure lombaire
+
+Une légère cambrure (2-5 cm entre le bas du dos et le banc) est naturelle et recommandée. Elle permet de "lever" la cage thoracique et d'augmenter l'engagement pectoral.
+
+Une cambrure excessive (>10 cm, type powerlifting) peut surcharger le bas du dos. Pour la musculation esthétique, reste sur une cambrure modérée.
+
+### La prise de barre
+
+**Écartement** : règle de base — quand la barre touche la poitrine, les avant-bras doivent être perpendiculaires au sol (90°). Trop large = stress excessif sur les épaules. Trop serré = les triceps dominent.
+
+**Prise fermée vs ouverte** : toujours prise fermée (pouce autour de la barre) pour la sécurité. La "prise suicide" (pouce du même côté que les doigts) fait tomber des barres.
+
+**Poignets** : garde les poignets dans le prolongement de l'avant-bras, pas pliés en arrière. Astuce : imagine que tu essaies de "casser" la barre en deux — les coudes s'écartent légèrement et les poignets se stabilisent.
+
+### Rétraction des omoplates
+
+**L'erreur la plus répandue** : laisser les omoplates mobiles pendant le mouvement.
+
+Les omoplates doivent être **rétractées et abaissées** (sorties en arrière et vers le bas) avant de prendre la barre, et maintenues dans cette position pendant toute la série. C'est la base de la stabilité scapulaire.
+
+Pratique : avant de saisir la barre, fais comme si tu essayais d'écraser une orange entre tes omoplates, puis baisse les épaules loin des oreilles. Maintiens cette position.
+
+## Le mouvement : phase excentrique et concentrique
+
+### La descente (phase excentrique)
+
+La descente est aussi importante que la montée — souvent plus pour l'hypertrophie.
+
+**Trajectoire** : la barre ne descend pas verticalement. Elle suit une légère courbe, arrivant sur la partie basse des pectoraux (entre le bas du sternum et le nombril), pas sur les clavicules.
+
+**Vitesse** : 2-3 secondes de descente contrôlée. Ni chute libre (danger), ni ultra-slow (perd l'élan de rebond si tu veux en profiter).
+
+**Point de contact** : barre contre la poitrine, ou à 1-2 cm si tu veux éviter le rebond. Le contact sur la poitrine est normal et sûr — tant que tes omoplates restent rétractées.
+
+**Coudes** : l'angle entre les bras et le corps doit être de 45-75°, pas à 90° (flared elbows = stress extrême sur les épaules).
+
+### La poussée (phase concentrique)
+
+Au signal du toucher ou juste avant :
+
+**Expiration explosive** et poussée simultanée depuis les pectoraux, épaules et triceps.
+
+**Trajectoire** : en remontant, la barre revient légèrement vers la tête (suit la courbe inverse de la descente).
+
+**Jambes** : pousse légèrement dans le sol avec les jambes pour stabiliser, sans faire de leg drive excessif.
+
+**Lockout** : extension complète des coudes en haut. Contracte les pectoraux isométriquement à ce moment.
+
+## Les erreurs les plus courantes (et comment les corriger)
+
+**Erreur 1 : Omoplates non rétractées**
+Symptôme : douleur à l'épaule en cours de série, sensation de "vide" dans les pectoraux.
+Correction : 10 secondes de rétraction/abaissement des omoplates avant chaque série.
+
+**Erreur 2 : Coudes à 90° (flared)**
+Symptôme : douleur aux épaules, sensation de cisaillement sur la coiffe des rotateurs.
+Correction : conscientise les coudes à 45-60° par rapport au corps. Pratique avec une résistance légère.
+
+**Erreur 3 : Rebond excessif sur la poitrine**
+Symptôme : on entend la barre claquer, les côtes peuvent être sensibles.
+Correction : 1 seconde de pause à la poitrine pour supprimer le rebond. Réduis la charge si nécessaire.
+
+**Erreur 4 : Barre trop haute (sur les clavicules)**
+Symptôme : épaules douloureuses, impression de pousser "loin de soi".
+Correction : visualise le point de contact sur la ligne mamelonnaire ou légèrement en dessous.
+
+**Erreur 5 : Poignets pliés en arrière**
+Symptôme : douleurs aux poignets pendant et après la séance.
+Correction : charge moins lourd le temps de corriger. Bandes de poignets comme béquille temporaire.
+
+## Les variantes du développé couché
+
+**Développé incliné (30-45°)** : cible davantage le faisceau claviculaire (pectoraux supérieurs) et les deltoïdes antérieurs. Indispensable pour un développement complet.
+
+**Développé décliné (-15° à -30°)** : emphasise le faisceau sternal inférieur. Moins utilisé mais utile pour un développement complet.
+
+**Développé à prise serrée** : met davantage l'accent sur les triceps. Prise à 30-40 cm entre les mains.
+
+**Développé avec haltères** : plus grande amplitude, meilleure activation musculaire au bas du mouvement, moins de charge maximale. Excellent pour l'hypertrophie.
+
+**Écarté couché (flyes)** : exercice d'isolation, pas de composé. Excellent pour le stretch pectoral, limité en charge.
+
+## Programme développé couché 12 semaines
+
+### Phase 1 : Technique et base (semaines 1-4)
+
+**Objectif** : maîtriser la technique, construire la base neuromusculaire.
+
+Semaines 1-2 : 3 × 8-10 à 65-70% de ta 1RM, focus sur la forme.
+Semaines 3-4 : 4 × 6-8 à 72-75%, descente 3 secondes contrôlée.
+
+### Phase 2 : Hypertrophie (semaines 5-8)
+
+**Objectif** : stimuler la croissance musculaire via le volume.
+
+Semaines 5-6 : 4 × 10-12 à 68-72%, repos 90 secondes, séries proches de l'échec.
+Semaines 7-8 : 5 × 8-10 à 72-75%, ajout d'une variante inclinée en deuxième mouvement.
+
+### Phase 3 : Force et performance (semaines 9-12)
+
+**Objectif** : convertir les gains en force maximale.
+
+Semaine 9 : 5 × 5 à 80%
+Semaine 10 : 5 × 4 à 82-85%
+Semaine 11 : 5 × 3 à 87-90%
+Semaine 12 : **Test 1RM** ou 3 × 3 à 90%+
+
+### Règles de progression
+
+Augmente la charge quand tu atteins la fourchette haute de répétitions sur les 2 dernières séries 2 séances consécutives.
+
+Pour le développé couché, une progression réaliste est de **+2.5 kg par semaine** pour les débutants à intermédiaires, **+1 kg par semaine** pour les pratiquants avancés.
+
+## Fréquence optimale
+
+**2 fois par semaine** est le sweet spot pour la plupart des pratiquants (intermédiaires à avancés). Cela permet un volume hebdomadaire suffisant avec une récupération adéquate.
+
+Exemple de split :
+- Lundi : développé couché lourd (force) + incliné + écarté
+- Jeudi : développé couché volume (hypertrophie) + décliné + pouliés
+
+**Les débutants** peuvent se contenter d'une fois par semaine dans un programme full body ou PPL.
+
+## Conclusion
+
+Le développé couché est un mouvement qui se perfectionne sur des années. Ne te précipite pas sur les charges lourdes au détriment de la technique — c'est l'erreur que font 90% des pratiquants.
+
+Maîtrise d'abord la rétraction des omoplates, la trajectoire de barre et l'angle des coudes. Les charges suivront naturellement, et tes pectoraux se développeront de façon beaucoup plus efficace.
     `,
   },
 ];
