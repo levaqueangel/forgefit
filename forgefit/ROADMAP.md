@@ -19,9 +19,10 @@
   - Webhook corrigé → ne crée plus jamais de doc clients
   - Docs fantômes existants supprimés via bouton coach dashboard
 
-- [ ] **5. Corriger `NEXT_PUBLIC_COACH_EMAIL` → `COACH_EMAIL`**
-  - Fichiers concernés : `activate-client`, `export-clients`, `generate-programme`, `save-programme`
-  - Le préfixe `NEXT_PUBLIC_` expose l'email dans le bundle JS public
+- [x] **5. Corriger `NEXT_PUBLIC_COACH_EMAIL` → `COACH_EMAIL`** ✅ 2026-06-08
+  - 7 API routes corrigées → lisent COACH_EMAIL (sans préfixe) en priorité
+  - Variable COACH_EMAIL ajoutée sur Vercel
+  - coach/page.js et recettes/page.js gardent NEXT_PUBLIC_ (côté client)
 
 ---
 
@@ -198,9 +199,9 @@
 
 | Priorité | Total | Fait | Restant |
 |----------|-------|------|---------|
-| 🔴 P1 Bloquants | 5 | 1 | 4 |
+| 🔴 P1 Bloquants | 5 | 2 | 3 |
 | 🟠 P2 Bugs | 8 | 0 | 8 |
 | 🟡 P3 Sécurité | 6 | 0 | 6 |
 | 🔵 P4 Features | 13 | 0 | 13 |
 | ⚪ P5 Optim | 9 | 0 | 9 |
-| **TOTAL** | **41** | **1** | **40** |
+| **TOTAL** | **41** | **2** | **39** |
