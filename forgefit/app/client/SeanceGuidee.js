@@ -114,6 +114,7 @@ export function SeanceGuidee({ seance, user, addToast, onClose, onComplete }) {
   const [restMax, setRestMax] = useState(90);
   const [restTime, setRestTime] = useState(90);
   const intervalRef = useRef(null);
+  const advanceRef  = useRef(null); // toujours la version fraîche d'advanceAfterRest
 
   const clearTimer = () => { clearInterval(intervalRef.current); intervalRef.current = null; };
 
@@ -161,6 +162,9 @@ export function SeanceGuidee({ seance, user, addToast, onClose, onComplete }) {
     }
   }, [exoIdx, serieIdx, totalExos, log]);
 
+  // Maintenir le ref à jour pour éviter la stale closure dans l'interval
+  useEffect(() => { advanceRef.current = advanceAfterRest; }, [advanceAfterRest]);
+
   // ── Démarrer le timer ──────────────────────────────────────────────────────
   const startRest = useCallback((dur) => {
     clearTimer();
@@ -171,13 +175,13 @@ export function SeanceGuidee({ seance, user, addToast, onClose, onComplete }) {
       setRestTime(t => {
         if (t <= 1) {
           clearTimer();
-          advanceAfterRest();
+          advanceRef.current?.(); // toujours la version fraîche
           return 0;
         }
         return t - 1;
       });
     }, 1000);
-  }, [advanceAfterRest]);
+  }, []); // pas de dépendances — utilise advanceRef
 
   useEffect(() => () => clearTimer(), []);
 
@@ -506,7 +510,7 @@ export function SeanceGuidee({ seance, user, addToast, onClose, onComplete }) {
                 setRestTime(t); setRestMax(t);
                 intervalRef.current = setInterval(() => {
                   setRestTime(prev => {
-                    if (prev <= 1) { clearTimer(); advanceAfterRest(); return 0; }
+                    if (prev <= 1) { clearTimer(); advanceRef.current?.(); return 0; }
                     return prev - 1;
                   });
                 }, 1000);

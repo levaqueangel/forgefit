@@ -1,6 +1,5 @@
 "use client";
-import React, { useState } from "react";
-// React importé globalement pour React.useState dans le composant
+import { useState } from "react";
 import { ProgressBar } from "./ProgressBar";
 import { updateDoc, doc } from "firebase/firestore";
 import { db } from "../firebase";
@@ -17,7 +16,7 @@ export function DashboardTab({
   currentWeek, totalWeeks,
 }) {
   const router = useRouter();
-  const [showRapport, setShowRapport] = React.useState(false);
+  const [showRapport, setShowRapport] = useState(false);
   return (
     <div className="fade-in" style={{display:"flex",flexDirection:"column",gap:18}}>
 

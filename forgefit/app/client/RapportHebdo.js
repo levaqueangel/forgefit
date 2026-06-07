@@ -56,7 +56,7 @@ export function RapportHebdo({ clientId, user, isCoach = false, onClose }) {
     const load = async () => {
       setLoading(true); setError("");
       try {
-        const token = user ? await user.getIdToken?.() ?? await user.getIdToken() : null;
+        const token = user?.getIdToken ? await user.getIdToken() : null;
         const res = await fetch(`/api/rapport?clientId=${clientId}`, {
           headers: token ? { Authorization: `Bearer ${token}` } : {},
         });

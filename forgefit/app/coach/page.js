@@ -607,7 +607,7 @@ export default function CoachPage() {
 
                   return (
                     <div key={client.id} className={`client-row${isActive?" active":""}`}
-                      onClick={() => setSelectedClient(client)}>
+                      onClick={() => { setSelectedClient(client); setShowRapport(false); }}>
                       <div style={{display:"flex",alignItems:"center",gap:10}}>
                         {/* Avatar */}
                         <div style={{

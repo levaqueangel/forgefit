@@ -10,13 +10,25 @@ body {
 
 input, select, textarea { font-family: 'Syne', sans-serif; }
 
-@keyframes spin    { to { transform: rotate(360deg); } }
-@keyframes fadeUp  { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
-@keyframes blink   { 50% { opacity: 0; } }
+@keyframes spin       { to { transform: rotate(360deg); } }
+@keyframes fadeUp     { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+@keyframes blink      { 50% { opacity: 0; } }
 @keyframes pulse      { 0%,100%{opacity:1} 50%{opacity:0.3} }
 @keyframes typingDot  { 0%,80%,100%{transform:scale(0.6);opacity:0.4} 40%{transform:scale(1);opacity:1} }
+@keyframes shimmer    { 0%{background-position:-400px 0} 100%{background-position:400px 0} }
+@keyframes metricCount{ from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
+@keyframes fadeIn     { from{opacity:0} to{opacity:1} }
 
-.fade-up { animation: fadeUp 0.4s ease forwards; }
+.fade-up  { animation: fadeUp  0.4s ease forwards; }
+.fade-in  { animation: fadeIn  0.3s ease forwards; }
+
+/* ── Skeleton loader ── */
+.skel {
+  background: linear-gradient(90deg, #111 25%, #1A1A1A 50%, #111 75%);
+  background-size: 400px 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+  min-height: 12px;
+}
 
 /* ── Custom cursor ── */
 @media (pointer: fine) {
