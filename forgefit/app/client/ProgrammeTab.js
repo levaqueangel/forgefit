@@ -1,7 +1,19 @@
 "use client";
+import { useState } from "react";
 import { ChargesTab } from "./ChargesTab";
 import { ExerciceGif } from "./ExerciceGif";
 import { OneRMCalc } from "./OneRMCalc";
+import { SeanceGuidee } from "./SeanceGuidee";
+
+// Convertit "90 secondes" / "90s" / "1min30" → nombre entier de secondes
+function parseReposSec(str) {
+  if (!str) return 90;
+  if (typeof str === "number") return str;
+  const s = String(str).toLowerCase().trim();
+  const min = s.match(/(\d+)\s*min/);
+  const sec = s.match(/(\d+)\s*s/);
+  return (min ? parseInt(min[1]) * 60 : 0) + (sec ? parseInt(sec[1]) : 0) || 90;
+}
 
 export function ProgrammeTab({
   S, progSubTab, setProgSubTab,
@@ -9,6 +21,22 @@ export function ProgrammeTab({
   records, clientData, setTimer, setConfetti, addToast, vibrate,
   focusMode, setFocusMode, focusIdx, setFocusIdx, user,
 }) {
+  const [showGuidee, setShowGuidee] = useState(false);
+
+  // Seance formatée pour SeanceGuidee
+  const seanceForGuidee = seanceAujourdhui ? {
+    nom: seanceAujourdhui.nom || "Séance du jour",
+    duree_min: seanceAujourdhui.duree_min || 50,
+    exercices: (seanceAujourdhui.exercices || []).map(e => ({
+      nom: e.nom,
+      series: e.series || 3,
+      reps: e.reps || 8,
+      charge: e.charge || "Poids du corps",
+      repos_sec: parseReposSec(e.repos),
+      conseil: e.conseil || "",
+    })),
+  } : null;
+
   return (
     <div className="fade-in" style={{display:"flex",flexDirection:"column",gap:16}}>
       {/* Sous-onglets pill */}
@@ -34,6 +62,12 @@ export function ProgrammeTab({
                 </div>
               </div>
               <div style={{display:"flex",gap:8,alignItems:"center"}}>
+                {exercices.length > 0 && seanceForGuidee && (
+                  <button onClick={()=>{ vibrate([30]); setShowGuidee(true); }}
+                    style={{background:"linear-gradient(135deg,#C9A84C,#A67C2E)",border:"none",color:"#0A0A0A",fontFamily:"'Syne',sans-serif",fontSize:10,fontWeight:800,letterSpacing:"1.5px",textTransform:"uppercase",padding:"7px 14px",cursor:"pointer",borderRadius:20,transition:"all 0.15s"}}>
+                    ▶ Démarrer
+                  </button>
+                )}
                 {exercices.length > 0 && (
                   <button onClick={()=>{ setFocusIdx(0); setFocusMode(true); vibrate([40]); }}
                     style={{background:"rgba(201,168,76,0.12)",border:"0.5px solid rgba(201,168,76,0.35)",color:"#C9A84C",fontFamily:"'Syne',sans-serif",fontSize:10,fontWeight:700,letterSpacing:"1.5px",textTransform:"uppercase",padding:"7px 14px",cursor:"pointer",borderRadius:20,transition:"all 0.15s"}}>
@@ -138,6 +172,22 @@ export function ProgrammeTab({
         <div style={S.card}>
           <OneRMCalc />
         </div>
+      )}
+
+      {/* ── Mode séance guidée (overlay plein écran) ── */}
+      {showGuidee && seanceForGuidee && (
+        <SeanceGuidee
+          seance={seanceForGuidee}
+          user={user}
+          addToast={addToast}
+          onClose={() => setShowGuidee(false)}
+          onComplete={() => {
+            // Marquer tous les exos comme faits dans la vue classique aussi
+            const allDone = {};
+            exercices.forEach((_, i) => { allDone[i] = true; });
+            setExoDone(allDone);
+          }}
+        />
       )}
     </div>
   );
