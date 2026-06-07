@@ -11,6 +11,7 @@ import {
 import { auth, db } from "../firebase";
 import { RapportHebdo } from "../client/RapportHebdo";
 import { ProgrammeManuelEditor } from "./ProgrammeManuelEditor";
+import { ClientProgressCharts } from "./ClientProgressCharts";
 
 // ── Constantes ─────────────────────────────────────────────────────────────
 const COACH_EMAIL = process.env.NEXT_PUBLIC_COACH_EMAIL || "coach.apxfitness11@gmail.com";
@@ -1176,6 +1177,9 @@ export default function CoachPage() {
 
                   {/* Objectifs semaine */}
                   <ObjectifsCoach clientId={selectedClient?.id} token={user?.getIdToken} addToast={addToast} />
+
+                  {/* Graphiques progression */}
+                  <ClientProgressCharts clientId={selectedClient?.id} />
 
                   {/* Alerte adaptation programme */}
                   {(() => {

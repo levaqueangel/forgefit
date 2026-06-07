@@ -113,9 +113,10 @@
   - Trigger 2 (rappel séance) : cron/rappel-seance/route.js → 07:00 UTC chaque jour
   - Trigger 3 (streak) : seance/route.js → push à 7/14/30 jours consécutifs
 
-- [ ] **24. Dashboard coach — Graphiques progression client**
-  - Pas de visualisation : évolution poids, calories moyennes 7j, taux complétion séances
-  - Ajouter des graphiques par client
+- [x] **24. Dashboard coach — Graphiques progression client** ✅ 2026-06-08
+  - ClientProgressCharts.js : SVG pur (sparkline + barres horizontales)
+  - Poids (sparkline + delta), calories 7j (sparkline), séances top 5 (barres), streak + total
+  - Intégré dans le panneau client du coach dashboard
 
 - [ ] **25. Stripe Customer Portal**
   - Clients ne peuvent pas gérer leur abonnement/factures seuls
@@ -208,6 +209,6 @@
 | 🔴 P1 Bloquants | 5 | 2 | 3 |
 | 🟠 P2 Bugs | 8 | 7 | 1 |
 | 🟡 P3 Sécurité | 6 | 6 | 0 |
-| 🔵 P4 Features | 13 | 4 | 9 |
+| 🔵 P4 Features | 13 | 5 | 8 |
 | ⚪ P5 Optim | 9 | 0 | 9 |
-| **TOTAL** | **41** | **19** | **22** |
+| **TOTAL** | **41** | **20** | **21** |
