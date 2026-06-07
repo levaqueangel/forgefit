@@ -15,6 +15,10 @@
     {
       "path": "/api/cron/checkin-hebdo",
       "schedule": "0 7 * * 1"
+    },
+    {
+      "path": "/api/cron/rappel-seance",
+      "schedule": "0 7 * * *"
     }
   ],
   "headers": [

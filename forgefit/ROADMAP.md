@@ -108,9 +108,10 @@
   - Toggle IA / Manuel dans la modale programme du coach
   - sauvegarderProgrammeManuel() → même API save-programme que le mode IA
 
-- [ ] **23. Notifications push PWA — Triggers à configurer**
-  - Infra en place mais aucun déclencheur
-  - Implémenter : nouveau message coach, rappel séance matin, félicitation streak 7j
+- [x] **23. Notifications push PWA — Triggers à configurer** ✅ 2026-06-08
+  - Trigger 1 (message coach) : déjà en place dans notify-client/route.js
+  - Trigger 2 (rappel séance) : cron/rappel-seance/route.js → 07:00 UTC chaque jour
+  - Trigger 3 (streak) : seance/route.js → push à 7/14/30 jours consécutifs
 
 - [ ] **24. Dashboard coach — Graphiques progression client**
   - Pas de visualisation : évolution poids, calories moyennes 7j, taux complétion séances
@@ -207,6 +208,6 @@
 | 🔴 P1 Bloquants | 5 | 2 | 3 |
 | 🟠 P2 Bugs | 8 | 7 | 1 |
 | 🟡 P3 Sécurité | 6 | 6 | 0 |
-| 🔵 P4 Features | 13 | 3 | 10 |
+| 🔵 P4 Features | 13 | 4 | 9 |
 | ⚪ P5 Optim | 9 | 0 | 9 |
-| **TOTAL** | **41** | **18** | **23** |
+| **TOTAL** | **41** | **19** | **22** |

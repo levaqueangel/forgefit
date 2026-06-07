@@ -110,6 +110,22 @@ export async function POST(req) {
       lastActiveDate: today,
     });
 
+    // ── Push félicitation streak 7 / 14 / 30 jours ──────────────────────────
+    const STREAK_MILESTONES = [7, 14, 30];
+    if (STREAK_MILESTONES.includes(newStreak) && process.env.CRON_SECRET) {
+      const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://apxfitness-brown.vercel.app";
+      fetch(`${SITE}/api/push-notification`, {
+        method: "POST",
+        headers: { "Content-Type":"application/json", "x-internal-key": process.env.CRON_SECRET },
+        body: JSON.stringify({
+          clientId: uid,
+          title: `🔥 ${newStreak} jours de streak !`,
+          body: `Incroyable — ${newStreak} séances consécutives. Tu es une machine. Continue !`,
+          url: "/client",
+        }),
+      }).catch(() => {}); // best-effort, non bloquant
+    }
+
     return Response.json({
       ok: true,
       streakDays: newStreak,
