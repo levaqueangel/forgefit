@@ -120,21 +120,39 @@ export function DashboardTab({
           <div style={S.card}>
             <div style={S.cardTitle}>
               📈 Progression
-              <span style={{marginLeft:"auto",fontSize:10,color:"#444",letterSpacing:"1px",textTransform:"uppercase",fontFamily:"'Syne',sans-serif"}}>Sem. {currentWeek||"?"}/{totalWeeks}</span>
+              <span style={{marginLeft:"auto",fontSize:10,color:"#444",letterSpacing:"1px",textTransform:"uppercase",fontFamily:"'Syne',sans-serif"}}>Sem. {currentWeek||"?"}/{totalWeeks||"?"}</span>
             </div>
-            {[
-              {label:"Prise de masse", pct:72, color:"#C9A84C"},
-              {label:"Force globale",  pct:58, color:"#7AE07A"},
-              {label:"Endurance",      pct:45, color:"#5DCAA5"},
-            ].map((p,i)=>(
-              <div key={i} style={{marginBottom:i<2?14:0}}>
-                <div style={{display:"flex",justifyContent:"space-between",marginBottom:7}}>
-                  <span style={{fontSize:12,color:"#aaa",fontFamily:"'Syne',sans-serif"}}>{p.label}</span>
-                  <span style={{fontSize:12,color:p.color,fontWeight:700,fontFamily:"'Syne',sans-serif"}}>{p.pct}%</span>
+            {(()=>{
+              // Métriques calculées depuis les données réelles
+              const programmePct = (currentWeek && totalWeeks)
+                ? Math.min(100, Math.round((currentWeek / totalWeeks) * 100))
+                : 0;
+
+              const assiduitePct = nbSeances
+                ? Math.min(100, Math.round((doneSeances / nbSeances) * 100))
+                : 0;
+
+              const scores7j = (clientData?.readinessScores || []).slice(-7);
+              const formePct = scores7j.length
+                ? Math.round(scores7j.reduce((s,r) => s + r.score, 0) / scores7j.length)
+                : 0;
+
+              return [
+                { label:"Programme",   pct: programmePct,  color:"#C9A84C", sub: programmePct===0 ? "En attente" : null },
+                { label:"Assiduité",   pct: assiduitePct,  color:"#7AE07A", sub: assiduitePct===0 ? "Cette semaine" : null },
+                { label:"Forme 7j",    pct: formePct,      color:"#5DCAA5", sub: formePct===0 ? "Check-in requis" : null },
+              ].map((p,i)=>(
+                <div key={i} style={{marginBottom:i<2?14:0}}>
+                  <div style={{display:"flex",justifyContent:"space-between",marginBottom:7}}>
+                    <span style={{fontSize:12,color:"#aaa",fontFamily:"'Syne',sans-serif"}}>{p.label}</span>
+                    <span style={{fontSize:12,color:p.pct>0?p.color:"#333",fontWeight:700,fontFamily:"'Syne',sans-serif"}}>
+                      {p.pct>0 ? `${p.pct}%` : (p.sub||"—")}
+                    </span>
+                  </div>
+                  <ProgressBar value={p.pct} color={p.color} delay={i*150}/>
                 </div>
-                <ProgressBar value={p.pct} color={p.color} delay={i*150}/>
-              </div>
-            ))}
+              ));
+            })()}
           </div>
 
           {/* Nutrition */}
@@ -186,6 +204,11 @@ export function DashboardTab({
           </div>
           <div style={{fontSize:24,color:"#C9A84C",fontWeight:300}}>→</div>
         </div>
+      )}
+
+      {/* ── Tendance forme — sparkline 30j ── */}
+      {(clientData?.readinessScores?.length >= 3) && (
+        <ReadinessSparkline scores={clientData.readinessScores} />
       )}
 
       {/* ── Score de forme quotidien ── */}
@@ -264,6 +287,79 @@ export function DashboardTab({
         </div>
         <ReferralButton uid={user?.uid} nom={clientData?.nom} addToast={addToast} />
       </div>
+    </div>
+  );
+}
+
+// ── Sparkline SVG — tendance forme 30 derniers jours ─────────────────────────
+function ReadinessSparkline({ scores }) {
+  const last30 = scores.slice(-30);
+  if (last30.length < 3) return null;
+
+  const W = 300, H = 64, PAD = 8;
+  const vals = last30.map(r => r.score);
+  const min = Math.max(0, Math.min(...vals) - 5);
+  const max = Math.min(100, Math.max(...vals) + 5);
+  const range = max - min || 1;
+
+  const toX = (i) => PAD + (i / (last30.length - 1)) * (W - PAD * 2);
+  const toY = (v) => PAD + (1 - (v - min) / range) * (H - PAD * 2);
+
+  // Chemin de la courbe (cubic bezier pour lisser)
+  const pts = last30.map((r, i) => [toX(i), toY(r.score)]);
+  const path = pts.reduce((acc, [x, y], i) => {
+    if (i === 0) return `M${x},${y}`;
+    const [px, py] = pts[i - 1];
+    const cx1 = px + (x - px) / 3;
+    const cx2 = x - (x - px) / 3;
+    return `${acc} C${cx1},${py} ${cx2},${y} ${x},${y}`;
+  }, "");
+
+  // Aire sous la courbe
+  const areaPath = `${path} L${toX(last30.length - 1)},${H} L${PAD},${H} Z`;
+
+  const last = last30[last30.length - 1];
+  const avg = Math.round(vals.reduce((s, v) => s + v, 0) / vals.length);
+  const trend = vals.length >= 7
+    ? vals.slice(-7).reduce((s, v) => s + v, 0) / 7 - vals.slice(-14, -7).reduce((s, v) => s + v, 0) / Math.max(1, vals.slice(-14, -7).length)
+    : 0;
+
+  const trendColor = trend > 3 ? "#7AE07A" : trend < -3 ? "#E07070" : "#C9A84C";
+  const trendLabel = trend > 3 ? "↗ En hausse" : trend < -3 ? "↘ En baisse" : "→ Stable";
+
+  return (
+    <div style={{background:"#0D0D0D",border:"0.5px solid #141414",padding:"16px 18px"}}>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
+        <div>
+          <div style={{fontSize:9,letterSpacing:"2px",textTransform:"uppercase",color:"#555",marginBottom:3}}>
+            Tendance forme — {last30.length} derniers jours
+          </div>
+          <div style={{display:"flex",alignItems:"baseline",gap:8}}>
+            <span style={{fontSize:22,fontWeight:800,color:"#C9A84C",fontFamily:"'Syne',sans-serif",lineHeight:1}}>{last.score}</span>
+            <span style={{fontSize:10,color:"#555"}}>/100 aujourd'hui</span>
+          </div>
+        </div>
+        <div style={{textAlign:"right"}}>
+          <div style={{fontSize:12,fontWeight:700,color:trendColor,fontFamily:"'Syne',sans-serif"}}>{trendLabel}</div>
+          <div style={{fontSize:10,color:"#555",marginTop:3}}>Moy. 30j : <span style={{color:"#888",fontWeight:600}}>{avg}</span></div>
+        </div>
+      </div>
+
+      <svg width="100%" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" style={{display:"block",height:64,overflow:"visible"}}>
+        {/* Zone sous la courbe */}
+        <defs>
+          <linearGradient id="sparkGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#C9A84C" stopOpacity="0.18"/>
+            <stop offset="100%" stopColor="#C9A84C" stopOpacity="0"/>
+          </linearGradient>
+        </defs>
+        <path d={areaPath} fill="url(#sparkGrad)"/>
+        {/* Ligne */}
+        <path d={path} fill="none" stroke="#C9A84C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
+          style={{filter:"drop-shadow(0 0 4px rgba(201,168,76,0.4))"}}/>
+        {/* Point actuel */}
+        <circle cx={toX(last30.length - 1)} cy={toY(last.score)} r={3} fill="#C9A84C"/>
+      </svg>
     </div>
   );
 }

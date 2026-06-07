@@ -122,7 +122,7 @@ function MiniHistorique({ historique }) {
 
   return (
     <div style={{ marginTop: 12 }}>
-      <div style={{ fontSize: 8, letterSpacing: "2px", textTransform: "uppercase", color: "#333", marginBottom: 8 }}>
+      <div style={{ fontSize: 8, letterSpacing: "2px", textTransform: "uppercase", color: "#555", marginBottom: 8 }}>
         7 derniers jours
       </div>
       <div style={{ display: "flex", gap: 4, alignItems: "flex-end", height: 40 }}>
@@ -137,7 +137,7 @@ function MiniHistorique({ historique }) {
                 opacity: 0.7, borderRadius: "2px 2px 0 0",
                 transition: "height 0.4s ease",
               }} />
-              <div style={{ fontSize: 7, color: "#333" }}>{days[d.getDay() === 0 ? 6 : d.getDay() - 1]}</div>
+              <div style={{ fontSize: 7, color: "#555" }}>{days[d.getDay() === 0 ? 6 : d.getDay() - 1]}</div>
             </div>
           );
         })}
