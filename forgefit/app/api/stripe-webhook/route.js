@@ -172,9 +172,7 @@ export async function POST(req) {
 
     return new Response("OK", { status: 200 });
   } catch (e) {
-    console.error("stripe-webhook error:", e.message);
-    // Retourner 200 quand même pour éviter que Stripe retente indéfiniment
-    // sur des erreurs non-critiques (ex : email déjà envoyé)
-    return new Response("OK — erreur interne loguée", { status: 200 });
+    console.error("stripe-webhook error:", e.code, e.message, e.stack);
+    return new Response(`ERREUR: ${e.code} — ${e.message}`, { status: 200 });
   }
 }
