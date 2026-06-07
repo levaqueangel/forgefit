@@ -43,7 +43,7 @@ export function LoginScreen({ lang, setLang, LANGS }) {
               {loading?"Connexion...":"Se connecter →"}
             </button>
           </form>
-          <p style={{fontSize:12,color:"#333",textAlign:"center",marginTop:"1.5rem",lineHeight:1.6}}>Tes identifiants t'ont été envoyés par email après ton bilan.</p>
+          <p style={{fontSize:12,color:"#555",textAlign:"center",marginTop:"1.5rem",lineHeight:1.6}}>Tes identifiants t'ont été envoyés par email après ton bilan.</p>
         </div>
       </div>
     </div>

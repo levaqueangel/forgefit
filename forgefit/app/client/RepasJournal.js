@@ -9,7 +9,7 @@ function MacroBar({ label, val, max, color }) {
     <div style={{ marginBottom: 8 }}>
       <div style={{ display:"flex", justifyContent:"space-between", marginBottom:3 }}>
         <span style={{ fontSize:9, letterSpacing:"1.5px", textTransform:"uppercase", color:"#555" }}>{label}</span>
-        <span style={{ fontSize:10, fontWeight:700, color }}>{val}g <span style={{ color:"#333", fontWeight:400 }}>/ {max}g</span></span>
+        <span style={{ fontSize:10, fontWeight:700, color }}>{val}g <span style={{ color:"#555", fontWeight:400 }}>/ {max}g</span></span>
       </div>
       <div style={{ height:4, background:"#1A1A1A", borderRadius:4, overflow:"hidden" }}>
         <div style={{ height:"100%", width:`${pct}%`, background:color, borderRadius:4, transition:"width 0.6s ease" }}/>
@@ -33,7 +33,7 @@ function RepasCard({ repas, onDelete }) {
           <span style={{ fontSize:10, color:"#7AE07A" }}>P {repas.proteines}g</span>
           <span style={{ fontSize:10, color:"#E8C87A" }}>G {repas.glucides}g</span>
           <span style={{ fontSize:10, color:"#88A0E0" }}>L {repas.lipides}g</span>
-          {repas.heure && <span style={{ fontSize:10, color:"#333" }}>{repas.heure}</span>}
+          {repas.heure && <span style={{ fontSize:10, color:"#555" }}>{repas.heure}</span>}
         </div>
         {!repas.fiable && (
           <div style={{ fontSize:9, color:"#555", marginTop:2, letterSpacing:"1px" }}>
@@ -132,7 +132,7 @@ export function RepasJournal({ nutrition, user }) {
           <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:12 }}>
             <div style={{ fontSize:9, letterSpacing:"3px", textTransform:"uppercase", color:"#555" }}>Aujourd'hui</div>
             <div style={{ fontSize:14, fontWeight:700, color:couleurPct, fontFamily:"'Syne',sans-serif" }}>
-              {totaux.calories} <span style={{ fontSize:10, color:"#444", fontWeight:400 }}>/ {nutrition.calories_jour} kcal</span>
+              {totaux.calories} <span style={{ fontSize:10, color:"#555", fontWeight:400 }}>/ {nutrition.calories_jour} kcal</span>
             </div>
           </div>
           <MacroBar label="Protéines" val={Math.round(totaux.proteines)} max={nutrition.proteines_g} color="#7AE07A"/>
@@ -239,7 +239,7 @@ export function RepasJournal({ nutrition, user }) {
       {fetching ? (
         <div className="skel" style={{ height:80, borderRadius:12 }}/>
       ) : repas.length === 0 ? (
-        <div style={{ textAlign:"center", padding:"1.5rem 0", color:"#333",
+        <div style={{ textAlign:"center", padding:"1.5rem 0", color:"#555",
           fontFamily:"'Cormorant Garamond',serif", fontSize:14, fontStyle:"italic" }}>
           Aucun repas loggé aujourd'hui
         </div>

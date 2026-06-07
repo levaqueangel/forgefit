@@ -201,7 +201,7 @@ export function CommunauteTab({ S, clientData, user }) {
             <span style={{ fontSize:11, color:"#555", fontFamily:"'Syne',sans-serif" }}>Anonyme</span>
           </label>
           <div style={{ display:"flex", alignItems:"center", gap:8 }}>
-            <span style={{ fontSize:10, color:"#333", fontFamily:"'Syne',sans-serif" }}>{text.length}/500</span>
+            <span style={{ fontSize:10, color:"#555", fontFamily:"'Syne',sans-serif" }}>{text.length}/500</span>
             <button onClick={handlePost} disabled={!text.trim() || posting} style={{
               background: text.trim() ? "linear-gradient(135deg,#C9A84C,#A67C2E)" : "#111",
               border: "none", color: text.trim() ? "#0A0A0A" : "#333",
@@ -225,7 +225,7 @@ export function CommunauteTab({ S, clientData, user }) {
           ))}
         </div>
       ) : posts.length === 0 ? (
-        <div style={{ textAlign:"center", padding:"2rem", color:"#333",
+        <div style={{ textAlign:"center", padding:"2rem", color:"#555",
           fontFamily:"'Cormorant Garamond',serif", fontSize:16, fontStyle:"italic" }}>
           Sois le premier à publier quelque chose 👋
         </div>

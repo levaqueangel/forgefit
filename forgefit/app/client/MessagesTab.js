@@ -16,7 +16,7 @@ export function MessagesTab({
         </div>
         <div style={{overflowY:"auto",maxHeight:"calc(100vh - 380px)",minHeight:200,marginBottom:12,paddingRight:2}}>
           {messages.length === 0 ? (
-            <div style={{textAlign:"center",padding:"3rem",color:"#333",fontFamily:"'Cormorant Garamond',serif",fontSize:16,fontStyle:"italic"}}>
+            <div style={{textAlign:"center",padding:"3rem",color:"#555",fontFamily:"'Cormorant Garamond',serif",fontSize:16,fontStyle:"italic"}}>
               Aucun message pour l'instant.<br/>Le coach va te contacter très bientôt.
             </div>
           ) : messages.map(msg => <Bubble key={msg.id} msg={msg} isCoach={msg.sender==="coach"} />)}

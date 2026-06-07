@@ -104,7 +104,7 @@ export function BadgesSection({ clientData }) {
       </div>
 
       {total === 0 && (
-        <div style={{ fontSize:11, color:"#333", fontFamily:"'Cormorant Garamond',serif",
+        <div style={{ fontSize:11, color:"#555", fontFamily:"'Cormorant Garamond',serif",
           fontStyle:"italic", textAlign:"center", marginTop:12 }}>
           Continue ta progression — les badges se débloquent automatiquement.
         </div>

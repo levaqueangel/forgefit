@@ -127,13 +127,13 @@ export function ProgrammeTab({
                       <ExerciceGif nom={e.nom} />
                       {exoDone[i]
                         ? <span style={{fontSize:9,color:"#7AE07A",letterSpacing:"1.5px",textTransform:"uppercase",fontFamily:"'Syne',sans-serif",background:"rgba(122,224,122,0.08)",padding:"2px 8px",borderRadius:10}}>FAIT</span>
-                        : <span style={{fontSize:10,color:"#333",fontFamily:"'Syne',sans-serif"}}>⏱ {e.reposSec}s</span>
+                        : <span style={{fontSize:10,color:"#555",fontFamily:"'Syne',sans-serif"}}>⏱ {e.reposSec}s</span>
                       }
                     </div>
                   </div>
                 ))}
               </div>
-            ) : <div style={{padding:"2rem",textAlign:"center",color:"#333",fontSize:14,fontStyle:"italic",fontFamily:"'Cormorant Garamond',serif"}}>Programme disponible après ton bilan</div>}
+            ) : <div style={{padding:"2rem",textAlign:"center",color:"#555",fontSize:14,fontStyle:"italic",fontFamily:"'Cormorant Garamond',serif"}}>Programme disponible après ton bilan</div>}
           </div>
 
           {records.length > 0 && (

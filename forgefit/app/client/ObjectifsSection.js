@@ -65,7 +65,7 @@ export function ObjectifsSection({ user, clientData, addToast }) {
         <div style={{ fontSize:9, letterSpacing:"3px", textTransform:"uppercase", color:"#555", marginBottom:8 }}>
           🎯 Objectifs de la semaine
         </div>
-        <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:14, color:"#333", fontStyle:"italic" }}>
+        <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:14, color:"#555", fontStyle:"italic" }}>
           Ton coach définira tes objectifs de la semaine prochainement.
         </div>
       </div>

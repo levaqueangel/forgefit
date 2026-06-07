@@ -6,7 +6,7 @@ import { db } from "../firebase";
 // ── Graphique poids SVG ────────────────────────────────────────────────────
 function WeightChart({ entries, targetWeight }) {
   if (entries.length < 2) return (
-    <div style={{ textAlign:"center", padding:"2rem 1rem", color:"#333",
+    <div style={{ textAlign:"center", padding:"2rem 1rem", color:"#555",
       fontFamily:"'Cormorant Garamond',serif", fontSize:15, fontStyle:"italic" }}>
       Saisis au moins 2 mesures pour voir le graphique.
     </div>
@@ -83,7 +83,7 @@ function WeightChart({ entries, targetWeight }) {
       <div style={{ display:"flex", justifyContent:"space-between", marginTop:4 }}>
         {[entries[0], entries[Math.floor(entries.length/2)], entries[entries.length-1]]
           .filter(Boolean).map((e,i) => (
-          <span key={i} style={{ fontSize:9, color:"#333" }}>
+          <span key={i} style={{ fontSize:9, color:"#555" }}>
             {new Date(e.date).toLocaleDateString("fr-FR",{day:"numeric",month:"short"})}
           </span>
         ))}
@@ -337,7 +337,7 @@ export function CorpsJournal({ uid, addToast, programmeData }) {
             {[...entries].reverse().map((e, i) => (
               <div key={i} style={{ display:"flex", alignItems:"center", gap:10, padding:"8px 12px",
                 background:"#0D0D0D", borderRadius:8, fontSize:11 }}>
-                <span style={{ color:"#333", fontSize:10, flexShrink:0 }}>
+                <span style={{ color:"#555", fontSize:10, flexShrink:0 }}>
                   {new Date(e.date).toLocaleDateString("fr-FR",{day:"2-digit",month:"short"})}
                 </span>
                 <div style={{ display:"flex", gap:8, flexWrap:"wrap" }}>

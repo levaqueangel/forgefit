@@ -109,7 +109,7 @@ export function ExerciceGif({ nom }) {
               onError={() => { setGifError(true); setShowGif(false); }}
               style={{ width:"100%", borderRadius:10, display:"block" }}
             />
-            <div style={{ marginTop:8, fontSize:10, color:"#333", textAlign:"center", fontFamily:"'Syne',sans-serif" }}>
+            <div style={{ marginTop:8, fontSize:10, color:"#555", textAlign:"center", fontFamily:"'Syne',sans-serif" }}>
               Appuie n'importe où pour fermer
             </div>
           </div>

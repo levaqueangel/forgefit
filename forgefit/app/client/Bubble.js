@@ -14,7 +14,7 @@ export function Bubble({ msg, isCoach }) {
       }}>
         {msg.text}
       </div>
-      <span style={{fontSize:10,color:"#333",marginTop:3,fontFamily:"'Syne',sans-serif"}}>{isCoach?"Coach":"Toi"} · {date}</span>
+      <span style={{fontSize:10,color:"#555",marginTop:3,fontFamily:"'Syne',sans-serif"}}>{isCoach?"Coach":"Toi"} · {date}</span>
     </div>
   );
 }

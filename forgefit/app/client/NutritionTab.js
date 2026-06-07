@@ -122,7 +122,7 @@ export function NutritionTab({
                 <div style={{fontSize:11,color:"#444",fontFamily:"'Syne',sans-serif",marginTop:2,lineHeight:1.5}}>{r.exemples}</div>
               </div>
             </div>
-          )) : <div style={{padding:"1.5rem",textAlign:"center",color:"#333",fontSize:14,fontStyle:"italic",fontFamily:"'Cormorant Garamond',serif"}}>Plan de repas disponible après ton bilan</div>}
+          )) : <div style={{padding:"1.5rem",textAlign:"center",color:"#555",fontSize:14,fontStyle:"italic",fontFamily:"'Cormorant Garamond',serif"}}>Plan de repas disponible après ton bilan</div>}
         </div>
 
         {/* Conseils */}
@@ -133,7 +133,7 @@ export function NutritionTab({
               <span style={{color:"#C9A84C",flexShrink:0,fontSize:14,lineHeight:1.5}}>→</span>
               <span style={{fontSize:12,color:"#666",lineHeight:1.6,fontFamily:"'Syne',sans-serif"}}>{c}</span>
             </div>
-          )) : <div style={{padding:"1rem",textAlign:"center",color:"#333",fontSize:13,fontStyle:"italic",fontFamily:"'Cormorant Garamond',serif"}}>Conseils disponibles après ton bilan</div>}
+          )) : <div style={{padding:"1rem",textAlign:"center",color:"#555",fontSize:13,fontStyle:"italic",fontFamily:"'Cormorant Garamond',serif"}}>Conseils disponibles après ton bilan</div>}
         </div>
       </div>
 
@@ -159,9 +159,9 @@ export function NutritionTab({
         </div>
         {mealError&&<div style={{fontSize:12,color:"#E07070",padding:"6px 0",marginBottom:8}}>{mealError}</div>}
         {!nutrition ? (
-          <div style={{padding:"1.5rem",textAlign:"center",color:"#333",fontSize:13,fontStyle:"italic",fontFamily:"'Cormorant Garamond',serif"}}>Disponible après ton bilan</div>
+          <div style={{padding:"1.5rem",textAlign:"center",color:"#555",fontSize:13,fontStyle:"italic",fontFamily:"'Cormorant Garamond',serif"}}>Disponible après ton bilan</div>
         ) : !mealPlan ? (
-          <div style={{padding:"1.5rem",textAlign:"center",color:"#333",fontFamily:"'Cormorant Garamond',serif",fontSize:15,fontStyle:"italic",lineHeight:1.7}}>
+          <div style={{padding:"1.5rem",textAlign:"center",color:"#555",fontFamily:"'Cormorant Garamond',serif",fontSize:15,fontStyle:"italic",lineHeight:1.7}}>
             Clique sur Générer pour obtenir un plan alimentaire adapté à tes macros.
           </div>
         ) : (

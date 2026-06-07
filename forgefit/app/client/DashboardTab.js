@@ -110,7 +110,7 @@ export function DashboardTab({
                 </span>
               </div>
             )) : (
-              <div style={{padding:"1.5rem",textAlign:"center",color:"#333",fontSize:13,fontStyle:"italic",fontFamily:"'Cormorant Garamond',serif"}}>Programme disponible après ton bilan</div>
+              <div style={{padding:"1.5rem",textAlign:"center",color:"#555",fontSize:13,fontStyle:"italic",fontFamily:"'Cormorant Garamond',serif"}}>Programme disponible après ton bilan</div>
             )}
           </div>
         </div>
@@ -159,7 +159,7 @@ export function DashboardTab({
                   </div>
                 ))}
               </div>
-            ) : <div style={{padding:"1rem 0",textAlign:"center",color:"#333",fontSize:12,fontStyle:"italic",fontFamily:"'Cormorant Garamond',serif"}}>Données disponibles après ton bilan</div>}
+            ) : <div style={{padding:"1rem 0",textAlign:"center",color:"#555",fontSize:12,fontStyle:"italic",fontFamily:"'Cormorant Garamond',serif"}}>Données disponibles après ton bilan</div>}
           </div>
         </div>
       </div>
