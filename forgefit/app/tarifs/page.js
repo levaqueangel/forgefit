@@ -1,5 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const PLANS = [
   {
@@ -84,6 +85,28 @@ const COMPARE = [
 
 export default function TarifsPage() {
   const router = useRouter();
+  const [loadingPlan, setLoadingPlan] = useState(null);
+
+  async function handleCheckout(planId) {
+    setLoadingPlan(planId);
+    try {
+      const res = await fetch("/api/stripe-checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ plan: planId }),
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert("Erreur lors du paiement. Réessaie dans un instant.");
+        setLoadingPlan(null);
+      }
+    } catch {
+      alert("Erreur réseau. Vérifie ta connexion et réessaie.");
+      setLoadingPlan(null);
+    }
+  }
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -207,10 +230,15 @@ export default function TarifsPage() {
               {/* CTA */}
               <button
                 className={`cta-btn${plan.highlight ? "" : " outline"}`}
-                style={plan.highlight ? { background:"linear-gradient(135deg,#C9A84C,#A67C2E)" } : {}}
-                onClick={() => router.push("/bilan")}
+                style={{
+                  ...(plan.highlight ? { background:"linear-gradient(135deg,#C9A84C,#A67C2E)" } : {}),
+                  opacity: loadingPlan && loadingPlan !== plan.id ? 0.5 : 1,
+                  cursor: loadingPlan ? "not-allowed" : "pointer",
+                }}
+                disabled={!!loadingPlan}
+                onClick={() => handleCheckout(plan.id)}
               >
-                Choisir {plan.name} →
+                {loadingPlan === plan.id ? "Redirection..." : `Choisir ${plan.name} →`}
               </button>
             </div>
           ))}
@@ -282,7 +310,7 @@ export default function TarifsPage() {
           <h2 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(24px,3vw,36px)", fontWeight:600 }}>À savoir avant de commander</h2>
         </div>
         {[
-          { q: "Paiement en plusieurs fois ?", r: "Pas encore disponible. Stripe arrivera prochainement pour plus de flexibilité." },
+          { q: "Paiement sécurisé ?", r: "Le paiement est traité par Stripe, la référence mondiale (Paypal, Amazon, Uber l'utilisent). Tes coordonnées bancaires ne transitent jamais par nos serveurs. Carte Visa, Mastercard, American Express acceptées." },
           { q: "Mon programme peut-il être adapté à la maison ?", r: "Oui, entièrement. Salle, maison avec ou sans matériel, extérieur — tout est pris en compte dans le bilan." },
           { q: "Dans quel délai je reçois mon programme ?", r: "Dans les 48 heures ouvrées après validation de ton bilan." },
           { q: "Quelle est la différence entre Forge et Elite ?", r: "Elite inclut en plus la messagerie directe avec le coach et des révisions illimitées — idéal si tu veux un vrai coaching de A à Z." },
