@@ -26,7 +26,7 @@ export function DashboardTab({
       {/* ── Métriques — style app avec accent coloré ── */}
       <div className="metrics-grid" style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:10}}>
         {[
-          { label:"Séances",         val:`${doneSeances}/4`,                       sub:"cette semaine",  color:"#C9A84C",  dot:"rgba(201,168,76,0.15)"  },
+          { label:"Séances",         val:`${doneSeances}/${nbSeances||4}`,           sub:"cette semaine",  color:"#C9A84C",  dot:"rgba(201,168,76,0.15)"  },
           { label:"Exercices",       val:`${doneExos}/${exercices.length||"—"}`,   sub:"séance du jour", color:"#7AE07A",  dot:"rgba(122,224,122,0.15)" },
           { label:"Programme",       val:pd?`${pd.duree_programme_semaines||4}W`:"—", sub:pd?.objectif_principal||"En attente", color:"#F0EDE8", dot:"rgba(240,237,232,0.08)" },
           { label:"Streak",          val:realStreak>0?`${realStreak}j`:"0j",       sub:realStreak>0?"sans coupure":"Lance-toi !", color:realStreak>=7?"#C9A84C":"#F0EDE8", dot:realStreak>=7?"rgba(201,168,76,0.15)":"rgba(240,237,232,0.08)" },
@@ -58,7 +58,7 @@ export function DashboardTab({
                   width:28,height:28,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",
                   fontSize:11,fontWeight:700,fontFamily:"'Syne',sans-serif",transition:"all 0.2s",
                   background:joursEtat[i]==="done"?"#1A3A1A":joursEtat[i]==="today"?"#C9A84C":joursEtat[i]==="rest"?"rgba(255,255,255,0.03)":"rgba(255,255,255,0.03)",
-                  color:joursEtat[i]==="done"?"#7AE07A":joursEtat[i]==="today"?"#0A0A0A":"#333",
+                  color:joursEtat[i]==="done"?"#7AE07A":joursEtat[i]==="today"?"#0A0A0A":"#555",
                   border:joursEtat[i]==="today"?"none":joursEtat[i]==="done"?"0.5px solid #3A6A3A":"0.5px solid #1A1A1A",
                   opacity:joursEtat[i]==="future"?0.3:1,
                 }}>

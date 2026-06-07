@@ -34,7 +34,8 @@ export async function GET(req) {
 
     return Response.json({ posts });
   } catch (e) {
-    return Response.json({ error: e.message }, { status: 500 });
+    console.error("community GET:", e.message);
+    return Response.json({ error: "Erreur interne." }, { status: 500 });
   }
 }
 
@@ -74,7 +75,8 @@ export async function POST(req) {
     const ref = await db.collection("community").add(post);
     return Response.json({ success: true, id: ref.id });
   } catch (e) {
-    return Response.json({ error: e.message }, { status: 500 });
+    console.error("community POST:", e.message);
+    return Response.json({ error: "Erreur interne." }, { status: 500 });
   }
 }
 
@@ -107,6 +109,7 @@ export async function PATCH(req) {
     await postRef.update({ likes: newLikes });
     return Response.json({ success: true, liked: !alreadyLiked, count: newLikes.length });
   } catch (e) {
-    return Response.json({ error: e.message }, { status: 500 });
+    console.error("community PATCH:", e.message);
+    return Response.json({ error: "Erreur interne." }, { status: 500 });
   }
 }
