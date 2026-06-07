@@ -1,0 +1,206 @@
+# APXFITNESS — ROADMAP COMPLÈTE
+> Généré le 2026-06-08 — Liste exhaustive de tout ce qui doit être fait, point par point.
+
+---
+
+## 🔴 PRIORITÉ 1 — BLOQUANT / PERTE D'ARGENT DIRECTE
+
+- [ ] **1. Vérifier le domaine `apxfitness.fr` sur Resend**
+  - Tous les emails partent de `onboarding@resend.dev` → spam
+  - Confirmation paiement, activation, check-in hebdo, relance J7, bilan J28 non reçus
+
+- [ ] **2. Pointer `apxfitness.fr` vers Vercel**
+  - Site sur `apxfitness-brown.vercel.app` → URL non professionnelle dans les emails et liens Stripe
+
+- [ ] **3. Recharger les crédits Anthropic**
+  - Génération de programme IA bloquée (fonctionnalité vendue)
+
+- [ ] **4. Supprimer les docs Firestore "fantômes"**
+  - Webhook crée encore `clients/{randomId}` sans UID Firebase
+  - Supprimer ces docs + corriger le webhook pour ne plus en créer
+
+- [ ] **5. Corriger `NEXT_PUBLIC_COACH_EMAIL` → `COACH_EMAIL`**
+  - Fichiers concernés : `activate-client`, `export-clients`, `generate-programme`, `save-programme`
+  - Le préfixe `NEXT_PUBLIC_` expose l'email dans le bundle JS public
+
+---
+
+## 🟠 PRIORITÉ 2 — BUGS FONCTIONNELS
+
+- [ ] **6. Bug plan Elite — casse `"Elite"` vs `"elite"`**
+  - `DashboardTab.js` ligne 186 : `clientData?.plan === "Elite"` ne matche jamais
+  - Le plan est stocké en minuscules dans Firestore → bloc "Espace Elite" invisible
+
+- [ ] **7. Webhook Stripe — Arrêter la création de docs fantômes**
+  - Supprimer le bloc de création `clients/{randomId}` dans `stripe-webhook/route.js`
+  - Seul `activate-client` doit créer des docs clients
+
+- [ ] **8. `DashboardTab.js` — Bug séances index 0 et 1 non cochables**
+  - Ligne 75 : `if(seanceDone[i]||i<2) return;` bloque les 2 premières séances
+  - Corriger la condition logique
+
+- [ ] **9. Prix Stripe hardcodés dans le code**
+  - 4900, 12900, 24900 centimes dans `stripe-checkout/route.js`
+  - Migrer vers variables d'environnement : `PRICE_STARTER`, `PRICE_FORGE`, `PRICE_ELITE`
+
+- [ ] **10. `repas/route.js` — Champ `description` vide si override photo**
+  - Journal peut avoir des entrées avec `description = ""`
+  - Utiliser `analyse.nom` comme fallback fiable
+
+- [ ] **11. `export-clients/route.js` — `orderBy("createdAt")` instable**
+  - Champ `createdAt` absent sur docs créés par `activate-client` (utilise `activatedAt`)
+  - Peut faire planter l'export CSV
+
+- [ ] **12. Email check-in — Faute d'apostrophe**
+  - `checkin-hebdo/route.js` ligne 56 : `"d entraînement"` → `"d'entraînement"`
+
+- [ ] **13. Crons — Horaire UTC vs heure française**
+  - `0 9 * * *` UTC = 11h en été (UTC+2), 10h en hiver (UTC+1)
+  - Ajuster selon la stratégie de communication souhaitée
+
+---
+
+## 🟡 PRIORITÉ 3 — SÉCURITÉ ET ROBUSTESSE
+
+- [ ] **14. Rate limiter → Redis Upstash**
+  - Map en mémoire non partagé entre instances Vercel
+  - Remplacer par Upstash Redis (gratuit jusqu'à 10k req/jour)
+
+- [ ] **15. `referral/route.js` — Pas de vérification Auth**
+  - Appel sans `Authorization` header → n'importe qui peut générer des liens
+  - Ajouter `verifyAuthToken` + vérification UID
+
+- [ ] **16. Chatbot — Rate limit uniquement par IP**
+  - Ajouter `checkRateLimitDouble(ip, decoded.uid)` pour limiter aussi par compte
+
+- [ ] **17. `ScanRepas.js` — Pas de vérification taille fichier avant compression**
+  - Un fichier RAW 40MB peut bloquer le navigateur
+  - Ajouter `if (file.size > 20 * 1024 * 1024) return setError("Fichier trop lourd")`
+
+- [ ] **18. Variables d'env — Pas de validation au démarrage**
+  - Si `ANTHROPIC_API_KEY` ou `FIREBASE_PROJECT_ID` absent → erreurs cryptiques
+  - Ajouter validation dans `firebase-admin.js`
+
+- [ ] **19. Règles Firestore `messages` — Audit post-modification**
+  - Vérifier qu'un client ne peut pas lire les messages d'un autre client
+  - Le filtre `clientId` doit être dans les rules, pas seulement dans le JS
+
+---
+
+## 🔵 PRIORITÉ 4 — FONCTIONNALITÉS MANQUANTES
+
+- [ ] **20. Favoris Recettes → Firestore (pas localStorage)**
+  - Perte des favoris au changement d'appareil
+  - Stocker dans `clients/{uid}.recettesFavoris[]`
+
+- [ ] **21. Historique chatbot IA → Firestore**
+  - Conversations perdues au changement d'appareil
+  - Stocker les 30 derniers messages dans `clients/{uid}.chatHistory[]`
+  - Bonus : le coach voit les questions fréquentes
+
+- [ ] **22. Éditeur de programme manuel — Coach dashboard**
+  - Pas d'interface pour créer/modifier manuellement un programme
+  - Ajouter un éditeur : liste d'exercices, séries, charges, repos
+
+- [ ] **23. Notifications push PWA — Triggers à configurer**
+  - Infra en place mais aucun déclencheur
+  - Implémenter : nouveau message coach, rappel séance matin, félicitation streak 7j
+
+- [ ] **24. Dashboard coach — Graphiques progression client**
+  - Pas de visualisation : évolution poids, calories moyennes 7j, taux complétion séances
+  - Ajouter des graphiques par client
+
+- [ ] **25. Stripe Customer Portal**
+  - Clients ne peuvent pas gérer leur abonnement/factures seuls
+  - Implémenter en 10 lignes via `stripe.billingPortal.sessions.create`
+
+- [ ] **26. Page `/paiement-succes` — Vérifier qu'elle existe**
+  - Stripe redirige vers cette page après paiement
+  - Si 404 → client pense que la transaction a échoué
+
+- [ ] **27. Programme client — Affichage structuré (pas `<pre>`)**
+  - Actuellement affiché en texte monospace brut dans `ProgrammeTab.js`
+  - Créer un affichage carte par séance, exercices en liste visuelle
+
+- [ ] **28. GIFs / vidéos démonstration exercices**
+  - `ExerciceGif.js` existe mais sans source de données connectée
+  - Connecter ExerciseDB API ou créer bibliothèque statique des 40 exercices courants
+
+- [ ] **29. Timer de repos — Son de notification (fallback iOS)**
+  - `navigator.vibrate()` non supporté sur iOS
+  - Ajouter un son via `AudioContext` ou `<audio>` comme fallback
+
+- [ ] **30. Journal repas — Bouton supprimer une entrée**
+  - Impossible de corriger une erreur de saisie
+  - Ajouter bouton suppression sur chaque entrée de `repasJournal`
+
+- [ ] **31. Nutrition — Barre progression "consommé vs objectif"**
+  - Les macros cibles et consommées sont dans deux endroits différents
+  - Afficher en temps réel : consommé / objectif pour calories, protéines, glucides, lipides
+
+- [ ] **32. Corps Journal — Graphique évolution du poids**
+  - Journal de mesures sans courbe de progression
+  - Ajouter sparkline poids sur 30/60/90 jours
+
+---
+
+## ⚪ PRIORITÉ 5 — OPTIMISATIONS TECHNIQUES
+
+- [ ] **33. `coach/page.js` — Refactoriser en composants séparés**
+  - 1500+ lignes dans un seul fichier
+  - Créer : `MessagesPanel.js`, `ProgrammeModal.js`, `CommandesTab.js`, `StatsTab.js`
+
+- [ ] **34. `repas-photo` — Upload Firebase Storage au lieu de base64 JSON**
+  - Image ~1.4MB dans le body HTTP → lent et risque de timeout
+  - Upload Storage → envoyer URL à Anthropic
+
+- [ ] **35. Sous-collections Firestore — `repasJournal` et `seanceHistorique`**
+  - Arrays dans le doc principal → chaque lecture charge tout
+  - Migrer en sous-collections à mesure que la base grossit
+
+- [ ] **36. Cache programmes générés — `/api/generate`**
+  - Deux appels identiques = deux factures Anthropic
+  - Ajouter cache 24h basé sur hash des paramètres (Vercel KV ou Redis)
+
+- [ ] **37. `rateLimit.js` — Limite taille du Map**
+  - Peut grossir indéfiniment entre nettoyages
+  - Ajouter `if (WINDOWS.size > 10000) WINDOWS.clear()`
+
+- [ ] **38. Chatbot — Routing Haiku → Sonnet selon complexité**
+  - Questions techniques avancées → Haiku insuffisant
+  - Détecter complexité (longueur, mots-clés) et router vers Sonnet
+
+- [ ] **39. `vercel.json` — Ajouter security headers**
+  - Manquent : `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy`
+
+- [ ] **40. PWA — Stratégie cache Service Worker**
+  - Vérifier précache des assets critiques
+  - App fonctionnelle offline en mode lecture programme
+
+- [ ] **41. `RecettesTab.js` — Fallback image si 404**
+  - Ajouter `onError` sur `NextImage` pour image de remplacement
+
+- [ ] **42. Export CSV — Compatibilité séparateur international**
+  - `;` fonctionne sous Excel France, pas sous Excel anglais/Mac
+  - Ajouter `sep=;` en première ligne ou option virgule
+
+- [ ] **43. Webhook Stripe — Idempotency check**
+  - Retry Stripe peut créer deux `orders` pour une même session
+  - Vérifier `stripeSessionId` avant création
+
+- [ ] **44. Emails — Template responsive mobile**
+  - Tables HTML largeur fixe 600px → peut déborder sur mobile
+  - Ajouter `max-width: 100%` et media queries email
+
+---
+
+## 📊 SUIVI
+
+| Priorité | Total | Fait | Restant |
+|----------|-------|------|---------|
+| 🔴 P1 Bloquants | 5 | 0 | 5 |
+| 🟠 P2 Bugs | 8 | 0 | 8 |
+| 🟡 P3 Sécurité | 6 | 0 | 6 |
+| 🔵 P4 Features | 13 | 0 | 13 |
+| ⚪ P5 Optim | 9 | 0 | 9 |
+| **TOTAL** | **41** | **0** | **41** |
