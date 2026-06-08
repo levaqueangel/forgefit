@@ -141,6 +141,7 @@ export function CorpsJournal({ uid, addToast, programmeData }) {
   const [saved, setSaved]     = useState(false);
   const [activeGraph, setActiveGraph] = useState("poids");
   const [targetWeight, setTargetWeight] = useState("");
+  const [periode, setPeriode] = useState(90); // jours affichés
 
   // Charger les entrées depuis Firestore
   useEffect(() => {
@@ -267,26 +268,49 @@ export function CorpsJournal({ uid, addToast, programmeData }) {
         </div>
       )}
 
-      {/* Sélecteur graphique */}
+      {/* Sélecteur graphique + période */}
       {entries.length >= 2 && (
         <div>
-          <div style={{ display:"flex", gap:6, marginBottom:12 }}>
-            {GRAPH_OPTIONS.filter(g => g.active).map(g => (
-              <button key={g.key} onClick={() => setActiveGraph(g.key)} style={{
-                fontSize:9, letterSpacing:"1.5px", textTransform:"uppercase",
-                fontFamily:"'Syne',sans-serif", padding:"5px 12px", cursor:"pointer",
-                borderRadius:20, transition:"all 0.15s",
-                background: activeGraph===g.key ? "rgba(201,168,76,0.12)" : "transparent",
-                border: `0.5px solid ${activeGraph===g.key ? "rgba(201,168,76,0.5)" : "#1E1E1E"}`,
-                color: activeGraph===g.key ? "#C9A84C" : "#555",
-              }}>{g.label}</button>
-            ))}
+          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", gap:6, marginBottom:10, flexWrap:"wrap" }}>
+            <div style={{ display:"flex", gap:6 }}>
+              {GRAPH_OPTIONS.filter(g => g.active).map(g => (
+                <button key={g.key} onClick={() => setActiveGraph(g.key)} style={{
+                  fontSize:9, letterSpacing:"1.5px", textTransform:"uppercase",
+                  fontFamily:"'Syne',sans-serif", padding:"5px 12px", cursor:"pointer",
+                  borderRadius:20, transition:"all 0.15s",
+                  background: activeGraph===g.key ? "rgba(201,168,76,0.12)" : "transparent",
+                  border: `0.5px solid ${activeGraph===g.key ? "rgba(201,168,76,0.5)" : "#1E1E1E"}`,
+                  color: activeGraph===g.key ? "#C9A84C" : "#555",
+                }}>{g.label}</button>
+              ))}
+            </div>
+            {/* Filtre période */}
+            <div style={{ display:"flex", gap:4 }}>
+              {[30,60,90].map(d => (
+                <button key={d} onClick={() => setPeriode(d)} style={{
+                  fontSize:9, letterSpacing:"1px", fontFamily:"'Syne',sans-serif",
+                  padding:"4px 10px", cursor:"pointer", borderRadius:16, transition:"all 0.15s",
+                  background: periode===d ? "rgba(201,168,76,0.1)" : "transparent",
+                  border: `0.5px solid ${periode===d ? "rgba(201,168,76,0.4)" : "#1A1A1A"}`,
+                  color: periode===d ? "#C9A84C" : "#444",
+                }}>{d}j</button>
+              ))}
+            </div>
           </div>
 
-          {activeGraph === "poids" && <WeightChart entries={entries.filter(e=>e.poids)} targetWeight={targetWeight}/>}
-          {activeGraph === "taille_tour" && <MesureChart entries={entries.filter(e=>e.taille_tour)} field="taille_tour" label="Tour de taille" color="#7AE07A"/>}
-          {activeGraph === "bras" && <MesureChart entries={entries.filter(e=>e.bras)} field="bras" label="Périmètre bras" color="#5DCAA5"/>}
-          {activeGraph === "cuisses" && <MesureChart entries={entries.filter(e=>e.cuisses)} field="cuisses" label="Périmètre cuisses" color="#E8C87A"/>}
+          {(() => {
+            const cutoff = new Date(Date.now() - periode * 86400000);
+            const filtered = entries.filter(e => new Date(e.date) >= cutoff);
+            const forGraph = filtered.length >= 2 ? filtered : entries;
+            return (
+              <>
+                {activeGraph === "poids"       && <WeightChart entries={forGraph.filter(e=>e.poids)} targetWeight={targetWeight}/>}
+                {activeGraph === "taille_tour" && <MesureChart entries={forGraph.filter(e=>e.taille_tour)} field="taille_tour" label="Tour de taille" color="#7AE07A"/>}
+                {activeGraph === "bras"        && <MesureChart entries={forGraph.filter(e=>e.bras)} field="bras" label="Périmètre bras" color="#5DCAA5"/>}
+                {activeGraph === "cuisses"     && <MesureChart entries={forGraph.filter(e=>e.cuisses)} field="cuisses" label="Périmètre cuisses" color="#E8C87A"/>}
+              </>
+            );
+          })()}
         </div>
       )}
 
