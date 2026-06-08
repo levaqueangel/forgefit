@@ -4,6 +4,7 @@ import { ChargesTab } from "./ChargesTab";
 import { ExerciceGif } from "./ExerciceGif";
 import { OneRMCalc } from "./OneRMCalc";
 import { SeanceGuidee } from "./SeanceGuidee";
+import { unlockAudio } from "./utils";
 
 // Convertit "90 secondes" / "90s" / "1min30" → nombre entier de secondes
 function parseReposSec(str) {
@@ -232,6 +233,7 @@ export function ProgrammeTab({
                 {exercices.map((e,i) => (
                   <div key={i} className={`exo-row${exoDone[i]?" done-e":""}`}
                     onClick={()=>{
+                      unlockAudio();
                       const wasUndone = !exoDone[i];
                       setExoDone(prev => {
                         const next = {...prev,[i]:!prev[i]};

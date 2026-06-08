@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import { beep } from "./utils";
+import { beep, unlockAudio } from "./utils";
 
 export function RestTimer({ duration, exerciseName, onDone, onSkip }) {
   const [remaining, setRemaining] = useState(duration);
@@ -92,7 +92,7 @@ export function RestTimer({ duration, exerciseName, onDone, onSkip }) {
 
           {/* Boutons */}
           <div style={{ display: "flex", flexDirection: "column", gap: 8, flex: 1 }}>
-            <button className="timer-pause" onClick={() => setPaused(p => !p)} style={{
+            <button className="timer-pause" onClick={() => { unlockAudio(); setPaused(p => !p); }} style={{
               background: "transparent", border: "0.5px solid #2A2A2A", color: "#888",
               fontFamily: "'Syne', sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: "2px",
               textTransform: "uppercase", padding: "10px 14px", cursor: "pointer", borderRadius: 6,
@@ -100,7 +100,7 @@ export function RestTimer({ duration, exerciseName, onDone, onSkip }) {
             }}>
               {paused ? "▶ Reprendre" : "⏸ Pause"}
             </button>
-            <button className="timer-skip" onClick={onSkip} style={{
+            <button className="timer-skip" onClick={() => { unlockAudio(); onSkip(); }} style={{
               background: "transparent", border: "0.5px solid #1A1A1A", color: "#444",
               fontFamily: "'Syne', sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: "2px",
               textTransform: "uppercase", padding: "10px 14px", cursor: "pointer", borderRadius: 6,
