@@ -68,6 +68,7 @@ const [sendError, setSendError] = useState("");
 const [mealPlan, setMealPlan] = useState(null);
 const [mealLoading, setMealLoading] = useState(false);
 const [mealError, setMealError] = useState("");
+const [repasToday, setRepasToday] = useState([]);
 
 // ── Chatbot — état géré dans AssistantTab ─────────────────────
 
@@ -181,6 +182,17 @@ setAuthLoading(false);
 const authTimer = setTimeout(()=>setAuthLoading(false), 5000);
 return () => { unsub(); clearTimeout(authTimer); };
 }, []);
+
+// ── Repas du jour (pour barres progression NutritionTab) ─────
+useEffect(() => {
+if (!user) return;
+user.getIdToken().then(token => {
+  fetch("/api/repas?mode=today", { headers: { Authorization:`Bearer ${token}` } })
+    .then(r => r.json())
+    .then(d => setRepasToday(d.repas || []))
+    .catch(() => {});
+});
+}, [user]);
 
 // ── Messages temps réel ──────────────────────────────────────
 useEffect(() => {
@@ -602,7 +614,7 @@ onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
 
 {activeTab==="programme" && <ProgrammeTab S={S} progSubTab={progSubTab} setProgSubTab={setProgSubTab} seanceAujourdhui={seanceAujourdhui} doneExos={doneExos} exercices={exercices} exoDone={exoDone} setExoDone={setExoDone} records={records} clientData={clientData} setTimer={setTimer} setConfetti={setConfetti} addToast={addToast} vibrate={vibrate} focusMode={focusMode} setFocusMode={setFocusMode} focusIdx={focusIdx} setFocusIdx={setFocusIdx} user={user} />}
 
-{activeTab==="nutrition" && <NutritionTab S={S} nutrition={nutrition} mealPlan={mealPlan} mealLoading={mealLoading} mealError={mealError} generateMealPlan={generateMealPlan} />}
+{activeTab==="nutrition" && <NutritionTab S={S} nutrition={nutrition} mealPlan={mealPlan} mealLoading={mealLoading} mealError={mealError} generateMealPlan={generateMealPlan} repasToday={repasToday} />}
 
 {activeTab==="corps" && (
 <div className="fade-in" style={{display:"flex",flexDirection:"column",gap:16}}>

@@ -85,9 +85,36 @@ function MacroDonut({ nutrition }) {
   );
 }
 
+function MacroProgressBar({ label, consumed, target, color }) {
+  if (!target) return null;
+  const pct = Math.min(100, Math.round((consumed / target) * 100));
+  const over = consumed > target * 1.1;
+  return (
+    <div style={{ marginBottom:10 }}>
+      <div style={{ display:"flex", justifyContent:"space-between", marginBottom:4 }}>
+        <span style={{ fontSize:10, color:"#555", letterSpacing:"1.5px", textTransform:"uppercase" }}>{label}</span>
+        <span style={{ fontSize:11, fontWeight:700, color: over ? "#E07070" : color }}>
+          {Math.round(consumed)} <span style={{ color:"#444", fontWeight:400 }}>/ {target}{label==="Calories"?" kcal":"g"}</span>
+          <span style={{ fontSize:9, color: over?"#E07070":"#555", marginLeft:6 }}>{pct}%</span>
+        </span>
+      </div>
+      <div style={{ height:5, background:"#1A1A1A", borderRadius:4, overflow:"hidden" }}>
+        <div style={{ height:"100%", width:`${pct}%`, background: over?"#E07070":color, borderRadius:4, transition:"width 0.6s ease" }}/>
+      </div>
+    </div>
+  );
+}
+
 export function NutritionTab({
-  S, nutrition, mealPlan, mealLoading, mealError, generateMealPlan,
+  S, nutrition, mealPlan, mealLoading, mealError, generateMealPlan, repasToday,
 }) {
+  const totaux = (repasToday||[]).reduce((acc, r) => ({
+    calories:  acc.calories  + (r.calories  || 0),
+    proteines: acc.proteines + (r.proteines || 0),
+    glucides:  acc.glucides  + (r.glucides  || 0),
+    lipides:   acc.lipides   + (r.lipides   || 0),
+  }), { calories:0, proteines:0, glucides:0, lipides:0 });
+
   return (
     <div className="fade-in" style={{display:"flex",flexDirection:"column",gap:16}}>
 
@@ -110,6 +137,19 @@ export function NutritionTab({
 
       {/* Donut répartition macros */}
       {nutrition && <MacroDonut nutrition={nutrition} />}
+
+      {/* Barres progression consommé vs objectif (si repas loggés) */}
+      {nutrition && repasToday?.length > 0 && (
+        <div style={{ background:"#0D0D0D", border:"0.5px solid #1A1A1A", borderRadius:12, padding:"14px 16px" }}>
+          <div style={{ fontSize:9, letterSpacing:"3px", textTransform:"uppercase", color:"#555", marginBottom:12 }}>
+            Consommé aujourd'hui
+          </div>
+          <MacroProgressBar label="Calories"  consumed={totaux.calories}  target={nutrition.calories_jour} color="#C9A84C" />
+          <MacroProgressBar label="Protéines" consumed={totaux.proteines} target={nutrition.proteines_g}   color="#7AE07A" />
+          <MacroProgressBar label="Glucides"  consumed={totaux.glucides}  target={nutrition.glucides_g}    color="#E8C87A" />
+          <MacroProgressBar label="Lipides"   consumed={totaux.lipides}   target={nutrition.lipides_g}     color="#88A0E0" />
+        </div>
+      )}
 
       <div className="grid2" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14}}>
         {/* Plan alimentaire */}
