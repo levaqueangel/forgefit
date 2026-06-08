@@ -156,51 +156,41 @@
 
 ## ⚪ PRIORITÉ 5 — OPTIMISATIONS TECHNIQUES
 
-- [ ] **33. `coach/page.js` — Refactoriser en composants séparés**
-  - 1500+ lignes dans un seul fichier
-  - Créer : `MessagesPanel.js`, `ProgrammeModal.js`, `CommandesTab.js`, `StatsTab.js`
+- [ ] **33. `coach/page.js` — Refactoriser en composants séparés** ⚠️ Refacto long
+  - 1500+ lignes → MessagesPanel.js, ProgrammeModal.js, CommandesTab.js, StatsTab.js
 
-- [ ] **34. `repas-photo` — Upload Firebase Storage au lieu de base64 JSON**
-  - Image ~1.4MB dans le body HTTP → lent et risque de timeout
-  - Upload Storage → envoyer URL à Anthropic
+- [ ] **34. `repas-photo` — Upload Firebase Storage au lieu de base64 JSON** ⚠️ Migration infra
+  - Upload Storage → URL Anthropic (évite timeout sur ~1.4MB base64)
 
-- [ ] **35. Sous-collections Firestore — `repasJournal` et `seanceHistorique`**
-  - Arrays dans le doc principal → chaque lecture charge tout
-  - Migrer en sous-collections à mesure que la base grossit
+- [ ] **35. Sous-collections Firestore — `repasJournal` et `seanceHistorique`** ⚠️ Migration données
+  - Arrays dans doc principal → sous-collections (à faire si base > 500 clients)
 
-- [ ] **36. Cache programmes générés — `/api/generate`**
-  - Deux appels identiques = deux factures Anthropic
-  - Ajouter cache 24h basé sur hash des paramètres (Vercel KV ou Redis)
+- [x] **36. Cache programmes générés — `/api/generate`** ✅ 2026-06-08
+  - SHA-256 hash des paramètres → Upstash Redis 24h (fire-and-forget)
 
-- [ ] **37. `rateLimit.js` — Limite taille du Map**
-  - Peut grossir indéfiniment entre nettoyages
-  - Ajouter `if (WINDOWS.size > 10000) WINDOWS.clear()`
+- [x] **37. `rateLimit.js` — Limite taille du Map** ✅ déjà en place
+  - WINDOWS.size > 10000 → clear() (setInterval 5min)
 
-- [ ] **38. Chatbot — Routing Haiku → Sonnet selon complexité**
-  - Questions techniques avancées → Haiku insuffisant
-  - Détecter complexité (longueur, mots-clés) et router vers Sonnet
+- [x] **38. Chatbot — Routing Haiku → Sonnet selon complexité** ✅ 2026-06-08
+  - Mots-clés + longueur > 200 chars → claude-sonnet-4-6 (max_tokens 2000)
 
-- [ ] **39. `vercel.json` — Ajouter security headers**
-  - Manquent : `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy`
+- [x] **39. `vercel.json` — Security headers** ✅ 2026-06-08
+  - X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy
 
-- [ ] **40. PWA — Stratégie cache Service Worker**
-  - Vérifier précache des assets critiques
-  - App fonctionnelle offline en mode lecture programme
+- [x] **40. PWA — Cache Service Worker offline** ✅ 2026-06-08
+  - Précache /client + stale-while-revalidate, purge vieux caches
 
-- [ ] **41. `RecettesTab.js` — Fallback image si 404**
-  - Ajouter `onError` sur `NextImage` pour image de remplacement
+- [x] **41. `RecettesTab.js` — Fallback image si 404** ✅ 2026-06-08
+  - onError → display:none sur les 2 NextImage
 
-- [ ] **42. Export CSV — Compatibilité séparateur international**
-  - `;` fonctionne sous Excel France, pas sous Excel anglais/Mac
-  - Ajouter `sep=;` en première ligne ou option virgule
+- [x] **42. Export CSV — sep=; compatibilité Excel** ✅ 2026-06-08
+  - Première ligne "sep=;" → Excel FR et international
 
-- [ ] **43. Webhook Stripe — Idempotency check**
-  - Retry Stripe peut créer deux `orders` pour une même session
-  - Vérifier `stripeSessionId` avant création
+- [x] **43. Webhook Stripe — Idempotency check** ✅ 2026-06-08
+  - Query Firestore par stripeSessionId avant création → skip si existant
 
-- [ ] **44. Emails — Template responsive mobile**
-  - Tables HTML largeur fixe 600px → peut déborder sur mobile
-  - Ajouter `max-width: 100%` et media queries email
+- [x] **44. Emails — Template responsive mobile** ✅ 2026-06-08
+  - max-width:100% ajouté sur les tables 600px (10 fichiers)
 
 ---
 
@@ -212,5 +202,5 @@
 | 🟠 P2 Bugs | 8 | 7 | 1 |
 | 🟡 P3 Sécurité | 6 | 6 | 0 |
 | 🔵 P4 Features | 13 | 13 | 0 |
-| ⚪ P5 Optim | 9 | 0 | 9 |
-| **TOTAL** | **41** | **28** | **13** |
+| ⚪ P5 Optim | 12 | 9 | 3 |
+| **TOTAL** | **44** | **37** | **7** |
