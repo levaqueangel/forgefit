@@ -6,6 +6,41 @@ export const dynamic = "force-dynamic";
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 export const maxDuration = 60;
 
+// ── Cache Redis 24h pour éviter les doublons de génération ───────────────
+async function getCacheKey(data) {
+  const fields = ["age","poids","taille","genre","obj","niv","seances","duree","lieu","regime","contraintes","lang","plan"];
+  const str = fields.map(f => `${f}:${data[f]||""}`).join("|");
+  // Crypto.subtle disponible en Edge/Node 18+
+  try {
+    const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
+    return "gen:" + Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,"0")).join("").slice(0,32);
+  } catch {
+    return null;
+  }
+}
+
+async function getCache(key) {
+  if (!key || !process.env.UPSTASH_REDIS_REST_URL) return null;
+  try {
+    const res = await fetch(`${process.env.UPSTASH_REDIS_REST_URL}/get/${key}`, {
+      headers: { Authorization: `Bearer ${process.env.UPSTASH_REDIS_REST_TOKEN}` },
+    });
+    const { result } = await res.json();
+    return result ? JSON.parse(result) : null;
+  } catch { return null; }
+}
+
+async function setCache(key, value) {
+  if (!key || !process.env.UPSTASH_REDIS_REST_URL) return;
+  try {
+    await fetch(`${process.env.UPSTASH_REDIS_REST_URL}/set/${key}`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${process.env.UPSTASH_REDIS_REST_TOKEN}`, "Content-Type":"application/json" },
+      body: JSON.stringify([JSON.stringify(value), "EX", 86400]), // 24h
+    });
+  } catch {}
+}
+
 // ── Calculs nutritionnels précis (Harris-Benedict + TDEE) ──────────────
 function calcNutrition(data) {
   const poids = parseFloat(data.poids) || 70;
@@ -439,6 +474,14 @@ export async function POST(req) {
 
   const lang = ["fr","en","de","es"].includes(data.lang) ? data.lang : "fr";
 
+  // Cache hit → retourner immédiatement sans appeler Anthropic
+  const cacheKey = await getCacheKey(data);
+  const cached = await getCache(cacheKey);
+  if (cached) {
+    console.log("generate: cache hit", cacheKey);
+    return Response.json(cached);
+  }
+
   // Pré-calculs côté serveur (précis, pas d'hallucinations possibles)
   const nutrition = calcNutrition(data);
   const jours     = getJoursSuggeres(data.seances, lang);
@@ -481,7 +524,9 @@ export async function POST(req) {
     }
 
     const programme = jsonToText(programmeData, lang);
-    return Response.json({ programme, programmeData });
+    const result = { programme, programmeData };
+    setCache(cacheKey, result); // fire-and-forget
+    return Response.json(result);
 
   } catch (e) {
     clearTimeout(timeoutId);

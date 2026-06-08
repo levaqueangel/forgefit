@@ -178,9 +178,14 @@ Note : Ce client n'est pas encore identifié — réponds de façon générale e
     const stream = new ReadableStream({
       async start(controller) {
         try {
+          // Routing : Sonnet si question longue ou technique, Haiku sinon
+          const COMPLEX_KEYWORDS = ["programme","plan","nutrition","calcul","expliqu","compare","analyse","différence","pourquoi","comment"];
+          const isComplex = clean.length > 200 || COMPLEX_KEYWORDS.some(k => clean.toLowerCase().includes(k));
+          const model = isComplex ? "claude-sonnet-4-6" : "claude-haiku-4-5";
+
           const anthropicStream = await anthropic.messages.stream({
-            model: "claude-haiku-4-5",
-            max_tokens: 1200,
+            model,
+            max_tokens: isComplex ? 2000 : 1200,
             system: systemPrompt,
             messages,
           });

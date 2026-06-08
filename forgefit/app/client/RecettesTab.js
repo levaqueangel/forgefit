@@ -144,7 +144,7 @@ export function RecettesTab({ clientData, user }) {
           onMouseLeave={e => e.currentTarget.style.borderColor = "#1A1A1A"}
           >
             <div style={{ position: "relative", height: 110, background: "#111" }}>
-              <NextImage src={r.image} alt={r.nom} fill style={{ objectFit: "cover", opacity: 0.85 }} />
+              <NextImage src={r.image} alt={r.nom} fill style={{ objectFit: "cover", opacity: 0.85 }} onError={e => { e.currentTarget.style.display="none"; }} />
               <button
                 onClick={e => { e.stopPropagation(); toggleFav(r.id); }}
                 style={{
@@ -188,7 +188,7 @@ export function RecettesTab({ clientData, user }) {
           >
             {/* Image */}
             <div style={{ position: "relative", height: 200 }}>
-              <NextImage src={selected.image} alt={selected.nom} fill style={{ objectFit: "cover", borderRadius: "16px 16px 0 0" }} />
+              <NextImage src={selected.image} alt={selected.nom} fill style={{ objectFit: "cover", borderRadius: "16px 16px 0 0" }} onError={e => { e.currentTarget.style.display="none"; }} />
               <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, #0D0D0D 10%, transparent 60%)", borderRadius: "16px 16px 0 0" }} />
               <button onClick={() => setSelected(null)} style={{
                 position: "absolute", top: 12, right: 12,

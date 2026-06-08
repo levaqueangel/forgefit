@@ -46,7 +46,7 @@ export async function GET(req) {
 <body style="margin:0;padding:0;background:#0A0A0A;font-family:'Helvetica Neue',Arial,sans-serif;">
 <table width="100%" cellpadding="0" cellspacing="0" style="background:#0A0A0A;padding:40px 20px;">
 <tr><td align="center">
-<table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
+<table width="600" style="max-width:100%;width:100%" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
 
   <tr><td style="background:#0D0D0D;border-bottom:2px solid ${planColor};padding:28px 36px;text-align:center;">
     <p style="margin:0;font-size:20px;font-weight:900;letter-spacing:6px;color:#F0EDE8;font-family:Arial,sans-serif;">

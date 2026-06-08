@@ -67,6 +67,13 @@ export async function POST(req) {
       accessGranted: PLANS_WITH_ACCESS.includes(plan),
     };
 
+    // Idempotency : éviter les doublons si Stripe rejoue l'événement
+    const existing = await db.collection("orders").where("stripeSessionId","==",stripeSessionId).limit(1).get();
+    if (!existing.empty) {
+      console.log(`Commande déjà enregistrée pour session ${stripeSessionId} — skip`);
+      return new Response("OK — duplicate skip", { status: 200 });
+    }
+
     const orderRef = await db.collection("orders").add(orderData);
     console.log(`Commande créée: ${orderRef.id} — Plan ${plan} — ${clientEmail}`);
 
@@ -93,7 +100,7 @@ export async function POST(req) {
 <body style="margin:0;padding:0;background:#0A0A0A;font-family:'Helvetica Neue',Arial,sans-serif;">
 <table width="100%" cellpadding="0" cellspacing="0" style="background:#0A0A0A;padding:40px 20px;">
 <tr><td align="center">
-<table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
+<table width="600" style="max-width:100%;width:100%" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
 <tr><td style="background:#0D0D0D;border-bottom:2px solid #C9A84C;padding:24px 36px;text-align:center;">
   <p style="margin:0;font-size:20px;font-weight:900;letter-spacing:6px;color:#F0EDE8;">APXFIT<span style="color:#C9A84C">NESS</span></p>
 </td></tr>

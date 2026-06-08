@@ -74,12 +74,13 @@ export async function GET(req) {
     ]);
 
     const csv = [
+      "sep=;",
       headers.join(";"),
       ...rows.map(r => r.join(";")),
     ].join("\n");
 
     const date = new Date().toISOString().split("T")[0];
-    return new Response("\uFEFF" + csv, { // BOM UTF-8 pour Excel
+    return new Response("\uFEFF" + csv, { // BOM UTF-8 + sep= pour Excel
       headers: {
         "Content-Type": "text/csv; charset=utf-8",
         "Content-Disposition": `attachment; filename="apxfitness-clients-${date}.csv"`,
