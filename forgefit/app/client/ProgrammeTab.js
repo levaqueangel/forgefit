@@ -118,7 +118,10 @@ function ProgrammeComplet({ data, texte, S }) {
                             <span style={{fontSize:9,color:"#C9A84C",fontWeight:700,fontFamily:"'Syne',sans-serif"}}>{ei+1}</span>
                           </div>
                           <div style={{flex:1,minWidth:0}}>
-                            <div style={{fontSize:12,fontWeight:700,color:"#E8E4DE",fontFamily:"'Syne',sans-serif"}}>{ex.nom}</div>
+                            <div style={{display:"flex",alignItems:"center",gap:8}}>
+                              <div style={{fontSize:12,fontWeight:700,color:"#E8E4DE",fontFamily:"'Syne',sans-serif"}}>{ex.nom}</div>
+                              <ExerciceGif nom={ex.nom} />
+                            </div>
                             <div style={{display:"flex",gap:12,marginTop:3,flexWrap:"wrap"}}>
                               {ex.series && <span style={pillStyle}>{ex.series} séries</span>}
                               {ex.reps && <span style={pillStyle}>{ex.reps} reps</span>}
