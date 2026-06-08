@@ -126,29 +126,31 @@
 - [x] **26. Page `/paiement-succes` — Vérifier qu'elle existe** ✅ déjà en place
   - app/paiement-succes/page.js existe avec messages adaptés par plan
 
-- [ ] **27. Programme client — Affichage structuré (pas `<pre>`)**
-  - Actuellement affiché en texte monospace brut dans `ProgrammeTab.js`
-  - Créer un affichage carte par séance, exercices en liste visuelle
+- [x] **27. Programme client — Affichage structuré (pas `<pre>`)** ✅ 2026-06-08
+  - ProgrammeComplet : méta tags, grille nutrition, accordéons par phase
+  - Exercices numérotés avec pills séries/reps/charge/repos + conseil
+  - Fallback <pre> si programmeData absent (rétrocompatible)
 
-- [ ] **28. GIFs / vidéos démonstration exercices**
-  - `ExerciceGif.js` existe mais sans source de données connectée
-  - Connecter ExerciseDB API ou créer bibliothèque statique des 40 exercices courants
+- [x] **28. GIFs / vidéos démonstration exercices** ✅ 2026-06-08
+  - ExerciceGif : 60+ exercices (Giphy, fallback silencieux onError)
+  - GIF button intégré dans programme complet accordéon + séance du jour
 
-- [ ] **29. Timer de repos — Son de notification (fallback iOS)**
-  - `navigator.vibrate()` non supporté sur iOS
-  - Ajouter un son via `AudioContext` ou `<audio>` comme fallback
+- [x] **29. Timer de repos — Son de notification (fallback iOS)** ✅ 2026-06-08
+  - AudioContext singleton + resume() sur premier tap utilisateur (fix iOS suspendu)
+  - Fallback WAV PCM généré inline si AudioContext inaccessible
+  - unlockAudio() sur clic exercice, Pause, Passer
 
-- [ ] **30. Journal repas — Bouton supprimer une entrée**
-  - Impossible de corriger une erreur de saisie
-  - Ajouter bouton suppression sur chaque entrée de `repasJournal`
+- [x] **30. Journal repas — Bouton supprimer une entrée** ✅ 2026-06-08
+  - DELETE /api/repas : supprime par index Firestore (_idx inclus dans le GET)
+  - RepasCard : bouton ✕ avec état loading, mise à jour état local immédiate
 
-- [ ] **31. Nutrition — Barre progression "consommé vs objectif"**
-  - Les macros cibles et consommées sont dans deux endroits différents
-  - Afficher en temps réel : consommé / objectif pour calories, protéines, glucides, lipides
+- [x] **31. Nutrition — Barre progression "consommé vs objectif"** ✅ 2026-06-08
+  - NutritionTab : MacroProgressBar par macro (rouge si >110%)
+  - page.js : fetch repasToday → passé à NutritionTab pour calcul totaux
 
-- [ ] **32. Corps Journal — Graphique évolution du poids**
-  - Journal de mesures sans courbe de progression
-  - Ajouter sparkline poids sur 30/60/90 jours
+- [x] **32. Corps Journal — Graphique évolution du poids** ✅ déjà en place + filtre période
+  - WeightChart SVG existant + sélecteur 30j/60j/90j ajouté
+  - Fallback sur tout l'historique si moins de 2 points dans la période
 
 ---
 
@@ -209,6 +211,6 @@
 | 🔴 P1 Bloquants | 5 | 2 | 3 |
 | 🟠 P2 Bugs | 8 | 7 | 1 |
 | 🟡 P3 Sécurité | 6 | 6 | 0 |
-| 🔵 P4 Features | 13 | 5 | 8 |
+| 🔵 P4 Features | 13 | 13 | 0 |
 | ⚪ P5 Optim | 9 | 0 | 9 |
-| **TOTAL** | **41** | **20** | **21** |
+| **TOTAL** | **41** | **28** | **13** |
