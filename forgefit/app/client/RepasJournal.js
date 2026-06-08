@@ -19,6 +19,16 @@ function MacroBar({ label, val, max, color }) {
 }
 
 function RepasCard({ repas, onDelete }) {
+  const [deleting, setDeleting] = useState(false);
+
+  const handleDelete = async (e) => {
+    e.stopPropagation();
+    if (deleting) return;
+    setDeleting(true);
+    await onDelete?.();
+    setDeleting(false);
+  };
+
   return (
     <div style={{
       background:"#0D0D0D", border:"0.5px solid #1A1A1A", borderRadius:12,
@@ -41,6 +51,16 @@ function RepasCard({ repas, onDelete }) {
           </div>
         )}
       </div>
+      {onDelete && (
+        <button onClick={handleDelete} disabled={deleting} title="Supprimer ce repas" style={{
+          background:"transparent", border:"0.5px solid #1A1A1A", color:"#444",
+          width:28, height:28, borderRadius:6, cursor:"pointer", flexShrink:0,
+          display:"flex", alignItems:"center", justifyContent:"center",
+          fontSize:12, transition:"all 0.15s",
+        }}>
+          {deleting ? "⏳" : "✕"}
+        </button>
+      )}
     </div>
   );
 }
@@ -60,7 +80,7 @@ export function RepasJournal({ nutrition, user }) {
     return auth.currentUser.getIdToken();
   }, []);
 
-  // Charger le journal du jour
+  // Charger le journal du jour (avec index global Firestore pour suppression)
   useEffect(() => {
     if (!user?.uid) return;
     (async () => {
@@ -70,7 +90,8 @@ export function RepasJournal({ nutrition, user }) {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();
-        setRepas(data.repas || []);
+        // Le GET retourne les entrées filtrées → on attache _idx pour la suppression
+        setRepas((data.repas || []).map((r, i) => ({ ...r, _idx: r._idx ?? i })));
       } catch {}
       setFetching(false);
     })();
@@ -118,6 +139,20 @@ export function RepasJournal({ nutrition, user }) {
       }
     } catch { setError("Erreur de connexion."); }
     setLoading(false);
+  };
+
+  const supprimerRepas = async (localIdx, firestoreIdx) => {
+    try {
+      const token = await getToken();
+      const res = await fetch("/api/repas", {
+        method: "DELETE",
+        headers: { "Content-Type":"application/json", Authorization:`Bearer ${token}` },
+        body: JSON.stringify({ index: firestoreIdx }),
+      });
+      if (res.ok) {
+        setRepas(prev => prev.filter((_, i) => i !== localIdx));
+      }
+    } catch {}
   };
 
   const pctCalories = nutrition?.calories_jour ? Math.min(100, Math.round(totaux.calories / nutrition.calories_jour * 100)) : 0;
@@ -248,7 +283,9 @@ export function RepasJournal({ nutrition, user }) {
           <div style={{ fontSize:9, letterSpacing:"3px", textTransform:"uppercase", color:"#555" }}>
             {repas.length} repas loggés aujourd'hui
           </div>
-          {repas.map((r, i) => <RepasCard key={i} repas={r} />)}
+          {repas.map((r, i) => (
+            <RepasCard key={i} repas={r} onDelete={() => supprimerRepas(i, r._idx ?? i)} />
+          ))}
         </div>
       )}
     </div>

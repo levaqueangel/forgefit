@@ -104,6 +104,35 @@ Si tu n'es pas sûr, mets fiable:false. Estime au mieux même si vague.`,
 }
 
 // ── GET — récupérer le journal du jour ────────────────────────────────────
+// ── DELETE — supprimer une entrée du journal par index ───────────────────────
+export async function DELETE(req) {
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "unknown";
+  if (!await checkRateLimit(ip, 20, 60_000)) return Response.json({ error: "Trop de requêtes." }, { status: 429 });
+
+  const decoded = await verifyAuthToken(req);
+  if (!decoded) return Response.json({ error: "Non autorisé" }, { status: 401 });
+
+  try {
+    const { index } = await req.json();
+    if (typeof index !== "number" || index < 0) {
+      return Response.json({ error: "Index invalide" }, { status: 400 });
+    }
+    const db = getAdminDb();
+    const ref = db.collection("clients").doc(decoded.uid);
+    const snap = await ref.get();
+    if (!snap.exists) return Response.json({ error: "Client introuvable" }, { status: 404 });
+
+    const journal = snap.data().repasJournal || [];
+    if (index >= journal.length) return Response.json({ error: "Entrée introuvable" }, { status: 404 });
+
+    journal.splice(index, 1);
+    await ref.update({ repasJournal: journal });
+    return Response.json({ ok: true });
+  } catch (e) {
+    return Response.json({ error: e.message }, { status: 500 });
+  }
+}
+
 export async function GET(req) {
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "unknown";
   if (!await checkRateLimit(ip, 30, 60_000)) return Response.json({ error: "Trop de requêtes." }, { status: 429 });
@@ -124,11 +153,17 @@ export async function GET(req) {
 
     if (mode === "today") {
       const today = new Date().toDateString();
-      return Response.json({ repas: journal.filter(r => r.jour === today) });
+      const repas = journal
+        .map((r, i) => ({ ...r, _idx: i }))
+        .filter(r => r.jour === today);
+      return Response.json({ repas });
     }
-    // Retourner les 7 derniers jours
+    // Retourner les 7 derniers jours avec index Firestore
     const cutoff = new Date(Date.now() - 7 * 86400000).toDateString();
-    return Response.json({ repas: journal.filter(r => new Date(r.date) >= new Date(cutoff)) });
+    const repas = journal
+      .map((r, i) => ({ ...r, _idx: i }))
+      .filter(r => new Date(r.date) >= new Date(cutoff));
+    return Response.json({ repas });
   } catch (e) {
     return Response.json({ error: e.message }, { status: 500 });
   }
