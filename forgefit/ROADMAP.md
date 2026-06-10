@@ -156,8 +156,8 @@
 
 ## ⚪ PRIORITÉ 5 — OPTIMISATIONS TECHNIQUES
 
-- [ ] **33. `coach/page.js` — Refactoriser en composants séparés** ⚠️ Refacto long
-  - 1500+ lignes → MessagesPanel.js, ProgrammeModal.js, CommandesTab.js, StatsTab.js
+- [x] **33. `coach/page.js` — Refactoriser en composants séparés** ✅ 2026-06-10
+  - 1840 → 1279 lignes : ObjectifsCoach.js, StatsTab.js, CommandesTab.js, TemplatesTab.js extraits
 
 - [ ] **34. `repas-photo` — Upload Firebase Storage au lieu de base64 JSON** ⚠️ Migration infra
   - Upload Storage → URL Anthropic (évite timeout sur ~1.4MB base64)

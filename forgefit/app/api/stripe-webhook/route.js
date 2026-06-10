@@ -1,11 +1,11 @@
-import Stripe from "stripe";
+﻿import Stripe from "stripe";
 import { getAdminDb } from "../firebase-admin";
 import { Resend } from "resend";
 export const dynamic = "force-dynamic";
 
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-const resend = new Resend(process.env.RESEND_API_KEY);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "sk_placeholder");
+const resend = new Resend(process.env.RESEND_API_KEY || "re_placeholder");
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://apxfitness-brown.vercel.app";
 const COACH_EMAIL = process.env.COACH_EMAIL || process.env.NEXT_PUBLIC_COACH_EMAIL || "coach.apxfitness11@gmail.com";
 

@@ -1,10 +1,10 @@
-import { getAdminAuth, getAdminDb } from "../firebase-admin";
+﻿import { getAdminAuth, getAdminDb } from "../firebase-admin";
 import { Resend } from "resend";
 export const dynamic = "force-dynamic";
 
 const COACH_EMAIL = process.env.COACH_EMAIL || process.env.NEXT_PUBLIC_COACH_EMAIL || "coach.apxfitness11@gmail.com";
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://apxfitness-brown.vercel.app";
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY || "re_placeholder");
 
 // Vérifie que le requêteur est bien le coach
 async function verifyCoach(req) {

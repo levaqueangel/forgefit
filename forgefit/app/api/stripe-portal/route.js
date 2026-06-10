@@ -1,9 +1,9 @@
-import Stripe from "stripe";
+﻿import Stripe from "stripe";
 import { getAdminDb, verifyAuthToken } from "../firebase-admin";
 import { checkRateLimit } from "../rateLimit";
 export const dynamic = "force-dynamic";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "sk_placeholder");
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://apxfitness-brown.vercel.app";
 
 // Crée une session Stripe Billing Portal pour le client connecté
