@@ -381,7 +381,7 @@ if (!user) return <LoginScreen lang={lang} setLang={setLang} LANGS={LANGS} />;
 
 // ── Rendu principal ──────────────────────────────────────────
 return (
-<div style={{background:"#0A0A0A",color:"#F0EDE8",minHeight:"100vh",fontFamily:"'Syne',sans-serif",display:"flex",flexDirection:"column"}}>
+<div style={{background:"#0A0A0A",color:"#F0EDE8",height:"100vh",fontFamily:"'Syne',sans-serif",display:"flex",flexDirection:"row",overflow:"hidden"}}>
 <style>{`
 *{box-sizing:border-box;margin:0;padding:0}
 textarea:focus,input:focus{border-color:#C9A84C !important;outline:none}
@@ -402,6 +402,8 @@ textarea:focus,input:focus{border-color:#C9A84C !important;outline:none}
 .tab-btn{background:transparent;border:0.5px solid transparent;color:#666;font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;padding:8px 16px;border-radius:20px;transition:all 0.2s;white-space:nowrap;display:flex;align-items:center;gap:5px;position:relative}
 .tab-btn.active{background:rgba(201,168,76,0.12);color:#E8C87A;border:0.5px solid rgba(201,168,76,0.3);box-shadow:0 0 12px rgba(201,168,76,0.08)}
 .tab-btn:hover:not(.active){background:rgba(255,255,255,0.04);color:#999;border-color:#1E1E1E}
+.sidebar-btn:hover{background:rgba(255,255,255,0.05) !important;color:#888 !important}
+@media(max-width:768px){.sidebar-desktop{display:none !important}.tabs-wrap{display:flex !important}}
 .sub-tab{background:transparent;border:0.5px solid #222;color:#555;font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:8px 18px;cursor:pointer;transition:all 0.18s;border-radius:20px}
 .sub-tab.active{border-color:rgba(201,168,76,0.5);color:#C9A84C;background:rgba(201,168,76,0.1)}
 .sub-tab:hover:not(.active){border-color:#333;color:#888;background:rgba(255,255,255,0.03)}
@@ -518,26 +520,58 @@ if(e.reposSec>0) setTimer({duration:e.reposSec,name:e.nom,startedAt:Date.now()})
 
 {timer && <RestTimer key={timer.startedAt} duration={timer.duration} exerciseName={timer.name} onDone={()=>setTimer(null)} onSkip={()=>setTimer(null)} />}
 
-<nav style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"14px 24px",borderBottom:"0.5px solid #1A1A1A",position:"sticky",top:0,background:"#0A0A0A",zIndex:100}}>
-<div style={{fontSize:18,fontWeight:800,letterSpacing:5,cursor:"pointer"}} onClick={()=>router.push("/")}>
-APXFIT<span style={{color:"#C9A84C"}}>NESS</span>
+{/* ── Barre latérale verticale ── */}
+<aside className="sidebar-desktop" style={{width:64,flexShrink:0,background:"#07080A",borderRight:"0.5px solid rgba(201,168,76,0.08)",display:"flex",flexDirection:"column",alignItems:"center",padding:"14px 0",height:"100vh",position:"sticky",top:0,zIndex:50,gap:2,overflowY:"auto"}}>
+  <div onClick={()=>router.push("/")} style={{cursor:"pointer",marginBottom:18,display:"flex",flexDirection:"column",alignItems:"center",gap:1}}>
+    {["A","P","X"].map(l=><span key={l} style={{fontFamily:"'Cormorant Garamond',serif",fontSize:11,fontWeight:700,letterSpacing:2,color:"#C9A84C",lineHeight:1.5}}>{l}</span>)}
+  </div>
+  {[
+    {id:"dashboard",  label:"Dashboard",   badge:null,                icon:<svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>},
+    {id:"programme",  label:"Programme",   badge:exercices.length>0?`${doneExos}/${exercices.length}`:null, icon:<svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round"><path d="M6.5 6.5h-1.5v11h1.5M17.5 6.5h1.5v11h-1.5M8 6.5h8M8 17.5h8"/></svg>},
+    {id:"nutrition",  label:"Nutrition",   badge:null,                icon:<svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round"><path d="M12 2a5 5 0 0 1 0 10M12 2a5 5 0 0 0 0 10M12 12v10M9 18h6"/></svg>},
+    {id:"repas",      label:"Repas",       badge:null,                icon:<svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 2v5c0 2.8-2.2 5-5 5s-5-2.2-5-5V2"/></svg>},
+    {id:"recettes",   label:"Recettes",    badge:null,                icon:<svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>},
+    {id:"corps",      label:"Corps",       badge:null,                icon:<svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>},
+    {id:"messages",   label:"Messages",    badge:messages.filter(m=>m.sender==="coach"&&!m.read).length||null, icon:<svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>},
+    {id:"ia",         label:"IA",          badge:null,                icon:<svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3z"/></svg>},
+    {id:"communaute", label:"Communauté",  badge:null,                icon:<svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>},
+  ].map(tab=>(
+    <button key={tab.id} className="sidebar-btn"
+      onClick={()=>{setPrevTab(activeTab);setActiveTab(tab.id);vibrate([30]);}}
+      title={tab.label}
+      style={{width:44,height:44,display:"flex",alignItems:"center",justifyContent:"center",border:"none",cursor:"pointer",borderRadius:8,position:"relative",background:activeTab===tab.id?"rgba(201,168,76,0.12)":"transparent",color:activeTab===tab.id?"#C9A84C":"#3A3A3A",transition:"all 0.15s"}}>
+      {tab.icon}
+      {!!tab.badge&&<span style={{position:"absolute",top:7,right:7,width:6,height:6,background:"#E07070",borderRadius:"50%",border:"1.5px solid #07080A"}}/>}
+    </button>
+  ))}
+  <div style={{flex:1}}/>
+  <button onClick={refreshData} disabled={dataLoading} title="Rafraîchir" className="sidebar-btn"
+    style={{width:44,height:44,display:"flex",alignItems:"center",justifyContent:"center",border:"none",cursor:dataLoading?"not-allowed":"pointer",borderRadius:8,background:"transparent",color:"#2A2A2A",fontSize:14,transition:"all 0.15s"}}>
+    {dataLoading?<div className="spinner" style={{width:12,height:12}}/>:"↻"}
+  </button>
+  <button onClick={()=>setShowPwdModal(true)} title="Mot de passe" className="sidebar-btn"
+    style={{width:44,height:44,display:"flex",alignItems:"center",justifyContent:"center",border:"none",cursor:"pointer",borderRadius:8,background:"transparent",transition:"all 0.15s"}}>
+    <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="#3A3A3A" strokeWidth={1.5} strokeLinecap="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+  </button>
+  <button onClick={async()=>{try{const token=await user.getIdToken();const res=await fetch("/api/stripe-portal",{method:"POST",headers:{"Authorization":`Bearer ${token}`,"Content-Type":"application/json"}});const d=await res.json();if(d.url)window.location.href=d.url;}catch{}}} title="Abonnement / Factures" className="sidebar-btn"
+    style={{width:44,height:44,display:"flex",alignItems:"center",justifyContent:"center",border:"none",cursor:"pointer",borderRadius:8,background:"transparent",transition:"all 0.15s"}}>
+    <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="#3A3A3A" strokeWidth={1.5} strokeLinecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+  </button>
+  <button onClick={()=>signOut(auth)} title="Déconnexion" className="sidebar-btn"
+    style={{width:44,height:44,display:"flex",alignItems:"center",justifyContent:"center",border:"none",cursor:"pointer",borderRadius:8,background:"transparent",transition:"all 0.15s"}}>
+    <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="#3A3A3A" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+  </button>
+</aside>
+{/* ── Colonne principale ── */}
+<div style={{flex:1,display:"flex",flexDirection:"column",overflow:"hidden",height:"100vh"}}>
+<nav style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"12px 24px",borderBottom:"0.5px solid #1A1A1A",background:"#0A0A0A",zIndex:100,flexShrink:0}}>
+<div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:22,fontWeight:600}}>
+Bonjour <em style={{color:"#C9A84C",fontStyle:"italic"}}>{clientData?.nom||user.email.split("@")[0]}</em>
+{currentWeek&&pd&&<span style={{fontSize:10,fontFamily:"'Syne',sans-serif",letterSpacing:"1.5px",textTransform:"uppercase",background:"rgba(201,168,76,0.08)",border:"0.5px solid rgba(201,168,76,0.2)",color:"#C9A84C",padding:"3px 10px",borderRadius:20,marginLeft:12,verticalAlign:"middle"}}>Sem. {currentWeek}/{totalWeeks}</span>}
 </div>
-<div style={{display:"flex",alignItems:"center",gap:10,flexWrap:"wrap"}}>
+<div style={{display:"flex",alignItems:"center",gap:10}}>
 <span style={{fontSize:10,letterSpacing:"1.5px",textTransform:"uppercase",background:"rgba(201,168,76,0.1)",border:"0.5px solid rgba(201,168,76,0.35)",color:"#C9A84C",padding:"5px 14px",borderRadius:20}}>Plan {planName}</span>
 <LangSelector lang={lang} setLang={setLang} LANGS={LANGS} />
-<button onClick={refreshData} disabled={dataLoading} style={{background:"transparent",border:"0.5px solid #1E1E1E",color:dataLoading?"#333":"#555",fontFamily:"'Syne',sans-serif",fontSize:13,padding:"7px 12px",cursor:dataLoading?"not-allowed":"pointer",borderRadius:2,display:"flex",alignItems:"center",justifyContent:"center",transition:"all 0.2s"}} title="Rafraîchir">
-{dataLoading?<div className="spinner" style={{borderTopColor:"#C9A84C",width:12,height:12}}/>:"↻"}
-</button>
-<button onClick={()=>setShowPwdModal(true)} style={{background:"transparent",border:"0.5px solid #1E1E1E",color:"#555",fontFamily:"'Syne',sans-serif",fontSize:11,letterSpacing:"2px",textTransform:"uppercase",padding:"7px 14px",cursor:"pointer",borderRadius:2}}>🔑</button>
-<button onClick={async()=>{
-  try{
-    const token=await user.getIdToken();
-    const res=await fetch("/api/stripe-portal",{method:"POST",headers:{"Authorization":`Bearer ${token}`,"Content-Type":"application/json"}});
-    const d=await res.json();
-    if(d.url) window.location.href=d.url;
-  }catch{}
-}} style={{background:"transparent",border:"0.5px solid #1E1E1E",color:"#555",fontFamily:"'Syne',sans-serif",fontSize:11,letterSpacing:"2px",textTransform:"uppercase",padding:"7px 14px",cursor:"pointer",borderRadius:2}} title="Gérer mon abonnement / factures">🧾</button>
-<button onClick={()=>signOut(auth)} style={{background:"transparent",border:"0.5px solid #1E1E1E",color:"#555",fontFamily:"'Syne',sans-serif",fontSize:11,letterSpacing:"2px",textTransform:"uppercase",padding:"7px 14px",cursor:"pointer",borderRadius:2}}>Déconnexion</button>
 </div>
 </nav>
 
@@ -568,46 +602,14 @@ APXFIT<span style={{color:"#C9A84C"}}>NESS</span>
 </div>
 )}
 
-<div style={{padding:"16px 24px 0",borderBottom:"0.5px solid #1A1A1A",background:"#0A0A0A"}}>
 {showRenew && (
-<div style={{background:"rgba(201,168,76,0.06)",border:"0.5px solid rgba(201,168,76,0.3)",borderRadius:4,padding:"10px 14px",marginBottom:12,display:"flex",alignItems:"center",justifyContent:"space-between",gap:12}}>
+<div style={{padding:"10px 24px",borderBottom:"0.5px solid rgba(201,168,76,0.15)",background:"rgba(201,168,76,0.04)",display:"flex",alignItems:"center",justifyContent:"space-between",gap:12,flexShrink:0}}>
 <div style={{fontSize:12,color:"#C9A84C"}}>🏁 Ton programme de 4 semaines touche à sa fin — prêt pour la suite ?</div>
 <button onClick={()=>router.push("/bilan")} style={{background:"linear-gradient(135deg,#C9A84C,#A67C2E)",border:"none",color:"#0A0A0A",padding:"7px 16px",fontFamily:"'Syne',sans-serif",fontSize:11,fontWeight:700,letterSpacing:"2px",textTransform:"uppercase",cursor:"pointer",borderRadius:2,flexShrink:0}}>Nouveau bilan →</button>
 </div>
 )}
-<div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:26,fontWeight:600,marginBottom:14}}>
-Bonjour <em style={{color:"#C9A84C",fontStyle:"italic"}}>{clientData?.nom||user.email.split("@")[0]}</em> 👋
-<div style={{fontSize:12,color:"#444",fontFamily:"'Syne',sans-serif",fontWeight:400,marginTop:5,display:"flex",alignItems:"center",gap:8}}>
-{currentWeek&&pd&&<span style={{background:"rgba(201,168,76,0.08)",border:"0.5px solid rgba(201,168,76,0.2)",color:"#C9A84C",padding:"3px 10px",borderRadius:20,fontSize:10,letterSpacing:"1.5px",textTransform:"uppercase"}}>Sem. {currentWeek}/{totalWeeks}</span>}
-{pd?.objectif_principal&&<span style={{color:"#444"}}>{pd.objectif_principal}</span>}
-{!pd&&<span style={{color:"#444"}}>Espace client</span>}
-</div>
-</div>
-<div className="tabs-wrap">
-{[
-{id:"dashboard",   label:"Dashboard",  icon:"📊", badge:null},
-{id:"programme",   label:"Programme",  icon:"🏋️", badge:exercices.length>0?`${doneExos}/${exercices.length}`:null},
-{id:"nutrition",   label:"Nutrition",  icon:"🥗", badge:null},
-{id:"repas",       label:"Repas",      icon:"🍽️", badge:null},
-{id:"recettes",    label:"Recettes",   icon:"👨‍🍳", badge:null},
-{id:"corps",       label:"Corps",      icon:"📐", badge:null},
-{id:"messages",    label:"Messages",   icon:"💬", badge:messages.filter(m=>m.sender==="coach"&&!m.read).length||null},
-{id:"ia",          label:"IA",         icon:"🤖", badge:null},
-{id:"communaute",  label:"Communauté", icon:"👥", badge:null},
-].map(tab=>(
-<button key={tab.id} className={`tab-btn${activeTab===tab.id?" active":""}`}
-onClick={()=>{setPrevTab(activeTab);setActiveTab(tab.id);vibrate([30]);}}
-style={{position:"relative"}}>
-{tab.icon} {tab.label}
-{tab.badge!==null&&(
-<span style={{fontSize:9,fontWeight:700,letterSpacing:0,lineHeight:1.4,background:activeTab===tab.id?"#C9A84C":"#2A2A2A",color:activeTab===tab.id?"#0A0A0A":"#888",borderRadius:10,padding:"1px 6px",marginLeft:4,transition:"all 0.2s"}}>{tab.badge}</span>
-)}
-</button>
-))}
-</div>
-</div>
 
-<div style={{flex:1,padding:"20px 24px 32px",display:"flex",flexDirection:"column",gap:18,maxWidth:900,width:"100%",margin:"0 auto"}}
+<div style={{flex:1,overflowY:"auto",padding:"20px 24px 32px",display:"flex",flexDirection:"column",gap:18,maxWidth:900,width:"100%",margin:"0 auto"}}
 onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
 
 {activeTab==="dashboard" && <DashboardTab S={S} doneSeances={doneSeances} doneExos={doneExos} exercices={exercices} pd={pd} realStreak={realStreak} nbSeances={nbSeances} semaine={semaine} joursEtat={joursEtat} seances={seances} seanceDone={seanceDone} setSeanceDone={setSeanceDone} user={user} clientData={clientData} setClientData={setClientData} vibrate={vibrate} addToast={addToast} nutrition={nutrition} currentWeek={currentWeek} totalWeeks={totalWeeks} />}
@@ -648,6 +650,7 @@ onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
 {activeTab==="communaute" && <CommunauteTab S={S} clientData={clientData} user={user} />}
 
 </div>
+</div>{/* fin colonne principale */}
 </div>
 );
 }
