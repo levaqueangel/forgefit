@@ -17,14 +17,9 @@ export async function POST(req) {
     const decoded = await verifyAuthToken(req);
     if (!decoded) return Response.json({ error: "Non autorisé." }, { status: 401 });
 
-    const { image, mediaType, description } = await req.json();
+    const { imageUrl, image, mediaType, description } = await req.json();
 
-    if (!image) return Response.json({ error: "Image manquante." }, { status: 400 });
-    if (image.length > MAX_B64_SIZE)
-      return Response.json({ error: "Image trop lourde (max 4 Mo)." }, { status: 413 });
-
-    const validTypes = ["image/jpeg", "image/png", "image/webp", "image/gif"];
-    const mType = validTypes.includes(mediaType) ? mediaType : "image/jpeg";
+    if (!imageUrl && !image) return Response.json({ error: "Image manquante." }, { status: 400 });
 
     // Contexte texte optionnel fourni par l'utilisateur
     const userContext = description?.trim()
@@ -57,6 +52,11 @@ Règles strictes :
 - Les macros doivent être cohérentes avec les calories (1g protéines=4kcal, 1g glucides=4kcal, 1g lipides=9kcal)
 - Ne jamais mettre de texte hors du JSON`;
 
+    // Source image : URL Storage (priorité) ou base64 fallback
+    const imageSource = imageUrl
+      ? { type: "url", url: imageUrl }
+      : { type: "base64", media_type: (["image/jpeg","image/png","image/webp","image/gif"].includes(mediaType) ? mediaType : "image/jpeg"), data: image };
+
     const response = await anthropic.messages.create({
       model: "claude-opus-4-8",
       max_tokens: 700,
@@ -66,7 +66,7 @@ Règles strictes :
           content: [
             {
               type: "image",
-              source: { type: "base64", media_type: mType, data: image },
+              source: imageSource,
             },
             { type: "text", text: prompt },
           ],

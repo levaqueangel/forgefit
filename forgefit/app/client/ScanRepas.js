@@ -1,5 +1,7 @@
 "use client";
 import { useRef, useState } from "react";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { storage } from "../firebase";
 
 // ── Compression image côté client ─────────────────────────────────────────────
 async function compressImage(file, maxPx = 1024, quality = 0.85) {
@@ -75,7 +77,8 @@ function ConfidenceBadge({ confiance, fiable }) {
 export function ScanRepas({ user, onSave }) {
   const fileRef   = useRef(null);
   const [preview, setPreview]     = useState(null);
-  const [b64, setB64]             = useState(null);
+  const [imageUrl, setImageUrl]   = useState(null);
+  const [uploading, setUploading] = useState(false);
   const [mediaType, setMediaType] = useState("image/jpeg");
   const [description, setDescription] = useState(""); // contexte texte optionnel
   const [showDescInput, setShowDescInput] = useState(false);
@@ -100,13 +103,29 @@ export function ScanRepas({ user, onSave }) {
     if (!compressed) { setError("Impossible de lire l'image."); return; }
 
     setPreview(compressed.preview);
-    setB64(compressed.b64);
     setMediaType("image/jpeg");
+
+    // Upload vers Firebase Storage
+    setUploading(true);
+    try {
+      const uid = user?.uid || "anon";
+      const path = `repas-photos/${uid}/${Date.now()}.jpg`;
+      const storageRef = ref(storage, path);
+      const blob = await fetch(`data:image/jpeg;base64,${compressed.b64}`).then(r => r.blob());
+      await uploadBytes(storageRef, blob, { contentType: "image/jpeg" });
+      const url = await getDownloadURL(storageRef);
+      setImageUrl(url);
+    } catch {
+      // Fallback : garder base64 en mémoire si Storage échoue
+      setImageUrl(`data:image/jpeg;base64,${compressed.b64}`);
+    } finally {
+      setUploading(false);
+    }
   };
 
   // ── Analyse IA ─────────────────────────────────────────────────────────────
   const analyze = async () => {
-    if (!b64) return;
+    if (!imageUrl) return;
     setLoading(true); setError(""); setResult(null);
 
     try {
@@ -117,7 +136,7 @@ export function ScanRepas({ user, onSave }) {
           "Content-Type": "application/json",
           ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
-        body: JSON.stringify({ image: b64, mediaType, description: description.trim() || undefined }),
+        body: JSON.stringify({ imageUrl, description: description.trim() || undefined }),
       });
       const data = await res.json();
 
@@ -179,7 +198,7 @@ export function ScanRepas({ user, onSave }) {
 
   // ── Reset ──────────────────────────────────────────────────────────────────
   const reset = () => {
-    setPreview(null); setB64(null); setResult(null);
+    setPreview(null); setImageUrl(null); setResult(null);
     setError(""); setSaved(false); setSaving(false);
     setDescription(""); setShowDescInput(false);
     if (fileRef.current) fileRef.current.value = "";
@@ -287,13 +306,13 @@ export function ScanRepas({ user, onSave }) {
                     />
                   )}
 
-                  <button onClick={analyze} style={{
-                    background: "linear-gradient(135deg,#C9A84C,#A67C2E)",
-                    border: "none", color: "#0A0A0A", fontFamily: "'Syne',sans-serif",
+                  <button onClick={analyze} disabled={uploading || !imageUrl} style={{
+                    background: uploading ? "rgba(201,168,76,0.2)" : "linear-gradient(135deg,#C9A84C,#A67C2E)",
+                    border: "none", color: uploading ? "#C9A84C" : "#0A0A0A", fontFamily: "'Syne',sans-serif",
                     fontWeight: 800, fontSize: 11, letterSpacing: "1.5px", textTransform: "uppercase",
-                    padding: "10px 18px", cursor: "pointer", width: "100%", borderRadius: 4,
+                    padding: "10px 18px", cursor: uploading ? "not-allowed" : "pointer", width: "100%", borderRadius: 4,
                   }}>
-                    🔍 Analyser avec l'IA
+                    {uploading ? "⏳ Upload en cours…" : "🔍 Analyser avec l'IA"}
                   </button>
                 </>
               )}
