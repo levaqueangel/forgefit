@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ProgressBar } from "./ProgressBar";
 import { updateDoc, doc } from "firebase/firestore";
 import { db } from "../firebase";
@@ -20,22 +20,42 @@ export function DashboardTab({
 }) {
   const router = useRouter();
   const [showRapport, setShowRapport] = useState(false);
+  const [displayStreak, setDisplayStreak] = useState(0);
+  const [displaySeances, setDisplaySeances] = useState(0);
+
+  useEffect(() => {
+    if (!realStreak && !doneSeances) return;
+    let frame, start = null;
+    const duration = 900;
+    const tStreak = realStreak || 0;
+    const tSeances = doneSeances || 0;
+    function step(ts) {
+      if (!start) start = ts;
+      const p = Math.min((ts - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - p, 3);
+      setDisplayStreak(Math.round(ease * tStreak));
+      setDisplaySeances(Math.round(ease * tSeances));
+      if (p < 1) frame = requestAnimationFrame(step);
+    }
+    frame = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(frame);
+  }, [realStreak, doneSeances]);
+
   return (
     <div className="fade-in" style={{display:"flex",flexDirection:"column",gap:18}}>
 
       {/* ── Métriques — style app avec accent coloré ── */}
       <div className="metrics-grid" style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:10}}>
         {[
-          { label:"Séances",         val:`${doneSeances}/${nbSeances||4}`,           sub:"cette semaine",  color:"#C9A84C",  dot:"rgba(201,168,76,0.15)"  },
-          { label:"Exercices",       val:`${doneExos}/${exercices.length||"—"}`,   sub:"séance du jour", color:"#7AE07A",  dot:"rgba(122,224,122,0.15)" },
-          { label:"Programme",       val:pd?`${pd.duree_programme_semaines||4}W`:"—", sub:pd?.objectif_principal||"En attente", color:"#F0EDE8", dot:"rgba(240,237,232,0.08)" },
-          { label:"Streak",          val:realStreak>0?`${realStreak}j`:"0j",       sub:realStreak>0?"sans coupure":"Lance-toi !", color:realStreak>=7?"#C9A84C":"#F0EDE8", dot:realStreak>=7?"rgba(201,168,76,0.15)":"rgba(240,237,232,0.08)" },
+          { label:"Séances",   val:`${displaySeances}/${nbSeances||4}`,             sub:"cette semaine",  color:"#C9A84C" },
+          { label:"Exercices", val:`${doneExos}/${exercices.length||"—"}`,          sub:"séance du jour", color:"#7AE07A" },
+          { label:"Programme", val:pd?`${pd.duree_programme_semaines||4}W`:"—",    sub:pd?.objectif_principal||"En attente", color:"#F0EDE8" },
+          { label:"Streak",    val:realStreak>0?`${displayStreak}j`:"0j",          sub:realStreak>0?"sans coupure":"Lance-toi !", color:realStreak>=7?"#C9A84C":"#F0EDE8" },
         ].map((m,i) => (
-          <div key={i} className="metric-card" style={{position:"relative",overflow:"hidden"}}>
-            {/* Accent top */}
+          <div key={i} className="metric-card" style={{position:"relative",overflow:"hidden",animation:`metricCount 0.5s ease both`,animationDelay:`${i*0.08}s`,opacity:0}}>
             <div style={{position:"absolute",top:0,left:16,right:16,height:2,background:m.color,borderRadius:"0 0 2px 2px",opacity:0.6}}/>
             <div style={{fontSize:10,letterSpacing:"2px",textTransform:"uppercase",color:"#666",marginBottom:10,marginTop:8}}>{m.label}</div>
-            <div style={{fontSize:26,fontWeight:700,color:m.color,lineHeight:1,marginBottom:6,animation:"metricCount 0.4s ease forwards",fontFamily:"'Syne',sans-serif"}}>{m.val}</div>
+            <div style={{fontSize:26,fontWeight:700,color:m.color,lineHeight:1,marginBottom:6,fontFamily:"'Syne',sans-serif"}}>{m.val}</div>
             <div style={{fontSize:11,color:"#666",fontFamily:"'Syne',sans-serif"}}>{m.sub}</div>
           </div>
         ))}

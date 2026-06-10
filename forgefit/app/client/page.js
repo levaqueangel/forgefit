@@ -403,7 +403,14 @@ textarea:focus,input:focus{border-color:#C9A84C !important;outline:none}
 .tab-btn.active{background:rgba(201,168,76,0.12);color:#E8C87A;border:0.5px solid rgba(201,168,76,0.3);box-shadow:0 0 12px rgba(201,168,76,0.08)}
 .tab-btn:hover:not(.active){background:rgba(255,255,255,0.04);color:#999;border-color:#1E1E1E}
 .sidebar-btn:hover{background:rgba(255,255,255,0.05) !important;color:#888 !important}
-@media(max-width:768px){.sidebar-desktop{display:none !important}.tabs-wrap{display:flex !important}}
+@keyframes pulse-ring{0%{box-shadow:0 0 0 0 rgba(201,168,76,0.35)}70%{box-shadow:0 0 0 5px rgba(201,168,76,0)}100%{box-shadow:0 0 0 0 rgba(201,168,76,0)}}
+@keyframes dot-pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.7);opacity:0.5}}
+.mobile-bnav{display:none;align-items:center;justify-content:space-around;background:#07080A;border-top:0.5px solid rgba(201,168,76,0.1);padding:6px 0 max(8px,env(safe-area-inset-bottom));flex-shrink:0;z-index:60;overflow-x:auto;-ms-overflow-style:none;scrollbar-width:none}
+.mobile-bnav::-webkit-scrollbar{display:none}
+.mbn-btn{background:transparent;border:none;display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 6px;cursor:pointer;flex:1;min-width:44px;color:#333;transition:color 0.15s;position:relative}
+.mbn-btn.act{color:#C9A84C}
+.mbn-btn-label{font-size:9px;letter-spacing:0.5px;font-family:'Syne',sans-serif;text-transform:uppercase}
+@media(max-width:768px){.sidebar-desktop{display:none !important}.mobile-bnav{display:flex !important}.main-col{padding-bottom:0 !important}}
 .sub-tab{background:transparent;border:0.5px solid #222;color:#555;font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:8px 18px;cursor:pointer;transition:all 0.18s;border-radius:20px}
 .sub-tab.active{border-color:rgba(201,168,76,0.5);color:#C9A84C;background:rgba(201,168,76,0.1)}
 .sub-tab:hover:not(.active){border-color:#333;color:#888;background:rgba(255,255,255,0.03)}
@@ -540,9 +547,9 @@ if(e.reposSec>0) setTimer({duration:e.reposSec,name:e.nom,startedAt:Date.now()})
     <button key={tab.id} className="sidebar-btn"
       onClick={()=>{setPrevTab(activeTab);setActiveTab(tab.id);vibrate([30]);}}
       title={tab.label}
-      style={{width:44,height:44,display:"flex",alignItems:"center",justifyContent:"center",border:"none",cursor:"pointer",borderRadius:8,position:"relative",background:activeTab===tab.id?"rgba(201,168,76,0.12)":"transparent",color:activeTab===tab.id?"#C9A84C":"#3A3A3A",transition:"all 0.15s"}}>
+      style={{width:44,height:44,display:"flex",alignItems:"center",justifyContent:"center",border:"none",cursor:"pointer",borderRadius:8,position:"relative",background:activeTab===tab.id?"rgba(201,168,76,0.12)":"transparent",color:activeTab===tab.id?"#C9A84C":"#3A3A3A",transition:"all 0.15s",animation:activeTab===tab.id?"pulse-ring 2.4s ease-in-out infinite":"none"}}>
       {tab.icon}
-      {!!tab.badge&&<span style={{position:"absolute",top:7,right:7,width:6,height:6,background:"#E07070",borderRadius:"50%",border:"1.5px solid #07080A"}}/>}
+      {!!tab.badge&&<span style={{position:"absolute",top:7,right:7,width:6,height:6,background:"#E07070",borderRadius:"50%",border:"1.5px solid #07080A",animation:tab.id==="messages"?"dot-pulse 1.8s ease-in-out infinite":"none"}}/>}
     </button>
   ))}
   <div style={{flex:1}}/>
@@ -651,6 +658,28 @@ onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
 {activeTab==="communaute" && <CommunauteTab S={S} clientData={clientData} user={user} />}
 
 </div>
+{/* ── Navigation mobile (bottom bar) ── */}
+<nav className="mobile-bnav" aria-label="Navigation mobile">
+{[
+  {id:"dashboard",  label:"Home",     icon:<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>},
+  {id:"programme",  label:"Séance",   icon:<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round"><path d="M6.5 6.5h-1.5v11h1.5M17.5 6.5h1.5v11h-1.5M8 6.5h8M8 17.5h8"/></svg>},
+  {id:"nutrition",  label:"Nutrition", icon:<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round"><path d="M12 2a5 5 0 0 1 0 10M12 2a5 5 0 0 0 0 10M12 12v10M9 18h6"/></svg>},
+  {id:"messages",   label:"Messages",  badge:messages.filter(m=>m.sender==="coach"&&!m.read).length||null, icon:<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>},
+  {id:"ia",         label:"IA",        icon:<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3z"/></svg>},
+  {id:"repas",      label:"Repas",     icon:<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 2v5c0 2.8-2.2 5-5 5s-5-2.2-5-5V2"/></svg>},
+  {id:"corps",      label:"Corps",     icon:<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>},
+  {id:"recettes",   label:"Recettes",  icon:<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>},
+  {id:"communaute", label:"Social",    icon:<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>},
+].map(tab=>(
+  <button key={tab.id} className={`mbn-btn${activeTab===tab.id?" act":""}`}
+    onClick={()=>{setPrevTab(activeTab);setActiveTab(tab.id);vibrate([30]);}}
+    title={tab.label}>
+    {tab.icon}
+    <span className="mbn-btn-label">{tab.label}</span>
+    {!!tab.badge&&<span style={{position:"absolute",top:2,right:"calc(50% - 14px)",width:6,height:6,background:"#E07070",borderRadius:"50%",border:"1.5px solid #07080A",animation:"dot-pulse 1.8s ease-in-out infinite"}}/>}
+  </button>
+))}
+</nav>
 </div>{/* fin colonne principale */}
 </div>
 );
