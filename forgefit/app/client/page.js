@@ -424,6 +424,7 @@ textarea:focus,input:focus{border-color:#C9A84C !important;outline:none}
 .card-hover{transition:all 0.2s}
 .card-hover:hover{border-color:#2A2A2A !important;transform:translateY(-2px)}
 .skel{background:linear-gradient(90deg,#111 25%,#1A1A1A 50%,#111 75%);background-size:800px 100%;animation:skeletonShimmer 1.4s ease-in-out infinite;border-radius:6px}
+.main-col::-webkit-scrollbar{display:none}.main-col{-ms-overflow-style:none;scrollbar-width:none}
 .spinner{width:14px;height:14px;border:2px solid rgba(201,168,76,0.2);border-top-color:#C9A84C;border-radius:50%;animation:spin 0.7s linear infinite;display:inline-block;flex-shrink:0}
 .btn-primary{transition:opacity 0.15s,transform 0.1s}
 .btn-primary:hover:not(:disabled){opacity:0.88}
@@ -563,7 +564,7 @@ if(e.reposSec>0) setTimer({duration:e.reposSec,name:e.nom,startedAt:Date.now()})
   </button>
 </aside>
 {/* ── Colonne principale ── */}
-<div style={{flex:1,display:"flex",flexDirection:"column",overflow:"hidden",height:"100vh"}}>
+<div className="main-col" style={{flex:1,display:"flex",flexDirection:"column",overflow:"hidden",height:"100vh"}}>
 <nav style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"12px 24px",borderBottom:"0.5px solid #1A1A1A",background:"#0A0A0A",zIndex:100,flexShrink:0}}>
 <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:22,fontWeight:600}}>
 Bonjour <em style={{color:"#C9A84C",fontStyle:"italic"}}>{clientData?.nom||user.email.split("@")[0]}</em>
@@ -609,7 +610,7 @@ Bonjour <em style={{color:"#C9A84C",fontStyle:"italic"}}>{clientData?.nom||user.
 </div>
 )}
 
-<div style={{flex:1,overflowY:"auto",padding:"20px 24px 32px",display:"flex",flexDirection:"column",gap:18,maxWidth:900,width:"100%",margin:"0 auto"}}
+<div className="main-col" style={{flex:1,overflowY:"auto",padding:"20px 24px 32px",display:"flex",flexDirection:"column",gap:18,maxWidth:900,width:"100%",margin:"0 auto"}}
 onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
 
 {activeTab==="dashboard" && <DashboardTab S={S} doneSeances={doneSeances} doneExos={doneExos} exercices={exercices} pd={pd} realStreak={realStreak} nbSeances={nbSeances} semaine={semaine} joursEtat={joursEtat} seances={seances} seanceDone={seanceDone} setSeanceDone={setSeanceDone} user={user} clientData={clientData} setClientData={setClientData} vibrate={vibrate} addToast={addToast} nutrition={nutrition} currentWeek={currentWeek} totalWeeks={totalWeeks} />}
