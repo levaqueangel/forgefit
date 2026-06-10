@@ -6,7 +6,9 @@ const PLANS = [
   {
     id: "starter",
     name: "Starter",
-    price: 49,
+    monthly: 18.99,
+    annual: 189.90,
+    annualPerMonth: 15.83,
     tag: "Débutant",
     tagColor: "#5DCAA5",
     desc: "Le point de départ idéal pour ceux qui veulent structurer leur entraînement.",
@@ -25,7 +27,9 @@ const PLANS = [
   {
     id: "forge",
     name: "Forge",
-    price: 129,
+    monthly: 38.99,
+    annual: 389.90,
+    annualPerMonth: 32.49,
     tag: "Le plus choisi",
     tagColor: "#C9A84C",
     highlight: true,
@@ -45,7 +49,9 @@ const PLANS = [
   {
     id: "elite",
     name: "Elite",
-    price: 249,
+    monthly: 68.99,
+    annual: 689.90,
+    annualPerMonth: 57.49,
     tag: "Haut niveau",
     tagColor: "#7AE07A",
     desc: "Le coaching haut de gamme pour ceux qui veulent le maximum de résultats.",
@@ -86,6 +92,7 @@ const COMPARE = [
 export default function TarifsPage() {
   const router = useRouter();
   const [loadingPlan, setLoadingPlan] = useState(null);
+  const [billing, setBilling] = useState("monthly");
 
   async function handleCheckout(planId) {
     setLoadingPlan(planId);
@@ -93,7 +100,7 @@ export default function TarifsPage() {
       const res = await fetch("/api/stripe-checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ plan: planId }),
+        body: JSON.stringify({ plan: planId, billing }),
       });
       const data = await res.json();
       if (data.url) {
@@ -121,7 +128,7 @@ export default function TarifsPage() {
         "description": p.desc,
         "offers": {
           "@type": "Offer",
-          "price": p.price,
+          "price": p.monthly,
           "priceCurrency": "EUR",
           "availability": "https://schema.org/InStock",
         },
@@ -184,8 +191,61 @@ export default function TarifsPage() {
         </div>
       </div>
 
+      {/* Toggle mensuel / annuel */}
+      <div style={{ display:"flex", justifyContent:"center", padding:"2.5rem 1.5rem 0" }}>
+        <div style={{ display:"inline-flex", alignItems:"center", background:"#111", border:"0.5px solid #242424", borderRadius:4, padding:4, gap:2 }}>
+          {[
+            { value: "monthly", label: "Mensuel" },
+            { value: "annual",  label: "Annuel" },
+          ].map(opt => (
+            <button
+              key={opt.value}
+              onClick={() => setBilling(opt.value)}
+              style={{
+                background: billing === opt.value ? "rgba(201,168,76,0.15)" : "transparent",
+                border: billing === opt.value ? "0.5px solid rgba(201,168,76,0.4)" : "0.5px solid transparent",
+                color: billing === opt.value ? "#C9A84C" : "#555",
+                fontFamily: "'Syne',sans-serif",
+                fontSize: 11,
+                fontWeight: 700,
+                letterSpacing: "2px",
+                textTransform: "uppercase",
+                padding: "8px 20px",
+                cursor: "pointer",
+                borderRadius: 2,
+                transition: "all 0.15s",
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+              }}
+            >
+              {opt.label}
+              {opt.value === "annual" && (
+                <span style={{
+                  fontSize: 9,
+                  background: "linear-gradient(135deg,#C9A84C,#A67C2E)",
+                  color: "#0A0A0A",
+                  padding: "2px 6px",
+                  borderRadius: 10,
+                  fontWeight: 800,
+                  letterSpacing: "1px",
+                  whiteSpace: "nowrap",
+                }}>
+                  −2 mois
+                </span>
+              )}
+            </button>
+          ))}
+        </div>
+        {billing === "annual" && (
+          <div style={{ display:"flex", alignItems:"center", marginLeft:16, fontSize:12, color:"#5DCAA5", fontFamily:"'Cormorant Garamond',serif", fontStyle:"italic" }}>
+            2 mois offerts par an 🎉
+          </div>
+        )}
+      </div>
+
       {/* Plans */}
-      <div style={{ maxWidth:1100, margin:"0 auto", padding:"3rem 1.5rem 2rem" }}>
+      <div style={{ maxWidth:1100, margin:"0 auto", padding:"2rem 1.5rem 2rem" }}>
         <div className="plans-grid" style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:20 }}>
           {PLANS.map((plan, pi) => (
             <div key={plan.id} className={`plan-card${plan.highlight ? " highlight" : ""}`} style={{ animationDelay:`${pi*0.1}s` }}>
@@ -204,10 +264,26 @@ export default function TarifsPage() {
                 <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:32, fontWeight:600, marginBottom:4 }}>
                   {plan.name}
                 </div>
-                <div style={{ display:"flex", alignItems:"baseline", gap:6 }}>
-                  <span style={{ fontSize:42, fontWeight:800, color: plan.highlight ? "#C9A84C" : "#F0EDE8", lineHeight:1 }}>{plan.price}€</span>
-                  <span style={{ fontSize:12, color:"#444", letterSpacing:"1px" }}>unique</span>
-                </div>
+                {billing === "monthly" ? (
+                  <div style={{ display:"flex", alignItems:"baseline", gap:6 }}>
+                    <span style={{ fontSize:42, fontWeight:800, color: plan.highlight ? "#C9A84C" : "#F0EDE8", lineHeight:1 }}>
+                      {plan.monthly.toFixed(2).replace(".",",")}€
+                    </span>
+                    <span style={{ fontSize:12, color:"#444", letterSpacing:"1px" }}>/mois</span>
+                  </div>
+                ) : (
+                  <div>
+                    <div style={{ display:"flex", alignItems:"baseline", gap:6 }}>
+                      <span style={{ fontSize:42, fontWeight:800, color: plan.highlight ? "#C9A84C" : "#F0EDE8", lineHeight:1 }}>
+                        {plan.annual.toFixed(2).replace(".",",")}€
+                      </span>
+                      <span style={{ fontSize:12, color:"#444", letterSpacing:"1px" }}>/an</span>
+                    </div>
+                    <div style={{ fontSize:12, color:"#5DCAA5", marginTop:2 }}>
+                      soit {plan.annualPerMonth.toFixed(2).replace(".",",")}€/mois
+                    </div>
+                  </div>
+                )}
                 <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:15, color:"#555", lineHeight:1.6, marginTop:8 }}>
                   {plan.desc}
                 </p>
@@ -294,10 +370,21 @@ export default function TarifsPage() {
 
         {/* Prix en bas du tableau */}
         <div className="compare-row" style={{ borderBottom:"none", marginTop:8, background:"#111", borderRadius:"0 0 4px 4px" }}>
-          <div style={{ fontSize:11, letterSpacing:"2px", color:"#555", textTransform:"uppercase" }}>Prix unique</div>
+          <div style={{ fontSize:11, letterSpacing:"2px", color:"#555", textTransform:"uppercase" }}>
+            {billing === "annual" ? "Prix annuel" : "Prix mensuel"}
+          </div>
           {PLANS.map(p => (
             <div key={p.id} style={{ textAlign:"center" }}>
-              <span style={{ fontSize:20, fontWeight:800, color: p.highlight ? "#C9A84C" : "#F0EDE8" }}>{p.price}€</span>
+              <div style={{ fontSize:20, fontWeight:800, color: p.highlight ? "#C9A84C" : "#F0EDE8" }}>
+                {billing === "annual"
+                  ? `${p.annual.toFixed(2).replace(".",",")}€`
+                  : `${p.monthly.toFixed(2).replace(".",",")}€`}
+              </div>
+              {billing === "annual" && (
+                <div style={{ fontSize:10, color:"#5DCAA5", marginTop:2 }}>
+                  {p.annualPerMonth.toFixed(2).replace(".",",")}€/mois
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -310,6 +397,7 @@ export default function TarifsPage() {
           <h2 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(24px,3vw,36px)", fontWeight:600 }}>À savoir avant de commander</h2>
         </div>
         {[
+          { q: "Comment fonctionne l'abonnement ?", r: "Tu es facturé chaque mois (ou une fois par an en annuel). Tu peux annuler à tout moment depuis ton espace client ou en nous contactant. L'accès reste actif jusqu'à la fin de la période payée." },
           { q: "Paiement sécurisé ?", r: "Le paiement est traité par Stripe, la référence mondiale (Paypal, Amazon, Uber l'utilisent). Tes coordonnées bancaires ne transitent jamais par nos serveurs. Carte Visa, Mastercard, American Express acceptées." },
           { q: "Mon programme peut-il être adapté à la maison ?", r: "Oui, entièrement. Salle, maison avec ou sans matériel, extérieur — tout est pris en compte dans le bilan." },
           { q: "Dans quel délai je reçois mon programme ?", r: "Dans les 48 heures ouvrées après validation de ton bilan." },

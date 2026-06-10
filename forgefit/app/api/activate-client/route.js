@@ -51,8 +51,29 @@ export async function POST(req) {
       isNew = true;
     }
 
+    // Récupérer les infos d'abonnement depuis l'order si fourni
+    let stripeCustomerId    = null;
+    let stripeSubscriptionId = null;
+    let billing             = "monthly";
+    let subscriptionStatus  = null;
+
+    if (orderId) {
+      try {
+        const orderSnap = await db.collection("orders").doc(orderId).get();
+        if (orderSnap.exists) {
+          const orderData = orderSnap.data();
+          stripeCustomerId    = orderData.stripeCustomerId    || null;
+          stripeSubscriptionId = orderData.stripeSubscriptionId || null;
+          billing             = orderData.billing             || "monthly";
+          subscriptionStatus  = orderData.subscriptionStatus  || (stripeSubscriptionId ? "active" : null);
+        }
+      } catch (e) {
+        console.error("Could not fetch order for subscription info:", e.message);
+      }
+    }
+
     // Créer/mettre à jour le doc clients/{uid}
-    await db.collection("clients").doc(uid).set({
+    const clientDoc = {
       nom: safeNom,
       email: safeEmail,
       plan: safePlan,
@@ -64,7 +85,14 @@ export async function POST(req) {
       readinessScores: [],
       activatedAt: new Date().toISOString(),
       activatedBy: "coach",
-    }, { merge: true });
+    };
+
+    if (stripeCustomerId)    clientDoc.stripeCustomerId    = stripeCustomerId;
+    if (stripeSubscriptionId) clientDoc.stripeSubscriptionId = stripeSubscriptionId;
+    if (subscriptionStatus)  clientDoc.subscriptionStatus  = subscriptionStatus;
+    if (billing)             clientDoc.billing             = billing;
+
+    await db.collection("clients").doc(uid).set(clientDoc, { merge: true });
 
     // Mettre à jour le doc order si orderId fourni
     if (orderId) {
