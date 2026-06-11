@@ -35,7 +35,7 @@ export const LANGS = {
       tag: "— Nos formules",
       title: "Choisis ton niveau",
       subtitle: "d'engagement",
-      period: "paiement unique",
+      period: "/ mois",
       cta: "Choisir",
       popular: "⚡ Populaire",
       features: [
@@ -116,7 +116,7 @@ export const LANGS = {
       tag: "— Our plans",
       title: "Choose your level",
       subtitle: "of commitment",
-      period: "one-time payment",
+      period: "/ month",
       cta: "Choose",
       popular: "⚡ Popular",
       features: [
@@ -197,7 +197,7 @@ export const LANGS = {
       tag: "— Unsere Pläne",
       title: "Wähle dein Level",
       subtitle: "des Engagements",
-      period: "Einmalzahlung",
+      period: "/ Monat",
       cta: "Wählen",
       popular: "⚡ Beliebt",
       features: [
@@ -278,7 +278,7 @@ export const LANGS = {
       tag: "— Nuestros planes",
       title: "Elige tu nivel",
       subtitle: "de compromiso",
-      period: "pago único",
+      period: "/ mes",
       cta: "Elegir",
       popular: "⚡ Popular",
       features: [

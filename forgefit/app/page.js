@@ -6,7 +6,7 @@ import { LangSelector } from "./LangSelector";
 import VideoGallery from "./components/VideoGallery";
 
 const PLAN_NAMES = ["Starter","Forge","Elite"];
-const PLAN_PRICES = [49,129,249];
+const PLAN_PRICES = [18.99,38.99,68.99];
 
 const DARK = { bg:'#0A0A0A', bg2:'#0D0D0D', bg3:'#080808', card:'#111', card2:'#181818', fg:'#F0EDE8', muted:'#555', border:'#242424', border2:'#1A1A1A', gap:'#242424' };
 const LIGHT = { bg:'#F5F1EB', bg2:'#EDE9E1', bg3:'#E8E3DA', card:'#FFFFFF', card2:'#F7F3EC', fg:'#0A0A0A', muted:'#888', border:'#D8D2C8', border2:'#E2DDD5', gap:'#C8C3BA' };
@@ -457,7 +457,7 @@ export default function Home() {
                 color:i===1?"#E8C87A":T.fg,marginBottom:4,transition:"color 0.3s"}}>{name}</div>
               <div style={{fontSize:12,color:T.muted,marginBottom:"1.5rem"}}>{t.plans.descs[i]}</div>
               <div className="plan-price" style={{fontFamily:"'Cormorant Garamond',serif",fontSize:56,fontWeight:600,
-                color:"#C9A84C",lineHeight:1,marginBottom:4,transition:"transform 0.3s"}}>{PLAN_PRICES[i]}€</div>
+                color:"#C9A84C",lineHeight:1,marginBottom:4,transition:"transform 0.3s"}}>{PLAN_PRICES[i].toFixed(2).replace(".",",")}€</div>
               <div style={{fontSize:11,letterSpacing:"1px",color:T.muted,marginBottom:"1.5rem"}}>{t.plans.period}</div>
               <div style={{flex:1,marginBottom:"2rem"}}>
                 {t.plans.features[i].map((f,j)=>(
@@ -511,7 +511,7 @@ export default function Home() {
           {/* Programmes */}
           <div>
             <div style={{fontSize:10,letterSpacing:"3px",textTransform:"uppercase",color:"#888",marginBottom:16}}>Programmes</div>
-            {[["Plan Starter — 49€","/bilan?plan=starter"],["Plan Forge — 129€","/bilan?plan=forge"],["Plan Elite — 249€","/bilan?plan=elite"],["Faire mon bilan","/bilan"]].map(([l,h])=>(
+            {[["Plan Starter — 18,99€/mois","/bilan?plan=starter"],["Plan Forge — 38,99€/mois","/bilan?plan=forge"],["Plan Elite — 68,99€/mois","/bilan?plan=elite"],["Faire mon bilan","/bilan"]].map(([l,h])=>(
               <div key={h} className="footer-link" style={{fontSize:12,color:T.muted,marginBottom:10,cursor:"pointer"}} onClick={()=>router.push(h)}>{l}</div>
             ))}
           </div>
