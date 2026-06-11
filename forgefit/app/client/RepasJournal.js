@@ -2,6 +2,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { auth } from "../firebase";
 import { ScanRepas } from "./ScanRepas";
+import { ScanBarcode } from "./ScanBarcode";
 
 function MacroBar({ label, val, max, color }) {
   const pct = max ? Math.min(100, Math.round((val / max) * 100)) : 0;
@@ -65,7 +66,7 @@ function RepasCard({ repas, onDelete }) {
   );
 }
 
-export function RepasJournal({ nutrition, user }) {
+export function RepasJournal({ nutrition, user, clientData }) {
   const [input, setInput] = useState("");
   const [repas, setRepas] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -73,7 +74,7 @@ export function RepasJournal({ nutrition, user }) {
   const [preview, setPreview] = useState(null);
   const [error, setError] = useState("");
   const [saved, setSaved] = useState(false);
-  const [saisieMode, setSaisieMode] = useState("texte"); // "texte" | "photo"
+  const [saisieMode, setSaisieMode] = useState("texte"); // "texte" | "photo" | "barcode"
 
   const getToken = useCallback(async () => {
     if (!auth.currentUser) return null;
@@ -181,12 +182,13 @@ export function RepasJournal({ nutrition, user }) {
         {/* Toggle texte / photo */}
         <div style={{ display:"flex", gap:0, marginBottom:12, border:"0.5px solid #1A1A1A", width:"fit-content" }}>
           {[
-            { id:"texte", label:"✏️ Décrire" },
-            { id:"photo", label:"📸 Photo" },
+            { id:"texte",   label:"✏️ Décrire" },
+            { id:"photo",   label:"📸 Photo IA" },
+            { id:"barcode", label:"🏷 Code-barres" },
           ].map(m => (
             <button key={m.id} onClick={() => setSaisieMode(m.id)} style={{
               background: saisieMode === m.id ? "rgba(201,168,76,0.12)" : "transparent",
-              border: "none", borderRight: m.id === "texte" ? "0.5px solid #1A1A1A" : "none",
+              border: "none", borderRight: m.id !== "barcode" ? "0.5px solid #1A1A1A" : "none",
               color: saisieMode === m.id ? "#C9A84C" : "#555",
               fontFamily:"'Syne',sans-serif", fontSize:10, fontWeight:700,
               letterSpacing:"1.5px", textTransform:"uppercase",
@@ -195,16 +197,32 @@ export function RepasJournal({ nutrition, user }) {
           ))}
         </div>
 
-        {/* Mode photo */}
+        {/* Mode photo IA */}
         {saisieMode === "photo" && (
           <ScanRepas
             user={user}
+            clientData={clientData}
             onSave={(result) => {
               setRepas(prev => [...prev, {
                 ...result,
                 description: result.nom,
                 jour: new Date().toDateString(),
                 viaPhoto: true,
+              }]);
+            }}
+          />
+        )}
+
+        {/* Mode code-barres */}
+        {saisieMode === "barcode" && (
+          <ScanBarcode
+            user={user}
+            onSave={(result) => {
+              setRepas(prev => [...prev, {
+                ...result,
+                description: result.nom,
+                jour: new Date().toDateString(),
+                viaBarcode: true,
               }]);
             }}
           />
