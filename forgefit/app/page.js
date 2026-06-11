@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useLang } from "./useLang";
 import { LangSelector } from "./LangSelector";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 const VideoGallery = dynamic(() => import("./components/VideoGallery"), { ssr: false });
 
 const PLAN_NAMES = ["Starter","Forge","Elite"];
@@ -811,7 +812,7 @@ export default function Home() {
       {/* ── Hero ── */}
       <section style={{position:"relative",minHeight:"92vh",display:"flex",alignItems:"flex-end",overflow:"hidden",borderBottom:`0.5px solid ${T.border}`}}>
         {/* Vidéo fond */}
-        <video style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",opacity:theme==="dark"?0.28:0.15,zIndex:0}} autoPlay muted loop playsInline>
+        <video style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",opacity:theme==="dark"?0.28:0.15,zIndex:0}} autoPlay muted loop playsInline preload="none">
           <source src="/videos/v1.mp4" type="video/mp4"/>
         </video>
         {/* Overlay gradient */}
@@ -829,13 +830,16 @@ export default function Home() {
         <div className="scan-line-el" style={{zIndex:4}}/>
         {/* Image gym B&W */}
         <div style={{position:"absolute",right:0,top:0,width:"55%",height:"100%",zIndex:2,overflow:"hidden"}}>
-          <img src="/gym.png" alt="" aria-hidden="true" style={{
-            width:"100%",height:"100%",objectFit:"cover",objectPosition:"50% 0%",
-            filter:"grayscale(100%) contrast(1.08)",
-            WebkitMaskImage:"linear-gradient(to right, transparent 0%, rgba(0,0,0,0.5) 30%, rgba(0,0,0,0.92) 80%)",
-            maskImage:"linear-gradient(to right, transparent 0%, rgba(0,0,0,0.5) 30%, rgba(0,0,0,0.92) 80%)",
-            opacity:0.88,
-          }}/>
+          <Image src="/gym.png" alt="" aria-hidden="true" fill priority
+            sizes="55vw"
+            style={{
+              objectFit:"cover",objectPosition:"50% 0%",
+              filter:"grayscale(100%) contrast(1.08)",
+              WebkitMaskImage:"linear-gradient(to right, transparent 0%, rgba(0,0,0,0.5) 30%, rgba(0,0,0,0.92) 80%)",
+              maskImage:"linear-gradient(to right, transparent 0%, rgba(0,0,0,0.5) 30%, rgba(0,0,0,0.92) 80%)",
+              opacity:0.88,
+            }}
+          />
         </div>
         {/* Contenu */}
         <div style={{position:"relative",zIndex:5,padding:"0 clamp(1.5rem,5vw,5rem) clamp(3rem,6vh,5rem)",width:"100%"}}>
