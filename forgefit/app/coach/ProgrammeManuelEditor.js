@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useCallback } from "react";
 
 const INPUT_STYLE = {
@@ -12,7 +12,7 @@ const BTN_GHOST = {
   padding:"5px 10px", borderRadius:4, fontSize:11, cursor:"pointer", fontFamily:"'Syne',sans-serif",
 };
 const BTN_GOLD = {
-  background:"linear-gradient(135deg,#C9A84C,#A67C2E)", border:"none",
+  background:"linear-gradient(135deg,#E8B000,#C49200)", border:"none",
   color:"#0A0A0A", padding:"12px", borderRadius:6, fontSize:11, fontWeight:700,
   letterSpacing:"2px", textTransform:"uppercase", cursor:"pointer", fontFamily:"'Syne',sans-serif",
   width:"100%",
@@ -97,7 +97,7 @@ export function ProgrammeManuelEditor({ clientNom, onSave, saving }) {
 
       {/* ── Méta programme ──────────────────────────────────────────────────── */}
       <div>
-        <div style={{fontSize:10,color:"#C9A84C",letterSpacing:"2px",textTransform:"uppercase",marginBottom:12}}>— Infos programme</div>
+        <div style={{fontSize:10,color:"#E8B000",letterSpacing:"2px",textTransform:"uppercase",marginBottom:12}}>— Infos programme</div>
         <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:10 }}>
           <div>
             <div style={LABEL_STYLE}>Objectif principal</div>
@@ -132,7 +132,7 @@ export function ProgrammeManuelEditor({ clientNom, onSave, saving }) {
 
       {/* ── Nutrition ───────────────────────────────────────────────────────── */}
       <div>
-        <div style={{fontSize:10,color:"#C9A84C",letterSpacing:"2px",textTransform:"uppercase",marginBottom:12}}>— Nutrition (optionnel)</div>
+        <div style={{fontSize:10,color:"#E8B000",letterSpacing:"2px",textTransform:"uppercase",marginBottom:12}}>— Nutrition (optionnel)</div>
         <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:8 }}>
           {[
             { label:"Calories", key:"calories_jour", unit:"kcal" },
@@ -153,8 +153,8 @@ export function ProgrammeManuelEditor({ clientNom, onSave, saving }) {
       {/* ── Séances ─────────────────────────────────────────────────────────── */}
       <div>
         <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:12 }}>
-          <div style={{fontSize:10,color:"#C9A84C",letterSpacing:"2px",textTransform:"uppercase"}}>— Séances ({seances.length})</div>
-          <button style={{ ...BTN_GHOST, borderColor:"rgba(201,168,76,0.3)", color:"#C9A84C" }} onClick={addSeance}>
+          <div style={{fontSize:10,color:"#E8B000",letterSpacing:"2px",textTransform:"uppercase"}}>— Séances ({seances.length})</div>
+          <button style={{ ...BTN_GHOST, borderColor:"rgba(232,176,0,0.3)", color:"#E8B000" }} onClick={addSeance}>
             + Ajouter une séance
           </button>
         </div>

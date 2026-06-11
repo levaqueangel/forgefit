@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect } from "react";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
@@ -31,7 +31,7 @@ function ChargeChart({ hist }) {
   const last = vals[vals.length - 1];
   const prev = vals[vals.length - 2];
   const trend = last - prev;
-  const trendColor = trend > 0 ? "#7AE07A" : trend < 0 ? "#E07070" : "#C9A84C";
+  const trendColor = trend > 0 ? "#7AE07A" : trend < 0 ? "#E07070" : "#E8B000";
   const trendLabel = trend > 0 ? `↑ +${trend.toFixed(1)}` : trend < 0 ? `↓ ${trend.toFixed(1)}` : "→ stable";
 
   return (
@@ -47,28 +47,28 @@ function ChargeChart({ hist }) {
       <svg width="100%" viewBox={`0 0 ${W} ${H}`} style={{ display: "block", overflow: "visible" }}>
         <defs>
           <linearGradient id={`cg-${vals[0]}`} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#C9A84C" stopOpacity="0.3" />
-            <stop offset="100%" stopColor="#C9A84C" stopOpacity="0" />
+            <stop offset="0%" stopColor="#E8B000" stopOpacity="0.3" />
+            <stop offset="100%" stopColor="#E8B000" stopOpacity="0" />
           </linearGradient>
         </defs>
         {/* Aire remplie */}
         <path d={areaPath} fill={`url(#cg-${vals[0]})`} />
         {/* Courbe */}
-        <path d={linePath} fill="none" stroke="#C9A84C" strokeWidth="1.5" strokeLinecap="round" />
+        <path d={linePath} fill="none" stroke="#E8B000" strokeWidth="1.5" strokeLinecap="round" />
         {/* Points */}
         {pts.map((p, i) => (
           <circle
             key={i}
             cx={p[0]} cy={p[1]} r={i === pts.length - 1 ? 3 : 2}
-            fill={i === pts.length - 1 ? "#C9A84C" : "#0A0A0A"}
-            stroke="#C9A84C"
+            fill={i === pts.length - 1 ? "#E8B000" : "#0A0A0A"}
+            stroke="#E8B000"
             strokeWidth={i === pts.length - 1 ? 0 : 1.5}
           />
         ))}
         {/* Labels dernière valeur */}
         <text
           x={pts[pts.length - 1][0]} y={pts[pts.length - 1][1] - 7}
-          textAnchor="middle" fontSize="10" fill="#C9A84C"
+          textAnchor="middle" fontSize="10" fill="#E8B000"
           fontFamily="Syne, sans-serif" fontWeight="700"
         >
           {last}
@@ -136,10 +136,10 @@ export function ChargesTab({ uid, exercices }) {
           <div key={i} style={{
               background:"#0D0D0D",
               borderRadius:14,
-              border:`0.5px solid ${newPB===e.nom?"#C9A84C":"#1A1A1A"}`,
+              border:`0.5px solid ${newPB===e.nom?"#E8B000":"#1A1A1A"}`,
               borderRadius:4,padding:"14px",
               transition:"border-color 0.3s",
-              boxShadow:newPB===e.nom?"0 0 12px rgba(201,168,76,0.15)":"none",
+              boxShadow:newPB===e.nom?"0 0 12px rgba(232,176,0,0.15)":"none",
             }}>
             <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:10}}>
               <div>
@@ -148,7 +148,7 @@ export function ChargesTab({ uid, exercices }) {
                   {newPB===e.nom && (
                     <span style={{
                       fontSize:9,fontWeight:700,letterSpacing:"2px",
-                      background:"linear-gradient(135deg,#C9A84C,#E8C87A)",
+                      background:"linear-gradient(135deg,#E8B000,#F5C832)",
                       color:"#0A0A0A",padding:"2px 7px",borderRadius:20,
                       animation:"checkPop 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards",
                     }}>🏆 PR</span>
@@ -159,7 +159,7 @@ export function ChargesTab({ uid, exercices }) {
               {hist.length > 0 && (
                 <div style={{textAlign:"right"}}>
                   <div style={{fontSize:11,color:"#555"}}>Meilleur</div>
-                  <div style={{fontSize:15,fontWeight:700,color:"#C9A84C"}}>
+                  <div style={{fontSize:15,fontWeight:700,color:"#E8B000"}}>
                     {hist.reduce((best, h) => parseFloat(h.v) > parseFloat(best.v) ? h : best, hist[0]).v}
                   </div>
                 </div>
@@ -188,7 +188,7 @@ export function ChargesTab({ uid, exercices }) {
                 onClick={() => saveCharge(e.nom, inputs[e.nom]||"")}
                 disabled={saving[e.nom] || !inputs[e.nom]?.trim()}
                 style={{
-                  background: inputs[e.nom]?.trim() && !saving[e.nom] ? "linear-gradient(135deg,#C9A84C,#A67C2E)" : "#222",
+                  background: inputs[e.nom]?.trim() && !saving[e.nom] ? "linear-gradient(135deg,#E8B000,#C49200)" : "#222",
                   border:"none", color: inputs[e.nom]?.trim() ? "#0A0A0A" : "#444",
                   padding:"0 14px", fontFamily:"'Syne',sans-serif", fontSize:12, fontWeight:700,
                   cursor: inputs[e.nom]?.trim() && !saving[e.nom] ? "pointer" : "not-allowed",
@@ -196,7 +196,7 @@ export function ChargesTab({ uid, exercices }) {
                   display:"flex", alignItems:"center", justifyContent:"center", minWidth:38,
                 }}>
                 {saving[e.nom]
-                  ? <div style={{width:12,height:12,border:"2px solid rgba(0,0,0,0.15)",borderTopColor:"#C9A84C",borderRadius:"50%",animation:"spin 0.7s linear infinite"}} />
+                  ? <div style={{width:12,height:12,border:"2px solid rgba(0,0,0,0.15)",borderTopColor:"#E8B000",borderRadius:"50%",animation:"spin 0.7s linear infinite"}} />
                   : "✓"}
               </button>
             </div>

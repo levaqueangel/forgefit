@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState } from "react";
 
 /* ── Formules 1RM ─────────────────────────────────────────────────────────── */
@@ -67,13 +67,13 @@ function FormulaBar({ formule, val, max, selected, onSelect }) {
       style={{
         display: "flex", alignItems: "center", gap: 10,
         padding: "10px 12px", borderRadius: 10, cursor: "pointer",
-        border: `0.5px solid ${selected ? "rgba(201,168,76,0.5)" : "#1A1A1A"}`,
-        background: selected ? "rgba(201,168,76,0.07)" : "#0D0D0D",
+        border: `0.5px solid ${selected ? "rgba(232,176,0,0.5)" : "#1A1A1A"}`,
+        background: selected ? "rgba(232,176,0,0.07)" : "#0D0D0D",
         transition: "all 0.15s",
       }}
     >
       <div style={{ minWidth: 64 }}>
-        <div style={{ fontSize: 12, fontWeight: 700, color: selected ? "#C9A84C" : "#F0EDE8", fontFamily: "'Syne',sans-serif" }}>
+        <div style={{ fontSize: 12, fontWeight: 700, color: selected ? "#E8B000" : "#F0EDE8", fontFamily: "'Syne',sans-serif" }}>
           {formule.nom}
         </div>
         <div style={{ fontSize: 9, color: "#444", letterSpacing: "1px" }}>{formule.annee}</div>
@@ -83,14 +83,14 @@ function FormulaBar({ formule, val, max, selected, onSelect }) {
           <div style={{
             height: "100%", width: `${pct}%`,
             background: selected
-              ? "linear-gradient(90deg,#C9A84C,#E8C87A)"
+              ? "linear-gradient(90deg,#E8B000,#F5C832)"
               : "linear-gradient(90deg,#333,#444)",
             borderRadius: 3, transition: "width 0.5s ease",
           }} />
         </div>
       </div>
       <div style={{
-        fontSize: 15, fontWeight: 700, color: selected ? "#C9A84C" : "#888",
+        fontSize: 15, fontWeight: 700, color: selected ? "#E8B000" : "#888",
         fontFamily: "'Syne',sans-serif", minWidth: 48, textAlign: "right",
       }}>
         {val} kg
@@ -136,9 +136,9 @@ export function OneRMCalc() {
             fontSize: 9, letterSpacing: "1px", textTransform: "uppercase",
             fontFamily: "'Syne',sans-serif", padding: "5px 10px", cursor: "pointer",
             borderRadius: 20, transition: "all 0.15s",
-            background: exercice === ex ? "rgba(201,168,76,0.12)" : "transparent",
-            border: `0.5px solid ${exercice === ex ? "rgba(201,168,76,0.5)" : "#1E1E1E"}`,
-            color: exercice === ex ? "#C9A84C" : "#555",
+            background: exercice === ex ? "rgba(232,176,0,0.12)" : "transparent",
+            border: `0.5px solid ${exercice === ex ? "rgba(232,176,0,0.5)" : "#1E1E1E"}`,
+            color: exercice === ex ? "#E8B000" : "#555",
           }}>{ex}</button>
         ))}
       </div>
@@ -164,7 +164,7 @@ export function OneRMCalc() {
 
       <button onClick={calculer} disabled={!poids || !reps} style={{
         padding: "12px", width: "100%",
-        background: poids && reps ? "linear-gradient(135deg,#C9A84C,#A67C2E)" : "#111",
+        background: poids && reps ? "linear-gradient(135deg,#E8B000,#C49200)" : "#111",
         border: "none", color: poids && reps ? "#0A0A0A" : "#333",
         fontFamily: "'Syne',sans-serif", fontSize: 12, fontWeight: 700,
         letterSpacing: "2px", textTransform: "uppercase",
@@ -180,13 +180,13 @@ export function OneRMCalc() {
 
           {/* Consensus */}
           <div style={{
-            background: "rgba(201,168,76,0.06)", border: "0.5px solid rgba(201,168,76,0.3)",
+            background: "rgba(232,176,0,0.06)", border: "0.5px solid rgba(232,176,0,0.3)",
             borderRadius: 12, padding: "16px", textAlign: "center", marginBottom: 14,
           }}>
             <div style={{ fontSize: 9, letterSpacing: "3px", textTransform: "uppercase", color: "#555", marginBottom: 4 }}>
               {resultat.exercice} — Consensus 5 formules
             </div>
-            <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 60, fontWeight: 600, color: "#C9A84C", lineHeight: 1 }}>
+            <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 60, fontWeight: 600, color: "#E8B000", lineHeight: 1 }}>
               {resultat.avg}
             </div>
             <div style={{ fontSize: 12, color: "#555", marginTop: 4 }}>kg — moyenne</div>
@@ -237,10 +237,10 @@ export function OneRMCalc() {
                   display: "flex", alignItems: "center", justifyContent: "space-between",
                   padding: "9px 14px",
                   borderBottom: i < PCT_TABLE.length - 1 ? "0.5px solid #141414" : "none",
-                  background: isTarget ? "rgba(201,168,76,0.04)" : i % 2 === 0 ? "transparent" : "rgba(255,255,255,0.01)",
+                  background: isTarget ? "rgba(232,176,0,0.04)" : i % 2 === 0 ? "transparent" : "rgba(255,255,255,0.01)",
                 }}>
                   <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
-                    <div style={{ fontSize: 10, fontWeight: 700, color: isTarget ? "#C9A84C" : "#888", fontFamily: "'Syne',sans-serif", minWidth: 36 }}>
+                    <div style={{ fontSize: 10, fontWeight: 700, color: isTarget ? "#E8B000" : "#888", fontFamily: "'Syne',sans-serif", minWidth: 36 }}>
                       {pct}%
                     </div>
                     <div style={{ fontSize: 11, color: "#555", fontFamily: "'Cormorant Garamond',serif" }}>
@@ -249,7 +249,7 @@ export function OneRMCalc() {
                   </div>
                   <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
                     <div style={{ fontSize: 9, color: "#333" }}>{r} × </div>
-                    <div style={{ fontSize: 14, fontWeight: 700, color: isTarget ? "#C9A84C" : "#F0EDE8", fontFamily: "'Syne',sans-serif" }}>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: isTarget ? "#E8B000" : "#F0EDE8", fontFamily: "'Syne',sans-serif" }}>
                       {charge} kg
                     </div>
                   </div>

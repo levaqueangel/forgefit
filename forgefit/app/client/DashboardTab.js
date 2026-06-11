@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect } from "react";
 import { ProgressBar } from "./ProgressBar";
 import { updateDoc, doc } from "firebase/firestore";
@@ -51,10 +51,10 @@ export function DashboardTab({
       {/* ── Métriques — style app avec accent coloré ── */}
       <div className="metrics-grid" style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:10}}>
         {[
-          { label:"Séances",   val:`${displaySeances}/${nbSeances||4}`,             sub:"cette semaine",  color:"#C9A84C" },
+          { label:"Séances",   val:`${displaySeances}/${nbSeances||4}`,             sub:"cette semaine",  color:"#E8B000" },
           { label:"Exercices", val:`${doneExos}/${exercices.length||"—"}`,          sub:"séance du jour", color:"#7AE07A" },
           { label:"Programme", val:pd?`${pd.duree_programme_semaines||4}W`:"—",    sub:pd?.objectif_principal||"En attente", color:"#F0EDE8" },
-          { label:"Streak",    val:realStreak>0?`${displayStreak}j`:"0j",          sub:realStreak>0?"sans coupure":"Lance-toi !", color:realStreak>=7?"#C9A84C":"#F0EDE8" },
+          { label:"Streak",    val:realStreak>0?`${displayStreak}j`:"0j",          sub:realStreak>0?"sans coupure":"Lance-toi !", color:realStreak>=7?"#E8B000":"#F0EDE8" },
         ].map((m,i) => (
           <div key={i} className="metric-card" style={{position:"relative",overflow:"hidden",animation:`metricCount 0.5s ease both`,animationDelay:`${i*0.08}s`,opacity:0}}>
             <div style={{position:"absolute",top:0,left:16,right:16,height:2,background:m.color,borderRadius:"0 0 2px 2px",opacity:0.6}}/>
@@ -81,7 +81,7 @@ export function DashboardTab({
                 <div style={{
                   width:28,height:28,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",
                   fontSize:11,fontWeight:700,fontFamily:"'Syne',sans-serif",transition:"all 0.2s",
-                  background:joursEtat[i]==="done"?"#1A3A1A":joursEtat[i]==="today"?"#C9A84C":joursEtat[i]==="rest"?"rgba(255,255,255,0.03)":"rgba(255,255,255,0.03)",
+                  background:joursEtat[i]==="done"?"#1A3A1A":joursEtat[i]==="today"?"#E8B000":joursEtat[i]==="rest"?"rgba(255,255,255,0.03)":"rgba(255,255,255,0.03)",
                   color:joursEtat[i]==="done"?"#7AE07A":joursEtat[i]==="today"?"#0A0A0A":"#555",
                   border:joursEtat[i]==="today"?"none":joursEtat[i]==="done"?"0.5px solid #3A6A3A":"0.5px solid #1A1A1A",
                   opacity:joursEtat[i]==="future"?0.3:1,
@@ -114,7 +114,7 @@ export function DashboardTab({
                 {/* Checkbox circulaire */}
                 <div style={{
                   width:22,height:22,borderRadius:"50%",flexShrink:0,
-                  border:`1.5px solid ${seanceDone[i]?"#5ABA5A":"rgba(201,168,76,0.3)"}`,
+                  border:`1.5px solid ${seanceDone[i]?"#5ABA5A":"rgba(232,176,0,0.3)"}`,
                   background:seanceDone[i]?"#1A3A1A":"transparent",
                   display:"flex",alignItems:"center",justifyContent:"center",
                   fontSize:11,color:"#7AE07A",transition:"all 0.25s",
@@ -126,9 +126,9 @@ export function DashboardTab({
                   <div style={{fontSize:11,color:"#666",fontFamily:"'Syne',sans-serif",marginTop:3}}>{s.det}</div>
                 </div>
                 <span style={{fontSize:10,padding:"3px 10px",borderRadius:20,flexShrink:0,fontFamily:"'Syne',sans-serif",
-                  background:seanceDone[i]?"rgba(90,186,90,0.1)":s.today?"rgba(201,168,76,0.1)":"rgba(255,255,255,0.04)",
-                  color:seanceDone[i]?"#7AE07A":s.today?"#C9A84C":"#444",
-                  border:`0.5px solid ${seanceDone[i]?"rgba(90,186,90,0.3)":s.today?"rgba(201,168,76,0.25)":"#1E1E1E"}`,
+                  background:seanceDone[i]?"rgba(90,186,90,0.1)":s.today?"rgba(232,176,0,0.1)":"rgba(255,255,255,0.04)",
+                  color:seanceDone[i]?"#7AE07A":s.today?"#E8B000":"#444",
+                  border:`0.5px solid ${seanceDone[i]?"rgba(90,186,90,0.3)":s.today?"rgba(232,176,0,0.25)":"#1E1E1E"}`,
                 }}>
                   {seanceDone[i]?"Fait":s.today?"Auj.":s.jour}
                 </span>
@@ -162,7 +162,7 @@ export function DashboardTab({
                 : 0;
 
               return [
-                { label:"Programme",   pct: programmePct,  color:"#C9A84C", sub: programmePct===0 ? "En attente" : null },
+                { label:"Programme",   pct: programmePct,  color:"#E8B000", sub: programmePct===0 ? "En attente" : null },
                 { label:"Assiduité",   pct: assiduitePct,  color:"#7AE07A", sub: assiduitePct===0 ? "Cette semaine" : null },
                 { label:"Forme 7j",    pct: formePct,      color:"#5DCAA5", sub: formePct===0 ? "Check-in requis" : null },
               ].map((p,i)=>(
@@ -189,7 +189,7 @@ export function DashboardTab({
               <div style={{display:"flex",flexDirection:"column",gap:10}}>
                 {[
                   {nom:"Protéines", val:`${nutrition.proteines_g}g`, pct:Math.round((nutrition.proteines_g*4/nutrition.calories_jour)*100), color:"#7AE07A"},
-                  {nom:"Glucides",  val:`${nutrition.glucides_g}g`,  pct:Math.round((nutrition.glucides_g*4/nutrition.calories_jour)*100),  color:"#C9A84C"},
+                  {nom:"Glucides",  val:`${nutrition.glucides_g}g`,  pct:Math.round((nutrition.glucides_g*4/nutrition.calories_jour)*100),  color:"#E8B000"},
                   {nom:"Lipides",   val:`${nutrition.lipides_g}g`,   pct:Math.round((nutrition.lipides_g*9/nutrition.calories_jour)*100),   color:"#5DCAA5"},
                 ].map((c,i)=>(
                   <div key={i}>
@@ -209,14 +209,14 @@ export function DashboardTab({
       {/* Accès Recettes Elite */}
       {clientData?.plan?.toLowerCase() === "elite" && (
         <div onClick={() => router.push("/recettes")} style={{
-          background:"rgba(201,168,76,0.05)",border:"0.5px solid rgba(201,168,76,0.25)",
+          background:"rgba(232,176,0,0.05)",border:"0.5px solid rgba(232,176,0,0.25)",
           padding:"18px 20px",display:"flex",alignItems:"center",justifyContent:"space-between",gap:16,
           cursor:"pointer",transition:"border-color .3s,background .3s",flexWrap:"wrap",
         }}
-        onMouseEnter={e=>{e.currentTarget.style.borderColor="rgba(201,168,76,0.6)";e.currentTarget.style.background="rgba(201,168,76,0.09)"}}
-        onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(201,168,76,0.25)";e.currentTarget.style.background="rgba(201,168,76,0.05)"}}>
+        onMouseEnter={e=>{e.currentTarget.style.borderColor="rgba(232,176,0,0.6)";e.currentTarget.style.background="rgba(232,176,0,0.09)"}}
+        onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(232,176,0,0.25)";e.currentTarget.style.background="rgba(232,176,0,0.05)"}}>
           <div>
-            <div style={{fontSize:10,letterSpacing:"3px",textTransform:"uppercase",color:"#C9A84C",marginBottom:6}}>
+            <div style={{fontSize:10,letterSpacing:"3px",textTransform:"uppercase",color:"#E8B000",marginBottom:6}}>
               👑 Espace Elite
             </div>
             <p style={{fontFamily:"'Cormorant Garamond',serif",fontSize:18,color:"#F0EDE8",fontWeight:600,marginBottom:4}}>
@@ -226,7 +226,7 @@ export function DashboardTab({
               80+ recettes saines — entrées, plats & desserts peu caloriques
             </p>
           </div>
-          <div style={{fontSize:24,color:"#C9A84C",fontWeight:300}}>→</div>
+          <div style={{fontSize:24,color:"#E8B000",fontWeight:300}}>→</div>
         </div>
       )}
 
@@ -271,8 +271,8 @@ export function DashboardTab({
 
       {/* ── Rapport hebdomadaire ── */}
       <button onClick={() => setShowRapport(true)} style={{
-        background:"rgba(201,168,76,0.04)", border:"0.5px solid rgba(201,168,76,0.2)",
-        color:"#C9A84C", fontFamily:"'Syne',sans-serif", fontSize:11, fontWeight:700,
+        background:"rgba(232,176,0,0.04)", border:"0.5px solid rgba(232,176,0,0.2)",
+        color:"#E8B000", fontFamily:"'Syne',sans-serif", fontSize:11, fontWeight:700,
         letterSpacing:"2px", textTransform:"uppercase", padding:"14px 0",
         cursor:"pointer", width:"100%", transition:"all 0.2s",
         display:"flex", alignItems:"center", justifyContent:"center", gap:10,
@@ -297,12 +297,12 @@ export function DashboardTab({
 
       {/* Section parrainage */}
       <div style={{
-        background:"rgba(201,168,76,0.04)",border:"0.5px solid rgba(201,168,76,0.2)",
+        background:"rgba(232,176,0,0.04)",border:"0.5px solid rgba(232,176,0,0.2)",
         padding:"18px 20px",display:"flex",alignItems:"center",justifyContent:"space-between",gap:16,
         flexWrap:"wrap",
       }}>
         <div>
-          <div style={{fontSize:10,letterSpacing:"3px",textTransform:"uppercase",color:"#C9A84C",marginBottom:6}}>
+          <div style={{fontSize:10,letterSpacing:"3px",textTransform:"uppercase",color:"#E8B000",marginBottom:6}}>
             🎁 Parraine un ami
           </div>
           <p style={{fontFamily:"'Cormorant Garamond',serif",fontSize:14,color:"#666",lineHeight:1.7}}>
@@ -348,7 +348,7 @@ function ReadinessSparkline({ scores }) {
     ? vals.slice(-7).reduce((s, v) => s + v, 0) / 7 - vals.slice(-14, -7).reduce((s, v) => s + v, 0) / Math.max(1, vals.slice(-14, -7).length)
     : 0;
 
-  const trendColor = trend > 3 ? "#7AE07A" : trend < -3 ? "#E07070" : "#C9A84C";
+  const trendColor = trend > 3 ? "#7AE07A" : trend < -3 ? "#E07070" : "#E8B000";
   const trendLabel = trend > 3 ? "↗ En hausse" : trend < -3 ? "↘ En baisse" : "→ Stable";
 
   return (
@@ -359,7 +359,7 @@ function ReadinessSparkline({ scores }) {
             Tendance forme — {last30.length} derniers jours
           </div>
           <div style={{display:"flex",alignItems:"baseline",gap:8}}>
-            <span style={{fontSize:22,fontWeight:800,color:"#C9A84C",fontFamily:"'Syne',sans-serif",lineHeight:1}}>{last.score}</span>
+            <span style={{fontSize:22,fontWeight:800,color:"#E8B000",fontFamily:"'Syne',sans-serif",lineHeight:1}}>{last.score}</span>
             <span style={{fontSize:10,color:"#555"}}>/100 aujourd'hui</span>
           </div>
         </div>
@@ -373,16 +373,16 @@ function ReadinessSparkline({ scores }) {
         {/* Zone sous la courbe */}
         <defs>
           <linearGradient id="sparkGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#C9A84C" stopOpacity="0.18"/>
-            <stop offset="100%" stopColor="#C9A84C" stopOpacity="0"/>
+            <stop offset="0%" stopColor="#E8B000" stopOpacity="0.18"/>
+            <stop offset="100%" stopColor="#E8B000" stopOpacity="0"/>
           </linearGradient>
         </defs>
         <path d={areaPath} fill="url(#sparkGrad)"/>
         {/* Ligne */}
-        <path d={path} fill="none" stroke="#C9A84C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
-          style={{filter:"drop-shadow(0 0 4px rgba(201,168,76,0.4))"}}/>
+        <path d={path} fill="none" stroke="#E8B000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
+          style={{filter:"drop-shadow(0 0 4px rgba(232,176,0,0.4))"}}/>
         {/* Point actuel */}
-        <circle cx={toX(last30.length - 1)} cy={toY(last.score)} r={3} fill="#C9A84C"/>
+        <circle cx={toX(last30.length - 1)} cy={toY(last.score)} r={3} fill="#E8B000"/>
       </svg>
     </div>
   );
@@ -431,12 +431,12 @@ function ReferralButton({ uid, nom, addToast }) {
       <span style={{fontSize:11,color:"#888",fontFamily:"'Syne',sans-serif",background:"#111",padding:"6px 12px",border:"0.5px solid #1E1E1E",maxWidth:260,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>
         {link}
       </span>
-      <button onClick={copy} style={{background:copied?"rgba(122,224,122,0.1)":"rgba(201,168,76,0.1)",border:`0.5px solid ${copied?"rgba(122,224,122,0.3)":"rgba(201,168,76,0.3)"}`,color:copied?"#7AE07A":"#C9A84C",fontFamily:"'Syne',sans-serif",fontSize:10,fontWeight:700,letterSpacing:"2px",textTransform:"uppercase",padding:"6px 14px",cursor:"pointer",borderRadius:20,transition:"all 0.2s",whiteSpace:"nowrap"}}>
+      <button onClick={copy} style={{background:copied?"rgba(122,224,122,0.1)":"rgba(232,176,0,0.1)",border:`0.5px solid ${copied?"rgba(122,224,122,0.3)":"rgba(232,176,0,0.3)"}`,color:copied?"#7AE07A":"#E8B000",fontFamily:"'Syne',sans-serif",fontSize:10,fontWeight:700,letterSpacing:"2px",textTransform:"uppercase",padding:"6px 14px",cursor:"pointer",borderRadius:20,transition:"all 0.2s",whiteSpace:"nowrap"}}>
         {copied ? "✓ Copié !" : "Copier"}
       </button>
     </div>
   ) : (
-    <button onClick={generate} disabled={loading} style={{background:"rgba(201,168,76,0.1)",border:"0.5px solid rgba(201,168,76,0.3)",color:"#C9A84C",fontFamily:"'Syne',sans-serif",fontSize:10,fontWeight:700,letterSpacing:"2px",textTransform:"uppercase",padding:"8px 16px",cursor:loading?"not-allowed":"pointer",borderRadius:20,whiteSpace:"nowrap"}}>
+    <button onClick={generate} disabled={loading} style={{background:"rgba(232,176,0,0.1)",border:"0.5px solid rgba(232,176,0,0.3)",color:"#E8B000",fontFamily:"'Syne',sans-serif",fontSize:10,fontWeight:700,letterSpacing:"2px",textTransform:"uppercase",padding:"8px 16px",cursor:loading?"not-allowed":"pointer",borderRadius:20,whiteSpace:"nowrap"}}>
       {loading ? "..." : "Générer mon lien"}
     </button>
   );

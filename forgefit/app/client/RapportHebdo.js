@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect } from "react";
 
 // ── Barre de stat horizontale ─────────────────────────────────────────────────
@@ -21,7 +21,7 @@ function StatBar({ label, val, max, color, suffix = "" }) {
 
 // ── Note globale circulaire ────────────────────────────────────────────────────
 function NoteGlobale({ note }) {
-  const color = note >= 8 ? "#7AE07A" : note >= 6 ? "#C9A84C" : note >= 4 ? "#E8C87A" : "#E07070";
+  const color = note >= 8 ? "#7AE07A" : note >= 6 ? "#E8B000" : note >= 4 ? "#F5C832" : "#E07070";
   return (
     <div style={{ textAlign: "center" }}>
       <div style={{ fontSize: 42, fontWeight: 800, color, fontFamily: "'Syne',sans-serif", lineHeight: 1 }}>{note}</div>
@@ -38,7 +38,7 @@ function Sparkline({ scores }) {
     <div style={{ display: "flex", gap: 3, alignItems: "flex-end", height: 28 }}>
       {scores.map((s, i) => {
         const h = Math.max(4, Math.round((s / 100) * 28));
-        const c = s >= 70 ? "#7AE07A" : s >= 50 ? "#C9A84C" : "#E07070";
+        const c = s >= 70 ? "#7AE07A" : s >= 50 ? "#E8B000" : "#E07070";
         return <div key={i} style={{ width: 6, height: h, background: c, borderRadius: "2px 2px 0 0", opacity: 0.8 }} />;
       })}
     </div>
@@ -74,7 +74,7 @@ export function RapportHebdo({ clientId, user, isCoach = false, onClose }) {
   // ── Loading ──────────────────────────────────────────────────────────────────
   if (loading) return (
     <div style={{ padding: 32, display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
-      <div style={{ width: 32, height: 32, border: "2px solid #1A1A1A", borderTop: "2px solid #C9A84C", borderRadius: "50%", animation: "spin 0.8s linear infinite" }} />
+      <div style={{ width: 32, height: 32, border: "2px solid #1A1A1A", borderTop: "2px solid #E8B000", borderRadius: "50%", animation: "spin 0.8s linear infinite" }} />
       <div style={{ fontSize: 12, color: "#555", letterSpacing: "1px" }}>
         Génération du rapport en cours…<br />
         <span style={{ fontSize: 10, color: "#333" }}>Claude analyse la semaine</span>
@@ -120,8 +120,8 @@ export function RapportHebdo({ clientId, user, isCoach = false, onClose }) {
         {narrative?.titre && (
           <div style={{
             marginTop: 10, padding: "8px 12px",
-            background: "rgba(201,168,76,0.06)", border: "0.5px solid rgba(201,168,76,0.2)",
-            fontSize: 12, color: "#C9A84C", fontFamily: "'Cormorant Garamond',serif",
+            background: "rgba(232,176,0,0.06)", border: "0.5px solid rgba(232,176,0,0.2)",
+            fontSize: 12, color: "#E8B000", fontFamily: "'Cormorant Garamond',serif",
             fontStyle: "italic", lineHeight: 1.5,
           }}>
             "{narrative.titre}"
@@ -141,9 +141,9 @@ export function RapportHebdo({ clientId, user, isCoach = false, onClose }) {
         {/* ── Grille stats rapides ── */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8 }}>
           {[
-            { label: "Séances", val: `${E.seancesCount}/${E.seancesPrevues}`, sub: `${E.dureeTotal} min`, color: E.seancesCount >= E.seancesPrevues ? "#7AE07A" : "#C9A84C", icon: "🏋️" },
-            { label: "Nutrition", val: `${N.jourNutrition}j/7`, sub: `~${N.avgCalo} kcal/j`, color: N.jourNutrition >= 5 ? "#7AE07A" : N.jourNutrition >= 3 ? "#C9A84C" : "#E07070", icon: "🍽️" },
-            { label: "Forme", val: F.avgScore !== null ? `${F.avgScore}/100` : "—", sub: `${F.readCount} check-ins`, color: F.avgScore >= 70 ? "#7AE07A" : F.avgScore >= 50 ? "#C9A84C" : "#E07070", icon: "⚡" },
+            { label: "Séances", val: `${E.seancesCount}/${E.seancesPrevues}`, sub: `${E.dureeTotal} min`, color: E.seancesCount >= E.seancesPrevues ? "#7AE07A" : "#E8B000", icon: "🏋️" },
+            { label: "Nutrition", val: `${N.jourNutrition}j/7`, sub: `~${N.avgCalo} kcal/j`, color: N.jourNutrition >= 5 ? "#7AE07A" : N.jourNutrition >= 3 ? "#E8B000" : "#E07070", icon: "🍽️" },
+            { label: "Forme", val: F.avgScore !== null ? `${F.avgScore}/100` : "—", sub: `${F.readCount} check-ins`, color: F.avgScore >= 70 ? "#7AE07A" : F.avgScore >= 50 ? "#E8B000" : "#E07070", icon: "⚡" },
           ].map((s, i) => (
             <div key={i} style={{ background: "#111", border: "0.5px solid #1A1A1A", padding: "12px 10px", textAlign: "center" }}>
               <div style={{ fontSize: 18, marginBottom: 4 }}>{s.icon}</div>
@@ -160,12 +160,12 @@ export function RapportHebdo({ clientId, user, isCoach = false, onClose }) {
           <StatBar label="Séances réalisées" val={E.seancesCount} max={E.seancesPrevues} color="#7AE07A" />
           {E.volumeTotal > 0 && (
             <div style={{ fontSize: 11, color: "#555", marginTop: 6 }}>
-              Volume total : <span style={{ color: "#C9A84C", fontWeight: 700 }}>{E.volumeTotal} t</span> soulevées
+              Volume total : <span style={{ color: "#E8B000", fontWeight: 700 }}>{E.volumeTotal} t</span> soulevées
             </div>
           )}
           {E.avgDiff !== null && (
             <div style={{ fontSize: 11, color: "#555", marginTop: 4 }}>
-              Difficulté perçue : <span style={{ color: E.avgDiff >= 4 ? "#E07070" : E.avgDiff <= 2 ? "#7AE07A" : "#C9A84C", fontWeight: 700 }}>{E.avgDiff}/5</span>
+              Difficulté perçue : <span style={{ color: E.avgDiff >= 4 ? "#E07070" : E.avgDiff <= 2 ? "#7AE07A" : "#E8B000", fontWeight: 700 }}>{E.avgDiff}/5</span>
             </div>
           )}
           {E.seances.length > 0 && (
@@ -183,8 +183,8 @@ export function RapportHebdo({ clientId, user, isCoach = false, onClose }) {
         {/* ── Nutrition ── */}
         <div style={{ background: "#111", border: "0.5px solid #1A1A1A", padding: "14px 16px" }}>
           <div style={{ fontSize: 9, letterSpacing: "2px", textTransform: "uppercase", color: "#555", marginBottom: 12 }}>🍽️ Nutrition</div>
-          <StatBar label="Jours loggés" val={N.jourNutrition} max={7} color="#C9A84C" suffix="j" />
-          {N.caloCible > 0 && <StatBar label="Calories moyennes/jour" val={N.avgCalo} max={N.caloCible} color="#E8C87A" suffix=" kcal" />}
+          <StatBar label="Jours loggés" val={N.jourNutrition} max={7} color="#E8B000" suffix="j" />
+          {N.caloCible > 0 && <StatBar label="Calories moyennes/jour" val={N.avgCalo} max={N.caloCible} color="#F5C832" suffix=" kcal" />}
           {N.protCible > 0 && <StatBar label="Protéines moyennes/jour" val={N.avgProt} max={N.protCible} color="#7AE07A" suffix="g" />}
         </div>
 
@@ -194,7 +194,7 @@ export function RapportHebdo({ clientId, user, isCoach = false, onClose }) {
             <div style={{ fontSize: 9, letterSpacing: "2px", textTransform: "uppercase", color: "#555", marginBottom: 12 }}>⚡ Forme quotidienne</div>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
               <div>
-                <div style={{ fontSize: 22, fontWeight: 800, color: F.avgScore >= 70 ? "#7AE07A" : F.avgScore >= 50 ? "#C9A84C" : "#E07070", fontFamily: "'Syne',sans-serif" }}>
+                <div style={{ fontSize: 22, fontWeight: 800, color: F.avgScore >= 70 ? "#7AE07A" : F.avgScore >= 50 ? "#E8B000" : "#E07070", fontFamily: "'Syne',sans-serif" }}>
                   {F.avgScore}<span style={{ fontSize: 12, color: "#444" }}>/100</span>
                 </div>
                 <div style={{ fontSize: 10, color: "#444", marginTop: 2 }}>Score moyen semaine</div>
@@ -209,7 +209,7 @@ export function RapportHebdo({ clientId, user, isCoach = false, onClose }) {
           <div style={{ background: "#111", border: "0.5px solid #1A1A1A", padding: "14px 16px" }}>
             <div style={{ fontSize: 9, letterSpacing: "2px", textTransform: "uppercase", color: "#555", marginBottom: 12 }}>
               🎯 Objectifs hebdo
-              <span style={{ marginLeft: 8, color: O.coches === O.total ? "#7AE07A" : "#C9A84C" }}>
+              <span style={{ marginLeft: 8, color: O.coches === O.total ? "#7AE07A" : "#E8B000" }}>
                 {O.coches}/{O.total}
               </span>
             </div>
@@ -236,8 +236,8 @@ export function RapportHebdo({ clientId, user, isCoach = false, onClose }) {
 
         {/* ── Badges semaine ── */}
         {badges.length > 0 && (
-          <div style={{ background: "rgba(201,168,76,0.04)", border: "0.5px solid rgba(201,168,76,0.2)", padding: "12px 16px" }}>
-            <div style={{ fontSize: 9, letterSpacing: "2px", textTransform: "uppercase", color: "#C9A84C", marginBottom: 8 }}>
+          <div style={{ background: "rgba(232,176,0,0.04)", border: "0.5px solid rgba(232,176,0,0.2)", padding: "12px 16px" }}>
+            <div style={{ fontSize: 9, letterSpacing: "2px", textTransform: "uppercase", color: "#E8B000", marginBottom: 8 }}>
               🏅 Badges débloqués cette semaine
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
@@ -263,17 +263,17 @@ export function RapportHebdo({ clientId, user, isCoach = false, onClose }) {
             )}
             {narrative.points_attention?.length > 0 && (
               <div style={{ background: "rgba(232,200,122,0.04)", border: "0.5px solid rgba(232,200,122,0.2)", padding: "12px 16px" }}>
-                <div style={{ fontSize: 9, letterSpacing: "2px", textTransform: "uppercase", color: "#E8C87A", marginBottom: 8 }}>Points d'attention</div>
+                <div style={{ fontSize: 9, letterSpacing: "2px", textTransform: "uppercase", color: "#F5C832", marginBottom: 8 }}>Points d'attention</div>
                 {narrative.points_attention.map((p, i) => (
                   <div key={i} style={{ fontSize: 12, color: "#888", marginBottom: 4, display: "flex", gap: 6 }}>
-                    <span style={{ color: "#E8C87A", flexShrink: 0 }}>→</span> {p}
+                    <span style={{ color: "#F5C832", flexShrink: 0 }}>→</span> {p}
                   </div>
                 ))}
               </div>
             )}
             {narrative.conseil_semaine && (
-              <div style={{ background: "rgba(201,168,76,0.06)", border: "0.5px solid rgba(201,168,76,0.25)", padding: "12px 16px" }}>
-                <div style={{ fontSize: 9, letterSpacing: "2px", textTransform: "uppercase", color: "#C9A84C", marginBottom: 6 }}>
+              <div style={{ background: "rgba(232,176,0,0.06)", border: "0.5px solid rgba(232,176,0,0.25)", padding: "12px 16px" }}>
+                <div style={{ fontSize: 9, letterSpacing: "2px", textTransform: "uppercase", color: "#E8B000", marginBottom: 6 }}>
                   💡 Conseil pour la semaine prochaine
                 </div>
                 <div style={{ fontSize: 13, color: "#888", lineHeight: 1.7, fontFamily: "'Cormorant Garamond',serif", fontStyle: "italic" }}>
@@ -288,7 +288,7 @@ export function RapportHebdo({ clientId, user, isCoach = false, onClose }) {
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, padding: "8px 0" }}>
           <span style={{ fontSize: 20 }}>🔥</span>
           <span style={{ fontSize: 13, color: "#555" }}>
-            Streak actuel : <span style={{ color: "#C9A84C", fontWeight: 700 }}>{client.streak} jour{client.streak > 1 ? "s" : ""}</span>
+            Streak actuel : <span style={{ color: "#E8B000", fontWeight: 700 }}>{client.streak} jour{client.streak > 1 ? "s" : ""}</span>
           </span>
         </div>
 

@@ -1,10 +1,10 @@
-"use client";
+﻿"use client";
 import { useState, useEffect } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
 
 // ── Sparkline SVG générique ────────────────────────────────────────────────────
-function Sparkline({ data, color = "#C9A84C", height = 48, showDots = false }) {
+function Sparkline({ data, color = "#E8B000", height = 48, showDots = false }) {
   if (!data || data.length < 2) return (
     <div style={{ height, display:"flex", alignItems:"center", justifyContent:"center" }}>
       <span style={{ fontSize:11, color:"#333" }}>Pas assez de données</span>
@@ -44,7 +44,7 @@ function Sparkline({ data, color = "#C9A84C", height = 48, showDots = false }) {
 }
 
 // ── Barre horizontale ──────────────────────────────────────────────────────────
-function BarChart({ data, color = "#C9A84C", labelKey = "label", valueKey = "value", maxVal }) {
+function BarChart({ data, color = "#E8B000", labelKey = "label", valueKey = "value", maxVal }) {
   if (!data?.length) return <span style={{ fontSize:11, color:"#333" }}>Pas de données</span>;
   const max = maxVal || Math.max(...data.map(d => d[valueKey])) || 1;
   return (
@@ -122,7 +122,7 @@ export function ClientProgressCharts({ clientId }) {
 
   if (loading) return (
     <div style={{ padding:"16px 14px", borderTop:"0.5px solid #1A1A1A" }}>
-      <div style={{ fontSize:9, letterSpacing:"3px", textTransform:"uppercase", color:"#C9A84C", marginBottom:10 }}>Progression</div>
+      <div style={{ fontSize:9, letterSpacing:"3px", textTransform:"uppercase", color:"#E8B000", marginBottom:10 }}>Progression</div>
       <div style={{ fontSize:11, color:"#333", fontStyle:"italic" }}>Chargement…</div>
     </div>
   );
@@ -131,7 +131,7 @@ export function ClientProgressCharts({ clientId }) {
 
   return (
     <div style={{ padding:"14px", borderTop:"0.5px solid #1A1A1A" }}>
-      <div style={{ fontSize:9, letterSpacing:"3px", textTransform:"uppercase", color:"#C9A84C", marginBottom:14 }}>— Progression client</div>
+      <div style={{ fontSize:9, letterSpacing:"3px", textTransform:"uppercase", color:"#E8B000", marginBottom:14 }}>— Progression client</div>
 
       <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
 
@@ -140,7 +140,7 @@ export function ClientProgressCharts({ clientId }) {
           <div>
             <div style={{ display:"flex", justifyContent:"space-between", marginBottom:6 }}>
               <span style={{ fontSize:10, color:"#555", letterSpacing:"1px", textTransform:"uppercase" }}>Évolution poids</span>
-              <span style={{ fontSize:11, color:"#C9A84C", fontWeight:700 }}>
+              <span style={{ fontSize:11, color:"#E8B000", fontWeight:700 }}>
                 {data.poidsHistory[data.poidsHistory.length-1]?.val} kg
                 {data.poidsHistory.length >= 2 && (
                   <span style={{ fontSize:9, color: (data.poidsHistory[data.poidsHistory.length-1]?.val - data.poidsHistory[0]?.val) <= 0 ? "#7AE07A":"#E07070", marginLeft:6 }}>
@@ -150,7 +150,7 @@ export function ClientProgressCharts({ clientId }) {
                 )}
               </span>
             </div>
-            <Sparkline data={data.poidsHistory.map(p => p.val)} color="#C9A84C" height={44} showDots />
+            <Sparkline data={data.poidsHistory.map(p => p.val)} color="#E8B000" height={44} showDots />
           </div>
         )}
 
@@ -180,8 +180,8 @@ export function ClientProgressCharts({ clientId }) {
 
         {/* Streak */}
         <div style={{ display:"flex", gap:8 }}>
-          <div style={{ flex:1, background:"rgba(201,168,76,0.06)", border:"0.5px solid rgba(201,168,76,0.15)", borderRadius:6, padding:"10px 12px", textAlign:"center" }}>
-            <div style={{ fontSize:20, fontWeight:700, color:"#C9A84C" }}>{data.streakMax}</div>
+          <div style={{ flex:1, background:"rgba(232,176,0,0.06)", border:"0.5px solid rgba(232,176,0,0.15)", borderRadius:6, padding:"10px 12px", textAlign:"center" }}>
+            <div style={{ fontSize:20, fontWeight:700, color:"#E8B000" }}>{data.streakMax}</div>
             <div style={{ fontSize:9, color:"#555", textTransform:"uppercase", letterSpacing:"1px", marginTop:2 }}>Streak actuel</div>
           </div>
           <div style={{ flex:1, background:"rgba(93,202,165,0.06)", border:"0.5px solid rgba(93,202,165,0.15)", borderRadius:6, padding:"10px 12px", textAlign:"center" }}>

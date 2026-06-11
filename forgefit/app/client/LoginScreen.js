@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState } from "react";
 import { signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../firebase";
@@ -39,9 +39,9 @@ export function LoginScreen({ lang, setLang, LANGS }) {
 
   return (
     <div style={{background:"#0A0A0A",color:"#F0EDE8",minHeight:"100vh",fontFamily:"'Syne',sans-serif",display:"flex",flexDirection:"column"}}>
-      <style>{`*{box-sizing:border-box;margin:0;padding:0}input:focus{border-color:#C9A84C !important;outline:none}`}</style>
+      <style>{`*{box-sizing:border-box;margin:0;padding:0}input:focus{border-color:#E8B000 !important;outline:none}`}</style>
       <nav style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"18px 28px",borderBottom:"0.5px solid #242424"}}>
-        <div style={{fontSize:20,fontWeight:800,letterSpacing:5}}>APXFIT<span style={{color:"#C9A84C"}}>NESS</span></div>
+        <div style={{fontSize:20,fontWeight:800,letterSpacing:5}}>APXFIT<span style={{color:"#E8B000"}}>NESS</span></div>
         <LangSelector lang={lang} setLang={setLang} LANGS={LANGS} />
       </nav>
       <div style={{flex:1,display:"flex",alignItems:"center",justifyContent:"center",padding:"2rem"}}>
@@ -49,7 +49,7 @@ export function LoginScreen({ lang, setLang, LANGS }) {
 
           {!resetMode ? (
             <>
-              <div style={{fontSize:11,letterSpacing:"4px",textTransform:"uppercase",color:"#C9A84C",marginBottom:"0.75rem"}}>— Espace client</div>
+              <div style={{fontSize:11,letterSpacing:"4px",textTransform:"uppercase",color:"#E8B000",marginBottom:"0.75rem"}}>— Espace client</div>
               <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:40,fontWeight:600,lineHeight:1.1,marginBottom:"2rem"}}>
                 Bon retour<br/><em style={{fontStyle:"italic",color:"#555"}}>parmi nous</em>
               </div>
@@ -63,7 +63,7 @@ export function LoginScreen({ lang, setLang, LANGS }) {
                   <input style={inp} type="password" value={password} onChange={e=>setPassword(e.target.value)} placeholder="••••••••" required />
                 </div>
                 {error && <div style={{background:"#1A0808",border:"0.5px solid #5A1A1A",color:"#E07070",fontSize:12,padding:"10px 14px"}}>{error}</div>}
-                <button type="submit" disabled={loading} style={{background:loading?"#181818":"linear-gradient(135deg,#C9A84C,#A67C2E)",border:"none",color:"#0A0A0A",padding:"14px",fontFamily:"'Syne',sans-serif",fontSize:12,fontWeight:700,letterSpacing:"3px",textTransform:"uppercase",cursor:loading?"not-allowed":"pointer",marginTop:2}}>
+                <button type="submit" disabled={loading} style={{background:loading?"#181818":"linear-gradient(135deg,#E8B000,#C49200)",border:"none",color:"#0A0A0A",padding:"14px",fontFamily:"'Syne',sans-serif",fontSize:12,fontWeight:700,letterSpacing:"3px",textTransform:"uppercase",cursor:loading?"not-allowed":"pointer",marginTop:2}}>
                   {loading?"Connexion...":"Se connecter →"}
                 </button>
               </form>
@@ -71,7 +71,7 @@ export function LoginScreen({ lang, setLang, LANGS }) {
                 <button
                   onClick={() => { setResetMode(true); setResetEmail(email); }}
                   style={{background:"none",border:"none",color:"#444",fontSize:11,fontFamily:"'Syne',sans-serif",letterSpacing:"1px",cursor:"pointer",textDecoration:"underline",textUnderlineOffset:3,transition:"color 0.15s"}}
-                  onMouseEnter={e=>e.target.style.color="#C9A84C"}
+                  onMouseEnter={e=>e.target.style.color="#E8B000"}
                   onMouseLeave={e=>e.target.style.color="#444"}
                 >
                   Mot de passe oublié ?
@@ -88,7 +88,7 @@ export function LoginScreen({ lang, setLang, LANGS }) {
                 ← Retour
               </button>
 
-              <div style={{fontSize:11,letterSpacing:"4px",textTransform:"uppercase",color:"#C9A84C",marginBottom:"0.75rem"}}>— Réinitialisation</div>
+              <div style={{fontSize:11,letterSpacing:"4px",textTransform:"uppercase",color:"#E8B000",marginBottom:"0.75rem"}}>— Réinitialisation</div>
               <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:36,fontWeight:600,lineHeight:1.1,marginBottom:"1.5rem"}}>
                 Nouveau<br/><em style={{fontStyle:"italic",color:"#555"}}>mot de passe</em>
               </div>
@@ -114,7 +114,7 @@ export function LoginScreen({ lang, setLang, LANGS }) {
                     />
                   </div>
                   {resetError && <div style={{background:"#1A0808",border:"0.5px solid #5A1A1A",color:"#E07070",fontSize:12,padding:"10px 14px"}}>{resetError}</div>}
-                  <button type="submit" disabled={resetLoading} style={{background:resetLoading?"#181818":"linear-gradient(135deg,#C9A84C,#A67C2E)",border:"none",color:"#0A0A0A",padding:"14px",fontFamily:"'Syne',sans-serif",fontSize:12,fontWeight:700,letterSpacing:"3px",textTransform:"uppercase",cursor:resetLoading?"not-allowed":"pointer",marginTop:2}}>
+                  <button type="submit" disabled={resetLoading} style={{background:resetLoading?"#181818":"linear-gradient(135deg,#E8B000,#C49200)",border:"none",color:"#0A0A0A",padding:"14px",fontFamily:"'Syne',sans-serif",fontSize:12,fontWeight:700,letterSpacing:"3px",textTransform:"uppercase",cursor:resetLoading?"not-allowed":"pointer",marginTop:2}}>
                     {resetLoading?"Envoi...":"Envoyer le lien →"}
                   </button>
                 </form>

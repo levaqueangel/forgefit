@@ -1,4 +1,4 @@
-import { ImageResponse } from "next/og";
+﻿import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 export const size = { width: 32, height: 32 };
@@ -22,7 +22,7 @@ export default function Icon() {
           style={{
             fontSize: 14,
             fontWeight: 900,
-            color: "#C9A84C",
+            color: "#E8B000",
             letterSpacing: "-1px",
             fontFamily: "sans-serif",
           }}

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useRef, useState } from "react";
 
 /* Dessine un rectangle aux coins arrondis dans un ctx canvas */
@@ -56,14 +56,14 @@ export function PartagerCard({ clientData, pd, doneSeances, realStreak, currentW
 
     /* Halo doré bas-centre */
     const halo = ctx.createRadialGradient(W / 2, H * 0.65, 0, W / 2, H * 0.65, 480);
-    halo.addColorStop(0, "rgba(201,168,76,0.09)");
+    halo.addColorStop(0, "rgba(232,176,0,0.09)");
     halo.addColorStop(1, "transparent");
     ctx.fillStyle = halo;
     ctx.fillRect(0, 0, W, H);
 
     /* ── Barre top dégradée ── */
     const barGrad = ctx.createLinearGradient(0, 0, W, 0);
-    barGrad.addColorStop(0, "#C9A84C");
+    barGrad.addColorStop(0, "#E8B000");
     barGrad.addColorStop(1, "#5DCAA5");
     ctx.fillStyle = barGrad;
     ctx.fillRect(0, 0, W, 5);
@@ -76,7 +76,7 @@ export function PartagerCard({ clientData, pd, doneSeances, realStreak, currentW
     ctx.fillStyle = "#F0EDE8";
     ctx.fillText("APX", PAD, 72);
     const apxW = ctx.measureText("APX").width;
-    ctx.fillStyle = "#C9A84C";
+    ctx.fillStyle = "#E8B000";
     ctx.fillText("FITNESS", PAD + apxW + 2, 72);
 
     ctx.font = "400 19px Syne, sans-serif";
@@ -91,7 +91,7 @@ export function PartagerCard({ clientData, pd, doneSeances, realStreak, currentW
     /* ── Grande métrique centrale : semaines ── */
     const weeks = currentWeek || 1;
     ctx.font = "700 190px Syne, sans-serif";
-    ctx.fillStyle = "#C9A84C";
+    ctx.fillStyle = "#E8B000";
     ctx.textBaseline = "alphabetic";
     ctx.fillText(`${weeks}`, PAD, 400);
     const bigW = ctx.measureText(`${weeks}`).width;
@@ -112,7 +112,7 @@ export function PartagerCard({ clientData, pd, doneSeances, realStreak, currentW
     const mY = 500, mH = 200, mGap = 28;
     const mW = Math.floor((W - PAD * 2 - mGap * 2) / 3);
     const mCards = [
-      { val: `${doneSeances}/4`, label: "séances\ncette semaine", color: "#C9A84C" },
+      { val: `${doneSeances}/4`, label: "séances\ncette semaine", color: "#E8B000" },
       { val: `${realStreak || 0}j`,  label: "jours de\nstreak",       color: "#7AE07A" },
       { val: pd?.duree_programme_semaines ? `${pd.duree_programme_semaines}W` : "—", label: "durée\nprogramme", color: "#5DCAA5" },
     ];
@@ -152,9 +152,9 @@ export function PartagerCard({ clientData, pd, doneSeances, realStreak, currentW
     const nom = clientData?.prenom || clientData?.nom?.split(" ")[0] || "Athlete";
     const badgeY = 740, badgeH = 76;
 
-    ctx.fillStyle = "rgba(201,168,76,0.06)";
+    ctx.fillStyle = "rgba(232,176,0,0.06)";
     rr(ctx, PAD, badgeY, 440, badgeH, 14); ctx.fill();
-    ctx.strokeStyle = "rgba(201,168,76,0.2)";
+    ctx.strokeStyle = "rgba(232,176,0,0.2)";
     ctx.lineWidth = 1;
     rr(ctx, PAD, badgeY, 440, badgeH, 14); ctx.stroke();
 
@@ -164,7 +164,7 @@ export function PartagerCard({ clientData, pd, doneSeances, realStreak, currentW
     ctx.fillText(nom, PAD + 24, badgeY + 44);
 
     ctx.font = "400 18px Syne, sans-serif";
-    ctx.fillStyle = "#C9A84C";
+    ctx.fillStyle = "#E8B000";
     ctx.fillText("Membre APXFITNESS", PAD + 24, badgeY + 66);
 
     /* ── Barre de progression programme ── */
@@ -185,7 +185,7 @@ export function PartagerCard({ clientData, pd, doneSeances, realStreak, currentW
 
     /* Fill */
     const fillGrad = ctx.createLinearGradient(PAD, 0, PAD + barW * prog, 0);
-    fillGrad.addColorStop(0, "#C9A84C");
+    fillGrad.addColorStop(0, "#E8B000");
     fillGrad.addColorStop(1, "#5DCAA5");
     ctx.fillStyle = fillGrad;
     rr(ctx, PAD, barY, Math.max(barW * prog, 8), 8, 4); ctx.fill();
@@ -197,7 +197,7 @@ export function PartagerCard({ clientData, pd, doneSeances, realStreak, currentW
 
     /* ── Footer ── */
     ctx.font = "400 20px Syne, sans-serif";
-    ctx.fillStyle = "#C9A84C";
+    ctx.fillStyle = "#E8B000";
     ctx.textBaseline = "alphabetic";
     ctx.fillText("apxfitness.fr", PAD, 975);
 
@@ -238,10 +238,10 @@ export function PartagerCard({ clientData, pd, doneSeances, realStreak, currentW
           display: "flex", alignItems: "center", gap: 8,
           background: state === "done"
             ? "rgba(122,224,122,0.1)"
-            : "rgba(201,168,76,0.08)",
-          border: `0.5px solid ${state === "done" ? "rgba(122,224,122,0.4)" : "rgba(201,168,76,0.3)"}`,
+            : "rgba(232,176,0,0.08)",
+          border: `0.5px solid ${state === "done" ? "rgba(122,224,122,0.4)" : "rgba(232,176,0,0.3)"}`,
           borderRadius: 10, padding: "10px 18px",
-          color: state === "done" ? "#7AE07A" : "#C9A84C",
+          color: state === "done" ? "#7AE07A" : "#E8B000",
           fontSize: 12, fontFamily: "'Syne',sans-serif", fontWeight: 700,
           letterSpacing: "1.5px", textTransform: "uppercase",
           cursor: state === "loading" ? "wait" : "pointer",
@@ -251,7 +251,7 @@ export function PartagerCard({ clientData, pd, doneSeances, realStreak, currentW
         }}
       >
         {state === "loading" && (
-          <span style={{ width: 14, height: 14, border: "2px solid rgba(201,168,76,0.3)", borderTop: "2px solid #C9A84C", borderRadius: "50%", display: "inline-block", animation: "spin 0.8s linear infinite" }} />
+          <span style={{ width: 14, height: 14, border: "2px solid rgba(232,176,0,0.3)", borderTop: "2px solid #E8B000", borderRadius: "50%", display: "inline-block", animation: "spin 0.8s linear infinite" }} />
         )}
         {state === "loading" ? "Génération…" : state === "done" ? "✓ Carte générée !" : "📸 Partager mes progrès"}
       </button>

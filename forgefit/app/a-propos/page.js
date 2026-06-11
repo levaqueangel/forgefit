@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useRouter } from "next/navigation";
 import { useLang } from "../useLang";
 import { LangSelector } from "../LangSelector";
@@ -16,11 +16,11 @@ export default function APropos() {
       <style>{`
         *{box-sizing:border-box;margin:0;padding:0}
         .nav-link{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#555;cursor:pointer;transition:color 0.2s;padding:4px 0}
-        .nav-link:hover{color:#C9A84C}
+        .nav-link:hover{color:#E8B000}
         .footer-link{cursor:pointer;transition:color 0.2s}
-        .footer-link:hover{color:#C9A84C}
+        .footer-link:hover{color:#E8B000}
         .val-card{background:#111;border:0.5px solid #1E1E1E;padding:32px;transition:all 0.25s}
-        .val-card:hover{border-color:#C9A84C;background:#131313;transform:translateY(-3px)}
+        .val-card:hover{border-color:#E8B000;background:#131313;transform:translateY(-3px)}
         .cert-item{display:flex;align-items:flex-start;gap:14px;padding:16px 0;border-bottom:0.5px solid #141414}
         .cert-item:last-child{border-bottom:none}
         @keyframes lineGrow{from{width:0}to{width:100%}}
@@ -46,7 +46,7 @@ export default function APropos() {
       }}>
         <div style={{fontSize:18,fontWeight:800,letterSpacing:5,cursor:"pointer"}}
           onClick={()=>router.push("/")}>
-          APXFIT<span style={{color:"#C9A84C"}}>NESS</span>
+          APXFIT<span style={{color:"#E8B000"}}>NESS</span>
         </div>
         <div style={{display:"flex",gap:"2rem",alignItems:"center"}}>
           <span className="nav-link" onClick={()=>router.push("/")}>Accueil</span>
@@ -57,7 +57,7 @@ export default function APropos() {
         <div style={{display:"flex",gap:12,alignItems:"center"}}>
           <LangSelector lang={lang} setLang={setLang} LANGS={LANGS} />
           <button onClick={()=>router.push("/bilan")} style={{
-            background:"linear-gradient(135deg,#C9A84C,#A67C2E)",border:"none",
+            background:"linear-gradient(135deg,#E8B000,#C49200)",border:"none",
             color:"#0A0A0A",padding:"10px 24px",fontFamily:"'Syne',sans-serif",
             fontSize:12,fontWeight:700,letterSpacing:"2px",textTransform:"uppercase",cursor:"pointer",
           }}>
@@ -67,7 +67,7 @@ export default function APropos() {
       </nav>
 
       {/* ── Ligne dorée ── */}
-      <div style={{height:1,background:"linear-gradient(90deg,transparent,#C9A84C,transparent)"}}/>
+      <div style={{height:1,background:"linear-gradient(90deg,transparent,#E8B000,transparent)"}}/>
 
       {/* ── Hero ── */}
       <section className="hero-grid-about" style={{
@@ -81,7 +81,7 @@ export default function APropos() {
         }}>
           <div className="a1" style={{
             fontSize:10,letterSpacing:"4px",textTransform:"uppercase",
-            color:"#C9A84C",marginBottom:"1.2rem",
+            color:"#E8B000",marginBottom:"1.2rem",
           }}>— À propos du coach</div>
 
           <h1 className="a2" style={{
@@ -89,12 +89,12 @@ export default function APropos() {
             lineHeight:1.05,marginBottom:"1.5rem",
           }}>
             Angel<br/>
-            <em style={{fontStyle:"italic",color:"#C9A84C"}}>Levaque</em>
+            <em style={{fontStyle:"italic",color:"#E8B000"}}>Levaque</em>
           </h1>
 
           <div className="a3" style={{
             width:48,height:1,
-            background:"linear-gradient(90deg,#C9A84C,transparent)",
+            background:"linear-gradient(90deg,#E8B000,transparent)",
             marginBottom:"1.5rem",
           }}/>
 
@@ -109,7 +109,7 @@ export default function APropos() {
 
           <div className="a5" style={{marginTop:"2.5rem",display:"flex",gap:12}}>
             <button onClick={()=>router.push("/bilan")} style={{
-              background:"linear-gradient(135deg,#C9A84C,#A67C2E)",border:"none",
+              background:"linear-gradient(135deg,#E8B000,#C49200)",border:"none",
               color:"#0A0A0A",padding:"14px 32px",fontFamily:"'Syne',sans-serif",
               fontSize:12,fontWeight:700,letterSpacing:"2px",
               textTransform:"uppercase",cursor:"pointer",
@@ -134,7 +134,7 @@ export default function APropos() {
         }}>
           <div style={{
             position:"absolute",inset:0,
-            background:"radial-gradient(circle at 50% 50%,rgba(201,168,76,0.04) 0%,transparent 70%)",
+            background:"radial-gradient(circle at 50% 50%,rgba(232,176,0,0.04) 0%,transparent 70%)",
           }}/>
           {[
             ["5+",  "Années d'expérience"],
@@ -148,7 +148,7 @@ export default function APropos() {
             }}>
               <div style={{
                 fontFamily:"'Cormorant Garamond',serif",fontSize:80,
-                fontWeight:600,color:"#C9A84C",lineHeight:1,
+                fontWeight:600,color:"#E8B000",lineHeight:1,
               }}>{num}</div>
               <div style={{
                 fontSize:11,letterSpacing:"3px",textTransform:"uppercase",
@@ -168,14 +168,14 @@ export default function APropos() {
         <div>
           <div style={{
             fontSize:10,letterSpacing:"4px",textTransform:"uppercase",
-            color:"#C9A84C",marginBottom:"1.2rem",
+            color:"#E8B000",marginBottom:"1.2rem",
           }}>— Ma philosophie</div>
           <h2 style={{
             fontFamily:"'Cormorant Garamond',serif",fontSize:44,
             fontWeight:600,lineHeight:1.1,color:"#F0EDE8",
           }}>
             Le corps suit<br/>
-            <em style={{fontStyle:"italic",color:"#C9A84C"}}>ce que l'esprit décide.</em>
+            <em style={{fontStyle:"italic",color:"#E8B000"}}>ce que l'esprit décide.</em>
           </h2>
         </div>
         <div>
@@ -186,7 +186,7 @@ export default function APropos() {
             Je crois que la transformation physique commence bien avant la salle de sport.
             Elle commence quand tu décides d'arrêter les programmes génériques trouvés
             sur internet et que tu t'engages dans une démarche construite autour de
-            <em style={{color:"#C9A84C",fontStyle:"normal"}}> toi</em> — ton corps,
+            <em style={{color:"#E8B000",fontStyle:"normal"}}> toi</em> — ton corps,
             ton emploi du temps, ta cuisine, ton niveau.
           </p>
           <p style={{
@@ -211,7 +211,7 @@ export default function APropos() {
       <section style={{padding:"5rem 3.5rem",borderBottom:"0.5px solid #1A1A1A"}}>
         <div style={{
           fontSize:10,letterSpacing:"4px",textTransform:"uppercase",
-          color:"#C9A84C",marginBottom:"0.8rem",textAlign:"center",
+          color:"#E8B000",marginBottom:"0.8rem",textAlign:"center",
         }}>— Ce qui me guide</div>
         <h2 style={{
           fontFamily:"'Cormorant Garamond',serif",fontSize:42,fontWeight:600,
@@ -242,7 +242,7 @@ export default function APropos() {
               <div style={{fontSize:28,marginBottom:16}}>{v.icon}</div>
               <h3 style={{
                 fontFamily:"'Syne',sans-serif",fontSize:12,fontWeight:700,
-                letterSpacing:"2px",textTransform:"uppercase",color:"#C9A84C",
+                letterSpacing:"2px",textTransform:"uppercase",color:"#E8B000",
                 marginBottom:12,
               }}>{v.title}</h3>
               <p style={{
@@ -262,14 +262,14 @@ export default function APropos() {
         <div>
           <div style={{
             fontSize:10,letterSpacing:"4px",textTransform:"uppercase",
-            color:"#C9A84C",marginBottom:"1.2rem",
+            color:"#E8B000",marginBottom:"1.2rem",
           }}>— Parcours</div>
           <h2 style={{
             fontFamily:"'Cormorant Garamond',serif",fontSize:42,
             fontWeight:600,lineHeight:1.1,marginBottom:"2.5rem",
           }}>
             Ce qui m'a<br/>
-            <em style={{fontStyle:"italic",color:"#C9A84C"}}>construit</em>
+            <em style={{fontStyle:"italic",color:"#E8B000"}}>construit</em>
           </h2>
           {[
             {year:"2019", event:"Premiers pas en salle — autodidacte, erreurs, stagnation."},
@@ -284,7 +284,7 @@ export default function APropos() {
               opacity: i < 3 ? 0.55 : 1,
             }}>
               <div style={{
-                fontSize:11,fontWeight:700,color:"#C9A84C",letterSpacing:"2px",
+                fontSize:11,fontWeight:700,color:"#E8B000",letterSpacing:"2px",
                 flexShrink:0,paddingTop:3,fontFamily:"'Syne',sans-serif",
                 width:40,
               }}>{item.year}</div>
@@ -306,14 +306,14 @@ export default function APropos() {
         <div>
           <div style={{
             fontSize:10,letterSpacing:"4px",textTransform:"uppercase",
-            color:"#C9A84C",marginBottom:"1.2rem",
+            color:"#E8B000",marginBottom:"1.2rem",
           }}>— Compétences</div>
           <h2 style={{
             fontFamily:"'Cormorant Garamond',serif",fontSize:42,
             fontWeight:600,lineHeight:1.1,marginBottom:"2rem",
           }}>
             Expertise<br/>
-            <em style={{fontStyle:"italic",color:"#C9A84C"}}>& méthodes</em>
+            <em style={{fontStyle:"italic",color:"#E8B000"}}>& méthodes</em>
           </h2>
           <div>
             {[
@@ -334,7 +334,7 @@ export default function APropos() {
                     letterSpacing:"1px",
                   }}>{skill.label}</span>
                   <span style={{
-                    fontSize:11,color:"#C9A84C",fontWeight:700,
+                    fontSize:11,color:"#E8B000",fontWeight:700,
                     fontFamily:"'Syne',sans-serif",
                   }}>{skill.level}%</span>
                 </div>
@@ -342,7 +342,7 @@ export default function APropos() {
                   <div style={{
                     height:"100%",
                     width:`${skill.level}%`,
-                    background:"linear-gradient(90deg,#C9A84C,#E8C87A)",
+                    background:"linear-gradient(90deg,#E8B000,#F5C832)",
                     borderRadius:4,
                     transition:"width 1.5s cubic-bezier(0.25,1,0.5,1)",
                   }}/>
@@ -354,12 +354,12 @@ export default function APropos() {
           {/* Approche */}
           <div style={{
             marginTop:"2.5rem",padding:"24px",
-            background:"rgba(201,168,76,0.05)",
-            border:"0.5px solid rgba(201,168,76,0.2)",
+            background:"rgba(232,176,0,0.05)",
+            border:"0.5px solid rgba(232,176,0,0.2)",
           }}>
             <div style={{
               fontSize:10,letterSpacing:"3px",textTransform:"uppercase",
-              color:"#C9A84C",marginBottom:12,fontFamily:"'Syne',sans-serif",
+              color:"#E8B000",marginBottom:12,fontFamily:"'Syne',sans-serif",
             }}>Mon approche IA</div>
             <p style={{
               fontFamily:"'Cormorant Garamond',serif",fontSize:15,color:"#666",
@@ -380,9 +380,9 @@ export default function APropos() {
         </video>
         <div style={{position:"absolute",inset:0,background:"linear-gradient(to bottom,rgba(10,10,10,.6),rgba(10,10,10,.95))"}}/>
         <div style={{position:"absolute",inset:0,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",textAlign:"center",padding:"2rem"}}>
-          <div style={{fontSize:10,letterSpacing:"4px",textTransform:"uppercase",color:"#C9A84C",marginBottom:"1rem"}}>— L'entraînement en vidéo</div>
+          <div style={{fontSize:10,letterSpacing:"4px",textTransform:"uppercase",color:"#E8B000",marginBottom:"1rem"}}>— L'entraînement en vidéo</div>
           <h2 style={{fontFamily:"'Cormorant Garamond',serif",fontSize:48,fontWeight:600,lineHeight:1.1,marginBottom:"1.5rem"}}>
-            Voir la méthode<br/><em style={{fontStyle:"italic",color:"#C9A84C"}}>en mouvement</em>
+            Voir la méthode<br/><em style={{fontStyle:"italic",color:"#E8B000"}}>en mouvement</em>
           </h2>
         </div>
 
@@ -401,18 +401,18 @@ export default function APropos() {
       {/* ── CTA final ── */}
       <section style={{
         padding:"6rem 3.5rem",textAlign:"center",
-        background:"radial-gradient(ellipse at center,rgba(201,168,76,0.05) 0%,transparent 70%)",
+        background:"radial-gradient(ellipse at center,rgba(232,176,0,0.05) 0%,transparent 70%)",
       }}>
         <div style={{
           fontSize:10,letterSpacing:"4px",textTransform:"uppercase",
-          color:"#C9A84C",marginBottom:"1.2rem",
+          color:"#E8B000",marginBottom:"1.2rem",
         }}>— Prêt à commencer ?</div>
         <h2 style={{
           fontFamily:"'Cormorant Garamond',serif",fontSize:52,fontWeight:600,
           lineHeight:1.1,marginBottom:"1.5rem",
         }}>
           Ton programme.<br/>
-          <em style={{fontStyle:"italic",color:"#C9A84C"}}>Ta transformation.</em>
+          <em style={{fontStyle:"italic",color:"#E8B000"}}>Ta transformation.</em>
         </h2>
         <p style={{
           fontFamily:"'Cormorant Garamond',serif",fontSize:17,color:"#555",
@@ -423,7 +423,7 @@ export default function APropos() {
         </p>
         <div style={{display:"flex",gap:12,justifyContent:"center",flexWrap:"wrap"}}>
           <button onClick={()=>router.push("/bilan")} style={{
-            background:"linear-gradient(135deg,#C9A84C,#A67C2E)",border:"none",
+            background:"linear-gradient(135deg,#E8B000,#C49200)",border:"none",
             color:"#0A0A0A",padding:"16px 40px",fontFamily:"'Syne',sans-serif",
             fontSize:13,fontWeight:700,letterSpacing:"2px",
             textTransform:"uppercase",cursor:"pointer",
@@ -448,7 +448,7 @@ export default function APropos() {
       }}>
         <div style={{fontSize:18,fontWeight:800,letterSpacing:5,cursor:"pointer"}}
           onClick={()=>router.push("/")}>
-          APXFIT<span style={{color:"#C9A84C"}}>NESS</span>
+          APXFIT<span style={{color:"#E8B000"}}>NESS</span>
         </div>
         <div style={{fontSize:11,letterSpacing:"2px",color:"#555",textTransform:"uppercase"}}>
           © 2026 APXFITNESS

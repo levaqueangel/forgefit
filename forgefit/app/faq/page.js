@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect } from "react";
 
 import { useRouter } from "next/navigation";
@@ -214,22 +214,22 @@ export default function FaqPage() {
                 *{box-sizing:border-box;margin:0;padding:0}
         @keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
         @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-        .gold{background:linear-gradient(90deg,#C9A84C,#E8C87A,#F5D98A,#C9A84C);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 2.5s linear infinite}
+        .gold{background:linear-gradient(90deg,#E8B000,#F5C832,#F5C832,#E8B000);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 2.5s linear infinite}
         .cat-btn{background:transparent;border:0.5px solid #242424;color:#555;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:7px 16px;cursor:pointer;transition:all 0.2s}
-        .cat-btn:hover,.cat-btn.active{border-color:#C9A84C;color:#C9A84C;background:rgba(201,168,76,0.05)}
+        .cat-btn:hover,.cat-btn.active{border-color:#E8B000;color:#E8B000;background:rgba(232,176,0,0.05)}
         .faq-q{display:flex;justify-content:space-between;align-items:center;padding:20px 0;cursor:pointer;gap:16px;transition:color 0.2s}
-        .faq-q:hover .faq-q-text{color:#E8C87A}
-        .faq-icon{flex-shrink:0;width:22px;height:22px;border:0.5px solid #333;display:flex;align-items:center;justify-content:center;font-size:16px;color:#C9A84C;transition:transform 0.3s}
-        .faq-icon.open{transform:rotate(45deg);background:rgba(201,168,76,0.1);border-color:#C9A84C}
+        .faq-q:hover .faq-q-text{color:#F5C832}
+        .faq-icon{flex-shrink:0;width:22px;height:22px;border:0.5px solid #333;display:flex;align-items:center;justify-content:center;font-size:16px;color:#E8B000;transition:transform 0.3s}
+        .faq-icon.open{transform:rotate(45deg);background:rgba(232,176,0,0.1);border-color:#E8B000}
         .footer-link{cursor:pointer;transition:color 0.2s}
-        .footer-link:hover{color:#E8C87A !important}
+        .footer-link:hover{color:#F5C832 !important}
         @media(max-width:768px){.hero-pad{padding:3rem 1.5rem 2rem !important}.content-pad{padding:2rem 1.5rem 4rem !important}}
       `}</style>
 
       {/* Nav */}
       <nav style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px 28px", borderBottom: "0.5px solid #242424", position: "sticky", top: 0, background: "#0A0A0A", zIndex: 100 }}>
         <div style={{ fontSize: 20, fontWeight: 800, letterSpacing: 5, cursor: "pointer" }} onClick={() => router.push("/")}>
-          APXFIT<span style={{ color: "#C9A84C" }}>NESS</span>
+          APXFIT<span style={{ color: "#E8B000" }}>NESS</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
           <LangSelector lang={lang} setLang={setLang} LANGS={LANGS} />
@@ -241,8 +241,8 @@ export default function FaqPage() {
 
       {/* Hero */}
       <div className="hero-pad" style={{ padding: "4rem 2rem 3rem", textAlign: "center", borderBottom: "0.5px solid #242424", position: "relative", overflow: "hidden" }}>
-        <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at 50% 100%,rgba(201,168,76,0.04),transparent 70%)", pointerEvents: "none" }} />
-        <div style={{ fontSize: 11, letterSpacing: "4px", textTransform: "uppercase", color: "#C9A84C", marginBottom: "1rem" }}>— Centre d'aide</div>
+        <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at 50% 100%,rgba(232,176,0,0.04),transparent 70%)", pointerEvents: "none" }} />
+        <div style={{ fontSize: 11, letterSpacing: "4px", textTransform: "uppercase", color: "#E8B000", marginBottom: "1rem" }}>— Centre d'aide</div>
         <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(40px,6vw,64px)", fontWeight: 600, lineHeight: 1, marginBottom: "1rem" }}>
           Questions<br /><em className="gold" style={{ fontStyle: "italic" }}>fréquentes</em>
         </h1>
@@ -262,7 +262,7 @@ export default function FaqPage() {
       <div className="content-pad" style={{ maxWidth: 720, margin: "0 auto", padding: "2rem 1.5rem 4rem" }}>
         {filteredData.map((section) => (
           <div key={section.cat}>
-            <div style={{ fontSize: 10, letterSpacing: "3px", textTransform: "uppercase", color: "#C9A84C", padding: "2rem 0 1rem", borderBottom: "0.5px solid #1A1A1A" }}>
+            <div style={{ fontSize: 10, letterSpacing: "3px", textTransform: "uppercase", color: "#E8B000", padding: "2rem 0 1rem", borderBottom: "0.5px solid #1A1A1A" }}>
               {section.catLabel}
             </div>
             {section.questions.map((item, i) => {
@@ -271,7 +271,7 @@ export default function FaqPage() {
               return (
                 <div key={id} style={{ borderBottom: "0.5px solid #242424" }}>
                   <div className="faq-q" onClick={() => toggle(id)}>
-                    <span className="faq-q-text" style={{ fontFamily: "'Syne',sans-serif", fontSize: 14, fontWeight: 700, color: isOpen ? "#E8C87A" : "#F0EDE8", transition: "color 0.2s", lineHeight: 1.4 }}>
+                    <span className="faq-q-text" style={{ fontFamily: "'Syne',sans-serif", fontSize: 14, fontWeight: 700, color: isOpen ? "#F5C832" : "#F0EDE8", transition: "color 0.2s", lineHeight: 1.4 }}>
                       {item.q}
                     </span>
                     <span className={`faq-icon${isOpen ? " open" : ""}`}>+</span>
@@ -289,11 +289,11 @@ export default function FaqPage() {
 
         {/* CTA contact */}
         <div style={{ marginTop: "3rem", padding: "2rem", border: "0.5px solid #242424", textAlign: "center", background: "#0D0D0D" }}>
-          <div style={{ fontSize: 11, letterSpacing: "3px", textTransform: "uppercase", color: "#C9A84C", marginBottom: 8 }}>— Une autre question ?</div>
+          <div style={{ fontSize: 11, letterSpacing: "3px", textTransform: "uppercase", color: "#E8B000", marginBottom: 8 }}>— Une autre question ?</div>
           <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 16, color: "#555", marginBottom: "1.5rem", lineHeight: 1.7 }}>
             Tu ne trouves pas la réponse que tu cherches ?<br />Le coach répond généralement sous 24h.
           </p>
-          <a href="mailto:levaqueangel@gmail.com" style={{ display: "inline-block", background: "linear-gradient(135deg,#C9A84C,#A67C2E)", color: "#0A0A0A", fontFamily: "'Syne',sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: "3px", textTransform: "uppercase", padding: "13px 28px", textDecoration: "none" }}>
+          <a href="mailto:levaqueangel@gmail.com" style={{ display: "inline-block", background: "linear-gradient(135deg,#E8B000,#C49200)", color: "#0A0A0A", fontFamily: "'Syne',sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: "3px", textTransform: "uppercase", padding: "13px 28px", textDecoration: "none" }}>
             Contacter le coach →
           </a>
         </div>
@@ -301,7 +301,7 @@ export default function FaqPage() {
 
       {/* Footer */}
       <footer style={{ padding: "1.5rem 2rem", display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: "0.5px solid #242424", flexWrap: "wrap", gap: 12 }}>
-        <div style={{ fontSize: 16, fontWeight: 800, letterSpacing: 5 }}>APXFIT<span style={{ color: "#C9A84C" }}>NESS</span></div>
+        <div style={{ fontSize: 16, fontWeight: 800, letterSpacing: 5 }}>APXFIT<span style={{ color: "#E8B000" }}>NESS</span></div>
         <div style={{ fontSize: 11, letterSpacing: "2px", color: "#555", textTransform: "uppercase" }}>{t.footer.copy}</div>
         <div style={{ display: "flex", gap: "1.5rem" }}>
           <span className="footer-link" style={{ fontSize: 11, letterSpacing: "2px", color: "#555", textTransform: "uppercase", textDecoration: "underline" }} onClick={() => router.push("/mentions-legales")}>

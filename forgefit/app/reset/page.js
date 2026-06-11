@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 export const dynamic = "force-dynamic";
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
@@ -39,7 +39,7 @@ function ResetForm() {
   return (
     <div style={{ background:"#0A0A0A", color:"#F0EDE8", minHeight:"100vh", fontFamily:"'Syne',sans-serif", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", padding:"2rem" }}>
       <div style={{ fontSize:22, fontWeight:800, letterSpacing:6, marginBottom:"3rem" }}>
-        APXFIT<span style={{ color:"#C9A84C" }}>NESS</span>
+        APXFIT<span style={{ color:"#E8B000" }}>NESS</span>
       </div>
       <div style={{ width:"100%", maxWidth:360 }}>
 
@@ -54,7 +54,7 @@ function ResetForm() {
               Lien invalide ou expiré.<br/>Redemande un email depuis la page coach.
             </div>
             <button onClick={() => router.push("/coach")}
-              style={{ background:"transparent", border:"0.5px solid #C9A84C", color:"#C9A84C", padding:"10px 24px", fontSize:11, letterSpacing:3, textTransform:"uppercase", cursor:"pointer" }}>
+              style={{ background:"transparent", border:"0.5px solid #E8B000", color:"#E8B000", padding:"10px 24px", fontSize:11, letterSpacing:3, textTransform:"uppercase", cursor:"pointer" }}>
               ← Page coach
             </button>
           </div>
@@ -62,7 +62,7 @@ function ResetForm() {
 
         {step === "form" && (
           <>
-            <div style={{ fontSize:10, letterSpacing:"4px", textTransform:"uppercase", color:"#C9A84C", marginBottom:"0.75rem" }}>— Nouveau mot de passe</div>
+            <div style={{ fontSize:10, letterSpacing:"4px", textTransform:"uppercase", color:"#E8B000", marginBottom:"0.75rem" }}>— Nouveau mot de passe</div>
             <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:30, fontWeight:600, lineHeight:1.2, marginBottom:"0.5rem" }}>
               Réinitialisation
             </div>
@@ -82,7 +82,7 @@ function ResetForm() {
               </div>
               {err && <div style={{ background:"#1A0808", border:"0.5px solid #5A1A1A", color:"#E07070", fontSize:12, padding:"10px 14px" }}>{err}</div>}
               <button type="submit" disabled={loading}
-                style={{ background:loading?"#181818":"linear-gradient(135deg,#C9A84C,#A67C2E)", border:"none", color:"#0A0A0A", padding:"14px", fontFamily:"'Syne',sans-serif", fontSize:12, fontWeight:700, letterSpacing:"3px", textTransform:"uppercase", cursor:loading?"not-allowed":"pointer", marginTop:2 }}>
+                style={{ background:loading?"#181818":"linear-gradient(135deg,#E8B000,#C49200)", border:"none", color:"#0A0A0A", padding:"14px", fontFamily:"'Syne',sans-serif", fontSize:12, fontWeight:700, letterSpacing:"3px", textTransform:"uppercase", cursor:loading?"not-allowed":"pointer", marginTop:2 }}>
                 {loading ? "Enregistrement..." : "Enregistrer →"}
               </button>
             </form>
@@ -95,7 +95,7 @@ function ResetForm() {
             <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:24, marginBottom:8 }}>Mot de passe mis à jour</div>
             <div style={{ fontSize:13, color:"#555", marginBottom:24 }}>Tu peux maintenant te connecter.</div>
             <button onClick={() => router.push("/coach")}
-              style={{ background:"linear-gradient(135deg,#C9A84C,#A67C2E)", border:"none", color:"#0A0A0A", padding:"12px 28px", fontFamily:"'Syne',sans-serif", fontSize:12, fontWeight:700, letterSpacing:"3px", textTransform:"uppercase", cursor:"pointer" }}>
+              style={{ background:"linear-gradient(135deg,#E8B000,#C49200)", border:"none", color:"#0A0A0A", padding:"12px 28px", fontFamily:"'Syne',sans-serif", fontSize:12, fontWeight:700, letterSpacing:"3px", textTransform:"uppercase", cursor:"pointer" }}>
               Aller sur le coach →
             </button>
           </div>

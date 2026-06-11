@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState } from "react";
 
 export function LangSelector({ lang, setLang, LANGS }) {
@@ -34,7 +34,7 @@ export function LangSelector({ lang, setLang, LANGS }) {
               style={{
                 cursor: "pointer", padding: "8px 16px", fontSize: 12,
                 letterSpacing: "1px", display: "flex", alignItems: "center", gap: 8,
-                color: lang === code ? "#C9A84C" : "#888",
+                color: lang === code ? "#E8B000" : "#888",
                 background: lang === code ? "#1A1A1A" : "transparent",
                 fontFamily: "'Syne', sans-serif",
                 fontWeight: lang === code ? 700 : 400,

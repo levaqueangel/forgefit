@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 
@@ -12,7 +12,7 @@ const PLAN_DETAILS = {
   },
   forge: {
     label: "Forge",
-    color: "#C9A84C",
+    color: "#E8B000",
     message: "Ton accès à l'espace client privé sera activé par Angel dans les 48 heures ouvrées.",
     next: "Tu recevras un email avec tes identifiants de connexion dès que ton espace est prêt.",
     showClient: true,
@@ -127,7 +127,7 @@ function SuccessContent() {
 
         {/* Logo */}
         <div style={{ marginTop: "3rem", fontSize: 16, fontWeight: 800, letterSpacing: 5, opacity: 0.3 }}>
-          APXFIT<span style={{ color: "#C9A84C" }}>NESS</span>
+          APXFIT<span style={{ color: "#E8B000" }}>NESS</span>
         </div>
       </div>
     </div>
@@ -138,7 +138,7 @@ export default function PaiementSuccesPage() {
   return (
     <Suspense fallback={
       <div style={{ background: "#0A0A0A", minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <div style={{ color: "#C9A84C", letterSpacing: "3px", fontSize: 12, textTransform: "uppercase" }}>Chargement...</div>
+        <div style={{ color: "#E8B000", letterSpacing: "3px", fontSize: 12, textTransform: "uppercase" }}>Chargement...</div>
       </div>
     }>
       <SuccessContent />

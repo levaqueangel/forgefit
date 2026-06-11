@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 
@@ -116,20 +116,20 @@ export function UpsellAnnuelCard({ user, clientData }) {
       }}>
         <div style={{
           position: "relative", borderRadius: 16, overflow: "hidden",
-          border: "1px solid rgba(201,168,76,0.3)",
+          border: "1px solid rgba(232,176,0,0.3)",
           background: "linear-gradient(135deg, #0D0D0D 0%, #111008 100%)",
         }}>
           {/* Glow border top */}
           <div style={{
             position: "absolute", top: 0, left: 0, right: 0, height: 1,
-            background: "linear-gradient(90deg, transparent, #C9A84C, #E8C87A, #C9A84C, transparent)",
+            background: "linear-gradient(90deg, transparent, #E8B000, #F5C832, #E8B000, transparent)",
             animation: "glow-pulse 2.5s ease infinite",
           }} />
 
           {/* Shimmer arrière-plan */}
           <div style={{
             position: "absolute", inset: 0, pointerEvents: "none",
-            background: "linear-gradient(105deg, transparent 40%, rgba(201,168,76,0.04) 50%, transparent 60%)",
+            background: "linear-gradient(105deg, transparent 40%, rgba(232,176,0,0.04) 50%, transparent 60%)",
             backgroundSize: "800px 100%",
             animation: "shimmer 3s ease infinite",
           }} />
@@ -142,7 +142,7 @@ export function UpsellAnnuelCard({ user, clientData }) {
                   <span style={{
                     fontSize: 9, fontWeight: 800, letterSpacing: "2px",
                     textTransform: "uppercase", color: "#0A0A0A",
-                    background: "linear-gradient(135deg,#C9A84C,#E8C87A)",
+                    background: "linear-gradient(135deg,#E8B000,#F5C832)",
                     padding: "3px 8px", borderRadius: 20,
                     animation: "badge-pop 0.5s 0.3s cubic-bezier(0.34,1.56,0.64,1) both",
                     display: "inline-block",
@@ -155,7 +155,7 @@ export function UpsellAnnuelCard({ user, clientData }) {
                   fontFamily: "'Syne',sans-serif", lineHeight: 1.25,
                 }}>
                   Passe à l'annuel,{" "}
-                  <span style={{ color: "#C9A84C" }}>
+                  <span style={{ color: "#E8B000" }}>
                     économise <AnimatedSaving value={savings} />
                   </span>
                 </div>
@@ -198,24 +198,24 @@ export function UpsellAnnuelCard({ user, clientData }) {
 
               {/* Flèche */}
               <div style={{
-                fontSize: 16, color: "#C9A84C",
+                fontSize: 16, color: "#E8B000",
                 animation: "shimmer 2s ease infinite",
               }}>→</div>
 
               {/* Annuel */}
               <div style={{
-                background: "rgba(201,168,76,0.07)", borderRadius: 10, padding: "10px 12px",
-                border: "1px solid rgba(201,168,76,0.25)",
+                background: "rgba(232,176,0,0.07)", borderRadius: 10, padding: "10px 12px",
+                border: "1px solid rgba(232,176,0,0.25)",
                 position: "relative",
               }}>
-                <div style={{ fontSize: 9, color: "#C9A84C", letterSpacing: "1.5px", textTransform: "uppercase", marginBottom: 4, fontFamily: "'Syne',sans-serif" }}>
+                <div style={{ fontSize: 9, color: "#E8B000", letterSpacing: "1.5px", textTransform: "uppercase", marginBottom: 4, fontFamily: "'Syne',sans-serif" }}>
                   Plan {planLabel} annuel
                 </div>
-                <div style={{ fontSize: 18, fontWeight: 700, color: "#C9A84C", fontFamily: "'Syne',sans-serif" }}>
+                <div style={{ fontSize: 18, fontWeight: 700, color: "#E8B000", fontFamily: "'Syne',sans-serif" }}>
                   {(prices.annual / 12).toFixed(2).replace(".", ",")}€
-                  <span style={{ fontSize: 10, color: "#A67C2E", fontWeight: 400 }}>/mois</span>
+                  <span style={{ fontSize: 10, color: "#C49200", fontWeight: 400 }}>/mois</span>
                 </div>
-                <div style={{ fontSize: 9, color: "#A67C2E", marginTop: 2 }}>
+                <div style={{ fontSize: 9, color: "#C49200", marginTop: 2 }}>
                   facturé {prices.annual.toFixed(2).replace(".", ",")}€/an
                 </div>
               </div>
@@ -247,7 +247,7 @@ export function UpsellAnnuelCard({ user, clientData }) {
                 width: "100%", padding: "13px",
                 background: loading
                   ? "#111"
-                  : "linear-gradient(135deg,#C9A84C 0%,#E8C87A 50%,#C9A84C 100%)",
+                  : "linear-gradient(135deg,#E8B000 0%,#F5C832 50%,#E8B000 100%)",
                 backgroundSize: "200% auto",
                 border: "none", borderRadius: 10,
                 color: loading ? "#444" : "#0A0A0A",
@@ -255,7 +255,7 @@ export function UpsellAnnuelCard({ user, clientData }) {
                 letterSpacing: "2px", textTransform: "uppercase",
                 cursor: loading ? "not-allowed" : "pointer",
                 transition: "all 0.3s",
-                boxShadow: loading ? "none" : "0 4px 20px rgba(201,168,76,0.25)",
+                boxShadow: loading ? "none" : "0 4px 20px rgba(232,176,0,0.25)",
               }}
               onMouseEnter={e => { if (!loading) e.target.style.backgroundPosition = "right center"; }}
               onMouseLeave={e => { if (!loading) e.target.style.backgroundPosition = "left center"; }}

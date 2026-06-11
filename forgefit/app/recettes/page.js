@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 export const dynamic = "force-dynamic";
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { auth, db } from "../firebase";
@@ -85,7 +85,7 @@ export default function RecettesPage() {
   }, [cat, search, protFilter, calFilter, showFavs, favs]);
 
   const catLabel = { entree: "Entrée", plat: "Plat", dessert: "Dessert" };
-  const catColor = { entree: "#7AE07A", plat: "#C9A84C", dessert: "#E88C8C" };
+  const catColor = { entree: "#7AE07A", plat: "#E8B000", dessert: "#E88C8C" };
 
   if (status === "loading") return (
     <div style={{ minHeight: "100vh", background: "#0A0A0A", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -96,15 +96,15 @@ export default function RecettesPage() {
   if (status === "unauthorized") return (
     <div style={{ minHeight: "100vh", background: "#0A0A0A", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 16, padding: "2rem" }}>
       <div style={{ fontSize: 36 }}>🔒</div>
-      <div style={{ fontSize: 11, letterSpacing: 4, color: "#C9A84C", textTransform: "uppercase" }}>Accès restreint</div>
+      <div style={{ fontSize: 11, letterSpacing: 4, color: "#E8B000", textTransform: "uppercase" }}>Accès restreint</div>
       <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 28, color: "#F0EDE8", textAlign: "center" }}>
-        Cette section est réservée<br />aux membres <span style={{ color: "#C9A84C", fontStyle: "italic" }}>Elite</span>
+        Cette section est réservée<br />aux membres <span style={{ color: "#E8B000", fontStyle: "italic" }}>Elite</span>
       </div>
       <div style={{ fontSize: 13, color: "#555", textAlign: "center", maxWidth: 320, lineHeight: 1.7 }}>
         Passe à l'abonnement Elite pour accéder à des centaines de recettes haute protéine.
       </div>
       <button onClick={() => router.push("/client")}
-        style={{ marginTop: 8, padding: "10px 28px", background: "transparent", border: "0.5px solid #C9A84C", color: "#C9A84C", fontSize: 11, letterSpacing: 3, textTransform: "uppercase", cursor: "pointer" }}>
+        style={{ marginTop: 8, padding: "10px 28px", background: "transparent", border: "0.5px solid #E8B000", color: "#E8B000", fontSize: 11, letterSpacing: 3, textTransform: "uppercase", cursor: "pointer" }}>
         ← Retour
       </button>
     </div>
@@ -115,14 +115,14 @@ export default function RecettesPage() {
       <style>{`
         *{box-sizing:border-box;margin:0;padding:0}
         .r-card{background:#0D0D0D;border:0.5px solid #242424;cursor:pointer;transition:transform .3s,border-color .3s,box-shadow .3s}
-        .r-card:hover{transform:translateY(-4px);border-color:rgba(201,168,76,.4);box-shadow:0 12px 40px rgba(0,0,0,.6)}
+        .r-card:hover{transform:translateY(-4px);border-color:rgba(232,176,0,.4);box-shadow:0 12px 40px rgba(0,0,0,.6)}
         .r-card:hover img{transform:scale(1.05)}
         .fav-btn{background:none;border:none;cursor:pointer;font-size:18px;transition:transform .2s}
         .fav-btn:hover{transform:scale(1.2)}
         .pill{padding:4px 12px;border-radius:20px;font-size:11px;letter-spacing:2px;cursor:pointer;transition:all .25s;text-transform:uppercase;border:0.5px solid}
-        .pill.active{background:#C9A84C;color:#0A0A0A;border-color:#C9A84C}
+        .pill.active{background:#E8B000;color:#0A0A0A;border-color:#E8B000}
         .pill.inactive{background:transparent;color:#555;border-color:#2A2A2A}
-        .pill:hover:not(.active){border-color:#C9A84C;color:#C9A84C}
+        .pill:hover:not(.active){border-color:#E8B000;color:#E8B000}
         .macro-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:4px;font-size:11px}
         .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:999;display:flex;align-items:center;justify-content:center;padding:1rem}
         .modal-box{background:#0D0D0D;border:0.5px solid #242424;max-width:600px;width:100%;max-height:90vh;overflow-y:auto;padding:2rem}
@@ -138,7 +138,7 @@ export default function RecettesPage() {
           ← Espace client
         </button>
         <div style={{ textAlign: "center" }}>
-          <div style={{ fontSize: 11, letterSpacing: 4, color: "#C9A84C", textTransform: "uppercase" }}>Espace Elite</div>
+          <div style={{ fontSize: 11, letterSpacing: 4, color: "#E8B000", textTransform: "uppercase" }}>Espace Elite</div>
           <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 22, fontWeight: 600 }}>Recettes</div>
         </div>
         <div style={{ fontSize: 11, color: "#555", letterSpacing: 1 }}>{recettesData.length} recettes</div>
@@ -207,7 +207,7 @@ export default function RecettesPage() {
                   />
                   <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,.6) 0%, transparent 50%)" }} />
                   <button className="fav-btn" onClick={e => { e.stopPropagation(); toggleFav(r.id); }}
-                    style={{ position: "absolute", top: 8, right: 8, color: favs.includes(r.id) ? "#C9A84C" : "rgba(255,255,255,.5)", textShadow: "0 1px 4px rgba(0,0,0,.8)" }}>
+                    style={{ position: "absolute", top: 8, right: 8, color: favs.includes(r.id) ? "#E8B000" : "rgba(255,255,255,.5)", textShadow: "0 1px 4px rgba(0,0,0,.8)" }}>
                     {favs.includes(r.id) ? "♥" : "♡"}
                   </button>
                   <span style={{ position: "absolute", bottom: 8, left: 10, fontSize: 10, letterSpacing: 2, color: catColor[r.categorie], textTransform: "uppercase", textShadow: "0 1px 4px rgba(0,0,0,.9)" }}>
@@ -222,7 +222,7 @@ export default function RecettesPage() {
                 </div>
                 {/* Macros */}
                 <div style={{ padding: "0 1rem 0.75rem", display: "flex", gap: 6, flexWrap: "wrap" }}>
-                  <span className="macro-badge" style={{ background: "rgba(201,168,76,.08)", color: "#C9A84C" }}>
+                  <span className="macro-badge" style={{ background: "rgba(232,176,0,.08)", color: "#E8B000" }}>
                     🔥 {r.calories} kcal
                   </span>
                   <span className="macro-badge" style={{ background: "rgba(122,224,122,.08)", color: "#7AE07A" }}>
@@ -263,7 +263,7 @@ export default function RecettesPage() {
               </div>
               <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
                 <button className="fav-btn" onClick={() => toggleFav(selected.id)}
-                  style={{ color: favs.includes(selected.id) ? "#C9A84C" : "#555", fontSize: 22 }}>
+                  style={{ color: favs.includes(selected.id) ? "#E8B000" : "#555", fontSize: 22 }}>
                   {favs.includes(selected.id) ? "♥" : "♡"}
                 </button>
                 <button onClick={() => setSelected(null)}
@@ -274,7 +274,7 @@ export default function RecettesPage() {
             {/* Macros */}
             <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 8, marginBottom: "1.5rem" }}>
               {[
-                { label: "Calories", val: `${selected.calories} kcal`, color: "#C9A84C" },
+                { label: "Calories", val: `${selected.calories} kcal`, color: "#E8B000" },
                 { label: "Protéines", val: `${selected.proteines}g`, color: "#7AE07A" },
                 { label: "Glucides", val: `${selected.glucides}g`, color: "#8CB8E8" },
                 { label: "Lipides", val: `${selected.lipides}g`, color: "#E8C88C" },
@@ -294,13 +294,13 @@ export default function RecettesPage() {
 
             {/* Ingrédients */}
             <div style={{ marginBottom: "1.5rem" }}>
-              <div style={{ fontSize: 11, letterSpacing: 3, color: "#C9A84C", textTransform: "uppercase", marginBottom: "0.75rem" }}>
+              <div style={{ fontSize: 11, letterSpacing: 3, color: "#E8B000", textTransform: "uppercase", marginBottom: "0.75rem" }}>
                 Ingrédients
               </div>
               <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 6 }}>
                 {selected.ingredients.map((ing, i) => (
                   <li key={i} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 14, color: "#C8C4BC" }}>
-                    <span style={{ width: 4, height: 4, background: "#C9A84C", borderRadius: "50%", flexShrink: 0 }} />
+                    <span style={{ width: 4, height: 4, background: "#E8B000", borderRadius: "50%", flexShrink: 0 }} />
                     {ing}
                   </li>
                 ))}
@@ -309,7 +309,7 @@ export default function RecettesPage() {
 
             {/* Préparation */}
             <div>
-              <div style={{ fontSize: 11, letterSpacing: 3, color: "#C9A84C", textTransform: "uppercase", marginBottom: "0.75rem" }}>
+              <div style={{ fontSize: 11, letterSpacing: 3, color: "#E8B000", textTransform: "uppercase", marginBottom: "0.75rem" }}>
                 Préparation
               </div>
               <div style={{ fontSize: 14, color: "#C8C4BC", lineHeight: 1.8, background: "#111", border: "0.5px solid #1A1A1A", padding: "1rem" }}>

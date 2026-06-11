@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useEffect, useState } from "react";
 
 export function ToastContainer({ toasts }) {
@@ -30,7 +30,7 @@ function ToastItem({ toast }) {
     success: { bg:"rgba(15,40,15,0.95)",   border:"rgba(90,186,90,0.3)",    text:"#7AE07A",   icon:"✓" },
     error:   { bg:"rgba(40,10,10,0.95)",   border:"rgba(200,60,60,0.3)",    text:"#E07070",   icon:"✕" },
     info:    { bg:"rgba(10,20,40,0.95)",   border:"rgba(100,130,200,0.3)",  text:"#88A0E0",   icon:"ℹ" },
-    gold:    { bg:"rgba(35,25,5,0.97)",    border:"rgba(201,168,76,0.4)",   text:"#E8C87A",   icon:"★" },
+    gold:    { bg:"rgba(35,25,5,0.97)",    border:"rgba(232,176,0,0.4)",   text:"#F5C832",   icon:"★" },
   };
   const s = styles[toast.type] || styles.success;
 

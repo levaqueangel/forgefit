@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useEffect, useState } from "react";
 
 export default function PWAInstallPrompt() {
@@ -54,14 +54,14 @@ export default function PWAInstallPrompt() {
     <div style={{
       position: "fixed", bottom: 24, left: "50%", transform: "translateX(-50%)",
       zIndex: 9999, width: "min(90vw, 380px)",
-      background: "#111", border: "0.5px solid rgba(201,168,76,0.35)",
+      background: "#111", border: "0.5px solid rgba(232,176,0,0.35)",
       borderRadius: 16, padding: "14px 16px",
       boxShadow: "0 8px 32px rgba(0,0,0,0.6)",
       display: "flex", alignItems: "center", gap: 12,
     }}>
       <div style={{
         width: 40, height: 40, borderRadius: 10, flexShrink: 0,
-        background: "linear-gradient(135deg,#C9A84C,#A67C2E)",
+        background: "linear-gradient(135deg,#E8B000,#C49200)",
         display: "flex", alignItems: "center", justifyContent: "center",
         fontSize: 20,
       }}>
@@ -76,8 +76,8 @@ export default function PWAInstallPrompt() {
         </div>
         {isIOS ? (
           <div style={{ fontSize: 10, color: "#888", marginTop: 2, lineHeight: 1.4 }}>
-            Appuie sur <span style={{ color: "#C9A84C" }}>⎋ Partager</span> puis{" "}
-            <span style={{ color: "#C9A84C" }}>«Sur l'écran d'accueil»</span>
+            Appuie sur <span style={{ color: "#E8B000" }}>⎋ Partager</span> puis{" "}
+            <span style={{ color: "#E8B000" }}>«Sur l'écran d'accueil»</span>
           </div>
         ) : (
           <div style={{ fontSize: 10, color: "#888", marginTop: 2 }}>
@@ -88,7 +88,7 @@ export default function PWAInstallPrompt() {
       <div style={{ display: "flex", gap: 6, flexShrink: 0 }}>
         {!isIOS && (
           <button onClick={handleInstall} style={{
-            background: "linear-gradient(135deg,#C9A84C,#A67C2E)",
+            background: "linear-gradient(135deg,#E8B000,#C49200)",
             border: "none", color: "#0A0A0A",
             fontFamily: "'Syne',sans-serif", fontSize: 10, fontWeight: 700,
             letterSpacing: "1px", textTransform: "uppercase",

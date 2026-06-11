@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect } from "react";
 import { doc, updateDoc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
@@ -43,9 +43,9 @@ function StepIndicator({ step, total }) {
         <div key={i} style={{
           width: i === step ? 28 : 8, height: 8,
           borderRadius: 4,
-          background: i < step ? "#C9A84C" : i === step ? "linear-gradient(90deg,#C9A84C,#E8C87A)" : "#1A1A1A",
+          background: i < step ? "#E8B000" : i === step ? "linear-gradient(90deg,#E8B000,#F5C832)" : "#1A1A1A",
           transition: "all 0.4s cubic-bezier(0.34,1.56,0.64,1)",
-          boxShadow: i === step ? "0 0 12px rgba(201,168,76,0.5)" : "none",
+          boxShadow: i === step ? "0 0 12px rgba(232,176,0,0.5)" : "none",
         }} />
       ))}
     </div>
@@ -90,7 +90,7 @@ function NumberInput({ label, unit, value, onChange, min, max, step = 1, icon })
 // ── Confetti ───────────────────────────────────────────────────────────────
 function Confetti() {
   const pieces = Array.from({ length: 18 }, (_, i) => i);
-  const colors = ["#C9A84C", "#E8C87A", "#F0EDE8", "#7AE07A", "#88A0E0"];
+  const colors = ["#E8B000", "#F5C832", "#F0EDE8", "#7AE07A", "#88A0E0"];
   return (
     <div style={{ position: "absolute", inset: 0, pointerEvents: "none", overflow: "hidden" }}>
       {pieces.map(i => (
@@ -133,7 +133,7 @@ function WeightChart({ entries, targetWeight }) {
   }).join(" ");
   const areaD = `${pathD} L ${pts[pts.length-1][0].toFixed(1)} ${H} L ${pts[0][0].toFixed(1)} ${H} Z`;
   const total = vals[vals.length - 1] - vals[0];
-  const trendColor = total < -0.1 ? "#7AE07A" : total > 0.1 ? "#E07070" : "#C9A84C";
+  const trendColor = total < -0.1 ? "#7AE07A" : total > 0.1 ? "#E07070" : "#E8B000";
   const trendLabel = total < -0.1 ? `↓ ${Math.abs(total).toFixed(1)} kg` : total > 0.1 ? `↑ ${total.toFixed(1)} kg` : "→ stable";
 
   return (
@@ -145,8 +145,8 @@ function WeightChart({ entries, targetWeight }) {
       <svg width="100%" viewBox={`0 0 ${W} ${H}`} style={{ display: "block", overflow: "visible" }}>
         <defs>
           <linearGradient id="cjGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#C9A84C" stopOpacity="0.25"/>
-            <stop offset="100%" stopColor="#C9A84C" stopOpacity="0"/>
+            <stop offset="0%" stopColor="#E8B000" stopOpacity="0.25"/>
+            <stop offset="100%" stopColor="#E8B000" stopOpacity="0"/>
           </linearGradient>
         </defs>
         {[0.25, 0.5, 0.75].map((v, i) => (
@@ -159,11 +159,11 @@ function WeightChart({ entries, targetWeight }) {
             stroke="#7AE07A" strokeWidth="1" strokeDasharray="4 4" opacity="0.6"/>
         )}
         <path d={areaD} fill="url(#cjGrad)"/>
-        <path d={pathD} fill="none" stroke="#C9A84C" strokeWidth="2" strokeLinecap="round"
+        <path d={pathD} fill="none" stroke="#E8B000" strokeWidth="2" strokeLinecap="round"
           style={{ strokeDasharray: 1000, animation: "drawLine 1.2s ease both" }}/>
         {pts.map(([x, y], i) => (
           <circle key={i} cx={x.toFixed(1)} cy={y.toFixed(1)} r="3"
-            fill="#0A0A0A" stroke="#C9A84C" strokeWidth="2"/>
+            fill="#0A0A0A" stroke="#E8B000" strokeWidth="2"/>
         ))}
         {pts.map(([x, y], i) => (
           <text key={i} x={x.toFixed(1)} y={(y-6).toFixed(1)}
@@ -281,8 +281,8 @@ export function CorpsJournal({ uid, addToast, programmeData }) {
     ? (imc < 18.5 ? "Sous-poids" : imc < 25 ? "Poids normal" : imc < 30 ? "Surpoids" : "Obésité")
     : null;
   const imcColor = imc
-    ? (imc < 18.5 ? "#88A0E0" : imc < 25 ? "#7AE07A" : imc < 30 ? "#E8C87A" : "#E07070")
-    : "#C9A84C";
+    ? (imc < 18.5 ? "#88A0E0" : imc < 25 ? "#7AE07A" : imc < 30 ? "#F5C832" : "#E07070")
+    : "#E8B000";
 
   const last = entries.slice(-1)[0];
   const poidsObjectif = parseFloat(targetWeight) || null;
@@ -316,12 +316,12 @@ export function CorpsJournal({ uid, addToast, programmeData }) {
         {step === 0 && !saved && (
           <div>
             <div style={{ marginBottom: 28, animation: "fadeUp 0.4s ease both" }}>
-              <div style={{ fontSize: 11, letterSpacing: "3px", textTransform: "uppercase", color: "#C9A84C", fontFamily: "'Syne',sans-serif", marginBottom: 8 }}>
+              <div style={{ fontSize: 11, letterSpacing: "3px", textTransform: "uppercase", color: "#E8B000", fontFamily: "'Syne',sans-serif", marginBottom: 8 }}>
                 Bilan corporel
               </div>
               <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 24, color: "#F0EDE8", margin: 0, lineHeight: 1.2 }}>
                 Ton poids<br />
-                <span style={{ color: "#C9A84C" }}>et ta taille aujourd'hui</span>
+                <span style={{ color: "#E8B000" }}>et ta taille aujourd'hui</span>
               </h2>
               <p style={{ fontSize: 12, color: "#555", marginTop: 8, fontFamily: "'Cormorant Garamond',serif", fontStyle: "italic" }}>
                 Note tes mesures le matin, à jeun, pour un suivi précis.
@@ -336,7 +336,7 @@ export function CorpsJournal({ uid, addToast, programmeData }) {
             {imc && (
               <div style={{
                 marginTop: 20, padding: "12px 16px",
-                background: "rgba(201,168,76,0.04)", borderRadius: 12,
+                background: "rgba(232,176,0,0.04)", borderRadius: 12,
                 border: "0.5px solid #1A1A1A", animation: "fadeUp 0.3s 0.2s ease both",
                 opacity: 0, animationFillMode: "forwards",
               }}>
@@ -355,12 +355,12 @@ export function CorpsJournal({ uid, addToast, programmeData }) {
         {step === 1 && !saved && (
           <div>
             <div style={{ marginBottom: 28, animation: "fadeUp 0.4s ease both" }}>
-              <div style={{ fontSize: 11, letterSpacing: "3px", textTransform: "uppercase", color: "#C9A84C", fontFamily: "'Syne',sans-serif", marginBottom: 8 }}>
+              <div style={{ fontSize: 11, letterSpacing: "3px", textTransform: "uppercase", color: "#E8B000", fontFamily: "'Syne',sans-serif", marginBottom: 8 }}>
                 Mensurations
               </div>
               <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 24, color: "#F0EDE8", margin: 0, lineHeight: 1.2 }}>
                 Tes mesures<br />
-                <span style={{ color: "#C9A84C" }}>du corps</span>
+                <span style={{ color: "#E8B000" }}>du corps</span>
               </h2>
               <p style={{ fontSize: 12, color: "#555", marginTop: 8, fontFamily: "'Cormorant Garamond',serif", fontStyle: "italic" }}>
                 Utilise un mètre ruban, tape à la même hauteur chaque semaine.
@@ -381,22 +381,22 @@ export function CorpsJournal({ uid, addToast, programmeData }) {
         {step === 2 && !saved && (
           <div>
             <div style={{ marginBottom: 24, animation: "fadeUp 0.4s ease both" }}>
-              <div style={{ fontSize: 11, letterSpacing: "3px", textTransform: "uppercase", color: "#C9A84C", fontFamily: "'Syne',sans-serif", marginBottom: 8 }}>
+              <div style={{ fontSize: 11, letterSpacing: "3px", textTransform: "uppercase", color: "#E8B000", fontFamily: "'Syne',sans-serif", marginBottom: 8 }}>
                 Récapitulatif
               </div>
               <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 24, color: "#F0EDE8", margin: 0, lineHeight: 1.2 }}>
                 Vérifie tes<br />
-                <span style={{ color: "#C9A84C" }}>mesures</span>
+                <span style={{ color: "#E8B000" }}>mesures</span>
               </h2>
             </div>
 
             <div style={{ background: "#0D0D0D", borderRadius: 14, padding: "4px 0", border: "0.5px solid #1A1A1A", marginBottom: 16, animation: "fadeUp 0.4s 0.1s ease both", opacity: 0, animationFillMode: "forwards" }}>
               {[
-                { icon: "⚖️", label: "Poids",         value: `${poids} kg`,        color: "#C9A84C" },
+                { icon: "⚖️", label: "Poids",         value: `${poids} kg`,        color: "#E8B000" },
                 { icon: "📏", label: "Taille",         value: `${tailleCm} cm`,     color: "#F0EDE8" },
                 { icon: "📐", label: "Tour de taille", value: `${tailleTour} cm`,   color: "#7AE07A" },
                 { icon: "💪", label: "Bras",           value: `${bras} cm`,         color: "#5DCAA5" },
-                { icon: "🦵", label: "Cuisses",        value: `${cuisses} cm`,      color: "#E8C87A" },
+                { icon: "🦵", label: "Cuisses",        value: `${cuisses} cm`,      color: "#F5C832" },
                 { icon: "📋", label: "Poitrine",       value: `${poitrine} cm`,     color: "#88A0E0" },
                 { icon: "🏋️", label: "Épaules",        value: `${epaules} cm`,      color: "#E07070" },
                 ...(imc ? [{ icon: "🧮", label: "IMC", value: `${imc} — ${imcLabel}`, color: imcColor }] : []),
@@ -418,20 +418,20 @@ export function CorpsJournal({ uid, addToast, programmeData }) {
             {/* Progression objectif */}
             {poidsObjectif && progressionPct !== null && (
               <div style={{
-                background: "rgba(201,168,76,0.04)", border: "0.5px solid rgba(201,168,76,0.2)",
+                background: "rgba(232,176,0,0.04)", border: "0.5px solid rgba(232,176,0,0.2)",
                 borderRadius: 10, padding: "12px 14px", marginBottom: 16,
                 animation: "fadeUp 0.4s 0.2s ease both", opacity: 0, animationFillMode: "forwards",
               }}>
                 <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
-                  <span style={{ fontSize: 9, letterSpacing: "2px", textTransform: "uppercase", color: "#C9A84C" }}>
+                  <span style={{ fontSize: 9, letterSpacing: "2px", textTransform: "uppercase", color: "#E8B000" }}>
                     Progression objectif
                   </span>
-                  <span style={{ fontSize: 11, fontWeight: 700, color: "#C9A84C", fontFamily: "'Syne',sans-serif" }}>
+                  <span style={{ fontSize: 11, fontWeight: 700, color: "#E8B000", fontFamily: "'Syne',sans-serif" }}>
                     {progressionPct.toFixed(0)}%
                   </span>
                 </div>
                 <div style={{ height: 5, background: "#1A1A1A", borderRadius: 3, overflow: "hidden" }}>
-                  <div style={{ height: "100%", width: `${progressionPct}%`, background: "linear-gradient(90deg,#C9A84C,#E8C87A)", borderRadius: 3, transition: "width 1s ease" }} />
+                  <div style={{ height: "100%", width: `${progressionPct}%`, background: "linear-gradient(90deg,#E8B000,#F5C832)", borderRadius: 3, transition: "width 1s ease" }} />
                 </div>
                 <div style={{ fontSize: 10, color: "#444", marginTop: 6 }}>
                   {poids} kg · Objectif : {poidsObjectif} kg
@@ -449,9 +449,9 @@ export function CorpsJournal({ uid, addToast, programmeData }) {
             <div style={{ textAlign: "center", paddingTop: 8, marginBottom: 24, animation: "fadeUp 0.4s ease both" }}>
               <div style={{
                 width: 72, height: 72, borderRadius: "50%", margin: "0 auto 16px",
-                background: "linear-gradient(135deg,#C9A84C,#A67C2E)",
+                background: "linear-gradient(135deg,#E8B000,#C49200)",
                 display: "flex", alignItems: "center", justifyContent: "center",
-                fontSize: 32, boxShadow: "0 0 30px rgba(201,168,76,0.35)",
+                fontSize: 32, boxShadow: "0 0 30px rgba(232,176,0,0.35)",
                 animation: "pulse 1.5s ease infinite",
               }}>📊</div>
               <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 22, color: "#F0EDE8", marginBottom: 6 }}>
@@ -495,7 +495,7 @@ export function CorpsJournal({ uid, addToast, programmeData }) {
                               {delta > 0 ? "+" : ""}{delta.toFixed(1)} kg
                             </span>
                           )}
-                          {e.poids && <span style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 13, color: "#C9A84C" }}>{e.poids} kg</span>}
+                          {e.poids && <span style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 13, color: "#E8B000" }}>{e.poids} kg</span>}
                           {e.taille_tour && <span style={{ fontSize: 10, color: "#7AE07A" }}>{e.taille_tour}cm</span>}
                         </div>
                       </div>
@@ -537,7 +537,7 @@ export function CorpsJournal({ uid, addToast, programmeData }) {
             {step < TOTAL_STEPS - 1 ? (
               <button onClick={goNext} style={{
                 flex: 1, padding: "15px",
-                background: "linear-gradient(135deg,#C9A84C,#A67C2E)",
+                background: "linear-gradient(135deg,#E8B000,#C49200)",
                 border: "none", color: "#0A0A0A",
                 fontFamily: "'Syne',sans-serif", fontSize: 12, fontWeight: 800,
                 letterSpacing: "2px", textTransform: "uppercase",
@@ -548,13 +548,13 @@ export function CorpsJournal({ uid, addToast, programmeData }) {
             ) : (
               <button onClick={handleSave} disabled={saving} style={{
                 flex: 1, padding: "15px",
-                background: saving ? "#111" : "linear-gradient(135deg,#C9A84C,#A67C2E)",
+                background: saving ? "#111" : "linear-gradient(135deg,#E8B000,#C49200)",
                 border: "none", color: saving ? "#333" : "#0A0A0A",
                 fontFamily: "'Syne',sans-serif", fontSize: 12, fontWeight: 800,
                 letterSpacing: "2px", textTransform: "uppercase",
                 cursor: saving ? "not-allowed" : "pointer", borderRadius: 12,
                 transition: "all 0.3s",
-                boxShadow: saving ? "none" : "0 4px 20px rgba(201,168,76,0.3)",
+                boxShadow: saving ? "none" : "0 4px 20px rgba(232,176,0,0.3)",
               }}>
                 {saving ? "Enregistrement…" : "Enregistrer le bilan →"}
               </button>

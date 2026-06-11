@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useMemo, useCallback, useEffect } from "react";
 import NextImage from "next/image";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
@@ -85,7 +85,7 @@ export function RecettesTab({ clientData, user }) {
       <div style={{ padding: "24px 20px 16px", borderBottom: "0.5px solid #1A1A1A" }}>
         <p style={{ margin: "0 0 4px", fontSize: 10, letterSpacing: "3px", textTransform: "uppercase", color: "#555" }}>— Bibliothèque</p>
         <h2 style={{ margin: "0 0 16px", fontSize: 22, fontWeight: 700, color: "#F0EDE8", fontFamily: "'Syne',sans-serif" }}>
-          Recettes <span style={{ color: "#C9A84C" }}>({filtered.length})</span>
+          Recettes <span style={{ color: "#E8B000" }}>({filtered.length})</span>
         </h2>
 
         {/* Search */}
@@ -106,9 +106,9 @@ export function RecettesTab({ clientData, user }) {
           {CATS.map(c => (
             <button key={c.key} onClick={() => setCat(c.key)} style={{
               padding: "5px 14px", borderRadius: 20, fontSize: 11, fontWeight: 600,
-              border: `0.5px solid ${cat === c.key ? "#C9A84C" : "#2A2A2A"}`,
-              background: cat === c.key ? "rgba(201,168,76,0.12)" : "transparent",
-              color: cat === c.key ? "#C9A84C" : "#555", cursor: "pointer",
+              border: `0.5px solid ${cat === c.key ? "#E8B000" : "#2A2A2A"}`,
+              background: cat === c.key ? "rgba(232,176,0,0.12)" : "transparent",
+              color: cat === c.key ? "#E8B000" : "#555", cursor: "pointer",
             }}>{c.label}</button>
           ))}
           {PROT_FILTERS.slice(1).map(f => (
@@ -140,7 +140,7 @@ export function RecettesTab({ clientData, user }) {
             background: "#0D0D0D", border: "0.5px solid #1A1A1A", borderRadius: 10,
             overflow: "hidden", cursor: "pointer", transition: "border-color 0.2s",
           }}
-          onMouseEnter={e => e.currentTarget.style.borderColor = "#C9A84C33"}
+          onMouseEnter={e => e.currentTarget.style.borderColor = "#E8B00033"}
           onMouseLeave={e => e.currentTarget.style.borderColor = "#1A1A1A"}
           >
             <div style={{ position: "relative", height: 110, background: "#111" }}>
@@ -212,7 +212,7 @@ export function RecettesTab({ clientData, user }) {
               {/* Macros */}
               <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 8, marginBottom: 20 }}>
                 {[
-                  { label: "Calories", val: selected.calories, unit: "kcal", color: "#C9A84C" },
+                  { label: "Calories", val: selected.calories, unit: "kcal", color: "#E8B000" },
                   { label: "Protéines", val: selected.proteines, unit: "g", color: "#7AE07A" },
                   { label: "Glucides", val: selected.glucides, unit: "g", color: "#5DCAA5" },
                   { label: "Lipides", val: selected.lipides, unit: "g", color: "#E07070" },
@@ -228,7 +228,7 @@ export function RecettesTab({ clientData, user }) {
               {/* Ingrédients */}
               {selected.ingredients?.length > 0 && (
                 <div style={{ marginBottom: 20 }}>
-                  <p style={{ margin: "0 0 10px", fontSize: 10, color: "#C9A84C", letterSpacing: "2px", textTransform: "uppercase" }}>— Ingrédients</p>
+                  <p style={{ margin: "0 0 10px", fontSize: 10, color: "#E8B000", letterSpacing: "2px", textTransform: "uppercase" }}>— Ingrédients</p>
                   <ul style={{ margin: 0, paddingLeft: 16 }}>
                     {selected.ingredients.map((ing, i) => (
                       <li key={i} style={{ fontSize: 13, color: "#888", marginBottom: 4, lineHeight: 1.5 }}>{ing}</li>
@@ -240,7 +240,7 @@ export function RecettesTab({ clientData, user }) {
               {/* Préparation */}
               {selected.preparation && (
                 <div>
-                  <p style={{ margin: "0 0 10px", fontSize: 10, color: "#C9A84C", letterSpacing: "2px", textTransform: "uppercase" }}>— Préparation</p>
+                  <p style={{ margin: "0 0 10px", fontSize: 10, color: "#E8B000", letterSpacing: "2px", textTransform: "uppercase" }}>— Préparation</p>
                   <p style={{ margin: 0, fontSize: 13, color: "#888", lineHeight: 1.8 }}>{selected.preparation}</p>
                 </div>
               )}

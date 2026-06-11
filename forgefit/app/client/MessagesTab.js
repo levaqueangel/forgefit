@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { Bubble } from "./Bubble";
 
 export function MessagesTab({
@@ -30,8 +30,8 @@ export function MessagesTab({
             style={{flex:1,background:"#0D0D0D",border:"0.5px solid #1E1E1E",color:"#F0EDE8",fontFamily:"'Syne',sans-serif",fontSize:13,padding:"10px 14px",resize:"none",minHeight:52,outline:"none",borderRadius:14}}/>
           <button onClick={sendMessage} disabled={!newMsg.trim()||sending}
             className="btn-primary"
-            style={{background:newMsg.trim()&&!sending?"linear-gradient(135deg,#C9A84C,#A67C2E)":"#181818",border:"none",color:sending?"#555":"#0A0A0A",padding:"0 18px",cursor:newMsg.trim()&&!sending?"pointer":"not-allowed",fontSize:18,fontWeight:700,borderRadius:14,flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center",minWidth:46}}>
-            {sending ? <div className="spinner" style={{borderTopColor:"#C9A84C"}} /> : "↑"}
+            style={{background:newMsg.trim()&&!sending?"linear-gradient(135deg,#E8B000,#C49200)":"#181818",border:"none",color:sending?"#555":"#0A0A0A",padding:"0 18px",cursor:newMsg.trim()&&!sending?"pointer":"not-allowed",fontSize:18,fontWeight:700,borderRadius:14,flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center",minWidth:46}}>
+            {sending ? <div className="spinner" style={{borderTopColor:"#E8B000"}} /> : "↑"}
           </button>
         </div>
       </div>

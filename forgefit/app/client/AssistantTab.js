@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useRef, useState, useEffect, useCallback } from "react";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
@@ -17,7 +17,7 @@ function MarkdownText({ text }) {
         <ul key={`ul-${key}`} style={{ margin: "6px 0 6px 4px", padding: 0, listStyle: "none" }}>
           {listItems.map((item, i) => (
             <li key={i} style={{ display: "flex", gap: 6, marginBottom: 3 }}>
-              <span style={{ color: "#C9A84C", flexShrink: 0 }}>·</span>
+              <span style={{ color: "#E8B000", flexShrink: 0 }}>·</span>
               <span>{renderInline(item)}</span>
             </li>
           ))}
@@ -39,7 +39,7 @@ function MarkdownText({ text }) {
     if (/^#{1,3}\s+/.test(line)) {
       const txt = line.replace(/^#{1,3}\s+/, "");
       elements.push(
-        <div key={i} style={{ fontWeight: 700, color: "#C9A84C", fontSize: 13, marginTop: 8, marginBottom: 2 }}>
+        <div key={i} style={{ fontWeight: 700, color: "#E8B000", fontSize: 13, marginTop: 8, marginBottom: 2 }}>
           {renderInline(txt)}
         </div>
       );
@@ -69,7 +69,7 @@ function renderInline(text) {
   while ((match = regex.exec(text)) !== null) {
     if (match.index > last) parts.push(text.slice(last, match.index));
     if (match[2]) parts.push(<strong key={match.index} style={{ color: "#F0EDE8" }}>{match[2]}</strong>);
-    else if (match[3]) parts.push(<em key={match.index} style={{ color: "#C9A84C" }}>{match[3]}</em>);
+    else if (match[3]) parts.push(<em key={match.index} style={{ color: "#E8B000" }}>{match[3]}</em>);
     else if (match[4]) parts.push(
       <code key={match.index} style={{ background: "#1A1A1A", border: "0.5px solid #2A2A2A", borderRadius: 4, padding: "1px 5px", fontSize: 12, fontFamily: "monospace", color: "#7AE07A" }}>
         {match[4]}
@@ -155,9 +155,9 @@ function ChatBubble({ msg, isStreaming }) {
       <div style={{
         maxWidth: "85%", padding: "10px 14px", borderRadius: isUser ? "14px 14px 4px 14px" : "14px 14px 14px 4px",
         fontSize: 13, lineHeight: 1.7,
-        background: isUser ? "rgba(201,168,76,0.1)" : "#181818",
-        border: `0.5px solid ${isUser ? "rgba(201,168,76,0.35)" : "#242424"}`,
-        color: isUser ? "#E8C87A" : "#C8C4BC",
+        background: isUser ? "rgba(232,176,0,0.1)" : "#181818",
+        border: `0.5px solid ${isUser ? "rgba(232,176,0,0.35)" : "#242424"}`,
+        color: isUser ? "#F5C832" : "#C8C4BC",
         position: "relative",
       }}>
         {isUser ? (
@@ -168,7 +168,7 @@ function ChatBubble({ msg, isStreaming }) {
             {isStreaming && (
               <span style={{
                 display: "inline-block", width: 8, height: 14,
-                background: "#C9A84C", borderRadius: 2, marginLeft: 2,
+                background: "#E8B000", borderRadius: 2, marginLeft: 2,
                 animation: "pulse 0.8s ease-in-out infinite", verticalAlign: "middle",
               }}/>
             )}
@@ -380,9 +380,9 @@ export function AssistantTab({ S, clientData, user }) {
               {chatRemaining !== null && (
                 <span style={{
                   marginLeft: 8, fontSize: 8, letterSpacing: "1.5px", textTransform: "uppercase", padding: "2px 7px", borderRadius: 10,
-                  color: chatRemaining === 0 ? "#E07070" : chatRemaining <= 3 ? "#C9A84C" : "#555",
-                  background: chatRemaining === 0 ? "rgba(224,112,112,0.08)" : chatRemaining <= 3 ? "rgba(201,168,76,0.08)" : "transparent",
-                  border: `0.5px solid ${chatRemaining === 0 ? "rgba(224,112,112,0.2)" : chatRemaining <= 3 ? "rgba(201,168,76,0.2)" : "transparent"}`,
+                  color: chatRemaining === 0 ? "#E07070" : chatRemaining <= 3 ? "#E8B000" : "#555",
+                  background: chatRemaining === 0 ? "rgba(224,112,112,0.08)" : chatRemaining <= 3 ? "rgba(232,176,0,0.08)" : "transparent",
+                  border: `0.5px solid ${chatRemaining === 0 ? "rgba(224,112,112,0.2)" : chatRemaining <= 3 ? "rgba(232,176,0,0.2)" : "transparent"}`,
                 }}>
                   {chatRemaining === 0 ? "Limite atteinte" : `${chatRemaining} msg restants`}
                 </span>
@@ -459,13 +459,13 @@ export function AssistantTab({ S, clientData, user }) {
             <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
               {suggestions.slice(0, 4).map((s, i) => (
                 <button key={i} onClick={() => send(s)} style={{
-                  background: "rgba(201,168,76,0.04)", border: "0.5px solid rgba(201,168,76,0.2)",
+                  background: "rgba(232,176,0,0.04)", border: "0.5px solid rgba(232,176,0,0.2)",
                   color: "#888", fontFamily: "'Cormorant Garamond',serif", fontStyle: "italic",
                   fontSize: 12, padding: "5px 12px", borderRadius: 20, cursor: "pointer",
                   transition: "all 0.15s", lineHeight: 1.4,
                 }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(201,168,76,0.5)"; e.currentTarget.style.color = "#C9A84C"; }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(201,168,76,0.2)"; e.currentTarget.style.color = "#888"; }}>
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(232,176,0,0.5)"; e.currentTarget.style.color = "#E8B000"; }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(232,176,0,0.2)"; e.currentTarget.style.color = "#888"; }}>
                   {s}
                 </button>
               ))}
@@ -503,7 +503,7 @@ export function AssistantTab({ S, clientData, user }) {
             </button>
           ) : (
             <button onClick={() => send()} disabled={!input.trim()} style={{
-              background: input.trim() ? "linear-gradient(135deg,#C9A84C,#A67C2E)" : "#181818",
+              background: input.trim() ? "linear-gradient(135deg,#E8B000,#C49200)" : "#181818",
               border: "none", color: "#0A0A0A",
               width: 42, height: 42, borderRadius: "50%",
               cursor: input.trim() ? "pointer" : "not-allowed",

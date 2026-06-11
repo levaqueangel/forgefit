@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useLang } from "./useLang";
@@ -52,7 +52,7 @@ function InlineCalculateur({ T, theme, router }) {
     setResult({ calories, imc: imc.toFixed(1), proteines, glucides, lipides, tdee: Math.round(tdee) });
   };
 
-  const imcColor = result ? (result.imc<18.5?"#88A0E0":result.imc<25?"#7AE07A":result.imc<30?"#E8C87A":"#E07070") : "#C9A84C";
+  const imcColor = result ? (result.imc<18.5?"#88A0E0":result.imc<25?"#7AE07A":result.imc<30?"#F5C832":"#E07070") : "#E8B000";
   const imcLabel = result ? (result.imc<18.5?"Sous-poids":result.imc<25?"Poids normal":result.imc<30?"Surpoids":"Obésité") : "";
 
   return (
@@ -60,9 +60,9 @@ function InlineCalculateur({ T, theme, router }) {
       {/* Header */}
       <div style={{display:"flex",alignItems:"flex-end",justifyContent:"space-between",flexWrap:"wrap",gap:"1.5rem",marginBottom:"3rem"}}>
         <div>
-          <div style={{fontSize:10,letterSpacing:"5px",textTransform:"uppercase",color:"#C9A84C",marginBottom:"1rem"}}>— Outil gratuit</div>
+          <div style={{fontSize:10,letterSpacing:"5px",textTransform:"uppercase",color:"#E8B000",marginBottom:"1rem"}}>— Outil gratuit</div>
           <h2 style={{fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:"clamp(32px,5vw,72px)",lineHeight:0.88,textTransform:"uppercase",letterSpacing:"-0.02em",color:T.fg}}>
-            CALCULATEUR<br/><span style={{color:"#C9A84C"}}>MÉTABOLIQUE.</span>
+            CALCULATEUR<br/><span style={{color:"#E8B000"}}>MÉTABOLIQUE.</span>
           </h2>
         </div>
         <p style={{fontFamily:"'Cormorant Garamond',serif",fontSize:15,color:T.muted,maxWidth:300,lineHeight:1.9}}>
@@ -75,16 +75,16 @@ function InlineCalculateur({ T, theme, router }) {
 
         {/* Bloc 1 — Profil */}
         <div style={{background:T.bg,padding:"2rem"}}>
-          <div style={{fontSize:9,letterSpacing:"3px",textTransform:"uppercase",color:"#C9A84C",marginBottom:"1.5rem"}}>01 — Profil</div>
+          <div style={{fontSize:9,letterSpacing:"3px",textTransform:"uppercase",color:"#E8B000",marginBottom:"1.5rem"}}>01 — Profil</div>
           <div style={{marginBottom:"1.5rem"}}>
             <div style={{fontSize:9,letterSpacing:"2px",textTransform:"uppercase",color:T.muted,marginBottom:8}}>Genre</div>
             <div style={{display:"flex",gap:6}}>
               {[["homme","Homme"],["femme","Femme"]].map(([v,l])=>(
                 <button key={v} onClick={()=>setGenre(v)} style={{
                   flex:1,padding:"10px 6px",
-                  background:genre===v?"rgba(201,168,76,0.12)":T.card,
-                  border:`0.5px solid ${genre===v?"#C9A84C":T.border}`,
-                  color:genre===v?"#C9A84C":T.muted,
+                  background:genre===v?"rgba(232,176,0,0.12)":T.card,
+                  border:`0.5px solid ${genre===v?"#E8B000":T.border}`,
+                  color:genre===v?"#E8B000":T.muted,
                   fontFamily:"'Syne',sans-serif",fontSize:11,fontWeight:700,letterSpacing:"1px",cursor:"pointer",transition:"all 0.2s",
                 }}>{l}</button>
               ))}
@@ -96,15 +96,15 @@ function InlineCalculateur({ T, theme, router }) {
               {CALC_GOALS.map(g=>(
                 <button key={g.id} onClick={()=>setObjectif(g.id)} style={{
                   padding:"11px 12px",textAlign:"left",
-                  background:objectif===g.id?"rgba(201,168,76,0.1)":T.card,
-                  border:`0.5px solid ${objectif===g.id?"#C9A84C":T.border}`,
-                  color:objectif===g.id?"#C9A84C":T.muted,
+                  background:objectif===g.id?"rgba(232,176,0,0.1)":T.card,
+                  border:`0.5px solid ${objectif===g.id?"#E8B000":T.border}`,
+                  color:objectif===g.id?"#E8B000":T.muted,
                   fontFamily:"'Syne',sans-serif",fontSize:11,fontWeight:700,letterSpacing:"0.5px",
                   cursor:"pointer",transition:"all 0.2s",
                   display:"flex",justifyContent:"space-between",alignItems:"center",
                 }}>
                   {g.label}
-                  {objectif===g.id&&<span style={{fontSize:9,color:"#C9A84C"}}>✓</span>}
+                  {objectif===g.id&&<span style={{fontSize:9,color:"#E8B000"}}>✓</span>}
                 </button>
               ))}
             </div>
@@ -113,7 +113,7 @@ function InlineCalculateur({ T, theme, router }) {
 
         {/* Bloc 2 — Mesures */}
         <div style={{background:T.bg2,padding:"2rem"}}>
-          <div style={{fontSize:9,letterSpacing:"3px",textTransform:"uppercase",color:"#C9A84C",marginBottom:"1.5rem"}}>02 — Mesures</div>
+          <div style={{fontSize:9,letterSpacing:"3px",textTransform:"uppercase",color:"#E8B000",marginBottom:"1.5rem"}}>02 — Mesures</div>
           {[
             {label:"Poids",  value:poids,  setValue:setPoids,  min:40, max:150, unit:"kg", step:0.5},
             {label:"Taille", value:taille, setValue:setTaille, min:140, max:220, unit:"cm"},
@@ -122,13 +122,13 @@ function InlineCalculateur({ T, theme, router }) {
             <div key={label} style={{marginBottom:"1.5rem"}}>
               <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",marginBottom:6}}>
                 <span style={{fontSize:9,letterSpacing:"2px",textTransform:"uppercase",color:T.muted}}>{label}</span>
-                <span style={{fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:24,color:"#C9A84C",lineHeight:1}}>
+                <span style={{fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:24,color:"#E8B000",lineHeight:1}}>
                   {value}<span style={{fontSize:10,color:T.muted,fontWeight:400,marginLeft:3}}>{unit}</span>
                 </span>
               </div>
               <input type="range" min={min} max={max} step={step} value={value}
                 onChange={e=>setValue(parseFloat(e.target.value))}
-                style={{width:"100%",accentColor:"#C9A84C",cursor:"pointer",margin:"4px 0"}}/>
+                style={{width:"100%",accentColor:"#E8B000",cursor:"pointer",margin:"4px 0"}}/>
               <div style={{display:"flex",justifyContent:"space-between"}}>
                 <span style={{fontSize:9,color:"#333"}}>{min}</span>
                 <span style={{fontSize:9,color:"#333"}}>{max}</span>
@@ -139,20 +139,20 @@ function InlineCalculateur({ T, theme, router }) {
 
         {/* Bloc 3 — Activité */}
         <div style={{background:T.bg,padding:"2rem"}}>
-          <div style={{fontSize:9,letterSpacing:"3px",textTransform:"uppercase",color:"#C9A84C",marginBottom:"1.5rem"}}>03 — Activité</div>
+          <div style={{fontSize:9,letterSpacing:"3px",textTransform:"uppercase",color:"#E8B000",marginBottom:"1.5rem"}}>03 — Activité</div>
           <div style={{display:"flex",flexDirection:"column",gap:5}}>
             {CALC_ACTIVITY.map((a,i)=>(
               <button key={i} onClick={()=>setActivite(i)} style={{
                 padding:"12px 14px",textAlign:"left",
-                background:activite===i?"rgba(201,168,76,0.1)":T.card,
-                border:`0.5px solid ${activite===i?"#C9A84C":T.border}`,
-                color:activite===i?"#C9A84C":T.muted,
+                background:activite===i?"rgba(232,176,0,0.1)":T.card,
+                border:`0.5px solid ${activite===i?"#E8B000":T.border}`,
+                color:activite===i?"#E8B000":T.muted,
                 fontFamily:"'Syne',sans-serif",fontSize:11,letterSpacing:"0.3px",
                 cursor:"pointer",transition:"all 0.2s",
                 display:"flex",justifyContent:"space-between",alignItems:"center",gap:8,
               }}>
                 <span>{a.label}</span>
-                <span style={{fontSize:10,color:activite===i?"rgba(201,168,76,0.6)":"#333",flexShrink:0}}>×{a.mult}</span>
+                <span style={{fontSize:10,color:activite===i?"rgba(232,176,0,0.6)":"#333",flexShrink:0}}>×{a.mult}</span>
               </button>
             ))}
           </div>
@@ -162,11 +162,11 @@ function InlineCalculateur({ T, theme, router }) {
       {/* Bouton calcul */}
       <button onClick={calculate} style={{
         width:"100%",padding:"18px",
-        background:"linear-gradient(135deg,#C9A84C,#A67C2E)",
+        background:"linear-gradient(135deg,#E8B000,#C49200)",
         border:"none",color:"#0A0A0A",
         fontFamily:"'Syne',sans-serif",fontSize:13,fontWeight:800,
         letterSpacing:"4px",textTransform:"uppercase",cursor:"pointer",
-        boxShadow:"0 4px 24px rgba(201,168,76,0.2)",transition:"all 0.3s",
+        boxShadow:"0 4px 24px rgba(232,176,0,0.2)",transition:"all 0.3s",
         marginTop:1,
       }}>
         Calculer mes besoins →
@@ -179,18 +179,18 @@ function InlineCalculateur({ T, theme, router }) {
           <div style={{display:"grid",gridTemplateColumns:"2fr 1fr 1fr 1fr 1fr",gap:1,background:T.border}} className="calc-results-grid">
             {/* Calories */}
             <div style={{background:T.card,padding:"2rem",position:"relative",overflow:"hidden"}}>
-              <div style={{position:"absolute",top:0,left:0,right:0,height:2,background:"linear-gradient(90deg,#C9A84C,#E8C87A)"}}/>
-              <div style={{fontSize:9,letterSpacing:"3px",textTransform:"uppercase",color:"#C9A84C",marginBottom:"0.75rem"}}>Calories / jour</div>
-              <div style={{fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:"clamp(48px,5vw,80px)",color:"#C9A84C",lineHeight:0.9,marginBottom:8}}>
+              <div style={{position:"absolute",top:0,left:0,right:0,height:2,background:"linear-gradient(90deg,#E8B000,#F5C832)"}}/>
+              <div style={{fontSize:9,letterSpacing:"3px",textTransform:"uppercase",color:"#E8B000",marginBottom:"0.75rem"}}>Calories / jour</div>
+              <div style={{fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:"clamp(48px,5vw,80px)",color:"#E8B000",lineHeight:0.9,marginBottom:8}}>
                 {result.calories.toLocaleString()}
               </div>
               <div style={{fontSize:11,color:T.muted}}>TDEE {result.tdee.toLocaleString()} kcal</div>
-              <div style={{fontSize:10,color:"rgba(201,168,76,0.7)",marginTop:4}}>{CALC_GOALS.find(g=>g.id===objectif)?.label}</div>
+              <div style={{fontSize:10,color:"rgba(232,176,0,0.7)",marginTop:4}}>{CALC_GOALS.find(g=>g.id===objectif)?.label}</div>
             </div>
             {/* Macros + IMC */}
             {[
               {label:"Protéines",val:result.proteines,sub:"grammes",color:"#7AE07A"},
-              {label:"Glucides", val:result.glucides, sub:"grammes",color:"#C9A84C"},
+              {label:"Glucides", val:result.glucides, sub:"grammes",color:"#E8B000"},
               {label:"Lipides",  val:result.lipides,  sub:"grammes",color:"#5DCAA5"},
               {label:"IMC",      val:result.imc,      sub:imcLabel, color:imcColor},
             ].map((m,i)=>(
@@ -204,7 +204,7 @@ function InlineCalculateur({ T, theme, router }) {
             ))}
           </div>
           {/* CTA row */}
-          <div style={{background:T.bg2,borderTop:`0.5px solid rgba(201,168,76,0.15)`,padding:"2rem",display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:"1.5rem"}}>
+          <div style={{background:T.bg2,borderTop:`0.5px solid rgba(232,176,0,0.15)`,padding:"2rem",display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:"1.5rem"}}>
             <div>
               <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:18,color:T.fg,lineHeight:1.5}}>
                 Ces chiffres sont un point de départ — un programme sur mesure va bien plus loin.
@@ -212,10 +212,10 @@ function InlineCalculateur({ T, theme, router }) {
               <div style={{fontSize:11,color:T.muted,marginTop:4}}>Historique, équipement, contraintes, progressions sur 12 semaines.</div>
             </div>
             <button onClick={()=>router.push("/bilan")} style={{
-              background:"linear-gradient(135deg,#C9A84C,#A67C2E)",border:"none",color:"#0A0A0A",
+              background:"linear-gradient(135deg,#E8B000,#C49200)",border:"none",color:"#0A0A0A",
               padding:"14px 32px",fontFamily:"'Syne',sans-serif",fontSize:12,fontWeight:800,
               letterSpacing:"3px",textTransform:"uppercase",cursor:"pointer",flexShrink:0,
-              boxShadow:"0 4px 16px rgba(201,168,76,0.2)",
+              boxShadow:"0 4px 16px rgba(232,176,0,0.2)",
             }}>
               Obtenir mon programme →
             </button>
@@ -342,9 +342,9 @@ export default function Home() {
         p.x+=p.vx; p.y+=p.vy;
         if(p.x<0)p.x=cv.width; if(p.x>cv.width)p.x=0;
         if(p.y<0)p.y=cv.height; if(p.y>cv.height)p.y=0;
-        for(let j=i+1;j<N;j++){const dx2=p.x-pts[j].x,dy2=p.y-pts[j].y,d2=Math.hypot(dx2,dy2);if(d2<130){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(201,168,76,${.2*(1-d2/130)})`;ctx.lineWidth=.55;ctx.stroke();}}
+        for(let j=i+1;j<N;j++){const dx2=p.x-pts[j].x,dy2=p.y-pts[j].y,d2=Math.hypot(dx2,dy2);if(d2<130){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(232,176,0,${.2*(1-d2/130)})`;ctx.lineWidth=.55;ctx.stroke();}}
         const pr=p.r*(1+.15*Math.sin(p.ph));
-        ctx.beginPath();ctx.arc(p.x,p.y,pr,0,6.28);ctx.fillStyle=`rgba(201,168,76,${p.a*(.8+.2*Math.sin(p.ph))})`;ctx.fill();
+        ctx.beginPath();ctx.arc(p.x,p.y,pr,0,6.28);ctx.fillStyle=`rgba(232,176,0,${p.a*(.8+.2*Math.sin(p.ph))})`;ctx.fill();
       }
       animId=requestAnimationFrame(draw);
     };
@@ -374,9 +374,9 @@ export default function Home() {
             </div>
           ) : (
             <>
-              <div style={{fontSize:10,letterSpacing:"3px",textTransform:"uppercase",color:"#C9A84C",marginBottom:"0.75rem"}}>— Cadeau gratuit</div>
+              <div style={{fontSize:10,letterSpacing:"3px",textTransform:"uppercase",color:"#E8B000",marginBottom:"0.75rem"}}>— Cadeau gratuit</div>
               <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:26,fontWeight:600,lineHeight:1.2,marginBottom:"0.75rem",color:T.fg}}>
-                Les 5 erreurs qui empêchent<br/><em style={{fontStyle:"italic",color:"#C9A84C"}}>tes résultats</em>
+                Les 5 erreurs qui empêchent<br/><em style={{fontStyle:"italic",color:"#E8B000"}}>tes résultats</em>
               </div>
               <p style={{fontFamily:"'Cormorant Garamond',serif",fontSize:15,color:T.muted,lineHeight:1.7,marginBottom:"1.5rem"}}>
                 Reçois notre guide gratuit par email et évite les pièges que font 90% des débutants.
@@ -385,7 +385,7 @@ export default function Home() {
                 <input type="email" value={popupEmail} onChange={e=>setPopupEmail(e.target.value)} onKeyDown={e=>{if(e.key==="Enter")handlePopupSubmit();}} placeholder="ton@email.com"
                   style={{flex:1,background:T.bg,border:`0.5px solid ${T.border}`,color:T.fg,fontFamily:"'Syne',sans-serif",fontSize:13,padding:"11px 14px",outline:"none",borderRadius:0}}/>
                 <button onClick={handlePopupSubmit} disabled={popupLoading||!popupEmail.trim()}
-                  style={{background:"linear-gradient(135deg,#C9A84C,#A67C2E)",border:"none",color:"#0A0A0A",padding:"0 18px",fontFamily:"'Syne',sans-serif",fontSize:12,fontWeight:700,letterSpacing:"2px",textTransform:"uppercase",cursor:popupEmail.trim()?"pointer":"not-allowed",flexShrink:0}}>
+                  style={{background:"linear-gradient(135deg,#E8B000,#C49200)",border:"none",color:"#0A0A0A",padding:"0 18px",fontFamily:"'Syne',sans-serif",fontSize:12,fontWeight:700,letterSpacing:"2px",textTransform:"uppercase",cursor:popupEmail.trim()?"pointer":"not-allowed",flexShrink:0}}>
                   {popupLoading?"...":"Envoyer"}
                 </button>
               </div>
@@ -405,15 +405,15 @@ export default function Home() {
         @keyframes lineGrow{from{width:0}to{width:100%}}
         @keyframes glitch{0%,90%,100%{transform:translate(0)}92%{transform:translate(-2px,1px)}94%{transform:translate(2px,-1px)}}
         @keyframes typing{from{width:0}to{width:3.8em}}
-        @keyframes borderPulse{0%,100%{border-color:#242424}50%{border-color:#C9A84C}}
+        @keyframes borderPulse{0%,100%{border-color:#242424}50%{border-color:#E8B000}}
         @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
         @keyframes scanDown{0%{opacity:0;transform:translateY(-100%)}6%{opacity:.8}93%{opacity:.8}100%{opacity:0;transform:translateY(2000%)}}
         @keyframes shimmerSlide{0%{left:-100%}100%{left:200%}}
         @keyframes countPop{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
         @keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
         @keyframes particleFloat{0%{transform:translateY(0) translateX(0);opacity:0.6}50%{transform:translateY(-20px) translateX(10px);opacity:1}100%{transform:translateY(0) translateX(0);opacity:0.6}}
-        .scan-line-el{position:absolute;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(201,168,76,.6),transparent);animation:scanDown 4s 1.2s ease both;pointer-events:none;z-index:10}
-        .plan-card-shimmer{position:absolute;top:0;left:-100%;width:55%;height:100%;background:linear-gradient(90deg,transparent,rgba(201,168,76,.07),transparent);pointer-events:none;transition:left .8s ease}
+        .scan-line-el{position:absolute;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(232,176,0,.6),transparent);animation:scanDown 4s 1.2s ease both;pointer-events:none;z-index:10}
+        .plan-card-shimmer{position:absolute;top:0;left:-100%;width:55%;height:100%;background:linear-gradient(90deg,transparent,rgba(232,176,0,.07),transparent);pointer-events:none;transition:left .8s ease}
         .plan-card:hover .plan-card-shimmer{left:200%}
         .plan-card{overflow:hidden}
         .plan-card:hover .plan-price{animation:countPop .35s ease}
@@ -425,51 +425,51 @@ export default function Home() {
         .a4{animation:fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 0.55s both}
         .a5{animation:fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 0.7s both}
         .a6{animation:fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 0.9s both}
-        .gold-text{background:linear-gradient(90deg,#C9A84C,#E8C87A,#F5D98A,#C9A84C);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 2.5s linear infinite}
+        .gold-text{background:linear-gradient(90deg,#E8B000,#F5C832,#F5C832,#E8B000);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 2.5s linear infinite}
         .nav-link{cursor:pointer;transition:color 0.3s;position:relative;padding-bottom:2px}
-        .nav-link::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:#C9A84C;transition:width 0.3s}
-        .nav-link:hover{color:#E8C87A !important}
+        .nav-link::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:#E8B000;transition:width 0.3s}
+        .nav-link:hover{color:#F5C832 !important}
         .nav-link:hover::after{width:100%}
         .btn-primary{transition:all 0.3s;position:relative;overflow:hidden}
         .btn-primary::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,0.12);transform:translateX(-100%) skew(-15deg);transition:transform 0.4s}
         .btn-primary:hover::after{transform:translateX(120%) skew(-15deg)}
-        .btn-primary:hover{transform:translateY(-3px) !important;box-shadow:0 12px 30px rgba(201,168,76,0.35) !important}
-        .btn-ghost:hover{color:#E8C87A !important}
+        .btn-primary:hover{transform:translateY(-3px) !important;box-shadow:0 12px 30px rgba(232,176,0,0.35) !important}
+        .btn-ghost:hover{color:#F5C832 !important}
         .stat-box{transition:background 0.3s;cursor:default;position:relative}
-        .stat-box::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:#C9A84C;transform:scaleX(0);transform-origin:left;transition:transform 0.4s}
+        .stat-box::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:#E8B000;transform:scaleX(0);transform-origin:left;transition:transform 0.4s}
         .stat-box:hover::before{transform:scaleX(1)}
         .stat-num{transition:transform 0.4s}
         .stat-box:hover .stat-num{transform:scale(1.06)}
         .step-box{transition:background 0.3s,transform 0.3s;cursor:default;position:relative;overflow:hidden}
-        .step-box::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:#C9A84C;transform:scaleX(0);transition:transform 0.4s}
+        .step-box::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:#E8B000;transform:scaleX(0);transition:transform 0.4s}
         .step-box:hover::after{transform:scaleX(1)}
-        .step-box:hover .step-title{color:#E8C87A !important}
+        .step-box:hover .step-title{color:#F5C832 !important}
         .step-box:hover .step-num{opacity:0.15 !important}
         .plan-card{transition:all 0.4s cubic-bezier(0.2,0,0,1);cursor:pointer;position:relative;overflow:hidden}
-        .plan-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,#C9A84C,transparent);transform:scaleX(0);transition:transform 0.4s}
+        .plan-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,#E8B000,transparent);transform:scaleX(0);transition:transform 0.4s}
         .plan-card:hover{transform:translateY(-8px) !important;z-index:2}
         .plan-card:hover::before{transform:scaleX(1)}
-        .plan-card:hover .plan-name{color:#E8C87A !important}
+        .plan-card:hover .plan-name{color:#F5C832 !important}
         .plan-card:hover .plan-price{transform:scale(1.05)}
         .plan-btn{transition:all 0.3s;position:relative;overflow:hidden}
-        .plan-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#C9A84C,#A67C2E);transform:translateY(100%);transition:transform 0.3s}
+        .plan-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#E8B000,#C49200);transform:translateY(100%);transition:transform 0.3s}
         .plan-btn-text{position:relative;z-index:1;transition:color 0.3s}
         .plan-card:hover .plan-btn::before{transform:translateY(0)}
         .plan-card:hover .plan-btn-text{color:#0A0A0A !important}
         .cta-btn{transition:all 0.3s;animation:pulse 2s ease infinite}
         .cta-btn:hover{transform:scale(1.06) !important}
         .footer-link{cursor:pointer;transition:color 0.2s}
-        .footer-link:hover{color:#E8C87A !important}
+        .footer-link:hover{color:#F5C832 !important}
         .nav-btn{position:relative;overflow:hidden;transition:transform 0.2s}
         .nav-btn::before{content:'';position:absolute;inset:0;background:rgba(255,255,255,0.15);transform:translateX(-100%) skew(-15deg);transition:transform 0.4s}
         .nav-btn:hover::before{transform:translateX(120%) skew(-15deg)}
         .nav-btn:hover{transform:translateY(-1px)}
         .lang-btn{cursor:pointer;transition:all 0.2s;user-select:none}
-        .lang-btn:hover{color:#E8C87A !important;border-color:#C9A84C !important}
+        .lang-btn:hover{color:#F5C832 !important;border-color:#E8B000 !important}
         .lang-option{cursor:pointer;transition:background 0.15s;padding:8px 16px;font-size:12px;letter-spacing:1px;display:flex;align-items:center;gap:8px}
         .lang-option:hover{background:#1A1A1A}
         .theme-toggle{background:none;border:1px solid;border-color:inherit;padding:7px 10px;font-size:14px;cursor:pointer;transition:all 0.3s;border-radius:2px;line-height:1}
-        .theme-toggle:hover{border-color:#C9A84C !important;transform:scale(1.1)}
+        .theme-toggle:hover{border-color:#E8B000 !important;transform:scale(1.1)}
         .typewriter{display:inline-block;overflow:hidden;white-space:nowrap;animation:typing 1.5s steps(8,end) 1s both}
         .hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.18;z-index:0}
         .glass-card{backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
@@ -501,7 +501,7 @@ export default function Home() {
         position:"sticky",top:0,background:T.bg,zIndex:100,
         backdropFilter:"blur(12px)",WebkitBackdropFilter:"blur(12px)"}}>
         <div style={{fontSize:22,fontWeight:800,letterSpacing:5,animation:"glitch 4s ease infinite"}}>
-          APXFIT<span style={{color:"#C9A84C"}}>NESS</span>
+          APXFIT<span style={{color:"#E8B000"}}>NESS</span>
         </div>
         <div className="nav-links" style={{display:"flex",gap:"2rem",fontSize:13,letterSpacing:"1px",color:T.muted}}>
           <span className="nav-link" onClick={()=>document.getElementById("offres").scrollIntoView({behavior:"smooth"})}>{t.nav.programmes}</span>
@@ -518,14 +518,14 @@ export default function Home() {
           </button>
           <LangSelector lang={lang} setLang={setLang} LANGS={LANGS} />
           <button className="nav-btn" onClick={()=>document.getElementById("offres").scrollIntoView({behavior:"smooth"})} style={{
-            background:"linear-gradient(135deg,#C9A84C,#A67C2E)",border:"none",color:"#0A0A0A",
+            background:"linear-gradient(135deg,#E8B000,#C49200)",border:"none",color:"#0A0A0A",
             padding:"10px 24px",fontFamily:"'Syne',sans-serif",fontSize:12,fontWeight:700,
             letterSpacing:"2px",textTransform:"uppercase",cursor:"pointer"}}>
             {t.nav.cta}
           </button>
         </div>
       </nav>
-      <div style={{height:1,background:"linear-gradient(90deg,transparent,#C9A84C,transparent)",animation:"lineGrow 1.5s ease 0.5s both",width:"100%"}}/>
+      <div style={{height:1,background:"linear-gradient(90deg,transparent,#E8B000,transparent)",animation:"lineGrow 1.5s ease 0.5s both",width:"100%"}}/>
 
       {/* ── Hero ── */}
       <section style={{position:"relative",minHeight:"92vh",display:"flex",alignItems:"flex-end",overflow:"hidden",borderBottom:`0.5px solid ${T.border}`}}>
@@ -540,7 +540,7 @@ export default function Home() {
           zIndex:1}}/>
         {/* Grille déco */}
         <svg style={{position:"absolute",inset:0,opacity:0.04,width:"100%",height:"100%",zIndex:2}} viewBox="0 0 300 260" preserveAspectRatio="xMidYMid slice">
-          <defs><pattern id="g" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M 30 0 L 0 0 0 30" fill="none" stroke="#C9A84C" strokeWidth="0.5"/></pattern></defs>
+          <defs><pattern id="g" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M 30 0 L 0 0 0 30" fill="none" stroke="#E8B000" strokeWidth="0.5"/></pattern></defs>
           <rect width="300" height="260" fill="url(#g)"/>
         </svg>
         {/* Particules */}
@@ -548,7 +548,7 @@ export default function Home() {
         <div className="scan-line-el" style={{zIndex:4}}/>
         {/* Contenu */}
         <div style={{position:"relative",zIndex:5,padding:"0 clamp(1.5rem,5vw,5rem) clamp(3rem,6vh,5rem)",width:"100%"}}>
-          <div className="a1" style={{fontSize:11,letterSpacing:"5px",textTransform:"uppercase",color:"#C9A84C",marginBottom:"1.5rem"}}>{t.hero.tag}</div>
+          <div className="a1" style={{fontSize:11,letterSpacing:"5px",textTransform:"uppercase",color:"#E8B000",marginBottom:"1.5rem"}}>{t.hero.tag}</div>
           <h1 className="a2" style={{
             fontFamily:"'Syne',sans-serif",
             fontSize:"clamp(40px,6.5vw,96px)",
@@ -561,13 +561,13 @@ export default function Home() {
           }}>
             <span style={{display:"block",color:T.fg}}>{t.hero.title1}</span>
             <span className="gold-text" style={{display:"block"}}>{t.hero.title2}</span>
-            <span style={{display:"block",color:T.fg}}>{t.hero.title3}<span style={{color:"#C9A84C"}}>.</span></span>
+            <span style={{display:"block",color:T.fg}}>{t.hero.title3}<span style={{color:"#E8B000"}}>.</span></span>
           </h1>
-          <div style={{width:0,height:2,background:"linear-gradient(90deg,#C9A84C,transparent)",margin:"0 0 1.5rem",animation:"lineGrow 1s ease 1.2s both"}}/>
+          <div style={{width:0,height:2,background:"linear-gradient(90deg,#E8B000,transparent)",margin:"0 0 1.5rem",animation:"lineGrow 1s ease 1.2s both"}}/>
           <p className="a3" style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"clamp(15px,2vw,19px)",color:T.muted,lineHeight:1.7,maxWidth:480,marginBottom:"2.5rem"}}>{t.hero.sub}</p>
           <div className="a4 hero-btns" style={{display:"flex",gap:"1rem",alignItems:"center",marginBottom:"3.5rem"}}>
             <button className="btn-primary" onClick={()=>document.getElementById("offres").scrollIntoView({behavior:"smooth"})} style={{
-              background:"linear-gradient(135deg,#C9A84C,#A67C2E)",border:"none",color:"#0A0A0A",
+              background:"linear-gradient(135deg,#E8B000,#C49200)",border:"none",color:"#0A0A0A",
               padding:"16px 40px",fontFamily:"'Syne',sans-serif",fontSize:13,fontWeight:700,
               letterSpacing:"3px",textTransform:"uppercase",cursor:"pointer"}}>
               {t.hero.cta1}
@@ -591,7 +591,7 @@ export default function Home() {
       </section>
 
       {/* ── Strip ── */}
-      <div className="reveal" style={{overflow:"hidden",borderBottom:`0.5px solid ${T.border}`,background:"#C9A84C",padding:"12px 0",position:"relative"}}>
+      <div className="reveal" style={{overflow:"hidden",borderBottom:`0.5px solid ${T.border}`,background:"#E8B000",padding:"12px 0",position:"relative"}}>
         <div style={{display:"flex",gap:"3rem",animation:"marquee 12s linear infinite",whiteSpace:"nowrap"}}>
           {[...t.strip,"·",...t.strip,"·"].map((s,i)=>(
             <span key={i} style={{fontSize:12,fontWeight:700,letterSpacing:"3px",textTransform:"uppercase",color:"#0A0A0A"}}>{s}</span>
@@ -613,7 +613,7 @@ export default function Home() {
       {/* ── Méthode ── */}
       <section id="methode" className="methode-grid" style={{display:"grid",gridTemplateColumns:"1fr 1fr",borderBottom:`0.5px solid ${T.border}`}}>
         <div className="methode-left reveal-left" style={{padding:"4rem 3rem",borderRight:`0.5px solid ${T.border}`}}>
-          <div style={{fontSize:11,letterSpacing:"4px",textTransform:"uppercase",color:"#C9A84C",marginBottom:"0.5rem"}}>{t.methode.tag}</div>
+          <div style={{fontSize:11,letterSpacing:"4px",textTransform:"uppercase",color:"#E8B000",marginBottom:"0.5rem"}}>{t.methode.tag}</div>
           <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:42,fontWeight:600,lineHeight:1.1,marginBottom:"2rem"}}>
             {t.methode.title}<br/><em style={{fontStyle:"italic",color:T.muted}}>{t.methode.subtitle}</em>
           </div>
@@ -628,11 +628,11 @@ export default function Home() {
           ))}
         </div>
         <div className="methode-right reveal-right" style={{padding:"4rem 3rem",background:T.card,display:"flex",flexDirection:"column",gap:"2rem",justifyContent:"center"}}>
-          <div style={{fontSize:11,letterSpacing:"4px",textTransform:"uppercase",color:"#C9A84C"}}>{t.methode.testimonials}</div>
+          <div style={{fontSize:11,letterSpacing:"4px",textTransform:"uppercase",color:"#E8B000"}}>{t.methode.testimonials}</div>
           {t.methode.reviews.map(([quote,author])=>(
-            <div key={author} style={{padding:"1.5rem",borderLeft:"3px solid #C9A84C"}}>
+            <div key={author} style={{padding:"1.5rem",borderLeft:"3px solid #E8B000"}}>
               <p style={{fontFamily:"'Cormorant Garamond',serif",fontSize:16,fontStyle:"italic",color:T.muted,lineHeight:1.7,marginBottom:"0.75rem"}}>{quote}</p>
-              <div style={{fontSize:11,letterSpacing:"2px",textTransform:"uppercase",color:"#C9A84C"}}>{author}</div>
+              <div style={{fontSize:11,letterSpacing:"2px",textTransform:"uppercase",color:"#E8B000"}}>{author}</div>
             </div>
           ))}
         </div>
@@ -642,10 +642,10 @@ export default function Home() {
       <section className="reveal" style={{borderBottom:`0.5px solid ${T.border2}`,background:T.bg3}}>
         <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:1,background:T.gap}}>
           {[
-            {n:"+200",label:"Clients accompagnés",    color:"#C9A84C"},
+            {n:"+200",label:"Clients accompagnés",    color:"#E8B000"},
             {n:"92%", label:"Objectif atteint 12 sem.",color:"#7AE07A"},
             {n:"4.9", label:"Note moyenne / 5",        color:"#5DCAA5"},
-            {n:"48h", label:"Délai de livraison",      color:"#E8C87A"},
+            {n:"48h", label:"Délai de livraison",      color:"#F5C832"},
           ].map((s,i)=>(
             <div key={i} style={{background:T.bg,padding:"2.5rem 2rem",textAlign:"center",transition:"background 0.3s"}}>
               <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"clamp(40px,5vw,60px)",fontWeight:600,color:s.color,lineHeight:1,marginBottom:10}}>{s.n}</div>
@@ -657,11 +657,11 @@ export default function Home() {
 
       {/* ── Témoignages mobile ── */}
       <section className="temoignages-mobile" style={{display:"none",padding:"3rem 1.5rem",borderBottom:`0.5px solid ${T.border}`}}>
-        <div style={{fontSize:11,letterSpacing:"4px",textTransform:"uppercase",color:"#C9A84C",marginBottom:"1.5rem"}}>{t.methode.testimonials}</div>
+        <div style={{fontSize:11,letterSpacing:"4px",textTransform:"uppercase",color:"#E8B000",marginBottom:"1.5rem"}}>{t.methode.testimonials}</div>
         {t.methode.reviews.map(([quote,author])=>(
-          <div key={author} style={{padding:"1.25rem",borderLeft:"3px solid #C9A84C",marginBottom:"1rem"}}>
+          <div key={author} style={{padding:"1.25rem",borderLeft:"3px solid #E8B000",marginBottom:"1rem"}}>
             <p style={{fontFamily:"'Cormorant Garamond',serif",fontSize:16,fontStyle:"italic",color:T.muted,lineHeight:1.7,marginBottom:"0.75rem"}}>{quote}</p>
-            <div style={{fontSize:11,letterSpacing:"2px",textTransform:"uppercase",color:"#C9A84C"}}>{author}</div>
+            <div style={{fontSize:11,letterSpacing:"2px",textTransform:"uppercase",color:"#E8B000"}}>{author}</div>
           </div>
         ))}
       </section>
@@ -671,9 +671,9 @@ export default function Home() {
 
       {/* ── Offres ── */}
       <section id="offres" className="section-pad reveal" style={{padding:"4rem 3rem",borderBottom:`0.5px solid ${T.border}`,
-        background:`radial-gradient(ellipse at 50% 0%,rgba(201,168,76,0.06) 0%,${T.bg} 60%)`}}>
+        background:`radial-gradient(ellipse at 50% 0%,rgba(232,176,0,0.06) 0%,${T.bg} 60%)`}}>
         <div style={{textAlign:"center",marginBottom:"3rem"}}>
-          <div style={{fontSize:11,letterSpacing:"4px",textTransform:"uppercase",color:"#C9A84C",marginBottom:"0.5rem"}}>{t.plans.tag}</div>
+          <div style={{fontSize:11,letterSpacing:"4px",textTransform:"uppercase",color:"#E8B000",marginBottom:"0.5rem"}}>{t.plans.tag}</div>
           <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:48,fontWeight:600,lineHeight:1}}>
             {t.plans.title}<br/><em style={{fontStyle:"italic",color:T.muted}}>{t.plans.subtitle}</em>
           </div>
@@ -687,30 +687,30 @@ export default function Home() {
                 background:i===1?`rgba(${theme==='dark'?'24,24,24':'255,255,255'},0.85)`:theme==='dark'?'rgba(17,17,17,0.8)':'rgba(255,255,255,0.7)',
                 backdropFilter:"blur(14px)",WebkitBackdropFilter:"blur(14px)",
                 padding:"2.5rem 2rem",
-                border:`0.5px solid ${i===1?"#C9A84C":T.border}`,
+                border:`0.5px solid ${i===1?"#E8B000":T.border}`,
                 display:"flex",flexDirection:"column",position:"relative",
-                borderTop:i===1?"2px solid #C9A84C":`0.5px solid ${T.border}`}}>
+                borderTop:i===1?"2px solid #E8B000":`0.5px solid ${T.border}`}}>
               <div className="plan-card-shimmer" />
-              {i===1&&<div style={{position:"absolute",top:0,right:0,background:"#C9A84C",color:"#0A0A0A",
+              {i===1&&<div style={{position:"absolute",top:0,right:0,background:"#E8B000",color:"#0A0A0A",
                 fontSize:10,fontWeight:700,letterSpacing:"2px",padding:"5px 14px",textTransform:"uppercase"}}>{t.plans.popular}</div>}
               <div className="plan-name" style={{fontFamily:"'Cormorant Garamond',serif",fontSize:36,fontWeight:600,
-                color:i===1?"#E8C87A":T.fg,marginBottom:4,transition:"color 0.3s"}}>{name}</div>
+                color:i===1?"#F5C832":T.fg,marginBottom:4,transition:"color 0.3s"}}>{name}</div>
               <div style={{fontSize:12,color:T.muted,marginBottom:"1.5rem"}}>{t.plans.descs[i]}</div>
               <div className="plan-price" style={{fontFamily:"'Cormorant Garamond',serif",fontSize:56,fontWeight:600,
-                color:"#C9A84C",lineHeight:1,marginBottom:4,transition:"transform 0.3s"}}>{PLAN_PRICES[i].toFixed(2).replace(".",",")}€</div>
+                color:"#E8B000",lineHeight:1,marginBottom:4,transition:"transform 0.3s"}}>{PLAN_PRICES[i].toFixed(2).replace(".",",")}€</div>
               <div style={{fontSize:11,letterSpacing:"1px",color:T.muted,marginBottom:"1.5rem"}}>{t.plans.period}</div>
               <div style={{flex:1,marginBottom:"2rem"}}>
                 {t.plans.features[i].map((f,j)=>(
                   <div key={j} className="plan-feat-item" style={{display:"flex",alignItems:"flex-start",gap:10,
                     padding:"8px 0",borderBottom:`0.5px solid ${T.border}`,fontSize:13,color:i===1?"#888":T.muted,transition:"color 0.2s,padding 0.2s"}}>
-                    <span style={{color:"#C9A84C"}}>·</span>{f}
+                    <span style={{color:"#E8B000"}}>·</span>{f}
                   </div>
                 ))}
               </div>
               <button className="plan-btn" onClick={()=>router.push(`/bilan?plan=${name.toLowerCase()}&price=${PLAN_PRICES[i]}`)} style={{
                 width:"100%",padding:"13px 0",
-                background:i===1?"linear-gradient(135deg,#C9A84C,#A67C2E)":"transparent",
-                border:`0.5px solid ${i===1?"#C9A84C":T.border}`,
+                background:i===1?"linear-gradient(135deg,#E8B000,#C49200)":"transparent",
+                border:`0.5px solid ${i===1?"#E8B000":T.border}`,
                 fontFamily:"'Syne',sans-serif",fontSize:12,fontWeight:700,
                 letterSpacing:"2px",textTransform:"uppercase",cursor:"pointer"}}>
                 <span className="plan-btn-text" style={{color:i===1?"#0A0A0A":T.muted}}>{t.plans.cta} {name}</span>
@@ -721,7 +721,7 @@ export default function Home() {
       </section>
 
       {/* ── CTA ── */}
-      <section className="cta-section reveal" style={{padding:"5rem 3rem",textAlign:"center",background:"#C9A84C",position:"relative",overflow:"hidden"}}>
+      <section className="cta-section reveal" style={{padding:"5rem 3rem",textAlign:"center",background:"#E8B000",position:"relative",overflow:"hidden"}}>
         <div style={{position:"absolute",width:300,height:300,top:"50%",left:"50%",transform:"translate(-50%,-50%)",borderRadius:"50%",border:"1px solid rgba(10,10,10,0.1)",animation:"pulse 3s ease infinite"}}/>
         <div style={{position:"absolute",width:500,height:500,top:"50%",left:"50%",transform:"translate(-50%,-50%)",borderRadius:"50%",border:"1px solid rgba(10,10,10,0.1)",animation:"pulse 3s ease 1s infinite"}}/>
         <div className="cta-title" style={{fontFamily:"'Cormorant Garamond',serif",fontSize:64,fontWeight:600,
@@ -730,7 +730,7 @@ export default function Home() {
         </div>
         <p style={{fontFamily:"'Cormorant Garamond',serif",fontSize:18,color:"#6B5F3A",marginBottom:"2.5rem",position:"relative"}}>{t.cta.sub}</p>
         <button className="cta-btn" onClick={()=>document.getElementById("offres").scrollIntoView({behavior:"smooth"})} style={{
-          background:"#0A0A0A",color:"#C9A84C",padding:"16px 48px",
+          background:"#0A0A0A",color:"#E8B000",padding:"16px 48px",
           fontFamily:"'Syne',sans-serif",fontSize:14,fontWeight:700,
           letterSpacing:"3px",textTransform:"uppercase",border:"none",cursor:"pointer",position:"relative"}}>
           {t.cta.btn}
@@ -747,9 +747,9 @@ export default function Home() {
         <div style={{display:"grid",gridTemplateColumns:"2fr 1fr 1fr 1fr",gap:"2rem",padding:"3rem",maxWidth:1200,margin:"0 auto"}}>
           {/* Colonne marque */}
           <div>
-            <div style={{fontSize:20,fontWeight:800,letterSpacing:5,marginBottom:12}}>APXFIT<span style={{color:"#C9A84C"}}>NESS</span></div>
+            <div style={{fontSize:20,fontWeight:800,letterSpacing:5,marginBottom:12}}>APXFIT<span style={{color:"#E8B000"}}>NESS</span></div>
             <p style={{fontSize:12,color:T.muted,lineHeight:1.9,maxWidth:260,marginBottom:20}}>Coaching fitness personnalisé en ligne. Programmes musculation et nutrition 100% sur mesure générés par IA.</p>
-            <a href="mailto:coach.apxfitness11@gmail.com" style={{fontSize:11,color:"#C9A84C",letterSpacing:"1px",textDecoration:"none",display:"flex",alignItems:"center",gap:6}}>
+            <a href="mailto:coach.apxfitness11@gmail.com" style={{fontSize:11,color:"#E8B000",letterSpacing:"1px",textDecoration:"none",display:"flex",alignItems:"center",gap:6}}>
               <span>✉</span> coach.apxfitness11@gmail.com
             </a>
           </div>

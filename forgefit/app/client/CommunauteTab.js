@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect, useCallback } from "react";
 import { auth } from "../firebase";
 
@@ -6,10 +6,10 @@ function Avatar({ initiale, color }) {
   return (
     <div style={{
       width: 36, height: 36, borderRadius: "50%",
-      background: `rgba(201,168,76,0.1)`,
-      border: `0.5px solid rgba(201,168,76,0.3)`,
+      background: `rgba(232,176,0,0.1)`,
+      border: `0.5px solid rgba(232,176,0,0.3)`,
       display: "flex", alignItems: "center", justifyContent: "center",
-      fontSize: 14, fontWeight: 700, color: "#C9A84C",
+      fontSize: 14, fontWeight: 700, color: "#E8B000",
       fontFamily: "'Syne',sans-serif", flexShrink: 0,
     }}>
       {initiale || "?"}
@@ -44,7 +44,7 @@ function PostCard({ post, currentUid, onLike }) {
         </div>
         <div style={{
           fontSize: 8, letterSpacing: "2px", textTransform: "uppercase",
-          color: "#C9A84C", border: "0.5px solid rgba(201,168,76,0.3)",
+          color: "#E8B000", border: "0.5px solid rgba(232,176,0,0.3)",
           padding: "3px 8px", borderRadius: 20,
         }}>Elite</div>
       </div>
@@ -59,9 +59,9 @@ function PostCard({ post, currentUid, onLike }) {
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <button onClick={() => onLike(post.id)} style={{
           display: "flex", alignItems: "center", gap: 5,
-          background: liked ? "rgba(201,168,76,0.1)" : "transparent",
-          border: `0.5px solid ${liked ? "rgba(201,168,76,0.4)" : "#1A1A1A"}`,
-          color: liked ? "#C9A84C" : "#444",
+          background: liked ? "rgba(232,176,0,0.1)" : "transparent",
+          border: `0.5px solid ${liked ? "rgba(232,176,0,0.4)" : "#1A1A1A"}`,
+          color: liked ? "#E8B000" : "#444",
           fontFamily: "'Syne',sans-serif", fontSize: 11, fontWeight: 700,
           padding: "5px 12px", borderRadius: 20, cursor: "pointer",
           transition: "all 0.15s",
@@ -149,13 +149,13 @@ export function CommunauteTab({ S, clientData, user }) {
     return (
       <div className="fade-in" style={{ display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:16, padding:"3rem 1rem", textAlign:"center" }}>
         <div style={{ fontSize:48 }}>👑</div>
-        <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:24, color:"#C9A84C", fontStyle:"italic" }}>
+        <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:24, color:"#E8B000", fontStyle:"italic" }}>
           Espace communauté Elite
         </div>
         <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:15, color:"#555", lineHeight:1.8, maxWidth:340 }}>
           La communauté est réservée aux membres Elite. Passe au plan supérieur pour rejoindre les échanges.
         </p>
-        <div style={{ background:"rgba(201,168,76,0.06)", border:"0.5px solid rgba(201,168,76,0.2)", borderRadius:10, padding:"12px 20px", fontSize:11, color:"#C9A84C", letterSpacing:"2px", textTransform:"uppercase" }}>
+        <div style={{ background:"rgba(232,176,0,0.06)", border:"0.5px solid rgba(232,176,0,0.2)", borderRadius:10, padding:"12px 20px", fontSize:11, color:"#E8B000", letterSpacing:"2px", textTransform:"uppercase" }}>
           Plan Elite — 249€/mois
         </div>
       </div>
@@ -197,13 +197,13 @@ export function CommunauteTab({ S, clientData, user }) {
         <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginTop:10, gap:10 }}>
           <label style={{ display:"flex", alignItems:"center", gap:6, cursor:"pointer" }}>
             <input type="checkbox" checked={anonymous} onChange={e => setAnonymous(e.target.checked)}
-              style={{ accentColor:"#C9A84C" }} />
+              style={{ accentColor:"#E8B000" }} />
             <span style={{ fontSize:11, color:"#555", fontFamily:"'Syne',sans-serif" }}>Anonyme</span>
           </label>
           <div style={{ display:"flex", alignItems:"center", gap:8 }}>
             <span style={{ fontSize:10, color:"#555", fontFamily:"'Syne',sans-serif" }}>{text.length}/500</span>
             <button onClick={handlePost} disabled={!text.trim() || posting} style={{
-              background: text.trim() ? "linear-gradient(135deg,#C9A84C,#A67C2E)" : "#111",
+              background: text.trim() ? "linear-gradient(135deg,#E8B000,#C49200)" : "#111",
               border: "none", color: text.trim() ? "#0A0A0A" : "#333",
               fontFamily: "'Syne',sans-serif", fontSize: 11, fontWeight: 700,
               letterSpacing: "2px", textTransform: "uppercase",

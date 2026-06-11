@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
@@ -51,9 +51,9 @@ const STYLES = `
     transition: all 0.15s; border-radius: 6px;
   }
   .seg-btn.active {
-    background: rgba(201,168,76,0.1);
-    border-color: rgba(201,168,76,0.4);
-    color: #C9A84C;
+    background: rgba(232,176,0,0.1);
+    border-color: rgba(232,176,0,0.4);
+    color: #E8B000;
   }
   .tooltip-dot:hover { r: 5; }
 `;
@@ -103,7 +103,7 @@ function WeightChart({ entries, targetWeight, periode }) {
 
   const areaD = `${pathD} L ${pts[pts.length-1][0].toFixed(1)} ${H} L ${pts[0][0].toFixed(1)} ${H} Z`;
   const total = vals[vals.length-1] - vals[0];
-  const trendColor = total < -0.1 ? "#7AE07A" : total > 0.1 ? "#E07070" : "#C9A84C";
+  const trendColor = total < -0.1 ? "#7AE07A" : total > 0.1 ? "#E07070" : "#E8B000";
   const trendLabel = total < -0.1 ? `↓ ${Math.abs(total).toFixed(1)} kg` : total > 0.1 ? `↑ ${total.toFixed(1)} kg` : "→ stable";
 
   // Lignes de grille
@@ -153,13 +153,13 @@ function WeightChart({ entries, targetWeight, periode }) {
       >
         <defs>
           <linearGradient id="progGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#C9A84C" stopOpacity="0.3"/>
-            <stop offset="100%" stopColor="#C9A84C" stopOpacity="0"/>
+            <stop offset="0%" stopColor="#E8B000" stopOpacity="0.3"/>
+            <stop offset="100%" stopColor="#E8B000" stopOpacity="0"/>
           </linearGradient>
           <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor="#A67C2E"/>
-            <stop offset="50%" stopColor="#E8C87A"/>
-            <stop offset="100%" stopColor="#C9A84C"/>
+            <stop offset="0%" stopColor="#C49200"/>
+            <stop offset="50%" stopColor="#F5C832"/>
+            <stop offset="100%" stopColor="#E8B000"/>
           </linearGradient>
         </defs>
 
@@ -192,7 +192,7 @@ function WeightChart({ entries, targetWeight, periode }) {
         {/* Points */}
         {pts.map(([x, y], i) => (
           <circle key={i} cx={x.toFixed(1)} cy={y.toFixed(1)} r="3.5"
-            fill="#0A0A0A" stroke="#C9A84C" strokeWidth="2"
+            fill="#0A0A0A" stroke="#E8B000" strokeWidth="2"
             style={{ transition: "r 0.15s" }}/>
         ))}
 
@@ -200,14 +200,14 @@ function WeightChart({ entries, targetWeight, periode }) {
         {hovered && (
           <g>
             <line x1={hovered.x} x2={hovered.x} y1={PY} y2={H - PY}
-              stroke="rgba(201,168,76,0.3)" strokeWidth="1" strokeDasharray="3 3"/>
+              stroke="rgba(232,176,0,0.3)" strokeWidth="1" strokeDasharray="3 3"/>
             <circle cx={hovered.x} cy={hovered.y} r="5.5"
-              fill="#C9A84C" stroke="#0A0A0A" strokeWidth="2"/>
+              fill="#E8B000" stroke="#0A0A0A" strokeWidth="2"/>
             <rect x={Math.min(hovered.x + 6, W - 70)} y={hovered.y - 26}
               width={62} height={22} rx={5}
-              fill="rgba(10,10,10,0.92)" stroke="rgba(201,168,76,0.3)" strokeWidth="0.5"/>
+              fill="rgba(10,10,10,0.92)" stroke="rgba(232,176,0,0.3)" strokeWidth="0.5"/>
             <text x={Math.min(hovered.x + 37, W - 35)} y={hovered.y - 14}
-              textAnchor="middle" fontSize="10" fontWeight="700" fill="#C9A84C">
+              textAnchor="middle" fontSize="10" fontWeight="700" fill="#E8B000">
               {hovered.val.toFixed(1)} kg
             </text>
             <text x={Math.min(hovered.x + 37, W - 35)} y={hovered.y - 5}
@@ -308,7 +308,7 @@ export function ProgressionTab({ user, clientData, setClientData, addToast }) {
   const taille = clientData?.taille || clientData?.programmeData?.taille;
   const imc = currentWeight && taille ? (currentWeight / Math.pow(taille / 100, 2)).toFixed(1) : null;
   const imcLabel = imc ? (imc < 18.5 ? "Insuffisant" : imc < 25 ? "Normal" : imc < 30 ? "Surpoids" : "Obésité") : null;
-  const imcColor = imc ? (imc < 18.5 ? "#E07070" : imc < 25 ? "#7AE07A" : imc < 30 ? "#C9A84C" : "#E07070") : "#C9A84C";
+  const imcColor = imc ? (imc < 18.5 ? "#E07070" : imc < 25 ? "#7AE07A" : imc < 30 ? "#E8B000" : "#E07070") : "#E8B000";
 
   const PERIODES = [
     { label: "30j",  val: 30 },
@@ -318,7 +318,7 @@ export function ProgressionTab({ user, clientData, setClientData, addToast }) {
   ];
 
   const MESURES = [
-    { field: "taille_tour", label: "Tour de taille", color: "#C9A84C" },
+    { field: "taille_tour", label: "Tour de taille", color: "#E8B000" },
     { field: "bras",        label: "Bras",           color: "#7AE07A" },
     { field: "cuisses",     label: "Cuisses",        color: "#A07AE0" },
     { field: "poitrine",    label: "Poitrine",       color: "#E07070" },
@@ -363,7 +363,7 @@ export function ProgressionTab({ user, clientData, setClientData, addToast }) {
             {
               val: target ? `${target.toFixed(1)} kg` : "—",
               label: "Objectif",
-              color: "#C9A84C",
+              color: "#E8B000",
               sub: toGoal !== null ? (Math.abs(toGoal) < 0.5 ? "Objectif atteint !" : `${Math.abs(toGoal).toFixed(1)} kg restants`) : "Non défini",
               subColor: toGoal !== null && Math.abs(toGoal) < 0.5 ? "#7AE07A" : "#555",
             },
@@ -451,7 +451,7 @@ export function ProgressionTab({ user, clientData, setClientData, addToast }) {
                         {delta > 0 ? "+" : ""}{delta.toFixed(1)} kg
                       </span>
                     )}
-                    <span style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 13, color: "#C9A84C" }}>
+                    <span style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 13, color: "#E8B000" }}>
                       {parseFloat(e.poids).toFixed(1)} kg
                     </span>
                   </div>

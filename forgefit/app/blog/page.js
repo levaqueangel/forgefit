@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useMemo, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { ARTICLES } from "./articles";
@@ -10,10 +10,10 @@ const ALL_CATS = ["Tout", ...Array.from(new Set(ARTICLES.map(a => a.categorie)))
 
 // Couleurs par catégorie
 const CAT_COLORS = {
-  "Musculation":  "#C9A84C",
+  "Musculation":  "#E8B000",
   "Nutrition":    "#7AE07A",
   "Programme":    "#5DCAA5",
-  "Récupération": "#E8C87A",
+  "Récupération": "#F5C832",
   "Perte de poids":"#E07070",
   "Remise en forme":"#88A0E0",
 };
@@ -71,18 +71,18 @@ export default function BlogPage() {
         *{box-sizing:border-box;margin:0;padding:0}
         @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
         @keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
-        .gold{background:linear-gradient(90deg,#C9A84C,#E8C87A,#F5D98A,#C9A84C);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 4s linear infinite}
+        .gold{background:linear-gradient(90deg,#E8B000,#F5C832,#F5C832,#E8B000);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 4s linear infinite}
         .cat-btn{background:transparent;border:0.5px solid #1E1E1E;color:#555;font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:7px 16px;cursor:pointer;border-radius:20px;transition:all 0.2s;white-space:nowrap}
         .cat-btn:hover{border-color:#333;color:#888}
-        .cat-btn.active{border-color:#C9A84C;color:#C9A84C;background:rgba(201,168,76,0.1)}
+        .cat-btn.active{border-color:#E8B000;color:#E8B000;background:rgba(232,176,0,0.1)}
         .article-card{background:#0D0D0D;border:0.5px solid #1A1A1A;padding:24px;cursor:pointer;transition:all 0.2s;display:flex;flex-direction:column;gap:14px}
-        .article-card:hover{border-color:#C9A84C;background:#111;transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.4)}
+        .article-card:hover{border-color:#E8B000;background:#111;transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.4)}
         .search-input{width:100%;background:transparent;border:none;color:#F0EDE8;font-family:'Syne',sans-serif;font-size:14px;outline:none;padding:0}
         .search-input::placeholder{color:#333}
         .featured-card{cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden}
         .featured-card:hover{opacity:0.92}
         .footer-link{cursor:pointer;transition:color 0.2s}
-        .footer-link:hover{color:#E8C87A !important}
+        .footer-link:hover{color:#F5C832 !important}
         @media(max-width:768px){
           .articles-grid{grid-template-columns:1fr !important}
           .cats-scroll{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px}
@@ -93,14 +93,14 @@ export default function BlogPage() {
       {/* Nav */}
       <nav style={{ display:"flex", alignItems:"center", justifyContent:"space-between", padding:"18px 28px", borderBottom:"0.5px solid #1A1A1A", position:"sticky", top:0, background:"rgba(10,10,10,0.97)", backdropFilter:"blur(12px)", zIndex:100 }}>
         <div style={{ fontSize:20, fontWeight:800, letterSpacing:5, cursor:"pointer" }} onClick={() => router.push("/")}>
-          APXFIT<span style={{ color:"#C9A84C" }}>NESS</span>
+          APXFIT<span style={{ color:"#E8B000" }}>NESS</span>
         </div>
         <div style={{ display:"flex", alignItems:"center", gap:12 }}>
           <LangSelector lang={lang} setLang={setLang} LANGS={LANGS} />
           <button onClick={() => router.push("/")} style={{ background:"transparent", border:"0.5px solid #1E1E1E", color:"#555", padding:"8px 18px", fontFamily:"'Syne',sans-serif", fontSize:11, letterSpacing:"2px", textTransform:"uppercase", cursor:"pointer" }}>
             ← Accueil
           </button>
-          <button onClick={() => router.push("/bilan")} style={{ background:"linear-gradient(135deg,#C9A84C,#A67C2E)", border:"none", color:"#0A0A0A", padding:"8px 18px", fontFamily:"'Syne',sans-serif", fontSize:11, fontWeight:700, letterSpacing:"2px", textTransform:"uppercase", cursor:"pointer" }}>
+          <button onClick={() => router.push("/bilan")} style={{ background:"linear-gradient(135deg,#E8B000,#C49200)", border:"none", color:"#0A0A0A", padding:"8px 18px", fontFamily:"'Syne',sans-serif", fontSize:11, fontWeight:700, letterSpacing:"2px", textTransform:"uppercase", cursor:"pointer" }}>
             Mon bilan →
           </button>
         </div>
@@ -108,8 +108,8 @@ export default function BlogPage() {
 
       {/* Hero */}
       <div style={{ padding:"4rem 2rem 3rem", textAlign:"center", borderBottom:"0.5px solid #1A1A1A", position:"relative", overflow:"hidden" }}>
-        <div style={{ position:"absolute", inset:0, background:"radial-gradient(ellipse at 50% 100%,rgba(201,168,76,0.06) 0%,transparent 70%)", pointerEvents:"none" }}/>
-        <div style={{ fontSize:10, letterSpacing:"4px", textTransform:"uppercase", color:"#C9A84C", marginBottom:"1rem" }}>— Base de connaissances</div>
+        <div style={{ position:"absolute", inset:0, background:"radial-gradient(ellipse at 50% 100%,rgba(232,176,0,0.06) 0%,transparent 70%)", pointerEvents:"none" }}/>
+        <div style={{ fontSize:10, letterSpacing:"4px", textTransform:"uppercase", color:"#E8B000", marginBottom:"1rem" }}>— Base de connaissances</div>
         <h1 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(36px,6vw,60px)", fontWeight:600, lineHeight:1.1, marginBottom:"1rem" }}>
           Blog <em className="gold">Fitness</em>
         </h1>
@@ -122,7 +122,7 @@ export default function BlogPage() {
           display:"flex", alignItems:"center", gap:12,
           maxWidth:480, margin:"0 auto",
           background:"#111",
-          border:`0.5px solid ${searchFocused ? "#C9A84C" : "#1E1E1E"}`,
+          border:`0.5px solid ${searchFocused ? "#E8B000" : "#1E1E1E"}`,
           padding:"12px 18px",
           transition:"border-color 0.2s",
         }}>
@@ -159,7 +159,7 @@ export default function BlogPage() {
             <div style={{ padding:"2.5rem", borderRight:"0.5px solid #1A1A1A", display:"flex", flexDirection:"column", justifyContent:"space-between" }}>
               <div>
                 <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:"1rem" }}>
-                  <span style={{ fontSize:9, fontWeight:700, letterSpacing:"2px", textTransform:"uppercase", background:"rgba(201,168,76,0.1)", color:"#C9A84C", padding:"4px 10px" }}>
+                  <span style={{ fontSize:9, fontWeight:700, letterSpacing:"2px", textTransform:"uppercase", background:"rgba(232,176,0,0.1)", color:"#E8B000", padding:"4px 10px" }}>
                     ★ Article à la une
                   </span>
                   <span style={{ fontSize:10, color:"#444" }}>{featured.lecture} min de lecture</span>
@@ -175,7 +175,7 @@ export default function BlogPage() {
                 <span style={{ fontSize:11, color:"#555", letterSpacing:"1px" }}>
                   {new Date(featured.date).toLocaleDateString("fr-FR", { day:"numeric", month:"long", year:"numeric" })}
                 </span>
-                <span style={{ fontSize:12, color:"#C9A84C", fontWeight:700 }}>Lire l'article →</span>
+                <span style={{ fontSize:12, color:"#E8B000", fontWeight:700 }}>Lire l'article →</span>
               </div>
             </div>
             <div style={{ padding:"2.5rem", background:"#111", display:"flex", flexDirection:"column", justifyContent:"center" }}>
@@ -184,7 +184,7 @@ export default function BlogPage() {
                 "{featured.contenu.split('\n').find(l => l.trim().length > 80 && !l.startsWith('#'))?.slice(0, 200)}..."
               </p>
               <div style={{ marginTop:"1.5rem", display:"flex", alignItems:"center", gap:8 }}>
-                <div style={{ width:8, height:8, borderRadius:"50%", background: CAT_COLORS[featured.categorie] || "#C9A84C" }}/>
+                <div style={{ width:8, height:8, borderRadius:"50%", background: CAT_COLORS[featured.categorie] || "#E8B000" }}/>
                 <span style={{ fontSize:10, letterSpacing:"2px", textTransform:"uppercase", color:"#555" }}>{featured.categorie}</span>
               </div>
             </div>
@@ -194,7 +194,7 @@ export default function BlogPage() {
         {/* Compteur */}
         <div style={{ fontSize:11, letterSpacing:"3px", textTransform:"uppercase", color:"#555", marginBottom:"1.5rem", display:"flex", alignItems:"center", gap:10 }}>
           {articles.length} article{articles.length > 1 ? "s" : ""}
-          {cat !== "Tout" && <span style={{ color: CAT_COLORS[cat] || "#C9A84C" }}>— {cat}</span>}
+          {cat !== "Tout" && <span style={{ color: CAT_COLORS[cat] || "#E8B000" }}>— {cat}</span>}
           {search && <span style={{ color:"#888" }}>— "{search}"</span>}
         </div>
 
@@ -208,10 +208,10 @@ export default function BlogPage() {
               style={{ animation:`fadeUp 0.4s ease ${i * 0.06}s both` }}
             >
               {/* Accent couleur top */}
-              <div style={{ position:"absolute", top:0, left:0, right:0, height:2, background: CAT_COLORS[article.categorie] || "#C9A84C", opacity:0.7 }}/>
+              <div style={{ position:"absolute", top:0, left:0, right:0, height:2, background: CAT_COLORS[article.categorie] || "#E8B000", opacity:0.7 }}/>
 
               <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center" }}>
-                <span style={{ fontSize:9, fontWeight:700, letterSpacing:"2px", textTransform:"uppercase", color: CAT_COLORS[article.categorie] || "#C9A84C", background:`rgba(${(CAT_COLORS[article.categorie]||"#C9A84C")==='#C9A84C'?'201,168,76':'122,224,122'},0.08)`, padding:"3px 8px" }}>
+                <span style={{ fontSize:9, fontWeight:700, letterSpacing:"2px", textTransform:"uppercase", color: CAT_COLORS[article.categorie] || "#E8B000", background:`rgba(${(CAT_COLORS[article.categorie]||"#E8B000")==='#E8B000'?'232,176,0':'122,224,122'},0.08)`, padding:"3px 8px" }}>
                   {article.categorie}
                 </span>
                 <span style={{ fontSize:10, color:"#444", letterSpacing:"1px" }}>{article.lecture} min</span>
@@ -229,7 +229,7 @@ export default function BlogPage() {
                 <span style={{ fontSize:10, color:"#555", letterSpacing:"1px" }}>
                   {new Date(article.date).toLocaleDateString("fr-FR", { day:"numeric", month:"long" })}
                 </span>
-                <span style={{ fontSize:11, color:"#C9A84C", fontWeight:700 }}>Lire →</span>
+                <span style={{ fontSize:11, color:"#E8B000", fontWeight:700 }}>Lire →</span>
               </div>
             </article>
           ))}
@@ -248,22 +248,22 @@ export default function BlogPage() {
       </div>
 
       {/* CTA bas de page */}
-      <div style={{ borderTop:"0.5px solid #1A1A1A", padding:"4rem 2rem", textAlign:"center", background:"radial-gradient(ellipse at center,rgba(201,168,76,0.04) 0%,transparent 70%)" }}>
-        <div style={{ fontSize:10, letterSpacing:"4px", textTransform:"uppercase", color:"#C9A84C", marginBottom:"1rem" }}>— Prêt à passer à l'action ?</div>
+      <div style={{ borderTop:"0.5px solid #1A1A1A", padding:"4rem 2rem", textAlign:"center", background:"radial-gradient(ellipse at center,rgba(232,176,0,0.04) 0%,transparent 70%)" }}>
+        <div style={{ fontSize:10, letterSpacing:"4px", textTransform:"uppercase", color:"#E8B000", marginBottom:"1rem" }}>— Prêt à passer à l'action ?</div>
         <h2 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:36, fontWeight:600, marginBottom:"1rem" }}>
           Un programme personnalisé<br/><em style={{ fontStyle:"italic", color:"#555" }}>vaut mieux que tous les articles.</em>
         </h2>
         <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:16, color:"#555", marginBottom:"2rem", maxWidth:400, margin:"0 auto 2rem" }}>
           Arrête de lire sur la musculation. Commence à pratiquer avec un programme fait pour toi.
         </p>
-        <button onClick={() => router.push("/bilan")} style={{ background:"linear-gradient(135deg,#C9A84C,#A67C2E)", border:"none", color:"#0A0A0A", padding:"16px 40px", fontFamily:"'Syne',sans-serif", fontSize:13, fontWeight:700, letterSpacing:"3px", textTransform:"uppercase", cursor:"pointer" }}>
+        <button onClick={() => router.push("/bilan")} style={{ background:"linear-gradient(135deg,#E8B000,#C49200)", border:"none", color:"#0A0A0A", padding:"16px 40px", fontFamily:"'Syne',sans-serif", fontSize:13, fontWeight:700, letterSpacing:"3px", textTransform:"uppercase", cursor:"pointer" }}>
           Démarrer mon bilan gratuit →
         </button>
       </div>
 
       {/* Footer */}
       <footer style={{ padding:"1.5rem 2rem", display:"flex", justifyContent:"space-between", alignItems:"center", borderTop:"0.5px solid #1A1A1A" }}>
-        <div style={{ fontSize:16, fontWeight:800, letterSpacing:5, cursor:"pointer" }} onClick={() => router.push("/")}><span>APXFIT</span><span style={{ color:"#C9A84C" }}>NESS</span></div>
+        <div style={{ fontSize:16, fontWeight:800, letterSpacing:5, cursor:"pointer" }} onClick={() => router.push("/")}><span>APXFIT</span><span style={{ color:"#E8B000" }}>NESS</span></div>
         <div style={{ fontSize:11, letterSpacing:"2px", color:"#555", textTransform:"uppercase" }}>© 2026 APXFITNESS</div>
         <div style={{ display:"flex", gap:"1rem" }}>
           {[["Accueil","/"],["FAQ","/faq"],["Mentions légales","/mentions-legales"]].map(([label,href])=>(

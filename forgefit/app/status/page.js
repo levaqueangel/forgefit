@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
@@ -38,7 +38,7 @@ export default function StatusPage() {
     if (val === null)      return ["⏳", "#555",    "Vérification..."];
     if (val === true)      return ["✅", "#7AE07A", "Opérationnel"];
     if (val === false)     return ["❌", "#E07070", "Incident"];
-    return                        ["⚠️", "#E8C87A", "Non vérifié"];
+    return                        ["⚠️", "#F5C832", "Non vérifié"];
   };
 
   const allOk = Object.values(checks).every(v => v === true || v === "unknown");
@@ -49,10 +49,10 @@ export default function StatusPage() {
       <div style={{ maxWidth:560, margin:"0 auto" }}>
         <div style={{ cursor:"pointer", marginBottom:"3rem", fontSize:18,
           fontWeight:800, letterSpacing:5 }} onClick={() => router.push("/")}>
-          APXFIT<span style={{ color:"#C9A84C" }}>NESS</span>
+          APXFIT<span style={{ color:"#E8B000" }}>NESS</span>
         </div>
         <div style={{ fontSize:10, letterSpacing:"4px", textTransform:"uppercase",
-          color:"#C9A84C", marginBottom:"0.8rem" }}>— Statut des services</div>
+          color:"#E8B000", marginBottom:"0.8rem" }}>— Statut des services</div>
         <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:44,
           fontWeight:600, marginBottom:"0.75rem" }}>
           {loading ? "Vérification..." : allOk ? "Tout est opérationnel." : "Incident en cours."}
@@ -93,7 +93,7 @@ export default function StatusPage() {
             Rafraîchir
           </button>
           <button onClick={() => router.push("/")} style={{
-            background:"linear-gradient(135deg,#C9A84C,#A67C2E)", border:"none",
+            background:"linear-gradient(135deg,#E8B000,#C49200)", border:"none",
             color:"#0A0A0A", padding:"10px 20px", fontFamily:"'Syne',sans-serif",
             fontSize:11, fontWeight:700, letterSpacing:"2px", textTransform:"uppercase",
             cursor:"pointer", borderRadius:20 }}>

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 export const dynamic = "force-dynamic";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
@@ -23,8 +23,8 @@ const COACH_EMAIL = process.env.NEXT_PUBLIC_COACH_EMAIL || "coach.apxfitness11@g
 const INACTIVE_LIMIT   = 15 * 60 * 1000;
 const WARNING_BEFORE   =  2 * 60 * 1000;
 
-const PLAN_COLORS = { starter:"#7AE07A", forge:"#C9A84C", elite:"#E8C87A" };
-const PLAN_BG     = { starter:"rgba(122,224,122,0.08)", forge:"rgba(201,168,76,0.08)", elite:"rgba(232,200,122,0.08)" };
+const PLAN_COLORS = { starter:"#7AE07A", forge:"#E8B000", elite:"#F5C832" };
+const PLAN_BG     = { starter:"rgba(122,224,122,0.08)", forge:"rgba(232,176,0,0.08)", elite:"rgba(232,200,122,0.08)" };
 
 const TEMPLATES = [
   { label:"Bienvenue 👋",    text:"Bonjour ! Bienvenue chez APXFITNESS. Ton programme est prêt dans ton espace. N'hésite pas si tu as des questions !" },
@@ -60,9 +60,9 @@ function LoginCoach() {
 
   return (
     <div style={{background:"#0A0A0A",color:"#F0EDE8",minHeight:"100vh",fontFamily:"'Syne',sans-serif",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
-      <div style={{fontSize:22,fontWeight:800,letterSpacing:6,marginBottom:"3rem"}}>APXFIT<span style={{color:"#C9A84C"}}>NESS</span></div>
+      <div style={{fontSize:22,fontWeight:800,letterSpacing:6,marginBottom:"3rem"}}>APXFIT<span style={{color:"#E8B000"}}>NESS</span></div>
       <div style={{width:"100%",maxWidth:360,padding:"0 1rem"}}>
-        <div style={{fontSize:10,letterSpacing:"4px",textTransform:"uppercase",color:"#C9A84C",marginBottom:"0.75rem"}}>— Interface coach</div>
+        <div style={{fontSize:10,letterSpacing:"4px",textTransform:"uppercase",color:"#E8B000",marginBottom:"0.75rem"}}>— Interface coach</div>
         <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:38,fontWeight:600,lineHeight:1.1,marginBottom:"2rem"}}>
           Tableau de<br/><em style={{fontStyle:"italic",color:"#555"}}>bord</em>
         </div>
@@ -79,12 +79,12 @@ function LoginCoach() {
               ✓ Email envoyé à {COACH_EMAIL} — clique sur le lien pour créer ton mot de passe.
             </div>
           )}
-          <button type="submit" disabled={loading} style={{background:loading?"#181818":"linear-gradient(135deg,#C9A84C,#A67C2E)",border:"none",color:"#0A0A0A",padding:"14px",fontFamily:"'Syne',sans-serif",fontSize:12,fontWeight:700,letterSpacing:"3px",textTransform:"uppercase",cursor:loading?"not-allowed":"pointer",marginTop:2}}>
+          <button type="submit" disabled={loading} style={{background:loading?"#181818":"linear-gradient(135deg,#E8B000,#C49200)",border:"none",color:"#0A0A0A",padding:"14px",fontFamily:"'Syne',sans-serif",fontSize:12,fontWeight:700,letterSpacing:"3px",textTransform:"uppercase",cursor:loading?"not-allowed":"pointer",marginTop:2}}>
             {loading ? "Connexion..." : "Accéder →"}
           </button>
         </form>
         <button onClick={handleReset} disabled={resetLoading || resetSent}
-          style={{marginTop:16,background:"none",border:"none",color:resetSent?"#555":"#C9A84C",fontSize:11,letterSpacing:"2px",textTransform:"uppercase",cursor:resetSent?"default":"pointer",textDecoration:"underline",width:"100%",textAlign:"center",opacity:resetLoading?0.5:1}}>
+          style={{marginTop:16,background:"none",border:"none",color:resetSent?"#555":"#E8B000",fontSize:11,letterSpacing:"2px",textTransform:"uppercase",cursor:resetSent?"default":"pointer",textDecoration:"underline",width:"100%",textAlign:"center",opacity:resetLoading?0.5:1}}>
           {resetLoading ? "Envoi..." : resetSent ? "Email envoyé ✓" : "Mot de passe oublié ?"}
         </button>
       </div>
@@ -99,12 +99,12 @@ function Toast({ toasts }) {
       {toasts.map(t => (
         <div key={t.id} style={{
           background:t.type==="error"?"rgba(40,10,10,0.96)":t.type==="gold"?"rgba(35,25,5,0.97)":"rgba(12,30,12,0.96)",
-          border:`0.5px solid ${t.type==="error"?"rgba(200,60,60,0.3)":t.type==="gold"?"rgba(201,168,76,0.4)":"rgba(90,186,90,0.3)"}`,
+          border:`0.5px solid ${t.type==="error"?"rgba(200,60,60,0.3)":t.type==="gold"?"rgba(232,176,0,0.4)":"rgba(90,186,90,0.3)"}`,
           borderRadius:24,padding:"9px 18px",display:"flex",alignItems:"center",gap:10,
           fontFamily:"'Syne',sans-serif",fontSize:12,color:"#F0EDE8",
           backdropFilter:"blur(10px)",animation:"toastIn 0.3s ease forwards",
         }}>
-          <span style={{color:t.type==="error"?"#E07070":t.type==="gold"?"#E8C87A":"#7AE07A",fontSize:14,fontWeight:700}}>
+          <span style={{color:t.type==="error"?"#E07070":t.type==="gold"?"#F5C832":"#7AE07A",fontSize:14,fontWeight:700}}>
             {t.type==="error"?"✕":t.type==="gold"?"★":"✓"}
           </span>
           {t.message}
@@ -124,10 +124,10 @@ function Bubble({ msg }) {
     <div style={{display:"flex",flexDirection:"column",alignItems:isCoach?"flex-end":"flex-start",marginBottom:10,animation:"fadeUp 0.2s ease forwards"}}>
       <div style={{
         maxWidth:"78%",padding:"10px 14px",
-        background:isCoach?"rgba(201,168,76,0.1)":"#181818",
-        border:`0.5px solid ${isCoach?"rgba(201,168,76,0.3)":"#242424"}`,
+        background:isCoach?"rgba(232,176,0,0.1)":"#181818",
+        border:`0.5px solid ${isCoach?"rgba(232,176,0,0.3)":"#242424"}`,
         fontSize:13,lineHeight:1.7,
-        color:isCoach?"#E8C87A":"#C8C4BC",
+        color:isCoach?"#F5C832":"#C8C4BC",
         borderRadius:isCoach?"14px 14px 4px 14px":"14px 14px 14px 4px",
       }}>{msg.text}</div>
       <span style={{fontSize:10,color:"#555",marginTop:3,fontFamily:"'Syne',sans-serif"}}>
@@ -530,7 +530,7 @@ export default function CoachPage() {
 
   if (authLoading) return (
     <div style={{background:"#0A0A0A",minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center"}}>
-      <div style={{width:20,height:20,border:"2px solid rgba(201,168,76,0.2)",borderTopColor:"#C9A84C",borderRadius:"50%",animation:"spin 0.7s linear infinite"}}/>
+      <div style={{width:20,height:20,border:"2px solid rgba(232,176,0,0.2)",borderTopColor:"#E8B000",borderRadius:"50%",animation:"spin 0.7s linear infinite"}}/>
     </div>
   );
   if (!user) return <LoginCoach />;
@@ -539,7 +539,7 @@ export default function CoachPage() {
     <div style={{background:"#0A0A0A",color:"#F0EDE8",height:"100vh",fontFamily:"'Syne',sans-serif",display:"flex",flexDirection:"column",overflow:"hidden"}}>
       <style>{`
         *{box-sizing:border-box;margin:0;padding:0}
-        textarea:focus,input:focus{border-color:#C9A84C !important;outline:none}
+        textarea:focus,input:focus{border-color:#E8B000 !important;outline:none}
         @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
         @keyframes spin{to{transform:rotate(360deg)}}
         @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
@@ -547,15 +547,15 @@ export default function CoachPage() {
         @keyframes badgePop{0%{transform:scale(0)}70%{transform:scale(1.3)}100%{transform:scale(1)}}
         .client-row{padding:12px 14px;cursor:pointer;transition:all 0.15s;border-bottom:0.5px solid #0F0F0F;position:relative}
         .client-row:hover{background:#0D0D0D}
-        .client-row.active{background:#111;border-left:2px solid #C9A84C}
+        .client-row.active{background:#111;border-left:2px solid #E8B000}
         .tab-pill{background:transparent;border:none;color:#555;font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;padding:7px 16px;border-radius:20px;transition:all 0.2s;white-space:nowrap;display:flex;align-items:center;gap:6px}
-        .tab-pill.active{background:rgba(201,168,76,0.12);color:#E8C87A;border:0.5px solid rgba(201,168,76,0.3)}
+        .tab-pill.active{background:rgba(232,176,0,0.12);color:#F5C832;border:0.5px solid rgba(232,176,0,0.3)}
         .tab-pill:hover:not(.active){background:rgba(255,255,255,0.04);color:#888}
         .nav-btn{background:transparent;border:0.5px solid #1E1E1E;color:#555;font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:7px 14px;cursor:pointer;transition:all 0.2s;border-radius:20px}
         .nav-btn:hover{border-color:#333;color:#888}
         .template-pill{background:#111;border:0.5px solid #1A1A1A;color:#888;font-family:'Syne',sans-serif;font-size:11px;padding:6px 12px;cursor:pointer;transition:all 0.15s;border-radius:20px}
-        .template-pill:hover{border-color:#C9A84C;color:#E8C87A;background:rgba(201,168,76,0.06)}
-        .send-btn{background:linear-gradient(135deg,#C9A84C,#A67C2E);border:none;color:#0A0A0A;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;flex-shrink:0}
+        .template-pill:hover{border-color:#E8B000;color:#F5C832;background:rgba(232,176,0,0.06)}
+        .send-btn{background:linear-gradient(135deg,#E8B000,#C49200);border:none;color:#0A0A0A;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;flex-shrink:0}
         .send-btn:disabled{background:#181818;cursor:not-allowed}
         .send-btn:not(:disabled):hover{transform:scale(1.08)}
         .stat-card{background:#0D0D0D;border:0.5px solid #1A1A1A;border-radius:12px;padding:14px;transition:all 0.2s;position:relative;overflow:hidden}
@@ -571,18 +571,18 @@ export default function CoachPage() {
       {/* ── Modale inactivité ─────────────────────────────────────────────── */}
       {showInactiveWarning && (
         <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.9)",zIndex:300,display:"flex",alignItems:"center",justifyContent:"center"}}>
-          <div style={{background:"#111",border:"0.5px solid #C9A84C",padding:"2rem",maxWidth:360,width:"90%",textAlign:"center",borderRadius:14}}>
+          <div style={{background:"#111",border:"0.5px solid #E8B000",padding:"2rem",maxWidth:360,width:"90%",textAlign:"center",borderRadius:14}}>
             <div style={{fontSize:32,marginBottom:12}}>⚠️</div>
-            <div style={{fontSize:14,fontWeight:700,color:"#E8C87A",marginBottom:8}}>Inactivité détectée</div>
+            <div style={{fontSize:14,fontWeight:700,color:"#F5C832",marginBottom:8}}>Inactivité détectée</div>
             <p style={{fontFamily:"'Cormorant Garamond',serif",fontSize:15,color:"#888",lineHeight:1.7,marginBottom:"1.5rem"}}>
-              Tu vas être déconnecté dans <strong style={{color:"#E8C87A"}}>2 minutes</strong>.
+              Tu vas être déconnecté dans <strong style={{color:"#F5C832"}}>2 minutes</strong>.
             </p>
             <button onClick={() => {
               setShowInactiveWarning(false);
               clearTimeout(inactiveTimer.current); clearTimeout(warningTimer.current);
               warningTimer.current  = setTimeout(() => setShowInactiveWarning(true), INACTIVE_LIMIT - WARNING_BEFORE);
               inactiveTimer.current = setTimeout(() => signOut(auth), INACTIVE_LIMIT);
-            }} style={{background:"linear-gradient(135deg,#C9A84C,#A67C2E)",border:"none",color:"#0A0A0A",padding:"12px 28px",fontFamily:"'Syne',sans-serif",fontSize:12,fontWeight:700,letterSpacing:"2px",textTransform:"uppercase",cursor:"pointer",borderRadius:20}}>
+            }} style={{background:"linear-gradient(135deg,#E8B000,#C49200)",border:"none",color:"#0A0A0A",padding:"12px 28px",fontFamily:"'Syne',sans-serif",fontSize:12,fontWeight:700,letterSpacing:"2px",textTransform:"uppercase",cursor:"pointer",borderRadius:20}}>
               Je suis toujours là →
             </button>
           </div>
@@ -594,7 +594,7 @@ export default function CoachPage() {
         <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.92)",zIndex:300,display:"flex",alignItems:"center",justifyContent:"center",padding:"1.5rem"}}>
           <div style={{background:"#111",border:"0.5px solid #242424",padding:"1.5rem",width:"100%",maxWidth:640,borderRadius:4,display:"flex",flexDirection:"column",gap:12,maxHeight:"85vh"}}>
             <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}>
-              <div style={{fontSize:9,letterSpacing:"3px",textTransform:"uppercase",color:"#C9A84C"}}>— Programme de {selectedClient?.nom}</div>
+              <div style={{fontSize:9,letterSpacing:"3px",textTransform:"uppercase",color:"#E8B000"}}>— Programme de {selectedClient?.nom}</div>
               <button onClick={()=>setShowEditProg(false)} style={{background:"none",border:"none",color:"#555",cursor:"pointer",fontSize:18,lineHeight:1}}>×</button>
             </div>
             <div style={{fontSize:11,color:"#666"}}>Modifie le programme texte. Les séances structurées (JSON) ne sont pas modifiées ici.</div>
@@ -605,7 +605,7 @@ export default function CoachPage() {
             />
             <div style={{display:"flex",gap:8,justifyContent:"flex-end"}}>
               <button onClick={()=>setShowEditProg(false)} style={{background:"transparent",border:"0.5px solid #242424",color:"#555",fontFamily:"'Syne',sans-serif",fontSize:11,letterSpacing:"2px",textTransform:"uppercase",padding:"10px 20px",cursor:"pointer",borderRadius:2}}>Annuler</button>
-              <button onClick={saveEditedProg} disabled={editProgSaving} style={{background:editProgSaving?"#181818":"linear-gradient(135deg,#C9A84C,#A67C2E)",border:"none",color:"#0A0A0A",fontFamily:"'Syne',sans-serif",fontSize:11,fontWeight:700,letterSpacing:"2px",textTransform:"uppercase",padding:"10px 24px",cursor:editProgSaving?"not-allowed":"pointer",borderRadius:2}}>
+              <button onClick={saveEditedProg} disabled={editProgSaving} style={{background:editProgSaving?"#181818":"linear-gradient(135deg,#E8B000,#C49200)",border:"none",color:"#0A0A0A",fontFamily:"'Syne',sans-serif",fontSize:11,fontWeight:700,letterSpacing:"2px",textTransform:"uppercase",padding:"10px 24px",cursor:editProgSaving?"not-allowed":"pointer",borderRadius:2}}>
                 {editProgSaving?"Sauvegarde...":"Sauvegarder →"}
               </button>
             </div>
@@ -620,7 +620,7 @@ export default function CoachPage() {
             {/* Header */}
             <div style={{padding:"20px 24px",borderBottom:"0.5px solid #1A1A1A",display:"flex",alignItems:"center",justifyContent:"space-between",position:"sticky",top:0,background:"#0D0D0D",zIndex:1}}>
               <div>
-                <div style={{fontSize:9,letterSpacing:"3px",textTransform:"uppercase",color:"#C9A84C"}}>— Programme</div>
+                <div style={{fontSize:9,letterSpacing:"3px",textTransform:"uppercase",color:"#E8B000"}}>— Programme</div>
                 <div style={{fontSize:15,fontWeight:700,color:"#F0EDE8",fontFamily:"'Syne',sans-serif",marginTop:2}}>{selectedClient.nom}</div>
               </div>
               <div style={{display:"flex",alignItems:"center",gap:8}}>
@@ -628,8 +628,8 @@ export default function CoachPage() {
                 <div style={{display:"flex",background:"#111",border:"0.5px solid #242424",borderRadius:6,overflow:"hidden"}}>
                   {[{key:"ia",label:"🤖 IA"},{key:"manuel",label:"✏️ Manuel"}].map(m => (
                     <button key={m.key} onClick={() => { setProgMode(m.key); setProgGenerated(null); }}
-                      style={{background:progMode===m.key?"rgba(201,168,76,0.15)":"none",border:"none",
-                        color:progMode===m.key?"#C9A84C":"#555",padding:"6px 12px",
+                      style={{background:progMode===m.key?"rgba(232,176,0,0.15)":"none",border:"none",
+                        color:progMode===m.key?"#E8B000":"#555",padding:"6px 12px",
                         fontSize:11,fontFamily:"'Syne',sans-serif",cursor:"pointer",
                         borderRight:m.key==="ia"?"0.5px solid #242424":"none"}}>
                       {m.label}
@@ -707,14 +707,14 @@ export default function CoachPage() {
                   </div>
 
                   <button onClick={genererProgramme} disabled={progGenerating} style={{
-                    background:progGenerating?"#181818":"linear-gradient(135deg,#C9A84C,#A67C2E)",
+                    background:progGenerating?"#181818":"linear-gradient(135deg,#E8B000,#C49200)",
                     border:"none",color:"#0A0A0A",fontFamily:"'Syne',sans-serif",fontSize:11,fontWeight:700,
                     letterSpacing:"2px",textTransform:"uppercase",padding:"14px",cursor:progGenerating?"not-allowed":"pointer",
                     borderRadius:6,display:"flex",alignItems:"center",justifyContent:"center",gap:8,
                   }}>
                     {progGenerating ? (
                       <>
-                        <div style={{width:14,height:14,border:"2px solid rgba(255,255,255,0.2)",borderTopColor:"#C9A84C",borderRadius:"50%",animation:"spin 0.8s linear infinite"}}/>
+                        <div style={{width:14,height:14,border:"2px solid rgba(255,255,255,0.2)",borderTopColor:"#E8B000",borderRadius:"50%",animation:"spin 0.8s linear infinite"}}/>
                         Génération en cours (15-30s)...
                       </>
                     ) : "🤖 Générer le programme avec l'IA"}
@@ -737,7 +737,7 @@ export default function CoachPage() {
                   {progGenerated.nutrition && (
                     <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:8}}>
                       {[
-                        {l:"Calories",v:progGenerated.nutrition.calories_jour,u:"kcal",c:"#C9A84C"},
+                        {l:"Calories",v:progGenerated.nutrition.calories_jour,u:"kcal",c:"#E8B000"},
                         {l:"Protéines",v:progGenerated.nutrition.proteines_g,u:"g",c:"#7AE07A"},
                         {l:"Glucides",v:progGenerated.nutrition.glucides_g,u:"g",c:"#5DCAA5"},
                         {l:"Lipides",v:progGenerated.nutrition.lipides_g,u:"g",c:"#E07070"},
@@ -760,7 +760,7 @@ export default function CoachPage() {
                       {s.exercices?.map((e,j) => (
                         <div key={j} style={{display:"flex",justifyContent:"space-between",padding:"5px 0",borderBottom:"0.5px solid #1A1A1A",fontSize:11}}>
                           <span style={{color:"#888"}}>{e.nom}</span>
-                          <span style={{color:"#C9A84C",fontFamily:"'Syne',sans-serif",fontWeight:700}}>{e.series}×{e.reps}</span>
+                          <span style={{color:"#E8B000",fontFamily:"'Syne',sans-serif",fontWeight:700}}>{e.series}×{e.reps}</span>
                         </div>
                       ))}
                     </div>
@@ -768,7 +768,7 @@ export default function CoachPage() {
 
                   {progGenerated.conseils_generaux && (
                     <div style={{background:"#111",borderRadius:8,padding:"12px 16px"}}>
-                      <div style={{fontSize:10,color:"#C9A84C",letterSpacing:"2px",textTransform:"uppercase",marginBottom:6}}>— Conseils</div>
+                      <div style={{fontSize:10,color:"#E8B000",letterSpacing:"2px",textTransform:"uppercase",marginBottom:6}}>— Conseils</div>
                       <div style={{fontSize:12,color:"#666",lineHeight:1.7}}>{progGenerated.conseils_generaux}</div>
                     </div>
                   )}
@@ -802,10 +802,10 @@ export default function CoachPage() {
       <nav style={{display:"flex",alignItems:"center",gap:12,padding:"10px 20px",borderBottom:"0.5px solid #1A1A1A",background:"rgba(10,10,10,0.98)",backdropFilter:"blur(12px)",flexShrink:0,zIndex:50}}>
         {/* Logo */}
         <div style={{fontSize:16,fontWeight:800,letterSpacing:5,cursor:"pointer",marginRight:8}} onClick={() => router.push("/")}>
-          APXFIT<span style={{color:"#C9A84C"}}>NESS</span>
+          APXFIT<span style={{color:"#E8B000"}}>NESS</span>
         </div>
         <div style={{width:1,height:18,background:"#1E1E1E"}}/>
-        <div style={{fontSize:9,letterSpacing:"2px",textTransform:"uppercase",color:"#C9A84C",paddingLeft:8}}>Coach</div>
+        <div style={{fontSize:9,letterSpacing:"2px",textTransform:"uppercase",color:"#E8B000",paddingLeft:8}}>Coach</div>
 
         {/* Onglets */}
         <div style={{display:"flex",gap:4,marginLeft:16}}>
@@ -818,7 +818,7 @@ export default function CoachPage() {
             <button key={tab} className={`tab-pill${activeTab===tab?" active":""}`} onClick={() => setActiveTab(tab)}>
               <span>{icon}</span> {label}
               {tab==="messages" && totalUnread > 0 && (
-                <span style={{background:"#C9A84C",color:"#0A0A0A",fontSize:9,fontWeight:700,width:16,height:16,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",animation:"badgePop 0.3s ease",flexShrink:0}}>
+                <span style={{background:"#E8B000",color:"#0A0A0A",fontSize:9,fontWeight:700,width:16,height:16,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",animation:"badgePop 0.3s ease",flexShrink:0}}>
                   {totalUnread > 9 ? "9+" : totalUnread}
                 </span>
               )}
@@ -840,7 +840,7 @@ export default function CoachPage() {
             ➕ Client
           </button>
           <button className="nav-btn" onClick={exportCSV} disabled={exporting}>
-            {exporting ? <span style={{width:10,height:10,border:"1.5px solid #333",borderTopColor:"#C9A84C",borderRadius:"50%",animation:"spin 0.7s linear infinite",display:"inline-block"}}/> : "⬇️"} CSV
+            {exporting ? <span style={{width:10,height:10,border:"1.5px solid #333",borderTopColor:"#E8B000",borderRadius:"50%",animation:"spin 0.7s linear infinite",display:"inline-block"}}/> : "⬇️"} CSV
           </button>
           <button className="nav-btn" onClick={() => router.push("/recettes")}>
             🍽 Recettes
@@ -877,9 +877,9 @@ export default function CoachPage() {
                     <button key={val} onClick={() => setClientFilter(val)} style={{
                       fontSize:9,letterSpacing:"1.5px",textTransform:"uppercase",fontFamily:"'Syne',sans-serif",
                       padding:"4px 10px",cursor:"pointer",borderRadius:20,transition:"all 0.15s",
-                      background:clientFilter===val?`rgba(${val==="starter"?"122,224,122":val==="forge"?"201,168,76":val==="elite"?"232,200,122":"201,168,76"},0.12)`:"transparent",
-                      border:`0.5px solid ${clientFilter===val?PLAN_COLORS[val]||"#C9A84C":"#1E1E1E"}`,
-                      color:clientFilter===val?PLAN_COLORS[val]||"#C9A84C":"#555",
+                      background:clientFilter===val?`rgba(${val==="starter"?"122,224,122":val==="forge"?"232,176,0":val==="elite"?"232,200,122":"232,176,0"},0.12)`:"transparent",
+                      border:`0.5px solid ${clientFilter===val?PLAN_COLORS[val]||"#E8B000":"#1E1E1E"}`,
+                      color:clientFilter===val?PLAN_COLORS[val]||"#E8B000":"#555",
                     }}>{label}</button>
                   ))}
                   <select value={clientSort} onChange={e => setClientSort(e.target.value)} style={{
@@ -916,7 +916,7 @@ export default function CoachPage() {
                         {/* Avatar */}
                         <div style={{
                           width:34,height:34,borderRadius:"50%",flexShrink:0,
-                          background:`rgba(${planColor==="#7AE07A"?"122,224,122":planColor==="#C9A84C"?"201,168,76":"232,200,122"},0.12)`,
+                          background:`rgba(${planColor==="#7AE07A"?"122,224,122":planColor==="#E8B000"?"232,176,0":"232,200,122"},0.12)`,
                           border:`1.5px solid ${isActive?planColor:"#1E1E1E"}`,
                           display:"flex",alignItems:"center",justifyContent:"center",
                           fontSize:13,fontWeight:700,color:planColor,
@@ -927,11 +927,11 @@ export default function CoachPage() {
                         {/* Infos */}
                         <div style={{flex:1,minWidth:0}}>
                           <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:2}}>
-                            <span style={{fontSize:12,fontWeight:700,color:isActive?"#E8C87A":"#F0EDE8",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>
+                            <span style={{fontSize:12,fontWeight:700,color:isActive?"#F5C832":"#F0EDE8",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>
                               {client.nom || client.email}
                             </span>
                             {unread > 0 && (
-                              <span style={{background:"#C9A84C",color:"#0A0A0A",fontSize:9,fontWeight:700,minWidth:16,height:16,borderRadius:8,display:"flex",alignItems:"center",justifyContent:"center",padding:"0 4px",animation:"badgePop 0.3s ease",flexShrink:0}}>
+                              <span style={{background:"#E8B000",color:"#0A0A0A",fontSize:9,fontWeight:700,minWidth:16,height:16,borderRadius:8,display:"flex",alignItems:"center",justifyContent:"center",padding:"0 4px",animation:"badgePop 0.3s ease",flexShrink:0}}>
                                 {unread}
                               </span>
                             )}
@@ -939,7 +939,7 @@ export default function CoachPage() {
                           <div style={{display:"flex",alignItems:"center",gap:6}}>
                             <span style={{
                               fontSize:8,fontWeight:700,letterSpacing:"1.5px",textTransform:"uppercase",
-                              color:planColor,background:`rgba(${planColor==="#7AE07A"?"122,224,122":planColor==="#C9A84C"?"201,168,76":"232,200,122"},0.1)`,
+                              color:planColor,background:`rgba(${planColor==="#7AE07A"?"122,224,122":planColor==="#E8B000"?"232,176,0":"232,200,122"},0.1)`,
                               padding:"1px 6px",borderRadius:6,
                             }}>{client.plan || "—"}</span>
                             <span style={{fontSize:10,color:isInactive?"#E07070":"#444",display:"flex",alignItems:"center",gap:3}}>
@@ -947,7 +947,7 @@ export default function CoachPage() {
                               {daysInact === null ? "jamais" : daysInact === 0 ? "auj." : `${daysInact}j`}
                             </span>
                             {client.streakDays > 0 && (
-                              <span style={{fontSize:10,color:"#C9A84C"}}>🔥{client.streakDays}</span>
+                              <span style={{fontSize:10,color:"#E8B000"}}>🔥{client.streakDays}</span>
                             )}
                           </div>
                         </div>
@@ -979,9 +979,9 @@ export default function CoachPage() {
                   <div style={{padding:"12px 18px",borderBottom:"0.5px solid #1A1A1A",display:"flex",alignItems:"center",gap:12,flexShrink:0,background:"#0A0A0A"}}>
                     <div style={{
                       width:38,height:38,borderRadius:"50%",
-                      background:"rgba(201,168,76,0.1)",border:"1.5px solid #C9A84C",
+                      background:"rgba(232,176,0,0.1)",border:"1.5px solid #E8B000",
                       display:"flex",alignItems:"center",justifyContent:"center",
-                      fontSize:15,fontWeight:700,color:"#C9A84C",flexShrink:0,
+                      fontSize:15,fontWeight:700,color:"#E8B000",flexShrink:0,
                     }}>
                       {selectedClient.nom?.charAt(0).toUpperCase()}
                     </div>
@@ -1006,7 +1006,7 @@ export default function CoachPage() {
                     <div style={{display:"flex",gap:10,flexShrink:0}}>
                       {clientData?.streakDays > 0 && (
                         <div style={{textAlign:"center"}}>
-                          <div style={{fontSize:14,fontWeight:700,color:"#C9A84C"}}>🔥{clientData.streakDays}</div>
+                          <div style={{fontSize:14,fontWeight:700,color:"#E8B000"}}>🔥{clientData.streakDays}</div>
                           <div style={{fontSize:9,color:"#666",letterSpacing:"1px",textTransform:"uppercase"}}>streak</div>
                         </div>
                       )}
@@ -1030,9 +1030,9 @@ export default function CoachPage() {
                         {clientMessages.map(msg => <Bubble key={msg.id} msg={msg}/>)}
                         {isTyping && (
                           <div style={{display:"flex",justifyContent:"flex-end",marginBottom:8}}>
-                            <div style={{padding:"8px 14px",background:"rgba(201,168,76,0.06)",border:"0.5px solid rgba(201,168,76,0.15)",borderRadius:"14px 14px 4px 14px",display:"flex",gap:4,alignItems:"center"}}>
+                            <div style={{padding:"8px 14px",background:"rgba(232,176,0,0.06)",border:"0.5px solid rgba(232,176,0,0.15)",borderRadius:"14px 14px 4px 14px",display:"flex",gap:4,alignItems:"center"}}>
                               {[0,1,2].map(i => (
-                                <div key={i} style={{width:6,height:6,borderRadius:"50%",background:"#C9A84C",opacity:0.5,animation:`pulse 1s ease ${i*0.2}s infinite`}}/>
+                                <div key={i} style={{width:6,height:6,borderRadius:"50%",background:"#E8B000",opacity:0.5,animation:`pulse 1s ease ${i*0.2}s infinite`}}/>
                               ))}
                             </div>
                           </div>
@@ -1058,7 +1058,7 @@ export default function CoachPage() {
                   {sendError && <div style={{padding:"4px 18px",fontSize:11,color:"#E07070",background:"rgba(224,112,112,0.06)"}}>{sendError}</div>}
                   <div style={{padding:"10px 14px",borderTop:"0.5px solid #1A1A1A",display:"flex",gap:8,alignItems:"flex-end",flexShrink:0,background:"#080808"}}>
                     <button onClick={() => setShowTemplates(p=>!p)}
-                      style={{background:showTemplates?"rgba(201,168,76,0.1)":"transparent",border:`0.5px solid ${showTemplates?"rgba(201,168,76,0.35)":"#1E1E1E"}`,color:showTemplates?"#C9A84C":"#444",width:34,height:34,borderRadius:"50%",cursor:"pointer",fontSize:14,transition:"all 0.2s",flexShrink:0}}>
+                      style={{background:showTemplates?"rgba(232,176,0,0.1)":"transparent",border:`0.5px solid ${showTemplates?"rgba(232,176,0,0.35)":"#1E1E1E"}`,color:showTemplates?"#E8B000":"#444",width:34,height:34,borderRadius:"50%",cursor:"pointer",fontSize:14,transition:"all 0.2s",flexShrink:0}}>
                       ⚡
                     </button>
                     <textarea
@@ -1086,13 +1086,13 @@ export default function CoachPage() {
 
                   {/* Stats client */}
                   <div style={{padding:"14px",borderBottom:"0.5px solid #1A1A1A",flexShrink:0}}>
-                    <div style={{fontSize:9,letterSpacing:"3px",textTransform:"uppercase",color:"#C9A84C",marginBottom:10}}>Données client</div>
+                    <div style={{fontSize:9,letterSpacing:"3px",textTransform:"uppercase",color:"#E8B000",marginBottom:10}}>Données client</div>
                     <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:6}}>
                       {[
-                        {label:"Streak",    val:clientData?.streakDays>0?`${clientData.streakDays}j`:"0j",    color:"#C9A84C"},
+                        {label:"Streak",    val:clientData?.streakDays>0?`${clientData.streakDays}j`:"0j",    color:"#E8B000"},
                         {label:"Calories",  val:clientData?.programmeData?.nutrition?.calories_jour?`${clientData.programmeData.nutrition.calories_jour}`:clientData?.nutrition?.calories_jour?`${clientData.nutrition.calories_jour} kcal`:"—", color:"#7AE07A"},
                         {label:"Séances",   val:clientData?.programmeData?.seances_par_semaine?`${clientData.programmeData.seances_par_semaine}/sem`:"—", color:"#5DCAA5"},
-                        {label:"Durée",     val:clientData?.programmeData?.duree_programme_semaines?`${clientData.programmeData.duree_programme_semaines}W`:"—", color:"#E8C87A"},
+                        {label:"Durée",     val:clientData?.programmeData?.duree_programme_semaines?`${clientData.programmeData.duree_programme_semaines}W`:"—", color:"#F5C832"},
                         {label:"Check-in",  val:clientData?.lastCheckinResponse||"—", color:"#5DCAA5"},
                       ].map((s,i) => (
                         <div key={i} className="stat-card">
@@ -1109,7 +1109,7 @@ export default function CoachPage() {
                     <div style={{padding:"12px 14px",borderBottom:"0.5px solid #1A1A1A",flexShrink:0}}>
                       <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:8}}>
                         <div style={{fontSize:9,letterSpacing:"3px",textTransform:"uppercase",color:"#555"}}>Programme</div>
-                        <button onClick={()=>{ setEditProgText(clientData?.programme||""); setShowEditProg(true); }} style={{fontSize:9,letterSpacing:"1.5px",textTransform:"uppercase",background:"rgba(201,168,76,0.08)",border:"0.5px solid rgba(201,168,76,0.2)",color:"#C9A84C",padding:"3px 10px",cursor:"pointer",borderRadius:10,fontFamily:"'Syne',sans-serif",transition:"all 0.2s"}}>✏️ Modifier</button>
+                        <button onClick={()=>{ setEditProgText(clientData?.programme||""); setShowEditProg(true); }} style={{fontSize:9,letterSpacing:"1.5px",textTransform:"uppercase",background:"rgba(232,176,0,0.08)",border:"0.5px solid rgba(232,176,0,0.2)",color:"#E8B000",padding:"3px 10px",cursor:"pointer",borderRadius:10,fontFamily:"'Syne',sans-serif",transition:"all 0.2s"}}>✏️ Modifier</button>
                       </div>
                       <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:14,color:"#888",lineHeight:1.7}}>
                         {clientData.programmeData.objectif_principal}
@@ -1118,10 +1118,10 @@ export default function CoachPage() {
                         <div style={{display:"flex",gap:6,marginTop:8}}>
                           {[
                             {k:"P",v:`${clientData.programmeData.nutrition.proteines_g}g`,c:"#7AE07A"},
-                            {k:"G",v:`${clientData.programmeData.nutrition.glucides_g}g`,c:"#C9A84C"},
+                            {k:"G",v:`${clientData.programmeData.nutrition.glucides_g}g`,c:"#E8B000"},
                             {k:"L",v:`${clientData.programmeData.nutrition.lipides_g}g`,c:"#5DCAA5"},
                           ].map((m,i) => (
-                            <span key={i} style={{fontSize:10,color:m.c,background:`rgba(${m.c==="#7AE07A"?"122,224,122":m.c==="#C9A84C"?"201,168,76":"93,202,165"},0.08)`,padding:"2px 8px",borderRadius:10,fontWeight:700}}>
+                            <span key={i} style={{fontSize:10,color:m.c,background:`rgba(${m.c==="#7AE07A"?"122,224,122":m.c==="#E8B000"?"232,176,0":"93,202,165"},0.08)`,padding:"2px 8px",borderRadius:10,fontWeight:700}}>
                               {m.k} {m.v}
                             </span>
                           ))}
@@ -1133,8 +1133,8 @@ export default function CoachPage() {
                   {/* Bouton programme IA */}
                   <div style={{padding:"8px 14px 4px"}}>
                     <button onClick={() => setShowProgModal(true)} style={{
-                      width:"100%", background:"linear-gradient(135deg,rgba(201,168,76,0.12),rgba(201,168,76,0.06))",
-                      border:"0.5px solid rgba(201,168,76,0.4)", color:"#C9A84C",
+                      width:"100%", background:"linear-gradient(135deg,rgba(232,176,0,0.12),rgba(232,176,0,0.06))",
+                      border:"0.5px solid rgba(232,176,0,0.4)", color:"#E8B000",
                       fontFamily:"'Syne',sans-serif", fontSize:10, fontWeight:700,
                       letterSpacing:"1.5px", textTransform:"uppercase",
                       padding:"10px 0", cursor:"pointer", transition:"all 0.15s",
@@ -1147,8 +1147,8 @@ export default function CoachPage() {
                   {/* Rapport hebdomadaire */}
                   <div style={{padding:"4px 14px 8px"}}>
                     <button onClick={() => setShowRapport(true)} style={{
-                      width:"100%", background:"rgba(201,168,76,0.06)",
-                      border:"0.5px solid rgba(201,168,76,0.25)", color:"#C9A84C",
+                      width:"100%", background:"rgba(232,176,0,0.06)",
+                      border:"0.5px solid rgba(232,176,0,0.25)", color:"#E8B000",
                       fontFamily:"'Syne',sans-serif", fontSize:10, fontWeight:700,
                       letterSpacing:"1.5px", textTransform:"uppercase",
                       padding:"10px 0", cursor:"pointer", transition:"all 0.15s",
@@ -1194,8 +1194,8 @@ export default function CoachPage() {
                     const tooEasy = last7.filter(r => r.difficulte <= 2).length;
                     if (tooHard >= 3 || tooEasy >= 3) {
                       return (
-                        <div style={{margin:"8px 14px",padding:"10px 12px",background:"rgba(201,168,76,0.06)",border:"0.5px solid rgba(201,168,76,0.3)",borderRadius:10}}>
-                          <div style={{fontSize:9,letterSpacing:"2px",textTransform:"uppercase",color:"#C9A84C",marginBottom:4}}>⚡ Suggestion adaptation</div>
+                        <div style={{margin:"8px 14px",padding:"10px 12px",background:"rgba(232,176,0,0.06)",border:"0.5px solid rgba(232,176,0,0.3)",borderRadius:10}}>
+                          <div style={{fontSize:9,letterSpacing:"2px",textTransform:"uppercase",color:"#E8B000",marginBottom:4}}>⚡ Suggestion adaptation</div>
                           <div style={{fontSize:11,color:"#888",lineHeight:1.6}}>
                             {tooHard >= 3 ? `${tooHard} séances notées "trop difficile" cette semaine — considère d'alléger les charges.` : `${tooEasy} séances notées "trop facile" — augmentation recommandée.`}
                           </div>
@@ -1211,9 +1211,9 @@ export default function CoachPage() {
                       <div style={{fontSize:9,letterSpacing:"3px",textTransform:"uppercase",color:"#555"}}>Notes privées</div>
                       <button onClick={saveNotes} disabled={notesSaving} style={{
                         fontSize:9,letterSpacing:"1.5px",textTransform:"uppercase",
-                        background:notesSaved?"rgba(122,224,122,0.08)":"rgba(201,168,76,0.08)",
-                        border:`0.5px solid ${notesSaved?"rgba(122,224,122,0.3)":"rgba(201,168,76,0.2)"}`,
-                        color:notesSaved?"#7AE07A":"#C9A84C",
+                        background:notesSaved?"rgba(122,224,122,0.08)":"rgba(232,176,0,0.08)",
+                        border:`0.5px solid ${notesSaved?"rgba(122,224,122,0.3)":"rgba(232,176,0,0.2)"}`,
+                        color:notesSaved?"#7AE07A":"#E8B000",
                         padding:"4px 10px",cursor:"pointer",borderRadius:10,transition:"all 0.2s",
                         fontFamily:"'Syne',sans-serif",
                       }}>

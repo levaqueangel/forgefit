@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { trackEvent } from "../GoogleAnalytics";
 import { useState, useEffect, useRef, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -8,10 +8,10 @@ import { LangSelector } from "../LangSelector";
 function Chip({ label, active, onClick }) {
   return (
     <button onClick={onClick} style={{
-      padding: "7px 13px", border: `0.5px solid ${active ? "#C9A84C" : "#242424"}`,
+      padding: "7px 13px", border: `0.5px solid ${active ? "#E8B000" : "#242424"}`,
       borderRadius: 2, fontSize: 12, cursor: "pointer",
-      background: active ? "rgba(201,168,76,0.1)" : "transparent",
-      color: active ? "#E8C87A" : "#888",
+      background: active ? "rgba(232,176,0,0.1)" : "transparent",
+      color: active ? "#F5C832" : "#888",
       fontFamily: "'Syne',sans-serif", fontWeight: active ? 600 : 400,
       letterSpacing: "0.3px", transition: "all 0.15s",
     }}>{label}</button>
@@ -23,14 +23,14 @@ function Label({ children }) {
 }
 
 function Spinner() {
-  return <span style={{ width: 14, height: 14, border: "2px solid #242424", borderTopColor: "#C9A84C", borderRadius: "50%", display: "inline-block", animation: "spin 0.7s linear infinite" }} />;
+  return <span style={{ width: 14, height: 14, border: "2px solid #242424", borderTopColor: "#E8B000", borderRadius: "50%", display: "inline-block", animation: "spin 0.7s linear infinite" }} />;
 }
 
 function GoldBtn({ onClick, disabled, loading, children, ghost }) {
   return (
     <button onClick={onClick} disabled={disabled || loading} style={{
-      padding: "13px 28px", border: `0.5px solid ${ghost ? "#242424" : "#C9A84C"}`,
-      background: ghost ? "transparent" : (disabled || loading) ? "#181818" : "linear-gradient(135deg,#C9A84C,#A67C2E)",
+      padding: "13px 28px", border: `0.5px solid ${ghost ? "#242424" : "#E8B000"}`,
+      background: ghost ? "transparent" : (disabled || loading) ? "#181818" : "linear-gradient(135deg,#E8B000,#C49200)",
       color: ghost ? "#555" : (disabled || loading) ? "#555" : "#0A0A0A",
       fontFamily: "'Syne',sans-serif", fontSize: 12, fontWeight: 700,
       letterSpacing: "3px", textTransform: "uppercase",
@@ -167,17 +167,17 @@ function BilanForm() {
         @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
         .fade-up{animation:fadeUp 0.4s ease forwards}
         input::placeholder,textarea::placeholder{color:#2E2E2E}
-        input:focus,textarea:focus,select:focus{border-color:#C9A84C !important;outline:none}
+        input:focus,textarea:focus,select:focus{border-color:#E8B000 !important;outline:none}
         *{box-sizing:border-box}
       `}</style>
 
       {/* Nav */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px 28px", borderBottom: "0.5px solid #242424" }}>
         <div style={{ fontSize: 20, fontWeight: 800, letterSpacing: 5, cursor: "pointer" }} onClick={() => router.push("/")}>
-          APXFIT<span style={{ color: "#C9A84C" }}>NESS</span>
+          APXFIT<span style={{ color: "#E8B000" }}>NESS</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <div style={{ fontSize: 11, letterSpacing: "2px", textTransform: "uppercase", background: "rgba(201,168,76,0.1)", border: "0.5px solid #C9A84C", color: "#C9A84C", padding: "4px 12px" }}>
+          <div style={{ fontSize: 11, letterSpacing: "2px", textTransform: "uppercase", background: "rgba(232,176,0,0.1)", border: "0.5px solid #E8B000", color: "#E8B000", padding: "4px 12px" }}>
             {tb.badge} {planId.charAt(0).toUpperCase() + planId.slice(1)} — {price}€
           </div>
           <LangSelector lang={lang} setLang={setLang} LANGS={LANGS} />
@@ -187,7 +187,7 @@ function BilanForm() {
 
       {/* Barre progression + Stepper */}
       <div style={{ height: 2, background: "#181818" }}>
-        <div style={{ height: 2, width: `${pct}%`, background: "linear-gradient(90deg,#C9A84C,#E8C87A)", transition: "width 0.4s ease" }} />
+        <div style={{ height: 2, width: `${pct}%`, background: "linear-gradient(90deg,#E8B000,#F5C832)", transition: "width 0.4s ease" }} />
       </div>
       <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:0, padding:"16px 28px 0", maxWidth:640, margin:"0 auto" }}>
         {[
@@ -204,20 +204,20 @@ function BilanForm() {
               <div style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:4 }}>
                 <div style={{
                   width:28, height:28, borderRadius:"50%", display:"flex", alignItems:"center", justifyContent:"center",
-                  background: done ? "#C9A84C" : active ? "transparent" : "transparent",
-                  border: `1.5px solid ${done ? "#C9A84C" : active ? "#C9A84C" : "#242424"}`,
-                  color: done ? "#0A0A0A" : active ? "#C9A84C" : "#444",
+                  background: done ? "#E8B000" : active ? "transparent" : "transparent",
+                  border: `1.5px solid ${done ? "#E8B000" : active ? "#E8B000" : "#242424"}`,
+                  color: done ? "#0A0A0A" : active ? "#E8B000" : "#444",
                   fontSize:11, fontWeight:700, transition:"all 0.3s",
                   flexShrink:0,
                 }}>
                   {done ? "✓" : n}
                 </div>
-                <div style={{ fontSize:9, letterSpacing:"1.5px", textTransform:"uppercase", color: active ? "#C9A84C" : done ? "#666" : "#555", whiteSpace:"nowrap", transition:"color 0.3s" }}>
+                <div style={{ fontSize:9, letterSpacing:"1.5px", textTransform:"uppercase", color: active ? "#E8B000" : done ? "#666" : "#555", whiteSpace:"nowrap", transition:"color 0.3s" }}>
                   {label}
                 </div>
               </div>
               {i < 4 && (
-                <div style={{ flex:1, height:1, background: step > n ? "#C9A84C" : "#1A1A1A", margin:"0 6px", marginBottom:18, transition:"background 0.4s" }} />
+                <div style={{ flex:1, height:1, background: step > n ? "#E8B000" : "#1A1A1A", margin:"0 6px", marginBottom:18, transition:"background 0.4s" }} />
               )}
             </div>
           );
@@ -230,7 +230,7 @@ function BilanForm() {
         {step === 1 && (
           <div className="fade-up">
             <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 34, fontWeight: 600, marginBottom: 6 }}>
-              {tb.identity.title}<em style={{ color: "#C9A84C", fontStyle: "italic" }}>{tb.identity.em}</em>
+              {tb.identity.title}<em style={{ color: "#E8B000", fontStyle: "italic" }}>{tb.identity.em}</em>
             </div>
             <div style={{ fontSize: 12, color: "#555", marginBottom: 24 }}>{tb.identity.sub}</div>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1, marginBottom: 1 }}>
@@ -284,7 +284,7 @@ function BilanForm() {
         {step === 2 && (
           <div className="fade-up">
             <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 34, fontWeight: 600, marginBottom: 6 }}>
-              {tb.objectif.title}<em style={{ color: "#C9A84C", fontStyle: "italic" }}>{tb.objectif.em}</em>
+              {tb.objectif.title}<em style={{ color: "#E8B000", fontStyle: "italic" }}>{tb.objectif.em}</em>
             </div>
             <div style={{ fontSize: 12, color: "#555", marginBottom: 24 }}>{tb.objectif.sub}</div>
             <div style={{ display: "flex", flexDirection: "column", gap: 1 }}>
@@ -305,7 +305,7 @@ function BilanForm() {
         {step === 3 && (
           <div className="fade-up">
             <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 34, fontWeight: 600, marginBottom: 6 }}>
-              {tb.entrainement.title}<em style={{ color: "#C9A84C", fontStyle: "italic" }}>{tb.entrainement.em}</em>
+              {tb.entrainement.title}<em style={{ color: "#E8B000", fontStyle: "italic" }}>{tb.entrainement.em}</em>
             </div>
             <div style={{ fontSize: 12, color: "#555", marginBottom: 24 }}>{tb.entrainement.sub}</div>
             <div style={{ display: "flex", flexDirection: "column", gap: 1 }}>
@@ -336,7 +336,7 @@ function BilanForm() {
         {step === 4 && (
           <div className="fade-up">
             <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 34, fontWeight: 600, marginBottom: 6 }}>
-              {tb.lifestyle.title}<em style={{ color: "#C9A84C", fontStyle: "italic" }}>{tb.lifestyle.em}</em>
+              {tb.lifestyle.title}<em style={{ color: "#E8B000", fontStyle: "italic" }}>{tb.lifestyle.em}</em>
             </div>
             <div style={{ fontSize: 12, color: "#555", marginBottom: 24 }}>{tb.lifestyle.sub}</div>
             <div style={{ display: "flex", flexDirection: "column", gap: 1 }}>
@@ -357,7 +357,7 @@ function BilanForm() {
         {step === 5 && status !== "done" && (
           <div className="fade-up">
             <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 34, fontWeight: 600, marginBottom: 6 }}>
-              {tb.recap.title}<em style={{ color: "#C9A84C", fontStyle: "italic" }}>{tb.recap.em}</em>
+              {tb.recap.title}<em style={{ color: "#E8B000", fontStyle: "italic" }}>{tb.recap.em}</em>
             </div>
             <div style={{ fontSize: 12, color: "#555", marginBottom: 24 }}>{tb.recap.sub}</div>
             {[
@@ -366,7 +366,7 @@ function BilanForm() {
               { title: tb.recap.sections[2], rows: [[tb.labels.regime, sel.regime], [tb.labels.contraintes, form.contraintes || "—"], [tb.labels.motivation, form.motivation || "—"]] },
             ].map(section => (
               <div key={section.title} style={{ background: "#111", border: "0.5px solid #242424", padding: "16px", marginBottom: 1 }}>
-                <div style={{ fontSize: 10, letterSpacing: "3px", textTransform: "uppercase", color: "#C9A84C", marginBottom: 12 }}>{section.title}</div>
+                <div style={{ fontSize: 10, letterSpacing: "3px", textTransform: "uppercase", color: "#E8B000", marginBottom: 12 }}>{section.title}</div>
                 {section.rows.filter(r => r[1]).map(([k, v]) => (
                   <div key={k} style={{ display: "flex", justifyContent: "space-between", padding: "6px 0", borderBottom: "0.5px solid #242424", fontSize: 13 }}>
                     <span style={{ color: "#555" }}>{k}</span>
@@ -375,8 +375,8 @@ function BilanForm() {
                 ))}
               </div>
             ))}
-            <div style={{ background: "#181818", border: "0.5px solid #C9A84C", padding: "14px 16px", marginTop: 1, fontSize: 12, color: "#555" }}>
-              📧 {tb.recap.emailNotice} <strong style={{ color: "#E8C87A" }}>{form.email}</strong>
+            <div style={{ background: "#181818", border: "0.5px solid #E8B000", padding: "14px 16px", marginTop: 1, fontSize: 12, color: "#555" }}>
+              📧 {tb.recap.emailNotice} <strong style={{ color: "#F5C832" }}>{form.email}</strong>
             </div>
             <div style={{ display: "flex", justifyContent: "space-between", marginTop: 20 }}>
               <GoldBtn ghost onClick={() => setStep(4)}>{tb.modify}</GoldBtn>
@@ -391,12 +391,12 @@ function BilanForm() {
         {/* SUCCÈS */}
         {step === 5 && status === "done" && (
           <div className="fade-up" style={{ textAlign: "center", paddingTop: 20 }}>
-            <div style={{ width: 56, height: 56, background: "linear-gradient(135deg,#C9A84C,#A67C2E)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px", fontSize: 24 }}>✓</div>
+            <div style={{ width: 56, height: 56, background: "linear-gradient(135deg,#E8B000,#C49200)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px", fontSize: 24 }}>✓</div>
             <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 36, fontWeight: 600, marginBottom: 8 }}>
-              {tb.success.title}<em style={{ color: "#C9A84C", fontStyle: "italic" }}>{tb.success.em}</em>
+              {tb.success.title}<em style={{ color: "#E8B000", fontStyle: "italic" }}>{tb.success.em}</em>
             </div>
             <div style={{ fontSize: 13, color: "#555", marginBottom: 32, lineHeight: 1.8 }}>
-              {form.prenom}, {tb.success.sentTo}<br /><strong style={{ color: "#E8C87A" }}>{form.email}</strong>
+              {form.prenom}, {tb.success.sentTo}<br /><strong style={{ color: "#F5C832" }}>{form.email}</strong>
             </div>
 
             {/* Statut compte client */}
@@ -406,11 +406,11 @@ function BilanForm() {
               <span style={{ fontSize: 18 }}>{clientCreated === false ? "⚠️" : clientCreated === true ? "✓" : "⏳"}</span>
               {clientCreated === false ? (
                 <span style={{ color: "#E07070" }}>
-                  Erreur création espace client — <a href="mailto:coach.apxfitness11@gmail.com" style={{ color: "#E8C87A" }}>contacte le coach</a>
+                  Erreur création espace client — <a href="mailto:coach.apxfitness11@gmail.com" style={{ color: "#F5C832" }}>contacte le coach</a>
                 </span>
               ) : clientCreated === true ? (
                 <span style={{ color: "#7AE07A" }}>
-                  Tes identifiants ont été envoyés à <strong style={{ color: "#E8C87A" }}>{form.email}</strong>
+                  Tes identifiants ont été envoyés à <strong style={{ color: "#F5C832" }}>{form.email}</strong>
                 </span>
               ) : (
                 <span style={{ color: "#888" }}>Création de ton espace en cours…</span>
@@ -419,12 +419,12 @@ function BilanForm() {
             <div style={{ fontSize: 13, color: "#555", marginBottom: 32, lineHeight: 1.8 }}>
             </div>
             <div style={{ background: "#111", border: "0.5px solid #242424", padding: "20px", textAlign: "left", marginBottom: 24 }}>
-              <div style={{ fontSize: 10, letterSpacing: "3px", textTransform: "uppercase", color: "#C9A84C", marginBottom: 12 }}>{tb.success.preview}</div>
+              <div style={{ fontSize: 10, letterSpacing: "3px", textTransform: "uppercase", color: "#E8B000", marginBottom: 12 }}>{tb.success.preview}</div>
               <div style={{ fontFamily: "monospace", fontSize: 12, lineHeight: 2, color: "#888", whiteSpace: "pre-wrap", maxHeight: 300, overflow: "auto" }}>{prog}</div>
             </div>
             <div style={{ display: "flex", gap: 8, justifyContent: "center", flexWrap: "wrap" }}>
               <button onClick={() => router.push("/client")} style={{
-                background: "linear-gradient(135deg,#C9A84C,#A67C2E)", border: "none", color: "#0A0A0A",
+                background: "linear-gradient(135deg,#E8B000,#C49200)", border: "none", color: "#0A0A0A",
                 fontFamily: "'Syne',sans-serif", fontSize: 12, letterSpacing: "2px", textTransform: "uppercase",
                 padding: "13px 24px", cursor: "pointer", fontWeight: 700 }}>
                 Accéder à mon espace →

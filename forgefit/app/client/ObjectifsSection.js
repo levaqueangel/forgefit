@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect, useCallback } from "react";
 import { auth } from "../firebase";
 
@@ -59,7 +59,7 @@ export function ObjectifsSection({ user, clientData, addToast }) {
   if (objectifs.length === 0) {
     return (
       <div style={{
-        background:"rgba(201,168,76,0.03)", border:"0.5px solid rgba(201,168,76,0.1)",
+        background:"rgba(232,176,0,0.03)", border:"0.5px solid rgba(232,176,0,0.1)",
         borderRadius:12, padding:"14px 16px", textAlign:"center",
       }}>
         <div style={{ fontSize:9, letterSpacing:"3px", textTransform:"uppercase", color:"#555", marginBottom:8 }}>
@@ -78,7 +78,7 @@ export function ObjectifsSection({ user, clientData, addToast }) {
 
   return (
     <div style={{
-      background:"rgba(201,168,76,0.03)", border:"0.5px solid rgba(201,168,76,0.15)",
+      background:"rgba(232,176,0,0.03)", border:"0.5px solid rgba(232,176,0,0.15)",
       borderRadius:12, padding:"14px 16px",
     }}>
       {/* Header */}
@@ -86,14 +86,14 @@ export function ObjectifsSection({ user, clientData, addToast }) {
         <div style={{ fontSize:9, letterSpacing:"3px", textTransform:"uppercase", color:"#555" }}>
           🎯 Objectifs de la semaine
         </div>
-        <div style={{ fontSize:11, color: done === all ? "#7AE07A" : "#C9A84C", fontWeight:700, fontFamily:"'Syne',sans-serif" }}>
+        <div style={{ fontSize:11, color: done === all ? "#7AE07A" : "#E8B000", fontWeight:700, fontFamily:"'Syne',sans-serif" }}>
           {done}/{all} {done === all ? "✓" : ""}
         </div>
       </div>
 
       {/* Barre de progression */}
       <div style={{ height:3, background:"#1A1A1A", borderRadius:4, overflow:"hidden", marginBottom:12 }}>
-        <div style={{ height:"100%", width:`${pct}%`, background: done === all ? "#7AE07A" : "linear-gradient(90deg,#C9A84C,#E8C87A)", borderRadius:4, transition:"width 0.6s ease" }}/>
+        <div style={{ height:"100%", width:`${pct}%`, background: done === all ? "#7AE07A" : "linear-gradient(90deg,#E8B000,#F5C832)", borderRadius:4, transition:"width 0.6s ease" }}/>
       </div>
 
       {/* Liste */}

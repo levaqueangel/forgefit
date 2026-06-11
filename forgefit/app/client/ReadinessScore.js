@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect } from "react";
 
 // ── Calcul local (miroir de l'API) ────────────────────────────────────────────
@@ -12,8 +12,8 @@ function calcScore(sommeil, stress, courbatures) {
 
 function getRecommandation(score) {
   if (score < 40) return { label: "Repos aujourd'hui", detail: "Marche légère ou étirements seulement.", couleur: "#E07070", emoji: "😴" };
-  if (score < 55) return { label: "Séance légère", detail: "Cardio doux ou mobilité — évite l'intensité.", couleur: "#E8C87A", emoji: "🚶" };
-  if (score < 70) return { label: "Séance normale", detail: "Suis ton programme sans te forcer.", couleur: "#C9A84C", emoji: "💪" };
+  if (score < 55) return { label: "Séance légère", detail: "Cardio doux ou mobilité — évite l'intensité.", couleur: "#F5C832", emoji: "🚶" };
+  if (score < 70) return { label: "Séance normale", detail: "Suis ton programme sans te forcer.", couleur: "#E8B000", emoji: "💪" };
   if (score < 85) return { label: "Bonne forme", detail: "Donne tout — tu es prêt(e) !", couleur: "#7AE07A", emoji: "🔥" };
   return { label: "Forme optimale", detail: "Séance intensive — repousse tes limites !", couleur: "#5DCAA5", emoji: "⚡" };
 }
@@ -94,22 +94,22 @@ function Question({ label, options, value, onChange }) {
 
 const SOMMEIL_OPTS = [
   { emoji: "😩", label: "Très mauvais", color: "#E07070" },
-  { emoji: "😴", label: "Mauvais", color: "#E8C87A" },
-  { emoji: "😐", label: "Correct", color: "#C9A84C" },
+  { emoji: "😴", label: "Mauvais", color: "#F5C832" },
+  { emoji: "😐", label: "Correct", color: "#E8B000" },
   { emoji: "😊", label: "Bon", color: "#7AE07A" },
   { emoji: "🌟", label: "Excellent", color: "#5DCAA5" },
 ];
 const STRESS_OPTS = [
   { emoji: "🤯", label: "Très stressé", color: "#E07070" },
-  { emoji: "😤", label: "Stressé", color: "#E8C87A" },
-  { emoji: "😐", label: "Neutre", color: "#C9A84C" },
+  { emoji: "😤", label: "Stressé", color: "#F5C832" },
+  { emoji: "😐", label: "Neutre", color: "#E8B000" },
   { emoji: "😌", label: "Calme", color: "#7AE07A" },
   { emoji: "😎", label: "Zen", color: "#5DCAA5" },
 ];
 const COURB_OPTS = [
   { emoji: "🤕", label: "Très douloureux", color: "#E07070" },
-  { emoji: "😣", label: "Courbaturé", color: "#E8C87A" },
-  { emoji: "😐", label: "Un peu", color: "#C9A84C" },
+  { emoji: "😣", label: "Courbaturé", color: "#F5C832" },
+  { emoji: "😐", label: "Un peu", color: "#E8B000" },
   { emoji: "💪", label: "Légères", color: "#7AE07A" },
   { emoji: "✨", label: "Aucune", color: "#5DCAA5" },
 ];
@@ -219,7 +219,7 @@ export function ReadinessScore({ user, clientData }) {
   if (phase === "loading") {
     return (
       <div style={{ ...card, display: "flex", alignItems: "center", gap: 12 }}>
-        <div style={{ width: 20, height: 20, border: "2px solid #1A1A1A", borderTop: "2px solid #C9A84C", borderRadius: "50%", animation: "spin 0.8s linear infinite" }} />
+        <div style={{ width: 20, height: 20, border: "2px solid #1A1A1A", borderTop: "2px solid #E8B000", borderRadius: "50%", animation: "spin 0.8s linear infinite" }} />
         <div style={{ fontSize: 11, color: "#555" }}>Chargement de ton score du jour…</div>
       </div>
     );
@@ -239,7 +239,7 @@ export function ReadinessScore({ user, clientData }) {
             </div>
           </div>
           <button onClick={() => setPhase("questions")} style={{
-            background: "linear-gradient(135deg,#C9A84C,#A67C2E)",
+            background: "linear-gradient(135deg,#E8B000,#C49200)",
             border: "none", color: "#0A0A0A", fontFamily: "'Syne',sans-serif",
             fontWeight: 800, fontSize: 10, letterSpacing: "1.5px", textTransform: "uppercase",
             padding: "10px 18px", cursor: "pointer", whiteSpace: "nowrap", transition: "opacity 0.2s",
@@ -313,7 +313,7 @@ export function ReadinessScore({ user, clientData }) {
             <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
               {[
                 { label: "Sommeil", val: result.sommeil, max: 5, color: "#7AE07A" },
-                { label: "Stress", val: 6 - result.stress, max: 5, color: "#C9A84C" },
+                { label: "Stress", val: 6 - result.stress, max: 5, color: "#E8B000" },
                 { label: "Muscles", val: 6 - result.courbatures, max: 5, color: "#5DCAA5" },
               ].map((item, i) => (
                 <div key={i} style={{ textAlign: "center" }}>

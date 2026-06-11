@@ -1,4 +1,4 @@
-import { GoogleAnalytics } from "./GoogleAnalytics";
+﻿import { GoogleAnalytics } from "./GoogleAnalytics";
 import ServiceWorkerRegistration from "./ServiceWorkerRegistration";
 import PWAInstallPrompt from "./PWAInstallPrompt";
 import ErrorBoundary from "./ErrorBoundary";
@@ -78,7 +78,7 @@ export default function RootLayout({ children }) {
         />
         {/* PWA */}
         <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#C9A84C" />
+        <meta name="theme-color" content="#E8B000" />
         <meta name="mobile-web-app-capable" content="yes" />
         {/* iOS / Safari — ignore manifest.json, besoin de ses propres tags */}
         <meta name="apple-mobile-web-app-capable" content="yes" />

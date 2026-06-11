@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect, useRef, useCallback } from "react";
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -26,7 +26,7 @@ function CircularTimer({ value, max, size = 180 }) {
       <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="#1A1A1A" strokeWidth={8} />
       <circle
         cx={size / 2} cy={size / 2} r={r} fill="none"
-        stroke="#C9A84C" strokeWidth={8} strokeLinecap="round"
+        stroke="#E8B000" strokeWidth={8} strokeLinecap="round"
         strokeDasharray={`${dash} ${circ}`}
         style={{ transition: "stroke-dasharray 0.9s linear" }}
       />
@@ -44,7 +44,7 @@ function Btn({ onClick, children, variant = "primary", disabled, style: extra })
     ...extra,
   };
   const variants = {
-    primary:   { background: "linear-gradient(135deg,#C9A84C,#A67C2E)", color: "#0A0A0A" },
+    primary:   { background: "linear-gradient(135deg,#E8B000,#C49200)", color: "#0A0A0A" },
     secondary: { background: "#141414", border: "0.5px solid #2A2A2A", color: "#888" },
     danger:    { background: "rgba(224,112,112,0.12)", border: "0.5px solid rgba(224,112,112,0.3)", color: "#E07070" },
     ghost:     { background: "transparent", border: "0.5px solid #2A2A2A", color: "#555" },
@@ -72,7 +72,7 @@ function NumInput({ label, value, onChange, unit, step = 1 }) {
           }}
         />
         <button onClick={() => onChange(Number(value) + step)} style={{
-          background: "transparent", border: "none", color: "#C9A84C", fontSize: 20,
+          background: "transparent", border: "none", color: "#E8B000", fontSize: 20,
           padding: "10px 16px", cursor: "pointer", flexShrink: 0,
         }}>+</button>
       </div>
@@ -311,7 +311,7 @@ export function SeanceGuidee({ seance, user, addToast, onClose, onComplete }) {
 
           {/* Barre de programme */}
           <div style={{ width:"100%", height:3, background:"#1A1A1A", borderRadius:2 }}>
-            <div style={{ height:"100%", width:"0%", background:"linear-gradient(90deg,#C9A84C,#A67C2E)", borderRadius:2 }} />
+            <div style={{ height:"100%", width:"0%", background:"linear-gradient(90deg,#E8B000,#C49200)", borderRadius:2 }} />
           </div>
 
           {/* Liste des exercices */}
@@ -327,7 +327,7 @@ export function SeanceGuidee({ seance, user, addToast, onClose, onComplete }) {
                     </div>
                   </div>
                   {last != null && (
-                    <div style={{ fontSize:10, color:"#C9A84C", background:"rgba(201,168,76,0.08)", padding:"3px 9px", border:"0.5px solid rgba(201,168,76,0.2)", whiteSpace:"nowrap" }}>
+                    <div style={{ fontSize:10, color:"#E8B000", background:"rgba(232,176,0,0.08)", padding:"3px 9px", border:"0.5px solid rgba(232,176,0,0.2)", whiteSpace:"nowrap" }}>
                       Dernier: {last}kg
                     </div>
                   )}
@@ -363,7 +363,7 @@ export function SeanceGuidee({ seance, user, addToast, onClose, onComplete }) {
             style={{ background:"transparent", border:"none", color:"#444", fontSize:13, cursor:"pointer", letterSpacing:"1px" }}>
             ✕ Abandonner
           </button>
-          <div style={{ fontSize:9, letterSpacing:"2px", textTransform:"uppercase", color:"#C9A84C" }}>
+          <div style={{ fontSize:9, letterSpacing:"2px", textTransform:"uppercase", color:"#E8B000" }}>
             Exercice {exoIdx + 1}/{totalExos}
           </div>
           <div style={{ fontSize:11, color:"#555" }}>{progress}%</div>
@@ -371,7 +371,7 @@ export function SeanceGuidee({ seance, user, addToast, onClose, onComplete }) {
 
         {/* Barre de progression globale */}
         <div style={{ height:3, background:"#1A1A1A" }}>
-          <div style={{ height:"100%", width:`${progress}%`, background:"linear-gradient(90deg,#C9A84C,#A67C2E)", transition:"width 0.4s" }} />
+          <div style={{ height:"100%", width:`${progress}%`, background:"linear-gradient(90deg,#E8B000,#C49200)", transition:"width 0.4s" }} />
         </div>
 
         <div style={content}>
@@ -385,7 +385,7 @@ export function SeanceGuidee({ seance, user, addToast, onClose, onComplete }) {
             </div>
             {lastPoids != null && (
               <div style={{ fontSize:11, color:"#555" }}>
-                Dernière fois : <span style={{ color:"#C9A84C" }}>{lastPoids} kg</span>
+                Dernière fois : <span style={{ color:"#E8B000" }}>{lastPoids} kg</span>
               </div>
             )}
           </div>
@@ -395,7 +395,7 @@ export function SeanceGuidee({ seance, user, addToast, onClose, onComplete }) {
             {Array.from({ length: totalSeries }).map((_, i) => (
               <div key={i} style={{
                 height:6, flex:1, borderRadius:3, transition:"background 0.3s",
-                background: i < serieIdx ? "#7AE07A" : i === serieIdx ? "#C9A84C" : "#1A1A1A",
+                background: i < serieIdx ? "#7AE07A" : i === serieIdx ? "#E8B000" : "#1A1A1A",
               }} />
             ))}
           </div>
@@ -498,7 +498,7 @@ export function SeanceGuidee({ seance, user, addToast, onClose, onComplete }) {
           <div style={{ fontSize:11, color:"#555" }}>{progress}%</div>
         </div>
         <div style={{ height:3, background:"#1A1A1A" }}>
-          <div style={{ height:"100%", width:`${progress}%`, background:"linear-gradient(90deg,#C9A84C,#A67C2E)", transition:"width 0.4s" }} />
+          <div style={{ height:"100%", width:`${progress}%`, background:"linear-gradient(90deg,#E8B000,#C49200)", transition:"width 0.4s" }} />
         </div>
 
         <div style={{ ...content, justifyContent:"center" }}>
@@ -530,7 +530,7 @@ export function SeanceGuidee({ seance, user, addToast, onClose, onComplete }) {
                 <span style={{ fontSize:12, color:"#555", fontWeight:400 }}> — Série 1</span>
               </div>
             ) : (
-              <div style={{ fontSize:16, color:"#C9A84C", fontWeight:700 }}>Fin de séance 🎉</div>
+              <div style={{ fontSize:16, color:"#E8B000", fontWeight:700 }}>Fin de séance 🎉</div>
             )}
           </div>
 
@@ -549,9 +549,9 @@ export function SeanceGuidee({ seance, user, addToast, onClose, onComplete }) {
                     });
                   }, 1000);
                 }} style={{
-                  background: restMax === t ? "rgba(201,168,76,0.15)" : "#111",
-                  border: `0.5px solid ${restMax === t ? "rgba(201,168,76,0.4)" : "#1A1A1A"}`,
-                  color: restMax === t ? "#C9A84C" : "#555",
+                  background: restMax === t ? "rgba(232,176,0,0.15)" : "#111",
+                  border: `0.5px solid ${restMax === t ? "rgba(232,176,0,0.4)" : "#1A1A1A"}`,
+                  color: restMax === t ? "#E8B000" : "#555",
                   padding:"6px 12px", fontSize:11, cursor:"pointer", fontFamily:"'Syne',sans-serif",
                   borderRadius: 6,
                 }}>
@@ -594,7 +594,7 @@ export function SeanceGuidee({ seance, user, addToast, onClose, onComplete }) {
       <div style={overlay}>
         <div style={header}>
           <div style={{ width:32 }} />
-          <div style={{ fontSize:9, letterSpacing:"3px", textTransform:"uppercase", color:"#C9A84C" }}>Résumé de séance</div>
+          <div style={{ fontSize:9, letterSpacing:"3px", textTransform:"uppercase", color:"#E8B000" }}>Résumé de séance</div>
           <div style={{ width:32 }} />
         </div>
 
@@ -614,7 +614,7 @@ export function SeanceGuidee({ seance, user, addToast, onClose, onComplete }) {
             ].map((s, i) => (
               <div key={i} style={{ ...card, textAlign:"center", padding:"14px 8px" }}>
                 <div style={{ fontSize:20, marginBottom:6 }}>{s.icon}</div>
-                <div style={{ fontSize:18, fontWeight:800, color:"#C9A84C" }}>{s.val}</div>
+                <div style={{ fontSize:18, fontWeight:800, color:"#E8B000" }}>{s.val}</div>
                 <div style={{ fontSize:9, color:"#555", letterSpacing:"1.5px", textTransform:"uppercase", marginTop:3 }}>{s.label}</div>
               </div>
             ))}
@@ -658,9 +658,9 @@ export function SeanceGuidee({ seance, user, addToast, onClose, onComplete }) {
                   { val:5, label:"🔥 Dur" },
                 ].map(opt => (
                   <button key={opt.val} onClick={() => setRating(r => ({ ...r, difficulte: opt.val }))} style={{
-                    flex:1, padding:"10px 6px", background: rating.difficulte === opt.val ? "rgba(201,168,76,0.12)" : "#0A0A0A",
-                    border: `0.5px solid ${rating.difficulte === opt.val ? "rgba(201,168,76,0.4)" : "#1A1A1A"}`,
-                    color: rating.difficulte === opt.val ? "#C9A84C" : "#555",
+                    flex:1, padding:"10px 6px", background: rating.difficulte === opt.val ? "rgba(232,176,0,0.12)" : "#0A0A0A",
+                    border: `0.5px solid ${rating.difficulte === opt.val ? "rgba(232,176,0,0.4)" : "#1A1A1A"}`,
+                    color: rating.difficulte === opt.val ? "#E8B000" : "#555",
                     fontSize:12, cursor:"pointer", fontFamily:"'Syne',sans-serif", transition:"all 0.15s",
                   }}>
                     {opt.label}
@@ -699,7 +699,7 @@ export function SeanceGuidee({ seance, user, addToast, onClose, onComplete }) {
   if (phase === "saving") {
     return (
       <div style={{ ...overlay, alignItems:"center", justifyContent:"center", gap:20 }}>
-        <div style={{ width:48, height:48, border:"3px solid #1A1A1A", borderTop:"3px solid #C9A84C", borderRadius:"50%", animation:"spin 0.8s linear infinite" }} />
+        <div style={{ width:48, height:48, border:"3px solid #1A1A1A", borderTop:"3px solid #E8B000", borderRadius:"50%", animation:"spin 0.8s linear infinite" }} />
         <div style={{ fontSize:13, color:"#555", letterSpacing:"2px", textTransform:"uppercase" }}>Enregistrement…</div>
       </div>
     );
@@ -712,20 +712,20 @@ export function SeanceGuidee({ seance, user, addToast, onClose, onComplete }) {
       <div style={{ ...overlay, alignItems:"center", justifyContent:"center" }}>
         <div style={{ textAlign:"center", padding:32, display:"flex", flexDirection:"column", alignItems:"center", gap:20 }}>
           <div style={{ fontSize:72 }}>🏆</div>
-          <div style={{ fontSize:24, fontWeight:800, color:"#C9A84C" }}>Bravo !</div>
+          <div style={{ fontSize:24, fontWeight:800, color:"#E8B000" }}>Bravo !</div>
           <div style={{ fontSize:13, color:"#888", lineHeight:1.8 }}>
             Séance enregistrée · {dureeMin} min · {doneCount} séries validées
           </div>
           {saveResult?.newBadges?.length > 0 && (
-            <div style={{ background:"rgba(201,168,76,0.08)", border:"0.5px solid rgba(201,168,76,0.3)", padding:"12px 20px", textAlign:"center" }}>
-              <div style={{ fontSize:9, letterSpacing:"2px", color:"#C9A84C", textTransform:"uppercase", marginBottom:6 }}>Nouveau badge débloqué !</div>
+            <div style={{ background:"rgba(232,176,0,0.08)", border:"0.5px solid rgba(232,176,0,0.3)", padding:"12px 20px", textAlign:"center" }}>
+              <div style={{ fontSize:9, letterSpacing:"2px", color:"#E8B000", textTransform:"uppercase", marginBottom:6 }}>Nouveau badge débloqué !</div>
               {saveResult.newBadges.map((b, i) => (
                 <div key={i} style={{ fontSize:13, color:"#F0EDE8" }}>🏅 {b.label}</div>
               ))}
             </div>
           )}
           <button onClick={onClose} style={{
-            background:"linear-gradient(135deg,#C9A84C,#A67C2E)", border:"none",
+            background:"linear-gradient(135deg,#E8B000,#C49200)", border:"none",
             color:"#0A0A0A", fontFamily:"'Syne',sans-serif", fontWeight:800,
             fontSize:12, letterSpacing:"2px", textTransform:"uppercase",
             padding:"14px 36px", cursor:"pointer", marginTop:8,

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useRouter } from "next/navigation";
 import { useLang } from "../useLang";
 
@@ -18,7 +18,7 @@ export default function OfflinePage() {
       fontFamily:"'Syne',sans-serif", display:"flex", flexDirection:"column",
       alignItems:"center", justifyContent:"center", textAlign:"center", padding:"2rem" }}>
       <div style={{ fontSize:48, marginBottom:"1.5rem" }}>📡</div>
-      <div style={{ fontSize:10, letterSpacing:"4px", textTransform:"uppercase", color:"#C9A84C", marginBottom:"1rem" }}>{t.tag}</div>
+      <div style={{ fontSize:10, letterSpacing:"4px", textTransform:"uppercase", color:"#E8B000", marginBottom:"1rem" }}>{t.tag}</div>
       <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:44, fontWeight:600, lineHeight:1.1, marginBottom:"1.5rem" }}>
         {t.title}<br/><em style={{ fontStyle:"italic", color:"#555" }}>{t.subtitle}</em>
       </div>
@@ -26,7 +26,7 @@ export default function OfflinePage() {
         {t.desc}
       </p>
       <div style={{ display:"flex", gap:12, flexWrap:"wrap", justifyContent:"center" }}>
-        <button onClick={() => router.push("/client")} style={{ background:"linear-gradient(135deg,#C9A84C,#A67C2E)", border:"none", color:"#0A0A0A", padding:"14px 32px", fontFamily:"'Syne',sans-serif", fontSize:12, fontWeight:700, letterSpacing:"2px", textTransform:"uppercase", cursor:"pointer" }}>
+        <button onClick={() => router.push("/client")} style={{ background:"linear-gradient(135deg,#E8B000,#C49200)", border:"none", color:"#0A0A0A", padding:"14px 32px", fontFamily:"'Syne',sans-serif", fontSize:12, fontWeight:700, letterSpacing:"2px", textTransform:"uppercase", cursor:"pointer" }}>
           {t.btn_space}
         </button>
         <button onClick={() => router.refresh()} style={{ background:"transparent", border:"0.5px solid #242424", color:"#555", padding:"14px 24px", fontFamily:"'Syne',sans-serif", fontSize:12, letterSpacing:"2px", textTransform:"uppercase", cursor:"pointer" }}>

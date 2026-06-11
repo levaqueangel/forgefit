@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useLang } from "../useLang";
@@ -51,7 +51,7 @@ function IMCBar({ imc }) {
   const zones = [
     { max: 18.5, label: "Maigreur",      color: "#5DCAA5" },
     { max: 25,   label: "Normal",        color: "#7AE07A" },
-    { max: 30,   label: "Surpoids",      color: "#E8C87A" },
+    { max: 30,   label: "Surpoids",      color: "#F5C832" },
     { max: 40,   label: "Obésité",       color: "#E07070" },
   ];
   const pct = Math.min(Math.max(((imc - 10) / 30) * 100, 0), 100);
@@ -66,7 +66,7 @@ function IMCBar({ imc }) {
         <div style={{ display: "flex", height: "100%", borderRadius: 4, overflow: "hidden" }}>
           <div style={{ flex: 1, background: "#5DCAA5" }} />
           <div style={{ flex: 1.3, background: "#7AE07A" }} />
-          <div style={{ flex: 1, background: "#E8C87A" }} />
+          <div style={{ flex: 1, background: "#F5C832" }} />
           <div style={{ flex: 2, background: "#E07070" }} />
         </div>
         <div style={{ position: "absolute", top: -4, left: `${pct}%`, transform: "translateX(-50%)", width: 16, height: 16, borderRadius: "50%", background: zone.color, border: "2px solid #0A0A0A", transition: "left 0.5s ease" }} />
@@ -171,12 +171,12 @@ export default function CalculateurPage() {
         *{box-sizing:border-box;margin:0;padding:0}
         @keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
         @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-        .gold{background:linear-gradient(90deg,#C9A84C,#E8C87A,#F5D98A,#C9A84C);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 2.5s linear infinite}
+        .gold{background:linear-gradient(90deg,#E8B000,#F5C832,#F5C832,#E8B000);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 2.5s linear infinite}
         .fade-in{animation:fadeUp 0.3s ease forwards}
         .option-btn{background:transparent;border:0.5px solid #242424;color:#555;font-family:'Syne',sans-serif;font-size:11px;letter-spacing:1px;padding:8px 14px;cursor:pointer;transition:all 0.15s;border-radius:2px;text-align:left}
-        .option-btn.active{border-color:#C9A84C;color:#C9A84C;background:rgba(201,168,76,0.05)}
-        input:focus{border-color:#C9A84C !important;outline:none}
-        select:focus{border-color:#C9A84C !important;outline:none}
+        .option-btn.active{border-color:#E8B000;color:#E8B000;background:rgba(232,176,0,0.05)}
+        input:focus{border-color:#E8B000 !important;outline:none}
+        select:focus{border-color:#E8B000 !important;outline:none}
         .macro-bar{height:6px;background:#1A1A1A;border-radius:3px;overflow:hidden;margin-top:5px}
         .macro-fill{height:100%;border-radius:3px;transition:width 0.8s ease}
         @media(max-width:640px){.calc-grid{grid-template-columns:1fr !important}}
@@ -185,7 +185,7 @@ export default function CalculateurPage() {
       {/* Nav */}
       <nav style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px 28px", borderBottom: "0.5px solid #1A1A1A", position: "sticky", top: 0, background: "#0A0A0A", zIndex: 100 }}>
         <div style={{ fontSize: 20, fontWeight: 800, letterSpacing: 5, cursor: "pointer" }} onClick={() => router.push("/")}>
-          APXFIT<span style={{ color: "#C9A84C" }}>NESS</span>
+          APXFIT<span style={{ color: "#E8B000" }}>NESS</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
           <LangSelector lang={lang} setLang={setLang} LANGS={LANGS} />
@@ -197,8 +197,8 @@ export default function CalculateurPage() {
 
       {/* Hero */}
       <div style={{ padding: "3rem 2rem 2rem", textAlign: "center", borderBottom: "0.5px solid #1A1A1A", position: "relative", overflow: "hidden" }}>
-        <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at 50% 100%,rgba(201,168,76,0.04),transparent 70%)", pointerEvents: "none" }} />
-        <div style={{ fontSize: 11, letterSpacing: "4px", textTransform: "uppercase", color: "#C9A84C", marginBottom: "0.75rem" }}>— Outil gratuit</div>
+        <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at 50% 100%,rgba(232,176,0,0.04),transparent 70%)", pointerEvents: "none" }} />
+        <div style={{ fontSize: 11, letterSpacing: "4px", textTransform: "uppercase", color: "#E8B000", marginBottom: "0.75rem" }}>— Outil gratuit</div>
         <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(32px,5vw,52px)", fontWeight: 600, lineHeight: 1.1, marginBottom: "0.75rem" }}>
           Calculateur <em className="gold" style={{ fontStyle: "italic" }}>IMC & Calories</em>
         </h1>
@@ -213,7 +213,7 @@ export default function CalculateurPage() {
 
           {/* Formulaire */}
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-            <div style={{ fontSize: 11, letterSpacing: "3px", textTransform: "uppercase", color: "#C9A84C", marginBottom: 4 }}>— Tes données</div>
+            <div style={{ fontSize: 11, letterSpacing: "3px", textTransform: "uppercase", color: "#E8B000", marginBottom: 4 }}>— Tes données</div>
 
             {/* Données physiques */}
             <div style={S.card}>
@@ -283,7 +283,7 @@ export default function CalculateurPage() {
                 </div>
               )}
               <button onClick={calculate} style={{
-              background: "linear-gradient(135deg,#C9A84C,#A67C2E)", border: "none", color: "#0A0A0A",
+              background: "linear-gradient(135deg,#E8B000,#C49200)", border: "none", color: "#0A0A0A",
               padding: "14px", fontFamily: "'Syne',sans-serif", fontSize: 12, fontWeight: 700,
               letterSpacing: "3px", textTransform: "uppercase", cursor: "pointer", borderRadius: 2,
             }}>
@@ -293,7 +293,7 @@ export default function CalculateurPage() {
 
           {/* Résultats */}
           <div>
-            <div style={{ fontSize: 11, letterSpacing: "3px", textTransform: "uppercase", color: "#C9A84C", marginBottom: "1rem" }}>— Tes résultats</div>
+            <div style={{ fontSize: 11, letterSpacing: "3px", textTransform: "uppercase", color: "#E8B000", marginBottom: "1rem" }}>— Tes résultats</div>
 
             {!result ? (
               <div style={{ ...S.card, textAlign: "center", padding: "3rem 2rem" }}>
@@ -326,11 +326,11 @@ export default function CalculateurPage() {
                       </div>
                     ))}
                   </div>
-                  <div style={{ background: "rgba(201,168,76,0.06)", border: "0.5px solid rgba(201,168,76,0.3)", borderRadius: 2, padding: "12px", textAlign: "center" }}>
-                    <div style={{ fontSize: 10, letterSpacing: "2px", textTransform: "uppercase", color: "#C9A84C", marginBottom: 4 }}>
+                  <div style={{ background: "rgba(232,176,0,0.06)", border: "0.5px solid rgba(232,176,0,0.3)", borderRadius: 2, padding: "12px", textAlign: "center" }}>
+                    <div style={{ fontSize: 10, letterSpacing: "2px", textTransform: "uppercase", color: "#E8B000", marginBottom: 4 }}>
                       Objectif : {result.goalLabel}
                     </div>
-                    <div style={{ fontSize: 28, fontWeight: 700, color: "#C9A84C", lineHeight: 1 }}>
+                    <div style={{ fontSize: 28, fontWeight: 700, color: "#E8B000", lineHeight: 1 }}>
                       {result.calories.toLocaleString()} kcal/jour
                     </div>
                     <div style={{ fontSize: 11, color: "#555", marginTop: 4 }}>{result.pctLabel}</div>
@@ -342,7 +342,7 @@ export default function CalculateurPage() {
                   <div style={{ fontSize: 10, letterSpacing: "3px", textTransform: "uppercase", color: "#555", marginBottom: 12 }}>Répartition macros</div>
                   {[
                     { label: "Protéines", val: result.proteines, unit: "g", kcal: result.proteines * 4, color: "#7AE07A" },
-                    { label: "Glucides",  val: result.glucides,  unit: "g", kcal: result.glucides * 4,  color: "#C9A84C" },
+                    { label: "Glucides",  val: result.glucides,  unit: "g", kcal: result.glucides * 4,  color: "#E8B000" },
                     { label: "Lipides",   val: result.lipides,   unit: "g", kcal: result.lipides * 9,   color: "#5DCAA5" },
                   ].map((m, i) => {
                     const pct = Math.round((m.kcal / result.calories) * 100);
@@ -365,7 +365,7 @@ export default function CalculateurPage() {
                   <div style={{ fontSize: 10, letterSpacing: "3px", textTransform: "uppercase", color: "#555", marginBottom: 12 }}>Composition corporelle estimée</div>
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8 }}>
                     {[
-                      { label: "Masse grasse", val: `${result.mgPct}%`, sub: `≈ ${result.mgKg} kg`, color: "#E8C87A" },
+                      { label: "Masse grasse", val: `${result.mgPct}%`, sub: `≈ ${result.mgKg} kg`, color: "#F5C832" },
                       { label: "Masse maigre", val: `${result.mmKg} kg`, sub: "muscles + os", color: "#7AE07A" },
                       { label: "Poids total",  val: `${parseFloat(result.mgKg) + parseFloat(result.mmKg)} kg`, sub: "poids actuel", color: "#5DCAA5" },
                     ].map((m, i) => (
@@ -396,13 +396,13 @@ export default function CalculateurPage() {
                 </div>
 
                 {/* CTA */}
-                <div style={{ background: "#0D0D0D", border: "0.5px solid rgba(201,168,76,0.3)", borderRadius: 4, padding: "20px", textAlign: "center" }}>
-                  <div style={{ fontSize: 10, letterSpacing: "3px", textTransform: "uppercase", color: "#C9A84C", marginBottom: 8 }}>— Prochaine étape</div>
+                <div style={{ background: "#0D0D0D", border: "0.5px solid rgba(232,176,0,0.3)", borderRadius: 4, padding: "20px", textAlign: "center" }}>
+                  <div style={{ fontSize: 10, letterSpacing: "3px", textTransform: "uppercase", color: "#E8B000", marginBottom: 8 }}>— Prochaine étape</div>
                   <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 15, color: "#888", lineHeight: 1.7, marginBottom: "1rem" }}>
                     Ces chiffres sont un point de départ. Un programme sur mesure tient compte de bien plus — tes habitudes, ton équipement, tes contraintes.
                   </p>
                   <button onClick={() => router.push("/bilan")} style={{
-                    background: "linear-gradient(135deg,#C9A84C,#A67C2E)", border: "none", color: "#0A0A0A",
+                    background: "linear-gradient(135deg,#E8B000,#C49200)", border: "none", color: "#0A0A0A",
                     padding: "12px 24px", fontFamily: "'Syne',sans-serif", fontSize: 11, fontWeight: 700,
                     letterSpacing: "2px", textTransform: "uppercase", cursor: "pointer", borderRadius: 2,
                   }}>
@@ -418,7 +418,7 @@ export default function CalculateurPage() {
 
       {/* Footer */}
       <footer style={{ padding: "1.5rem 2rem", display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: "0.5px solid #1A1A1A", flexWrap: "wrap", gap: 12 }}>
-        <div style={{ fontSize: 16, fontWeight: 800, letterSpacing: 5 }}>APXFIT<span style={{ color: "#C9A84C" }}>NESS</span></div>
+        <div style={{ fontSize: 16, fontWeight: 800, letterSpacing: 5 }}>APXFIT<span style={{ color: "#E8B000" }}>NESS</span></div>
         <div style={{ fontSize: 11, letterSpacing: "2px", color: "#333", textTransform: "uppercase" }}>© 2026 APXFITNESS</div>
         <span onClick={() => router.push("/mentions-legales")} style={{ fontSize: 11, letterSpacing: "2px", color: "#555", textTransform: "uppercase", textDecoration: "underline", cursor: "pointer" }}>
           Mentions légales

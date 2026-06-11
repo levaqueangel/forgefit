@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState } from "react";
 import { ChargesTab } from "./ChargesTab";
 import { ExerciceGif } from "./ExerciceGif";
@@ -46,7 +46,7 @@ function ProgrammeComplet({ data, texte, S }) {
       <div style={{marginBottom:16}}>
         <div style={S.cardTitle}>📋 Programme complet</div>
         {data.message_perso && (
-          <div style={{fontSize:12,color:"rgba(201,168,76,0.7)",fontStyle:"italic",lineHeight:1.6,marginTop:4,borderLeft:"2px solid rgba(201,168,76,0.3)",paddingLeft:10}}>
+          <div style={{fontSize:12,color:"rgba(232,176,0,0.7)",fontStyle:"italic",lineHeight:1.6,marginTop:4,borderLeft:"2px solid rgba(232,176,0,0.3)",paddingLeft:10}}>
             {data.message_perso}
           </div>
         )}
@@ -54,7 +54,7 @@ function ProgrammeComplet({ data, texte, S }) {
 
       {/* Méta : objectif / niveau / durée */}
       <div style={{display:"flex",gap:8,flexWrap:"wrap",marginBottom:16}}>
-        {data.objectif_principal && <span style={tagStyle("#C9A84C")}>🎯 {data.objectif_principal}</span>}
+        {data.objectif_principal && <span style={tagStyle("#E8B000")}>🎯 {data.objectif_principal}</span>}
         {data.niveau && <span style={tagStyle("#5DCAA5")}>📶 {data.niveau}</span>}
         {data.seances_par_semaine && <span style={tagStyle("#7A8ECC")}>📅 {data.seances_par_semaine}×/sem</span>}
         {data.duree_programme_semaines && <span style={tagStyle("#888")}>⏳ {data.duree_programme_semaines} sem.</span>}
@@ -64,7 +64,7 @@ function ProgrammeComplet({ data, texte, S }) {
       {data.nutrition && (
         <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:8,marginBottom:18}}>
           {[
-            { label:"Calories", val:`${data.nutrition.calories_jour} kcal`, color:"#C9A84C" },
+            { label:"Calories", val:`${data.nutrition.calories_jour} kcal`, color:"#E8B000" },
             { label:"Protéines", val:`${data.nutrition.proteines_g}g`, color:"#7AE07A" },
             { label:"Glucides", val:`${data.nutrition.glucides_g}g`, color:"#5DCAA5" },
             { label:"Lipides", val:`${data.nutrition.lipides_g}g`, color:"#CC8844" },
@@ -83,7 +83,7 @@ function ProgrammeComplet({ data, texte, S }) {
           {/* En-tête de phase */}
           <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:8}}>
             <div style={{flex:1,height:"0.5px",background:"#1A1A1A"}} />
-            <span style={{fontSize:9,color:"#C9A84C",letterSpacing:"2px",textTransform:"uppercase",whiteSpace:"nowrap"}}>
+            <span style={{fontSize:9,color:"#E8B000",letterSpacing:"2px",textTransform:"uppercase",whiteSpace:"nowrap"}}>
               Sem. {key} — {phase.label}
             </span>
             <div style={{flex:1,height:"0.5px",background:"#1A1A1A"}} />
@@ -107,7 +107,7 @@ function ProgrammeComplet({ data, texte, S }) {
                         <div style={{fontSize:10,color:"#444",marginTop:1}}>{s.jour} · {s.duree_min} min · {s.exercices?.length||0} exercices</div>
                       </div>
                     </div>
-                    <span style={{fontSize:12,color:"#C9A84C",flexShrink:0,transition:"transform 0.2s",transform:open?"rotate(180deg)":"none"}}>▾</span>
+                    <span style={{fontSize:12,color:"#E8B000",flexShrink:0,transition:"transform 0.2s",transform:open?"rotate(180deg)":"none"}}>▾</span>
                   </button>
 
                   {/* Corps séance — accordéon */}
@@ -115,8 +115,8 @@ function ProgrammeComplet({ data, texte, S }) {
                     <div style={{borderTop:"0.5px solid #111",padding:"10px 14px",display:"flex",flexDirection:"column",gap:0}}>
                       {(s.exercices||[]).map((ex, ei) => (
                         <div key={ei} style={{display:"flex",alignItems:"flex-start",gap:10,padding:"8px 0",borderBottom:ei<s.exercices.length-1?"0.5px solid #0F0F0F":"none"}}>
-                          <div style={{width:20,height:20,borderRadius:"50%",background:"rgba(201,168,76,0.1)",border:"0.5px solid rgba(201,168,76,0.25)",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center"}}>
-                            <span style={{fontSize:9,color:"#C9A84C",fontWeight:700,fontFamily:"'Syne',sans-serif"}}>{ei+1}</span>
+                          <div style={{width:20,height:20,borderRadius:"50%",background:"rgba(232,176,0,0.1)",border:"0.5px solid rgba(232,176,0,0.25)",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center"}}>
+                            <span style={{fontSize:9,color:"#E8B000",fontWeight:700,fontFamily:"'Syne',sans-serif"}}>{ei+1}</span>
                           </div>
                           <div style={{flex:1,minWidth:0}}>
                             <div style={{display:"flex",alignItems:"center",gap:8}}>
@@ -129,7 +129,7 @@ function ProgrammeComplet({ data, texte, S }) {
                               {ex.charge && ex.charge !== "—" && <span style={pillStyle}>⚖ {ex.charge}</span>}
                               {ex.repos_sec && <span style={pillStyle}>⏱ {ex.repos_sec}s repos</span>}
                             </div>
-                            {ex.conseil && <div style={{fontSize:10,color:"rgba(201,168,76,0.55)",marginTop:4,fontStyle:"italic"}}>⚡ {ex.conseil}</div>}
+                            {ex.conseil && <div style={{fontSize:10,color:"rgba(232,176,0,0.55)",marginTop:4,fontStyle:"italic"}}>⚡ {ex.conseil}</div>}
                           </div>
                         </div>
                       ))}
@@ -194,21 +194,21 @@ export function ProgrammeTab({
                 {/* Progress pill */}
                 <div style={{display:"flex",alignItems:"center",gap:8,marginTop:-6}}>
                   <div style={{height:4,flex:1,maxWidth:120,background:"#1A1A1A",borderRadius:4,overflow:"hidden"}}>
-                    <div style={{height:"100%",width:`${exercices.length?Math.round(doneExos/exercices.length*100):0}%`,background:"#C9A84C",borderRadius:4,transition:"width 0.6s ease"}}/>
+                    <div style={{height:"100%",width:`${exercices.length?Math.round(doneExos/exercices.length*100):0}%`,background:"#E8B000",borderRadius:4,transition:"width 0.6s ease"}}/>
                   </div>
-                  <span style={{fontSize:11,color:"#C9A84C",fontWeight:700,fontFamily:"'Syne',sans-serif"}}>{doneExos}/{exercices.length}</span>
+                  <span style={{fontSize:11,color:"#E8B000",fontWeight:700,fontFamily:"'Syne',sans-serif"}}>{doneExos}/{exercices.length}</span>
                 </div>
               </div>
               <div style={{display:"flex",gap:8,alignItems:"center"}}>
                 {exercices.length > 0 && seanceForGuidee && (
                   <button onClick={()=>{ vibrate([30]); setShowGuidee(true); }}
-                    style={{background:"linear-gradient(135deg,#C9A84C,#A67C2E)",border:"none",color:"#0A0A0A",fontFamily:"'Syne',sans-serif",fontSize:10,fontWeight:800,letterSpacing:"1.5px",textTransform:"uppercase",padding:"7px 14px",cursor:"pointer",borderRadius:20,transition:"all 0.15s"}}>
+                    style={{background:"linear-gradient(135deg,#E8B000,#C49200)",border:"none",color:"#0A0A0A",fontFamily:"'Syne',sans-serif",fontSize:10,fontWeight:800,letterSpacing:"1.5px",textTransform:"uppercase",padding:"7px 14px",cursor:"pointer",borderRadius:20,transition:"all 0.15s"}}>
                     ▶ Démarrer
                   </button>
                 )}
                 {exercices.length > 0 && (
                   <button onClick={()=>{ setFocusIdx(0); setFocusMode(true); vibrate([40]); }}
-                    style={{background:"rgba(201,168,76,0.12)",border:"0.5px solid rgba(201,168,76,0.35)",color:"#C9A84C",fontFamily:"'Syne',sans-serif",fontSize:10,fontWeight:700,letterSpacing:"1.5px",textTransform:"uppercase",padding:"7px 14px",cursor:"pointer",borderRadius:20,transition:"all 0.15s"}}>
+                    style={{background:"rgba(232,176,0,0.12)",border:"0.5px solid rgba(232,176,0,0.35)",color:"#E8B000",fontFamily:"'Syne',sans-serif",fontSize:10,fontWeight:700,letterSpacing:"1.5px",textTransform:"uppercase",padding:"7px 14px",cursor:"pointer",borderRadius:20,transition:"all 0.15s"}}>
                     ⚡ Focus
                   </button>
                 )}
@@ -217,7 +217,7 @@ export function ProgrammeTab({
                     try {
                       const win = window.open("","_blank");
                       if (!win) { navigator.clipboard?.writeText(clientData.programme||"").then(()=>addToast?.("Programme copié ✓","success")).catch(()=>{}); return; }
-                      win.document.write(`<!DOCTYPE html><html><head><title>Programme APXFITNESS</title><style>body{font-family:Arial,sans-serif;padding:40px;max-width:800px;margin:0 auto;color:#222}h1{color:#C9A84C;border-bottom:2px solid #C9A84C;padding-bottom:12px}pre{white-space:pre-wrap;font-family:Arial,sans-serif;line-height:1.8;font-size:14px;background:#f9f9f9;padding:20px;border-left:3px solid #C9A84C}.footer{margin-top:40px;padding-top:16px;border-top:1px solid #ddd;font-size:12px;color:#888;text-align:center}@media print{button{display:none}}</style></head><body><h1>Mon Programme APXFITNESS</h1><p>Plan ${clientData?.plan||""}</p><pre>${(clientData.programme||"").replace(/</g,"&lt;").replace(/>/g,"&gt;")}</pre><div class="footer">APXFITNESS — ${(process.env.NEXT_PUBLIC_SITE_URL || "https://apxfitness-brown.vercel.app").replace("https://","")}</div><script>window.onload=()=>window.print();<\/script></body></html>`);
+                      win.document.write(`<!DOCTYPE html><html><head><title>Programme APXFITNESS</title><style>body{font-family:Arial,sans-serif;padding:40px;max-width:800px;margin:0 auto;color:#222}h1{color:#E8B000;border-bottom:2px solid #E8B000;padding-bottom:12px}pre{white-space:pre-wrap;font-family:Arial,sans-serif;line-height:1.8;font-size:14px;background:#f9f9f9;padding:20px;border-left:3px solid #E8B000}.footer{margin-top:40px;padding-top:16px;border-top:1px solid #ddd;font-size:12px;color:#888;text-align:center}@media print{button{display:none}}</style></head><body><h1>Mon Programme APXFITNESS</h1><p>Plan ${clientData?.plan||""}</p><pre>${(clientData.programme||"").replace(/</g,"&lt;").replace(/>/g,"&gt;")}</pre><div class="footer">APXFITNESS — ${(process.env.NEXT_PUBLIC_SITE_URL || "https://apxfitness-brown.vercel.app").replace("https://","")}</div><script>window.onload=()=>window.print();<\/script></body></html>`);
                       win.document.close();
                     } catch(e) { navigator.clipboard?.writeText(clientData.programme||""); }
                   }} style={{background:"transparent",border:"0.5px solid #222",color:"#444",fontFamily:"'Syne',sans-serif",fontSize:10,letterSpacing:"1.5px",textTransform:"uppercase",padding:"7px 12px",cursor:"pointer",borderRadius:20}}>
@@ -259,7 +259,7 @@ export function ProgrammeTab({
                     <div style={{flex:1,minWidth:0}}>
                       <div style={{fontSize:13,fontWeight:700,color:exoDone[i]?"#3A3A3A":"#F0EDE8",fontFamily:"'Syne',sans-serif",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap",textDecoration:exoDone[i]?"line-through":"none"}}>{e.nom}</div>
                       <div style={{fontSize:11,color:"#444",fontFamily:"'Syne',sans-serif",marginTop:2}}>{e.det}</div>
-                      {e.conseil&&!exoDone[i]&&<div style={{fontSize:11,color:"rgba(201,168,76,0.6)",marginTop:3}}>⚡ {e.conseil}</div>}
+                      {e.conseil&&!exoDone[i]&&<div style={{fontSize:11,color:"rgba(232,176,0,0.6)",marginTop:3}}>⚡ {e.conseil}</div>}
                     </div>
                     <div style={{display:"flex",flexDirection:"column",alignItems:"flex-end",gap:4,flexShrink:0}} onClick={ev=>ev.stopPropagation()}>
                       {/* Bouton GIF démo */}
@@ -282,7 +282,7 @@ export function ProgrammeTab({
                 {records.map((r,i)=>(
                   <div key={i} className="record-card">
                     <div style={{fontSize:10,color:"#444",marginBottom:6,fontFamily:"'Syne',sans-serif"}}>{r.nom}</div>
-                    <div style={{fontSize:18,fontWeight:700,color:"#C9A84C",fontFamily:"'Syne',sans-serif"}}>{r.val}</div>
+                    <div style={{fontSize:18,fontWeight:700,color:"#E8B000",fontFamily:"'Syne',sans-serif"}}>{r.val}</div>
                   </div>
                 ))}
               </div>

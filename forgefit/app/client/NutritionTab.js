@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 /* ── Donut SVG — répartition calorique des macros ───────────────────────────── */
 function MacroDonut({ nutrition }) {
@@ -13,7 +13,7 @@ function MacroDonut({ nutrition }) {
 
   const segs = [
     { label: "Protéines", kcal: P, g: nutrition.proteines_g, color: "#7AE07A" },
-    { label: "Glucides",  kcal: C, g: nutrition.glucides_g,  color: "#C9A84C" },
+    { label: "Glucides",  kcal: C, g: nutrition.glucides_g,  color: "#E8B000" },
     { label: "Lipides",   kcal: L, g: nutrition.lipides_g,   color: "#5DCAA5" },
   ];
 
@@ -51,7 +51,7 @@ function MacroDonut({ nutrition }) {
         {/* Centre : calories — on re-rotate dans un groupe */}
         <g transform={`rotate(90, ${CX}, ${CY})`}>
           <text x={CX} y={CY - 5} textAnchor="middle" fontSize="16" fontWeight="700"
-            fill="#C9A84C" fontFamily="Syne, sans-serif">
+            fill="#E8B000" fontFamily="Syne, sans-serif">
             {nutrition.calories_jour}
           </text>
           <text x={CX} y={CY + 11} textAnchor="middle" fontSize="9"
@@ -121,10 +121,10 @@ export function NutritionTab({
       {/* Métriques macros — style cards colorées */}
       <div className="metrics-grid" style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:10}}>
         {[
-          {label:"Calories",  val:nutrition?`${nutrition.calories_jour}`:"—",  sub:"kcal/jour", color:"#C9A84C"},
+          {label:"Calories",  val:nutrition?`${nutrition.calories_jour}`:"—",  sub:"kcal/jour", color:"#E8B000"},
           {label:"Protéines", val:nutrition?`${nutrition.proteines_g}g`:"—",   sub:"objectif",  color:"#7AE07A"},
           {label:"Glucides",  val:nutrition?`${nutrition.glucides_g}g`:"—",    sub:"objectif",  color:"#5DCAA5"},
-          {label:"Lipides",   val:nutrition?`${nutrition.lipides_g}g`:"—",     sub:"objectif",  color:"#E8C87A"},
+          {label:"Lipides",   val:nutrition?`${nutrition.lipides_g}g`:"—",     sub:"objectif",  color:"#F5C832"},
         ].map((m,i)=>(
           <div key={i} className="metric-card" style={{position:"relative",overflow:"hidden"}}>
             <div style={{position:"absolute",top:0,left:16,right:16,height:2,background:m.color,borderRadius:"0 0 2px 2px",opacity:0.6}}/>
@@ -144,9 +144,9 @@ export function NutritionTab({
           <div style={{ fontSize:9, letterSpacing:"3px", textTransform:"uppercase", color:"#555", marginBottom:12 }}>
             Consommé aujourd'hui
           </div>
-          <MacroProgressBar label="Calories"  consumed={totaux.calories}  target={nutrition.calories_jour} color="#C9A84C" />
+          <MacroProgressBar label="Calories"  consumed={totaux.calories}  target={nutrition.calories_jour} color="#E8B000" />
           <MacroProgressBar label="Protéines" consumed={totaux.proteines} target={nutrition.proteines_g}   color="#7AE07A" />
-          <MacroProgressBar label="Glucides"  consumed={totaux.glucides}  target={nutrition.glucides_g}    color="#E8C87A" />
+          <MacroProgressBar label="Glucides"  consumed={totaux.glucides}  target={nutrition.glucides_g}    color="#F5C832" />
           <MacroProgressBar label="Lipides"   consumed={totaux.lipides}   target={nutrition.lipides_g}     color="#88A0E0" />
         </div>
       )}
@@ -170,7 +170,7 @@ export function NutritionTab({
           <div style={S.cardTitle}>💡 Conseils</div>
           {nutrition?.conseils?.length > 0 ? nutrition.conseils.map((c,i)=>(
             <div key={i} style={{display:"flex",gap:10,padding:"8px 0",borderBottom:i<nutrition.conseils.length-1?"0.5px solid #161616":"none"}}>
-              <span style={{color:"#C9A84C",flexShrink:0,fontSize:14,lineHeight:1.5}}>→</span>
+              <span style={{color:"#E8B000",flexShrink:0,fontSize:14,lineHeight:1.5}}>→</span>
               <span style={{fontSize:12,color:"#666",lineHeight:1.6,fontFamily:"'Syne',sans-serif"}}>{c}</span>
             </div>
           )) : <div style={{padding:"1rem",textAlign:"center",color:"#555",fontSize:13,fontStyle:"italic",fontFamily:"'Cormorant Garamond',serif"}}>Conseils disponibles après ton bilan</div>}
@@ -185,9 +185,9 @@ export function NutritionTab({
             <button onClick={generateMealPlan} disabled={mealLoading}
               className="btn-primary"
               style={{
-                background:mealLoading?"rgba(255,255,255,0.04)":"rgba(201,168,76,0.12)",
-                border:`0.5px solid ${mealLoading?"#1E1E1E":"rgba(201,168,76,0.35)"}`,
-                color:mealLoading?"#333":"#C9A84C",
+                background:mealLoading?"rgba(255,255,255,0.04)":"rgba(232,176,0,0.12)",
+                border:`0.5px solid ${mealLoading?"#1E1E1E":"rgba(232,176,0,0.35)"}`,
+                color:mealLoading?"#333":"#E8B000",
                 fontFamily:"'Syne',sans-serif",fontSize:11,fontWeight:700,letterSpacing:"1.5px",
                 textTransform:"uppercase",padding:"8px 18px",
                 cursor:mealLoading?"not-allowed":"pointer",borderRadius:20,
@@ -213,20 +213,20 @@ export function NutritionTab({
                     <span style={{fontSize:12,fontWeight:700,color:"#F0EDE8",fontFamily:"'Syne',sans-serif"}}>{r.nom}</span>
                     <span style={{fontSize:10,color:"#444",background:"rgba(255,255,255,0.04)",padding:"2px 8px",borderRadius:10,fontFamily:"'Syne',sans-serif"}}>{r.heure}</span>
                   </div>
-                  <span style={{fontSize:12,fontWeight:700,color:"#C9A84C",fontFamily:"'Syne',sans-serif"}}>{r.calories} kcal</span>
+                  <span style={{fontSize:12,fontWeight:700,color:"#E8B000",fontFamily:"'Syne',sans-serif"}}>{r.calories} kcal</span>
                 </div>
                 <div style={{fontSize:12,color:"#555",lineHeight:1.7,marginBottom:8,fontFamily:"'Syne',sans-serif"}}>
                   {r.aliments?.join(" · ")}
                 </div>
                 <div style={{display:"flex",gap:10,fontSize:11,color:"#444"}}>
                   <span style={{background:"rgba(122,224,122,0.08)",padding:"2px 8px",borderRadius:10,color:"#7AE07A",fontFamily:"'Syne',sans-serif"}}>P {r.proteines}g</span>
-                  <span style={{background:"rgba(201,168,76,0.08)",padding:"2px 8px",borderRadius:10,color:"#C9A84C",fontFamily:"'Syne',sans-serif"}}>G {r.glucides}g</span>
+                  <span style={{background:"rgba(232,176,0,0.08)",padding:"2px 8px",borderRadius:10,color:"#E8B000",fontFamily:"'Syne',sans-serif"}}>G {r.glucides}g</span>
                   <span style={{background:"rgba(93,202,165,0.08)",padding:"2px 8px",borderRadius:10,color:"#5DCAA5",fontFamily:"'Syne',sans-serif"}}>L {r.lipides}g</span>
                 </div>
               </div>
             ))}
             {mealPlan.conseil_du_jour&&(
-              <div style={{background:"rgba(201,168,76,0.05)",border:"0.5px solid rgba(201,168,76,0.15)",borderRadius:12,padding:"10px 14px",fontSize:13,color:"#666",lineHeight:1.6,fontFamily:"'Syne',sans-serif"}}>
+              <div style={{background:"rgba(232,176,0,0.05)",border:"0.5px solid rgba(232,176,0,0.15)",borderRadius:12,padding:"10px 14px",fontSize:13,color:"#666",lineHeight:1.6,fontFamily:"'Syne',sans-serif"}}>
                 💡 {mealPlan.conseil_du_jour}
               </div>
             )}

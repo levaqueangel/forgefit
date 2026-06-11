@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect, useRef } from "react";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
@@ -59,9 +59,9 @@ function StepIndicator({ step, total }) {
         <div key={i} style={{
           width: i === step ? 28 : 8, height: 8,
           borderRadius: 4,
-          background: i < step ? "#C9A84C" : i === step ? "linear-gradient(90deg,#C9A84C,#E8C87A)" : "#1A1A1A",
+          background: i < step ? "#E8B000" : i === step ? "linear-gradient(90deg,#E8B000,#F5C832)" : "#1A1A1A",
           transition: "all 0.4s cubic-bezier(0.34,1.56,0.64,1)",
-          boxShadow: i === step ? "0 0 12px rgba(201,168,76,0.5)" : "none",
+          boxShadow: i === step ? "0 0 12px rgba(232,176,0,0.5)" : "none",
         }} />
       ))}
     </div>
@@ -71,24 +71,24 @@ function StepIndicator({ step, total }) {
 function ObjectifCard({ obj, selected, onClick }) {
   return (
     <button onClick={onClick} style={{
-      background: selected ? "rgba(201,168,76,0.10)" : "#0D0D0D",
-      border: `1px solid ${selected ? "#C9A84C" : "#1A1A1A"}`,
+      background: selected ? "rgba(232,176,0,0.10)" : "#0D0D0D",
+      border: `1px solid ${selected ? "#E8B000" : "#1A1A1A"}`,
       borderRadius: 14, padding: "14px 16px",
       display: "flex", alignItems: "center", gap: 14,
       cursor: "pointer", width: "100%", textAlign: "left",
       transition: "all 0.2s cubic-bezier(0.34,1.56,0.64,1)",
       transform: selected ? "scale(1.02)" : "scale(1)",
-      boxShadow: selected ? "0 4px 20px rgba(201,168,76,0.15)" : "none",
+      boxShadow: selected ? "0 4px 20px rgba(232,176,0,0.15)" : "none",
     }}>
       <span style={{
         fontSize: 26, width: 44, height: 44, borderRadius: 12,
-        background: selected ? "rgba(201,168,76,0.15)" : "#111",
+        background: selected ? "rgba(232,176,0,0.15)" : "#111",
         display: "flex", alignItems: "center", justifyContent: "center",
         flexShrink: 0, transition: "all 0.2s",
       }}>{obj.icon}</span>
       <div>
         <div style={{
-          fontSize: 13, fontWeight: 700, color: selected ? "#C9A84C" : "#F0EDE8",
+          fontSize: 13, fontWeight: 700, color: selected ? "#E8B000" : "#F0EDE8",
           fontFamily: "'Syne',sans-serif", letterSpacing: "0.5px", marginBottom: 2,
           transition: "color 0.2s",
         }}>{obj.label}</div>
@@ -97,8 +97,8 @@ function ObjectifCard({ obj, selected, onClick }) {
       <div style={{
         marginLeft: "auto", flexShrink: 0,
         width: 18, height: 18, borderRadius: "50%",
-        border: `1.5px solid ${selected ? "#C9A84C" : "#242424"}`,
-        background: selected ? "#C9A84C" : "transparent",
+        border: `1.5px solid ${selected ? "#E8B000" : "#242424"}`,
+        background: selected ? "#E8B000" : "transparent",
         display: "flex", alignItems: "center", justifyContent: "center",
         transition: "all 0.2s",
       }}>
@@ -111,8 +111,8 @@ function ObjectifCard({ obj, selected, onClick }) {
 function NiveauCard({ niv, selected, onClick }) {
   return (
     <button onClick={onClick} style={{
-      background: selected ? "rgba(201,168,76,0.10)" : "#0D0D0D",
-      border: `1px solid ${selected ? "#C9A84C" : "#1A1A1A"}`,
+      background: selected ? "rgba(232,176,0,0.10)" : "#0D0D0D",
+      border: `1px solid ${selected ? "#E8B000" : "#1A1A1A"}`,
       borderRadius: 12, padding: "12px 16px",
       display: "flex", justifyContent: "space-between", alignItems: "center",
       cursor: "pointer", width: "100%", textAlign: "left",
@@ -120,15 +120,15 @@ function NiveauCard({ niv, selected, onClick }) {
       transform: selected ? "scale(1.02)" : "scale(1)",
     }}>
       <div>
-        <div style={{ fontSize: 12, fontWeight: 700, color: selected ? "#C9A84C" : "#F0EDE8", fontFamily: "'Syne',sans-serif" }}>
+        <div style={{ fontSize: 12, fontWeight: 700, color: selected ? "#E8B000" : "#F0EDE8", fontFamily: "'Syne',sans-serif" }}>
           {niv.label}
         </div>
         <div style={{ fontSize: 10, color: "#555", marginTop: 2 }}>{niv.sub}</div>
       </div>
       <div style={{
         width: 16, height: 16, borderRadius: "50%",
-        border: `1.5px solid ${selected ? "#C9A84C" : "#242424"}`,
-        background: selected ? "#C9A84C" : "transparent",
+        border: `1.5px solid ${selected ? "#E8B000" : "#242424"}`,
+        background: selected ? "#E8B000" : "transparent",
         display: "flex", alignItems: "center", justifyContent: "center",
         transition: "all 0.2s", flexShrink: 0,
       }}>
@@ -174,7 +174,7 @@ function NumberInput({ label, unit, value, onChange, min, max, step = 1 }) {
 
 function Confetti() {
   const pieces = Array.from({ length: 18 }, (_, i) => i);
-  const colors = ["#C9A84C","#E8C87A","#F0EDE8","#7AE07A","#88A0E0"];
+  const colors = ["#E8B000","#F5C832","#F0EDE8","#7AE07A","#88A0E0"];
   return (
     <div style={{ position:"absolute", inset:0, pointerEvents:"none", overflow:"hidden" }}>
       {pieces.map(i => (
@@ -265,20 +265,20 @@ export function OnboardingWizard({ user, clientData, onComplete }) {
         <div style={{
           position: "absolute", top: "-20%", right: "-10%",
           width: 340, height: 340, borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(232,176,0,0.06) 0%, transparent 70%)",
           pointerEvents: "none",
         }} />
         <div style={{
           position: "absolute", bottom: "-15%", left: "-10%",
           width: 280, height: 280, borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(201,168,76,0.04) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(232,176,0,0.04) 0%, transparent 70%)",
           pointerEvents: "none",
         }} />
 
         {/* Header */}
         <div style={{ padding: "20px 20px 0", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
           <div style={{ display:"flex", alignItems:"center", gap:8 }}>
-            <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:14, letterSpacing:"2px", color:"#C9A84C" }}>APX</span>
+            <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:14, letterSpacing:"2px", color:"#E8B000" }}>APX</span>
             <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:14, letterSpacing:"2px", color:"#F0EDE8" }}>FITNESS</span>
           </div>
           <StepIndicator step={step} total={TOTAL_STEPS} />
@@ -305,7 +305,7 @@ export function OnboardingWizard({ user, clientData, onComplete }) {
                 <div style={{ marginBottom: 28, animation: "fadeUp 0.4s ease both" }}>
                   <div style={{
                     fontSize: 11, letterSpacing: "3px", textTransform: "uppercase",
-                    color: "#C9A84C", fontFamily: "'Syne',sans-serif", marginBottom: 8,
+                    color: "#E8B000", fontFamily: "'Syne',sans-serif", marginBottom: 8,
                   }}>
                     Bienvenue
                   </div>
@@ -314,7 +314,7 @@ export function OnboardingWizard({ user, clientData, onComplete }) {
                     fontSize: 26, color: "#F0EDE8", margin: 0, lineHeight: 1.2,
                   }}>
                     Quel est ton<br />
-                    <span style={{ color: "#C9A84C" }}>objectif principal ?</span>
+                    <span style={{ color: "#E8B000" }}>objectif principal ?</span>
                   </h2>
                 </div>
 
@@ -356,7 +356,7 @@ export function OnboardingWizard({ user, clientData, onComplete }) {
                 <div style={{ marginBottom: 28, animation: "fadeUp 0.4s ease both" }}>
                   <div style={{
                     fontSize: 11, letterSpacing: "3px", textTransform: "uppercase",
-                    color: "#C9A84C", fontFamily: "'Syne',sans-serif", marginBottom: 8,
+                    color: "#E8B000", fontFamily: "'Syne',sans-serif", marginBottom: 8,
                   }}>
                     Ton profil
                   </div>
@@ -365,7 +365,7 @@ export function OnboardingWizard({ user, clientData, onComplete }) {
                     fontSize: 26, color: "#F0EDE8", margin: 0, lineHeight: 1.2,
                   }}>
                     Quelques données<br />
-                    <span style={{ color: "#C9A84C" }}>pour personnaliser</span>
+                    <span style={{ color: "#E8B000" }}>pour personnaliser</span>
                   </h2>
                   <p style={{
                     fontSize: 12, color: "#555", marginTop: 8,
@@ -385,11 +385,11 @@ export function OnboardingWizard({ user, clientData, onComplete }) {
                 {poids && taille ? (() => {
                   const imc = (poids / ((taille / 100) ** 2)).toFixed(1);
                   const label = imc < 18.5 ? "Sous-poids" : imc < 25 ? "Poids normal" : imc < 30 ? "Surpoids" : "Obésité";
-                  const color = imc < 18.5 ? "#88A0E0" : imc < 25 ? "#7AE07A" : imc < 30 ? "#E8C87A" : "#E07070";
+                  const color = imc < 18.5 ? "#88A0E0" : imc < 25 ? "#7AE07A" : imc < 30 ? "#F5C832" : "#E07070";
                   return (
                     <div style={{
                       marginTop: 20, padding: "12px 16px",
-                      background: "rgba(201,168,76,0.04)", borderRadius: 12,
+                      background: "rgba(232,176,0,0.04)", borderRadius: 12,
                       border: "0.5px solid #1A1A1A", animation: "fadeUp 0.3s ease both",
                     }}>
                       <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center" }}>
@@ -411,10 +411,10 @@ export function OnboardingWizard({ user, clientData, onComplete }) {
 
                 <div style={{
                   width: 90, height: 90, borderRadius: "50%", margin: "0 auto 24px",
-                  background: "linear-gradient(135deg,#C9A84C,#A67C2E)",
+                  background: "linear-gradient(135deg,#E8B000,#C49200)",
                   display: "flex", alignItems: "center", justifyContent: "center",
                   fontSize: 40, animation: "pulse 1.5s ease infinite",
-                  boxShadow: "0 0 40px rgba(201,168,76,0.35)",
+                  boxShadow: "0 0 40px rgba(232,176,0,0.35)",
                 }}>
                   💪
                 </div>
@@ -496,7 +496,7 @@ export function OnboardingWizard({ user, clientData, onComplete }) {
                   flex: 1,
                   background: (step === 0 && !canNext0)
                     ? "#111"
-                    : "linear-gradient(135deg,#C9A84C,#A67C2E)",
+                    : "linear-gradient(135deg,#E8B000,#C49200)",
                   border: "none", color: (step === 0 && !canNext0) ? "#333" : "#0A0A0A",
                   fontFamily: "'Syne',sans-serif", fontSize: 12, fontWeight: 800,
                   letterSpacing: "2px", textTransform: "uppercase",
@@ -513,14 +513,14 @@ export function OnboardingWizard({ user, clientData, onComplete }) {
                 disabled={saving}
                 style={{
                   flex: 1,
-                  background: saving ? "#111" : "linear-gradient(135deg,#C9A84C,#A67C2E)",
+                  background: saving ? "#111" : "linear-gradient(135deg,#E8B000,#C49200)",
                   border: "none", color: saving ? "#333" : "#0A0A0A",
                   fontFamily: "'Syne',sans-serif", fontSize: 12, fontWeight: 800,
                   letterSpacing: "2px", textTransform: "uppercase",
                   padding: "16px", borderRadius: 12,
                   cursor: saving ? "not-allowed" : "pointer",
                   transition: "all 0.3s",
-                  boxShadow: saving ? "none" : "0 4px 20px rgba(201,168,76,0.3)",
+                  boxShadow: saving ? "none" : "0 4px 20px rgba(232,176,0,0.3)",
                   animation: saving ? "none" : "pulse 2s ease infinite",
                 }}>
                 {saving ? "Enregistrement…" : "Accéder à mon espace →"}

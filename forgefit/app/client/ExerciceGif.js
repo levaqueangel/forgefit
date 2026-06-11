@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState } from "react";
 
 // Mapping exercice → Giphy ID (IDs stables pour exercices courants)
@@ -111,8 +111,8 @@ export function ExerciceGif({ nom }) {
         onClick={e => { e.stopPropagation(); setShowGif(true); }}
         title="Voir la démo"
         style={{
-          background: "rgba(201,168,76,0.08)", border: "0.5px solid rgba(201,168,76,0.25)",
-          color: "#C9A84C", fontSize: 9, fontWeight: 700, letterSpacing: "1px",
+          background: "rgba(232,176,0,0.08)", border: "0.5px solid rgba(232,176,0,0.25)",
+          color: "#E8B000", fontSize: 9, fontWeight: 700, letterSpacing: "1px",
           textTransform: "uppercase", padding: "3px 8px", borderRadius: 10,
           cursor: "pointer", fontFamily: "'Syne',sans-serif", flexShrink: 0,
           transition: "all 0.15s",
@@ -135,7 +135,7 @@ export function ExerciceGif({ nom }) {
               padding: "16px", maxWidth: 340, width: "100%",
             }}>
             <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:10 }}>
-              <div style={{ fontSize:11, fontWeight:700, color:"#C9A84C", fontFamily:"'Syne',sans-serif", letterSpacing:"1px", textTransform:"uppercase" }}>
+              <div style={{ fontSize:11, fontWeight:700, color:"#E8B000", fontFamily:"'Syne',sans-serif", letterSpacing:"1px", textTransform:"uppercase" }}>
                 {nom}
               </div>
               <button onClick={() => setShowGif(false)} style={{ background:"transparent", border:"none", color:"#555", fontSize:16, cursor:"pointer", lineHeight:1 }}>✕</button>

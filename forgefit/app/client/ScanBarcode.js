@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { auth } from "../firebase";
 
@@ -220,9 +220,9 @@ export function ScanBarcode({ user, onSave }) {
             { id:"manual", label:"⌨ Manuel" },
           ].map(m => (
             <button key={m.id} onClick={() => { stopCamera(); setMode(m.id); setError(""); }} style={{
-              background: mode === m.id ? "rgba(201,168,76,0.12)" : "transparent",
+              background: mode === m.id ? "rgba(232,176,0,0.12)" : "transparent",
               border:"none", borderRight: m.id !== "manual" ? "0.5px solid #1A1A1A" : "none",
-              color: mode === m.id ? "#C9A84C" : "#555",
+              color: mode === m.id ? "#E8B000" : "#555",
               fontFamily:"'Syne',sans-serif", fontSize:10, fontWeight:700,
               letterSpacing:"1.5px", textTransform:"uppercase",
               padding:"7px 14px", cursor:"pointer", transition:"all 0.15s",
@@ -236,9 +236,9 @@ export function ScanBarcode({ user, onSave }) {
         <div>
           {!scanning ? (
             <button onClick={startCamera} style={{
-              width:"100%", padding:"14px", background:"rgba(201,168,76,0.08)",
-              border:"0.5px dashed rgba(201,168,76,0.3)", borderRadius:10,
-              color:"#C9A84C", fontFamily:"'Syne',sans-serif", fontSize:11,
+              width:"100%", padding:"14px", background:"rgba(232,176,0,0.08)",
+              border:"0.5px dashed rgba(232,176,0,0.3)", borderRadius:10,
+              color:"#E8B000", fontFamily:"'Syne',sans-serif", fontSize:11,
               fontWeight:700, letterSpacing:"2px", textTransform:"uppercase",
               cursor:"pointer", transition:"all 0.15s",
             }}>
@@ -249,11 +249,11 @@ export function ScanBarcode({ user, onSave }) {
               <video ref={videoRef} playsInline muted style={{ width:"100%", display:"block", maxHeight:240, objectFit:"cover" }} />
               {/* Viseur */}
               <div style={{ position:"absolute", inset:0, display:"flex", alignItems:"center", justifyContent:"center", pointerEvents:"none" }}>
-                <div style={{ width:220, height:80, border:"2px solid #C9A84C", borderRadius:4, boxShadow:"0 0 0 2000px rgba(0,0,0,0.4)" }}>
-                  <div style={{ position:"absolute", top:0, left:0, width:16, height:16, borderTop:"3px solid #C9A84C", borderLeft:"3px solid #C9A84C" }}/>
-                  <div style={{ position:"absolute", top:0, right:0, width:16, height:16, borderTop:"3px solid #C9A84C", borderRight:"3px solid #C9A84C" }}/>
-                  <div style={{ position:"absolute", bottom:0, left:0, width:16, height:16, borderBottom:"3px solid #C9A84C", borderLeft:"3px solid #C9A84C" }}/>
-                  <div style={{ position:"absolute", bottom:0, right:0, width:16, height:16, borderBottom:"3px solid #C9A84C", borderRight:"3px solid #C9A84C" }}/>
+                <div style={{ width:220, height:80, border:"2px solid #E8B000", borderRadius:4, boxShadow:"0 0 0 2000px rgba(0,0,0,0.4)" }}>
+                  <div style={{ position:"absolute", top:0, left:0, width:16, height:16, borderTop:"3px solid #E8B000", borderLeft:"3px solid #E8B000" }}/>
+                  <div style={{ position:"absolute", top:0, right:0, width:16, height:16, borderTop:"3px solid #E8B000", borderRight:"3px solid #E8B000" }}/>
+                  <div style={{ position:"absolute", bottom:0, left:0, width:16, height:16, borderBottom:"3px solid #E8B000", borderLeft:"3px solid #E8B000" }}/>
+                  <div style={{ position:"absolute", bottom:0, right:0, width:16, height:16, borderBottom:"3px solid #E8B000", borderRight:"3px solid #E8B000" }}/>
                 </div>
               </div>
               <button onClick={stopCamera} style={{
@@ -261,7 +261,7 @@ export function ScanBarcode({ user, onSave }) {
                 border:"0.5px solid #333", color:"#888", padding:"4px 10px",
                 borderRadius:6, fontSize:11, cursor:"pointer", fontFamily:"'Syne',sans-serif",
               }}>✕ Stop</button>
-              <div style={{ position:"absolute", bottom:8, left:0, right:0, textAlign:"center", fontSize:10, color:"rgba(201,168,76,0.8)", letterSpacing:"2px" }}>
+              <div style={{ position:"absolute", bottom:8, left:0, right:0, textAlign:"center", fontSize:10, color:"rgba(232,176,0,0.8)", letterSpacing:"2px" }}>
                 POINTEZ LE CODE-BARRES
               </div>
             </div>
@@ -273,9 +273,9 @@ export function ScanBarcode({ user, onSave }) {
       {/* Mode upload */}
       {!product && mode === "upload" && (
         <label style={{
-          display:"block", width:"100%", padding:"14px", background:"rgba(201,168,76,0.05)",
-          border:"0.5px dashed rgba(201,168,76,0.3)", borderRadius:10, textAlign:"center",
-          color:"#C9A84C", fontFamily:"'Syne',sans-serif", fontSize:11,
+          display:"block", width:"100%", padding:"14px", background:"rgba(232,176,0,0.05)",
+          border:"0.5px dashed rgba(232,176,0,0.3)", borderRadius:10, textAlign:"center",
+          color:"#E8B000", fontFamily:"'Syne',sans-serif", fontSize:11,
           fontWeight:700, letterSpacing:"2px", textTransform:"uppercase",
           cursor:"pointer", transition:"all 0.15s",
         }}>
@@ -304,9 +304,9 @@ export function ScanBarcode({ user, onSave }) {
             onClick={() => fetchProduct(manualCode)}
             disabled={manualCode.length < 8 || loading}
             style={{
-              background: manualCode.length >= 8 ? "rgba(201,168,76,0.12)" : "transparent",
-              border:`0.5px solid ${manualCode.length >= 8 ? "rgba(201,168,76,0.4)" : "#1A1A1A"}`,
-              color: manualCode.length >= 8 ? "#C9A84C" : "#333",
+              background: manualCode.length >= 8 ? "rgba(232,176,0,0.12)" : "transparent",
+              border:`0.5px solid ${manualCode.length >= 8 ? "rgba(232,176,0,0.4)" : "#1A1A1A"}`,
+              color: manualCode.length >= 8 ? "#E8B000" : "#333",
               fontFamily:"'Syne',sans-serif", fontSize:10, fontWeight:700,
               letterSpacing:"1.5px", textTransform:"uppercase",
               padding:"0 14px", borderRadius:10, cursor: manualCode.length >= 8 ? "pointer" : "not-allowed",
@@ -334,7 +334,7 @@ export function ScanBarcode({ user, onSave }) {
 
       {/* Fiche produit */}
       {product && macros && (
-        <div style={{ background:"rgba(201,168,76,0.04)", border:"0.5px solid rgba(201,168,76,0.2)", borderRadius:12, padding:"14px 16px" }}>
+        <div style={{ background:"rgba(232,176,0,0.04)", border:"0.5px solid rgba(232,176,0,0.2)", borderRadius:12, padding:"14px 16px" }}>
 
           {/* En-tête produit */}
           <div style={{ display:"flex", gap:12, alignItems:"flex-start", marginBottom:12 }}>
@@ -382,9 +382,9 @@ export function ScanBarcode({ user, onSave }) {
           {/* Macros calculées */}
           <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr 1fr", gap:6, marginBottom:14 }}>
             {[
-              { label:"Calories", val:`${macros.calories}`, unit:"kcal", color:"#C9A84C" },
+              { label:"Calories", val:`${macros.calories}`, unit:"kcal", color:"#E8B000" },
               { label:"Protéines", val:`${macros.proteines}`, unit:"g", color:"#7AE07A" },
-              { label:"Glucides", val:`${macros.glucides}`, unit:"g", color:"#E8C87A" },
+              { label:"Glucides", val:`${macros.glucides}`, unit:"g", color:"#F5C832" },
               { label:"Lipides", val:`${macros.lipides}`, unit:"g", color:"#88A0E0" },
             ].map(m => (
               <div key={m.label} style={{ background:"#0D0D0D", borderRadius:8, padding:"8px 6px", textAlign:"center" }}>
@@ -407,7 +407,7 @@ export function ScanBarcode({ user, onSave }) {
             </button>
             <button onClick={handleSave} disabled={saving || saved} style={{
               flex:2, padding:"10px",
-              background: saved ? "rgba(122,224,122,0.15)" : "linear-gradient(135deg,#C9A84C,#A67C2E)",
+              background: saved ? "rgba(122,224,122,0.15)" : "linear-gradient(135deg,#E8B000,#C49200)",
               border: saved ? "0.5px solid rgba(122,224,122,0.4)" : "none",
               borderRadius:8, color: saved ? "#7AE07A" : "#0A0A0A",
               fontFamily:"'Syne',sans-serif", fontSize:10, fontWeight:700,

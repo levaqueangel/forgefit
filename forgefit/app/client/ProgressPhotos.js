@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from "firebase/storage";
 import { doc, updateDoc, arrayUnion, arrayRemove, getDoc } from "firebase/firestore";
@@ -25,7 +25,7 @@ function compressImage(file, maxPx = 1200, quality = 0.82) {
 }
 
 const TAG_LABELS = { avant: "Avant", apres: "Après", progres: "Progrès" };
-const TAG_COLORS = { avant: "#E07070", apres: "#7AE07A", progres: "#C9A84C" };
+const TAG_COLORS = { avant: "#E07070", apres: "#7AE07A", progres: "#E8B000" };
 
 export function ProgressPhotos({ user, clientData, setClientData, addToast }) {
   const [photos, setPhotos] = useState([]);
@@ -118,7 +118,7 @@ export function ProgressPhotos({ user, clientData, setClientData, addToast }) {
 
   return (
     <div style={{
-      background: "rgba(201,168,76,0.02)",
+      background: "rgba(232,176,0,0.02)",
       border: "0.5px solid #1A1A1A",
       borderRadius: 14, padding: "16px 18px",
     }}>
@@ -144,7 +144,7 @@ export function ProgressPhotos({ user, clientData, setClientData, addToast }) {
             style={{
               flex: 1, padding: "7px 6px", borderRadius: 8, cursor: "pointer",
               border: `0.5px solid ${selectedTag === key ? TAG_COLORS[key] : "#1E1E1E"}`,
-              background: selectedTag === key ? `rgba(${key === "avant" ? "224,112,112" : key === "apres" ? "122,224,122" : "201,168,76"},0.08)` : "#0D0D0D",
+              background: selectedTag === key ? `rgba(${key === "avant" ? "224,112,112" : key === "apres" ? "122,224,122" : "232,176,0"},0.08)` : "#0D0D0D",
               color: selectedTag === key ? TAG_COLORS[key] : "#555",
               fontSize: 11, fontFamily: "'Syne',sans-serif", fontWeight: 700,
               transition: "all 0.15s",
@@ -158,9 +158,9 @@ export function ProgressPhotos({ user, clientData, setClientData, addToast }) {
           disabled={uploading}
           style={{
             padding: "7px 16px", borderRadius: 8, cursor: uploading ? "wait" : "pointer",
-            border: "0.5px solid rgba(201,168,76,0.3)",
-            background: "rgba(201,168,76,0.08)",
-            color: "#C9A84C", fontSize: 11, fontFamily: "'Syne',sans-serif",
+            border: "0.5px solid rgba(232,176,0,0.3)",
+            background: "rgba(232,176,0,0.08)",
+            color: "#E8B000", fontSize: 11, fontFamily: "'Syne',sans-serif",
             fontWeight: 700, whiteSpace: "nowrap",
             opacity: uploading ? 0.6 : 1, transition: "all 0.15s",
           }}
@@ -173,14 +173,14 @@ export function ProgressPhotos({ user, clientData, setClientData, addToast }) {
       {/* Barre de progression upload */}
       {uploading && (
         <div style={{ height: 3, background: "#1A1A1A", borderRadius: 2, overflow: "hidden", marginBottom: 12 }}>
-          <div style={{ height: "100%", width: `${progress}%`, background: "linear-gradient(90deg,#C9A84C,#5DCAA5)", borderRadius: 2, transition: "width 0.2s" }} />
+          <div style={{ height: "100%", width: `${progress}%`, background: "linear-gradient(90deg,#E8B000,#5DCAA5)", borderRadius: 2, transition: "width 0.2s" }} />
         </div>
       )}
 
       {/* ── Comparaison côte à côte ── */}
       {compare && (
         <div style={{ marginBottom: 14 }}>
-          <div style={{ fontSize: 9, letterSpacing: "2px", textTransform: "uppercase", color: "#C9A84C", marginBottom: 8 }}>
+          <div style={{ fontSize: 9, letterSpacing: "2px", textTransform: "uppercase", color: "#E8B000", marginBottom: 8 }}>
             Comparaison avant / après
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
@@ -234,7 +234,7 @@ export function ProgressPhotos({ user, clientData, setClientData, addToast }) {
                 position: "absolute", top: 6, left: 6,
                 background: "rgba(10,10,10,0.85)", borderRadius: 4,
                 padding: "2px 6px", fontSize: 9, fontFamily: "'Syne',sans-serif",
-                fontWeight: 700, color: TAG_COLORS[photo.tag] || "#C9A84C",
+                fontWeight: 700, color: TAG_COLORS[photo.tag] || "#E8B000",
                 letterSpacing: "0.5px",
               }}>
                 {(TAG_LABELS[photo.tag] || photo.tag).toUpperCase()}

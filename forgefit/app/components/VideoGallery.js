@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useRef, useEffect } from "react";
 
 const VIDEOS = [
@@ -43,29 +43,29 @@ export default function VideoGallery() {
     <>
     <style>{`
       .vg-card{position:relative;overflow:hidden;cursor:pointer;background:#111;border:0.5px solid #242424;transition:transform .4s cubic-bezier(.16,1,.3,1),box-shadow .4s,border-color .3s}
-      .vg-card:hover{transform:translateY(-6px) scale(1.02);box-shadow:0 20px 50px rgba(0,0,0,.6),0 0 0 1px rgba(201,168,76,.2);border-color:rgba(201,168,76,.3)}
+      .vg-card:hover{transform:translateY(-6px) scale(1.02);box-shadow:0 20px 50px rgba(0,0,0,.6),0 0 0 1px rgba(232,176,0,.2);border-color:rgba(232,176,0,.3)}
       .vg-card video{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s}
       .vg-card:hover video{transform:scale(1.05)}
       .vg-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.7) 0%,transparent 60%);opacity:0;transition:opacity .3s;display:flex;align-items:center;justify-content:center}
       .vg-card:hover .vg-overlay{opacity:1}
-      .vg-play{width:52px;height:52px;border-radius:50%;border:2px solid #C9A84C;display:flex;align-items:center;justify-content:center;color:#C9A84C;font-size:18px;transition:all .3s;backdrop-filter:blur(4px)}
-      .vg-card:hover .vg-play{transform:scale(1.1);background:rgba(201,168,76,.15)}
+      .vg-play{width:52px;height:52px;border-radius:50%;border:2px solid #E8B000;display:flex;align-items:center;justify-content:center;color:#E8B000;font-size:18px;transition:all .3s;backdrop-filter:blur(4px)}
+      .vg-card:hover .vg-play{transform:scale(1.1);background:rgba(232,176,0,.15)}
       .vg-nav{width:44px;height:44px;border-radius:50%;border:0.5px solid #242424;background:rgba(10,10,10,.8);color:#555;font-size:18px;cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px)}
-      .vg-nav:hover{border-color:#C9A84C;color:#C9A84C;transform:scale(1.1)}
+      .vg-nav:hover{border-color:#E8B000;color:#E8B000;transform:scale(1.1)}
       .vg-dot{width:6px;height:6px;border-radius:50%;background:#242424;cursor:pointer;transition:all .3s}
-      .vg-dot.active{background:#C9A84C;width:18px;border-radius:3px}
+      .vg-dot.active{background:#E8B000;width:18px;border-radius:3px}
       .vg-modal{position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:999;display:flex;align-items:center;justify-content:center;padding:2rem}
-      .vg-modal video{max-width:100%;max-height:85vh;border:0.5px solid #242424;box-shadow:0 0 80px rgba(201,168,76,.1)}
+      .vg-modal video{max-width:100%;max-height:85vh;border:0.5px solid #242424;box-shadow:0 0 80px rgba(232,176,0,.1)}
       .vg-modal-close{position:absolute;top:20px;right:24px;background:none;border:none;color:#555;font-size:28px;cursor:pointer;transition:color .2s;line-height:1}
-      .vg-modal-close:hover{color:#C9A84C}
+      .vg-modal-close:hover{color:#E8B000}
       .vg-modal-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(10,10,10,.7);border:0.5px solid #242424;color:#555;font-size:22px;cursor:pointer;padding:12px 16px;transition:all .3s;backdrop-filter:blur(8px)}
-      .vg-modal-nav:hover{border-color:#C9A84C;color:#C9A84C}
+      .vg-modal-nav:hover{border-color:#E8B000;color:#E8B000}
       @media(max-width:768px){.vg-grid{grid-template-columns:1fr 1fr !important}}
     `}</style>
 
     <section style={{padding:"4rem 3rem",borderBottom:"0.5px solid #242424",background:"#080808"}}>
       <div style={{textAlign:"center",marginBottom:"3rem"}}>
-        <div style={{fontSize:11,letterSpacing:"4px",textTransform:"uppercase",color:"#C9A84C",marginBottom:"0.5rem"}}>— En action</div>
+        <div style={{fontSize:11,letterSpacing:"4px",textTransform:"uppercase",color:"#E8B000",marginBottom:"0.5rem"}}>— En action</div>
         <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:44,fontWeight:600,lineHeight:1}}>
           L'entraînement,<br/><em style={{fontStyle:"italic",color:"#555"}}>tel qu'il devrait être</em>
         </div>
@@ -112,7 +112,7 @@ export default function VideoGallery() {
           key={active}
           src={VIDEOS[active].src}
           controls autoPlay
-          style={{maxWidth:"100%",maxHeight:"85vh",border:"0.5px solid #242424",boxShadow:"0 0 80px rgba(201,168,76,.1)"}}
+          style={{maxWidth:"100%",maxHeight:"85vh",border:"0.5px solid #242424",boxShadow:"0 0 80px rgba(232,176,0,.1)"}}
         />
         <button className="vg-modal-nav" style={{right:16}} onClick={(e) => { e.stopPropagation(); const n=(current+1)%VIDEOS.length; setCurrent(n); setActive(n); }}>›</button>
       </div>

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useRouter } from "next/navigation";
 
 import { useLang } from "../useLang";
@@ -19,7 +19,7 @@ export default function MentionsLegales() {
 
       <nav style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px 32px", borderBottom: "0.5px solid #242424", position: "sticky", top: 0, background: "#0A0A0A", zIndex: 100 }}>
         <div style={{ fontSize: 20, fontWeight: 800, letterSpacing: 5, cursor: "pointer" }} onClick={() => router.push("/")}>
-          APXFIT<span style={{ color: "#C9A84C" }}>NESS</span>
+          APXFIT<span style={{ color: "#E8B000" }}>NESS</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
           <LangSelector lang={lang} setLang={setLang} LANGS={LANGS} />
@@ -31,16 +31,16 @@ export default function MentionsLegales() {
 
       <div style={{ maxWidth: 760, margin: "0 auto", padding: "4rem 2rem 6rem" }}>
         <div style={{ marginBottom: "4rem", paddingBottom: "2rem", borderBottom: "0.5px solid #242424" }}>
-          <div style={{ fontSize: 11, letterSpacing: "4px", textTransform: "uppercase", color: "#C9A84C", marginBottom: "1rem" }}>{tl.tag}</div>
+          <div style={{ fontSize: 11, letterSpacing: "4px", textTransform: "uppercase", color: "#E8B000", marginBottom: "1rem" }}>{tl.tag}</div>
           <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 48, fontWeight: 600, lineHeight: 1.1, marginBottom: "0.75rem" }}>
-            {tl.title}<br /><em style={{ fontStyle: "italic", color: "#C9A84C" }}>{tl.em}</em>
+            {tl.title}<br /><em style={{ fontStyle: "italic", color: "#E8B000" }}>{tl.em}</em>
           </h1>
           <p style={{ ...pStyle, fontSize: 14 }}>{tl.updated}</p>
         </div>
 
         {/* Contenu légal — resté en français (obligatoire légalement) */}
         <section style={{ marginBottom: "2.5rem" }}>
-          <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 36, fontWeight: 600, color: "#C9A84C", marginBottom: "1.5rem", lineHeight: 1.1 }}>1. Mentions Légales</h2>
+          <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 36, fontWeight: 600, color: "#E8B000", marginBottom: "1.5rem", lineHeight: 1.1 }}>1. Mentions Légales</h2>
           <h3 style={h2Style}>1.1 Éditeur du site</h3>
           <p style={pStyle}>Raison sociale : <em style={{ color: "#555" }}>À compléter</em></p>
           <p style={pStyle}>Forme juridique : <em style={{ color: "#555" }}>À compléter</em></p>
@@ -62,7 +62,7 @@ export default function MentionsLegales() {
         <div style={{ height: "0.5px", background: "#242424", margin: "3rem 0" }} />
 
         <section>
-          <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 36, fontWeight: 600, color: "#C9A84C", marginBottom: "1.5rem", lineHeight: 1.1 }}>2. Conditions Générales de Vente</h2>
+          <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 36, fontWeight: 600, color: "#E8B000", marginBottom: "1.5rem", lineHeight: 1.1 }}>2. Conditions Générales de Vente</h2>
           <h3 style={h2Style}>2.1 Objet</h3>
           <p style={pStyle}>Les présentes CGV régissent les relations entre APXFITNESS et ses clients dans le cadre de la vente de programmes de coaching fitness personnalisés en ligne.</p>
           <h3 style={h2Style}>2.2 Produits</h3>
@@ -94,7 +94,7 @@ export default function MentionsLegales() {
 </section>
 
 <footer style={{ padding: "1.5rem 2rem", display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: "0.5px solid #242424" }}>
-        <div style={{ fontSize: 16, fontWeight: 800, letterSpacing: 5 }}>APXFIT<span style={{ color: "#C9A84C" }}>NESS</span></div>
+        <div style={{ fontSize: 16, fontWeight: 800, letterSpacing: 5 }}>APXFIT<span style={{ color: "#E8B000" }}>NESS</span></div>
         <div style={{ fontSize: 11, letterSpacing: "2px", color: "#555", textTransform: "uppercase" }}>{t.footer.copy}</div>
       </footer>
     </div>

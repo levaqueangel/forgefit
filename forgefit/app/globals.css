@@ -1,11 +1,11 @@
-/* Polices chargées via <link> dans app/layout.js — pas d'@import ici pour éviter le double chargement */
+﻿/* Polices chargées via <link> dans app/layout.js — pas d'@import ici pour éviter le double chargement */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 /* ── Design tokens ── */
 :root {
-  --gold:        #C9A84C;
-  --gold-light:  #E8C87A;
-  --gold-dim:    rgba(201,168,76,0.15);
+  --gold:        #E8B000;
+  --gold-light:  #F5C832;
+  --gold-dim:    rgba(232,176,0,0.15);
   --green:       #7AE07A;
   --teal:        #5DCAA5;
 
@@ -64,15 +64,15 @@ input, select, textarea { font-family: 'Syne', sans-serif; }
 }
 .cur-dot {
   position: fixed; width: 10px; height: 10px; border-radius: 50%;
-  background: #C9A84C; pointer-events: none; z-index: 9999; top:0; left:0;
+  background: #E8B000; pointer-events: none; z-index: 9999; top:0; left:0;
   transform: translate(-50%,-50%);
-  box-shadow: 0 0 8px 2px rgba(201,168,76,.7);
+  box-shadow: 0 0 8px 2px rgba(232,176,0,.7);
   transition: width 0.2s, height 0.2s, box-shadow 0.2s;
 }
-.cur-dot.hovering { width: 14px; height: 14px; box-shadow: 0 0 16px 4px rgba(201,168,76,.9); }
+.cur-dot.hovering { width: 14px; height: 14px; box-shadow: 0 0 16px 4px rgba(232,176,0,.9); }
 .cur-ring { display: none; }
 .cur-trail {
-  position: fixed; border-radius: 50%; background: #C9A84C;
+  position: fixed; border-radius: 50%; background: #E8B000;
   pointer-events: none; transform: translate(-50%,-50%); top:0; left:0;
 }
 

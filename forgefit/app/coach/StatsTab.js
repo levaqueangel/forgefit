@@ -1,9 +1,9 @@
-"use client";
+﻿"use client";
 import { useState } from "react";
 
-const PLAN_COLORS = { starter:"#7AE07A", forge:"#C9A84C", elite:"#E8C87A" };
+const PLAN_COLORS = { starter:"#7AE07A", forge:"#E8B000", elite:"#F5C832" };
 
-function MiniSparkline({ data, color = "#C9A84C" }) {
+function MiniSparkline({ data, color = "#E8B000" }) {
   if (data.length < 2) return null;
   const W = 200, H = 40, PAD = 4;
   const max = Math.max(...data, 1);
@@ -39,20 +39,20 @@ export function StatsView({ clients, allMsgsCount }) {
   const totalRevenue   = clients.reduce((s,c) => s+(planPrices[c.plan?.toLowerCase()]||0),0);
 
   const METRICS = [
-    {label:"Total clients",      val:clients.length,   icon:"👥",  color:"#C9A84C"},
+    {label:"Total clients",      val:clients.length,   icon:"👥",  color:"#E8B000"},
     {label:"Nouveaux ce mois",   val:recentClients,    icon:"🆕",  color:"#7AE07A"},
-    {label:"Actifs cette sem.",  val:activeClients,    icon:"🔥",  color:"#E8C87A"},
+    {label:"Actifs cette sem.",  val:activeClients,    icon:"🔥",  color:"#F5C832"},
     {label:"À relancer",        val:inactiveClients,  icon:"⚠️",  color:"#E07070"},
     {label:"Messages total",    val:allMsgsCount,     icon:"💬",  color:"#F0EDE8"},
     {label:"Streak moyen",      val:`${avgStreak}j`,  icon:"⚡",  color:"#5DCAA5"},
-    {label:"Renouvellements J28",val:renewalDue,       icon:"🔄",  color:"#C9A84C"},
-    {label:"Revenus estimés",   val:`${totalRevenue}€`,icon:"💰",  color:"#E8C87A"},
+    {label:"Renouvellements J28",val:renewalDue,       icon:"🔄",  color:"#E8B000"},
+    {label:"Revenus estimés",   val:`${totalRevenue}€`,icon:"💰",  color:"#F5C832"},
   ];
 
   return (
     <div style={{display:"flex",flexDirection:"column",gap:20,maxWidth:900,margin:"0 auto",animation:"fadeUp 0.3s ease forwards"}}>
       <div>
-        <div style={{fontSize:10,letterSpacing:"4px",textTransform:"uppercase",color:"#C9A84C",marginBottom:6}}>— Tableau de bord</div>
+        <div style={{fontSize:10,letterSpacing:"4px",textTransform:"uppercase",color:"#E8B000",marginBottom:6}}>— Tableau de bord</div>
         <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:36,fontWeight:600,color:"#F0EDE8"}}>
           Vue d'ensemble
         </div>
@@ -90,9 +90,9 @@ export function StatsView({ clients, allMsgsCount }) {
           <div style={{background:"#0D0D0D",border:"0.5px solid #1A1A1A",borderRadius:14,padding:"18px 20px",marginBottom:12}}>
             <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
               <div style={{fontSize:10,letterSpacing:"3px",textTransform:"uppercase",color:"#555"}}>Nouvelles inscriptions</div>
-              <div style={{fontSize:11,fontWeight:700,color:"#C9A84C"}}>7 dernières semaines</div>
+              <div style={{fontSize:11,fontWeight:700,color:"#E8B000"}}>7 dernières semaines</div>
             </div>
-            <MiniSparkline data={weeks} color="#C9A84C"/>
+            <MiniSparkline data={weeks} color="#E8B000"/>
             <div style={{display:"flex",justifyContent:"space-between",marginTop:6}}>
               <span style={{fontSize:10,color:"#666"}}>{labels[0]}</span>
               <span style={{fontSize:10,color:"#666"}}>{labels[3]}</span>

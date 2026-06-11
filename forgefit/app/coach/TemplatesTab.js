@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState } from "react";
 
 const PROGRAM_TEMPLATES = [
@@ -10,7 +10,7 @@ const PROGRAM_TEMPLATES = [
   },
   {
     name:"PPL Intermédiaire",freq:"6×/sem",
-    color:"#C9A84C",
+    color:"#E8B000",
     desc:"Push Pull Legs sur 6 séances par semaine. Chest+triceps, Back+biceps, Legs. Adapté aux pratiquants avec 1-3 ans d'expérience.",
     preview:"Lun Push / Mar Pull / Mer Legs / Jeu Push / Ven Pull / Sam Legs",
   },
@@ -22,7 +22,7 @@ const PROGRAM_TEMPLATES = [
   },
   {
     name:"Femme — Fessiers & Cuisses",freq:"3×/sem",
-    color:"#E8C87A",
+    color:"#F5C832",
     desc:"3 séances avec focus fessiers et cuisses. Hip thrust, squat gobelet, RDL, fentes, abductions. Adapté débutante à intermédiaire.",
     preview:"Séance A : Hip thrust 4×12 / Squat gobelet 4×12 / RDL 3×12 / Fentes 3×10",
   },
@@ -46,7 +46,7 @@ export function TemplatesView({ onSelect }) {
   return (
     <div style={{display:"flex",flexDirection:"column",gap:16,maxWidth:900,margin:"0 auto",animation:"fadeUp 0.3s ease forwards"}}>
       <div>
-        <div style={{fontSize:10,letterSpacing:"4px",textTransform:"uppercase",color:"#C9A84C",marginBottom:6}}>— Bibliothèque</div>
+        <div style={{fontSize:10,letterSpacing:"4px",textTransform:"uppercase",color:"#E8B000",marginBottom:6}}>— Bibliothèque</div>
         <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:36,fontWeight:600,color:"#F0EDE8",marginBottom:4}}>
           Templates de programmes
         </div>
@@ -72,7 +72,7 @@ export function TemplatesView({ onSelect }) {
               <div style={{display:"flex",alignItems:"center",gap:8}}>
                 <span style={{
                   fontSize:9,letterSpacing:"2px",textTransform:"uppercase",
-                  color:t.color,background:`rgba(${t.color==="#7AE07A"?"122,224,122":t.color==="#C9A84C"?"201,168,76":t.color==="#5DCAA5"?"93,202,165":t.color==="#E8C87A"?"232,200,122":"224,112,112"},0.1)`,
+                  color:t.color,background:`rgba(${t.color==="#7AE07A"?"122,224,122":t.color==="#E8B000"?"232,176,0":t.color==="#5DCAA5"?"93,202,165":t.color==="#F5C832"?"232,200,122":"224,112,112"},0.1)`,
                   padding:"3px 10px",borderRadius:20,fontFamily:"'Syne',sans-serif",
                 }}>{t.freq}</span>
                 <span style={{fontSize:11,color:copied===i?"#7AE07A":"#444",transition:"color 0.2s"}}>

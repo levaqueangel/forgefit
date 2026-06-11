@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect, useCallback, useRef } from "react";
 
 const JOURS = ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"];
@@ -126,16 +126,16 @@ export function RappelsSection({ addToast }) {
   return (
     <div style={{
       background: cfg.enabled
-        ? "rgba(201,168,76,0.04)"
+        ? "rgba(232,176,0,0.04)"
         : "rgba(30,30,30,0.5)",
-      border: `0.5px solid ${cfg.enabled ? "rgba(201,168,76,0.25)" : "#1A1A1A"}`,
+      border: `0.5px solid ${cfg.enabled ? "rgba(232,176,0,0.25)" : "#1A1A1A"}`,
       borderRadius: 14, padding: "16px 18px",
       transition: "all 0.3s",
     }}>
       {/* ── Header ── */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
         <div>
-          <div style={{ fontSize: 9, letterSpacing: "3px", textTransform: "uppercase", color: cfg.enabled ? "#C9A84C" : "#555", marginBottom: 4 }}>
+          <div style={{ fontSize: 9, letterSpacing: "3px", textTransform: "uppercase", color: cfg.enabled ? "#E8B000" : "#555", marginBottom: 4 }}>
             🔔 Rappels d'entraînement
           </div>
           <div style={{ fontSize: 11, color: "#444", fontFamily: "'Cormorant Garamond',serif" }}>
@@ -147,7 +147,7 @@ export function RappelsSection({ addToast }) {
           onClick={toggle}
           style={{
             width: 46, height: 26, borderRadius: 13, border: "none",
-            background: cfg.enabled ? "#C9A84C" : "#1A1A1A",
+            background: cfg.enabled ? "#E8B000" : "#1A1A1A",
             cursor: "pointer", position: "relative", transition: "background 0.25s",
             flexShrink: 0,
           }}
@@ -186,9 +186,9 @@ export function RappelsSection({ addToast }) {
                   onClick={() => toggleJour(i)}
                   style={{
                     flex: 1, padding: "7px 0", borderRadius: 8, cursor: "pointer",
-                    border: `0.5px solid ${cfg.jours.includes(i) ? "rgba(201,168,76,0.5)" : "#1A1A1A"}`,
-                    background: cfg.jours.includes(i) ? "rgba(201,168,76,0.12)" : "#0D0D0D",
-                    color: cfg.jours.includes(i) ? "#C9A84C" : "#444",
+                    border: `0.5px solid ${cfg.jours.includes(i) ? "rgba(232,176,0,0.5)" : "#1A1A1A"}`,
+                    background: cfg.jours.includes(i) ? "rgba(232,176,0,0.12)" : "#0D0D0D",
+                    color: cfg.jours.includes(i) ? "#E8B000" : "#444",
                     fontSize: 10, fontFamily: "'Syne',sans-serif", fontWeight: 700,
                     transition: "all 0.15s",
                   }}

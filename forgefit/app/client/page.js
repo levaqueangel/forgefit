@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 export const dynamic = "force-dynamic";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
@@ -340,7 +340,7 @@ const showRenew = clientData?.createdAt
 
 const S = {
 card: {background:"#0D0D0D",border:"0.5px solid #222",borderRadius:16,padding:"20px"},
-cardTitle: {fontSize:11,letterSpacing:"3px",textTransform:"uppercase",color:"#C9A84C",marginBottom:16,display:"flex",alignItems:"center",gap:8,fontWeight:700},
+cardTitle: {fontSize:11,letterSpacing:"3px",textTransform:"uppercase",color:"#E8B000",marginBottom:16,display:"flex",alignItems:"center",gap:8,fontWeight:700},
 tag: {fontSize:10,letterSpacing:"2px",textTransform:"uppercase",color:"#666"},
 };
 
@@ -385,7 +385,7 @@ return (
 <div style={{background:"#0A0A0A",color:"#F0EDE8",height:"100vh",fontFamily:"'Syne',sans-serif",display:"flex",flexDirection:"row",overflow:"hidden"}}>
 <style>{`
 *{box-sizing:border-box;margin:0;padding:0}
-textarea:focus,input:focus{border-color:#C9A84C !important;outline:none}
+textarea:focus,input:focus{border-color:#E8B000 !important;outline:none}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
@@ -401,24 +401,24 @@ textarea:focus,input:focus{border-color:#C9A84C !important;outline:none}
 .tabs-wrap{display:flex;gap:4px;padding:10px 0;overflow-x:auto;-webkit-overflow-scrolling:touch}
 .tabs-wrap::-webkit-scrollbar{display:none}
 .tab-btn{background:transparent;border:0.5px solid transparent;color:#666;font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;padding:8px 16px;border-radius:20px;transition:all 0.2s;white-space:nowrap;display:flex;align-items:center;gap:5px;position:relative}
-.tab-btn.active{background:rgba(201,168,76,0.12);color:#E8C87A;border:0.5px solid rgba(201,168,76,0.3);box-shadow:0 0 12px rgba(201,168,76,0.08)}
+.tab-btn.active{background:rgba(232,176,0,0.12);color:#F5C832;border:0.5px solid rgba(232,176,0,0.3);box-shadow:0 0 12px rgba(232,176,0,0.08)}
 .tab-btn:hover:not(.active){background:rgba(255,255,255,0.04);color:#999;border-color:#1E1E1E}
 .sidebar-btn:hover{background:rgba(255,255,255,0.05) !important;color:#888 !important}
-@keyframes pulse-ring{0%{box-shadow:0 0 0 0 rgba(201,168,76,0.35)}70%{box-shadow:0 0 0 5px rgba(201,168,76,0)}100%{box-shadow:0 0 0 0 rgba(201,168,76,0)}}
+@keyframes pulse-ring{0%{box-shadow:0 0 0 0 rgba(232,176,0,0.35)}70%{box-shadow:0 0 0 5px rgba(232,176,0,0)}100%{box-shadow:0 0 0 0 rgba(232,176,0,0)}}
 @keyframes dot-pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.7);opacity:0.5}}
-.mobile-bnav{display:none;align-items:center;justify-content:space-around;background:#07080A;border-top:0.5px solid rgba(201,168,76,0.1);padding:6px 0 max(8px,env(safe-area-inset-bottom));flex-shrink:0;z-index:60;overflow-x:auto;-ms-overflow-style:none;scrollbar-width:none}
+.mobile-bnav{display:none;align-items:center;justify-content:space-around;background:#07080A;border-top:0.5px solid rgba(232,176,0,0.1);padding:6px 0 max(8px,env(safe-area-inset-bottom));flex-shrink:0;z-index:60;overflow-x:auto;-ms-overflow-style:none;scrollbar-width:none}
 .mobile-bnav::-webkit-scrollbar{display:none}
 .mbn-btn{background:transparent;border:none;display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 6px;cursor:pointer;flex:1;min-width:44px;color:#333;transition:color 0.15s;position:relative}
-.mbn-btn.act{color:#C9A84C}
+.mbn-btn.act{color:#E8B000}
 .mbn-btn-label{font-size:9px;letter-spacing:0.5px;font-family:'Syne',sans-serif;text-transform:uppercase}
 @media(max-width:768px){.sidebar-desktop{display:none !important}.mobile-bnav{display:flex !important}.main-col{padding-bottom:0 !important}}
 .sub-tab{background:transparent;border:0.5px solid #222;color:#555;font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:8px 18px;cursor:pointer;transition:all 0.18s;border-radius:20px}
-.sub-tab.active{border-color:rgba(201,168,76,0.5);color:#C9A84C;background:rgba(201,168,76,0.1)}
+.sub-tab.active{border-color:rgba(232,176,0,0.5);color:#E8B000;background:rgba(232,176,0,0.1)}
 .sub-tab:hover:not(.active){border-color:#333;color:#888;background:rgba(255,255,255,0.03)}
 .seance-row{display:flex;align-items:center;gap:12px;padding:12px 14px;background:#0D0D0D;border-radius:12px;cursor:pointer;transition:all 0.15s;border:0.5px solid transparent}
 .seance-row:hover{background:#131313;transform:translateX(2px);border-color:#1E1E1E}
 .seance-row:active{transform:scale(0.99)}
-.seance-row.today-s{border-color:rgba(201,168,76,0.25);background:rgba(201,168,76,0.03)}
+.seance-row.today-s{border-color:rgba(232,176,0,0.25);background:rgba(232,176,0,0.03)}
 .exo-row{display:flex;align-items:center;gap:12px;padding:12px 14px;background:#0D0D0D;border-radius:12px;cursor:pointer;transition:all 0.15s;border:0.5px solid transparent;margin-bottom:6px}
 .exo-row:last-child{margin-bottom:0}
 .exo-row:hover{background:#131313;transform:translateX(2px);border-color:#1E1E1E}
@@ -433,7 +433,7 @@ textarea:focus,input:focus{border-color:#C9A84C !important;outline:none}
 .card-hover:hover{border-color:#2A2A2A !important;transform:translateY(-2px)}
 .skel{background:linear-gradient(90deg,#111 25%,#1A1A1A 50%,#111 75%);background-size:800px 100%;animation:skeletonShimmer 1.4s ease-in-out infinite;border-radius:6px}
 .main-col::-webkit-scrollbar{display:none}.main-col{-ms-overflow-style:none;scrollbar-width:none}
-.spinner{width:14px;height:14px;border:2px solid rgba(201,168,76,0.2);border-top-color:#C9A84C;border-radius:50%;animation:spin 0.7s linear infinite;display:inline-block;flex-shrink:0}
+.spinner{width:14px;height:14px;border:2px solid rgba(232,176,0,0.2);border-top-color:#E8B000;border-radius:50%;animation:spin 0.7s linear infinite;display:inline-block;flex-shrink:0}
 .btn-primary{transition:opacity 0.15s,transform 0.1s}
 .btn-primary:hover:not(:disabled){opacity:0.88}
 .btn-primary:active:not(:disabled){transform:scale(0.97)}
@@ -453,7 +453,7 @@ textarea:focus,input:focus{border-color:#C9A84C !important;outline:none}
 {showPushBanner && pushPermission === "default" && !pushSubscribed && (
 <div style={{
 position:"fixed",bottom:80,left:"50%",transform:"translateX(-50%)",
-zIndex:500,background:"#111",border:"0.5px solid rgba(201,168,76,0.35)",
+zIndex:500,background:"#111",border:"0.5px solid rgba(232,176,0,0.35)",
 borderRadius:14,padding:"14px 20px",display:"flex",alignItems:"center",gap:14,
 boxShadow:"0 8px 32px rgba(0,0,0,0.6)",minWidth:280,maxWidth:380,
 animation:"slideUp 0.35s cubic-bezier(0.34,1.56,0.64,1) forwards",
@@ -470,7 +470,7 @@ Reçois une notification quand le coach t'écrit.
 <div style={{display:"flex",flexDirection:"column",gap:6,flexShrink:0}}>
 <button onClick={()=>{ subscribePush(); setShowPushBanner(false); }}
 disabled={pushLoading}
-style={{background:"rgba(201,168,76,0.12)",border:"0.5px solid rgba(201,168,76,0.35)",color:"#C9A84C",fontFamily:"'Syne',sans-serif",fontSize:10,fontWeight:700,letterSpacing:"1.5px",textTransform:"uppercase",padding:"6px 12px",cursor:"pointer",borderRadius:20,whiteSpace:"nowrap"}}>
+style={{background:"rgba(232,176,0,0.12)",border:"0.5px solid rgba(232,176,0,0.35)",color:"#E8B000",fontFamily:"'Syne',sans-serif",fontSize:10,fontWeight:700,letterSpacing:"1.5px",textTransform:"uppercase",padding:"6px 12px",cursor:"pointer",borderRadius:20,whiteSpace:"nowrap"}}>
 {pushLoading ? "..." : "Activer"}
 </button>
 <button onClick={()=>setShowPushBanner(false)}
@@ -484,7 +484,7 @@ Plus tard
 {confetti && (
 <div style={{position:"fixed",inset:0,pointerEvents:"none",zIndex:9999,overflow:"hidden"}}>
 {Array.from({length:24}).map((_,i) => {
-const colors=["#C9A84C","#E8C87A","#7AE07A","#5DCAA5","#F0EDE8","#E07070"];
+const colors=["#E8B000","#F5C832","#7AE07A","#5DCAA5","#F0EDE8","#E07070"];
 const color=colors[i%colors.length], size=Math.random()>0.5?8:6;
 return <div key={i} className="confetti-piece" style={{left:`${Math.random()*100}%`,top:"-20px",background:color,width:size,height:size,borderRadius:Math.random()>0.5?"50%":2,animationDelay:`${Math.random()*0.6}s`,animationDuration:`${0.9+Math.random()*0.5}s`}}/>;
 })}
@@ -496,14 +496,14 @@ return <div key={i} className="confetti-piece" style={{left:`${Math.random()*100
 <button onClick={()=>setFocusMode(false)} style={{position:"absolute",top:20,right:20,background:"transparent",border:"0.5px solid #242424",color:"#555",fontFamily:"'Syne',sans-serif",fontSize:11,letterSpacing:"2px",textTransform:"uppercase",padding:"8px 16px",cursor:"pointer",borderRadius:2}}>✕ Quitter</button>
 <div style={{fontSize:10,letterSpacing:"3px",textTransform:"uppercase",color:"#555",marginBottom:16}}>Exercice {focusIdx+1} sur {exercices.length}</div>
 <div style={{display:"flex",gap:4,marginBottom:32}}>
-{exercices.map((_,i)=><div key={i} style={{height:3,width:32,borderRadius:2,background:i<focusIdx?"#7AE07A":i===focusIdx?"#C9A84C":"#242424",transition:"background 0.3s"}}/>)}
+{exercices.map((_,i)=><div key={i} style={{height:3,width:32,borderRadius:2,background:i<focusIdx?"#7AE07A":i===focusIdx?"#E8B000":"#242424",transition:"background 0.3s"}}/>)}
 </div>
 {(() => {
 const e=exercices[focusIdx]; const done=exoDone[focusIdx];
 return (
 <div key={focusIdx} className="focus-exo" style={{textAlign:"center",maxWidth:480,width:"100%"}}>
 <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"clamp(32px,6vw,52px)",fontWeight:600,color:done?"#555":"#F0EDE8",lineHeight:1.1,marginBottom:16,textDecoration:done?"line-through":"none",transition:"all 0.3s"}}>{e.nom}</div>
-<div style={{fontSize:16,color:"#C9A84C",fontWeight:700,marginBottom:8,letterSpacing:"2px"}}>{e.det}</div>
+<div style={{fontSize:16,color:"#E8B000",fontWeight:700,marginBottom:8,letterSpacing:"2px"}}>{e.det}</div>
 {e.conseil && <div style={{fontSize:14,color:"#666",marginBottom:32,lineHeight:1.7,fontFamily:"'Cormorant Garamond',serif",fontStyle:"italic"}}>⚡ {e.conseil}</div>}
 <button onClick={()=>{
 const wasUndone=!exoDone[focusIdx];
@@ -514,7 +514,7 @@ if(focusIdx<exercices.length-1) setTimeout(()=>setFocusIdx(f=>f+1),600);
 else { setConfetti(true); addToast("🎉 Séance complète ! Bravo !","gold"); vibrate([100,50,100,50,200]); setTimeout(()=>{setConfetti(false);setFocusMode(false);},2500); }
 if(e.reposSec>0) setTimer({duration:e.reposSec,name:e.nom,startedAt:Date.now()});
 }
-}} style={{background:done?"#1A3A1A":"linear-gradient(135deg,#C9A84C,#A67C2E)",border:`1px solid ${done?"#3A6A3A":"transparent"}`,color:done?"#7AE07A":"#0A0A0A",padding:"16px 40px",borderRadius:4,cursor:"pointer",fontFamily:"'Syne',sans-serif",fontSize:14,fontWeight:700,letterSpacing:"3px",textTransform:"uppercase",transition:"all 0.3s",minWidth:200}}>
+}} style={{background:done?"#1A3A1A":"linear-gradient(135deg,#E8B000,#C49200)",border:`1px solid ${done?"#3A6A3A":"transparent"}`,color:done?"#7AE07A":"#0A0A0A",padding:"16px 40px",borderRadius:4,cursor:"pointer",fontFamily:"'Syne',sans-serif",fontSize:14,fontWeight:700,letterSpacing:"3px",textTransform:"uppercase",transition:"all 0.3s",minWidth:200}}>
 {done?"✓ Fait !":"Exercice terminé →"}
 </button>
 </div>
@@ -530,9 +530,9 @@ if(e.reposSec>0) setTimer({duration:e.reposSec,name:e.nom,startedAt:Date.now()})
 {timer && <RestTimer key={timer.startedAt} duration={timer.duration} exerciseName={timer.name} onDone={()=>setTimer(null)} onSkip={()=>setTimer(null)} />}
 
 {/* ── Barre latérale verticale ── */}
-<aside className="sidebar-desktop" style={{width:64,flexShrink:0,background:"#07080A",borderRight:"0.5px solid rgba(201,168,76,0.08)",display:"flex",flexDirection:"column",alignItems:"center",padding:"14px 0",height:"100vh",position:"sticky",top:0,zIndex:50,gap:2,overflowY:"auto"}}>
+<aside className="sidebar-desktop" style={{width:64,flexShrink:0,background:"#07080A",borderRight:"0.5px solid rgba(232,176,0,0.08)",display:"flex",flexDirection:"column",alignItems:"center",padding:"14px 0",height:"100vh",position:"sticky",top:0,zIndex:50,gap:2,overflowY:"auto"}}>
   <div onClick={()=>router.push("/")} style={{cursor:"pointer",marginBottom:18,display:"flex",flexDirection:"column",alignItems:"center",gap:1}}>
-    {["A","P","X"].map(l=><span key={l} style={{fontFamily:"'Cormorant Garamond',serif",fontSize:11,fontWeight:700,letterSpacing:2,color:"#C9A84C",lineHeight:1.5}}>{l}</span>)}
+    {["A","P","X"].map(l=><span key={l} style={{fontFamily:"'Cormorant Garamond',serif",fontSize:11,fontWeight:700,letterSpacing:2,color:"#E8B000",lineHeight:1.5}}>{l}</span>)}
   </div>
   {[
     {id:"dashboard",  label:"Dashboard",   badge:null,                icon:<svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>},
@@ -548,7 +548,7 @@ if(e.reposSec>0) setTimer({duration:e.reposSec,name:e.nom,startedAt:Date.now()})
     <button key={tab.id} className="sidebar-btn"
       onClick={()=>{setPrevTab(activeTab);setActiveTab(tab.id);vibrate([30]);}}
       title={tab.label}
-      style={{width:44,height:44,display:"flex",alignItems:"center",justifyContent:"center",border:"none",cursor:"pointer",borderRadius:8,position:"relative",background:activeTab===tab.id?"rgba(201,168,76,0.12)":"transparent",color:activeTab===tab.id?"#C9A84C":"#3A3A3A",transition:"all 0.15s",animation:activeTab===tab.id?"pulse-ring 2.4s ease-in-out infinite":"none"}}>
+      style={{width:44,height:44,display:"flex",alignItems:"center",justifyContent:"center",border:"none",cursor:"pointer",borderRadius:8,position:"relative",background:activeTab===tab.id?"rgba(232,176,0,0.12)":"transparent",color:activeTab===tab.id?"#E8B000":"#3A3A3A",transition:"all 0.15s",animation:activeTab===tab.id?"pulse-ring 2.4s ease-in-out infinite":"none"}}>
       {tab.icon}
       {!!tab.badge&&<span style={{position:"absolute",top:7,right:7,width:6,height:6,background:"#E07070",borderRadius:"50%",border:"1.5px solid #07080A",animation:tab.id==="messages"?"dot-pulse 1.8s ease-in-out infinite":"none"}}/>}
     </button>
@@ -575,11 +575,11 @@ if(e.reposSec>0) setTimer({duration:e.reposSec,name:e.nom,startedAt:Date.now()})
 <div className="main-col" style={{flex:1,display:"flex",flexDirection:"column",overflow:"hidden",height:"100vh"}}>
 <nav style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"12px 24px",borderBottom:"0.5px solid #1A1A1A",background:"#0A0A0A",zIndex:100,flexShrink:0}}>
 <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:22,fontWeight:600}}>
-Bonjour <em style={{color:"#C9A84C",fontStyle:"italic"}}>{clientData?.nom||user.email.split("@")[0]}</em>
-{currentWeek&&pd&&<span style={{fontSize:10,fontFamily:"'Syne',sans-serif",letterSpacing:"1.5px",textTransform:"uppercase",background:"rgba(201,168,76,0.08)",border:"0.5px solid rgba(201,168,76,0.2)",color:"#C9A84C",padding:"3px 10px",borderRadius:20,marginLeft:12,verticalAlign:"middle"}}>Sem. {currentWeek}/{totalWeeks}</span>}
+Bonjour <em style={{color:"#E8B000",fontStyle:"italic"}}>{clientData?.nom||user.email.split("@")[0]}</em>
+{currentWeek&&pd&&<span style={{fontSize:10,fontFamily:"'Syne',sans-serif",letterSpacing:"1.5px",textTransform:"uppercase",background:"rgba(232,176,0,0.08)",border:"0.5px solid rgba(232,176,0,0.2)",color:"#E8B000",padding:"3px 10px",borderRadius:20,marginLeft:12,verticalAlign:"middle"}}>Sem. {currentWeek}/{totalWeeks}</span>}
 </div>
 <div style={{display:"flex",alignItems:"center",gap:10}}>
-<span style={{fontSize:10,letterSpacing:"1.5px",textTransform:"uppercase",background:"rgba(201,168,76,0.1)",border:"0.5px solid rgba(201,168,76,0.35)",color:"#C9A84C",padding:"5px 14px",borderRadius:20}}>Plan {planName}</span>
+<span style={{fontSize:10,letterSpacing:"1.5px",textTransform:"uppercase",background:"rgba(232,176,0,0.1)",border:"0.5px solid rgba(232,176,0,0.35)",color:"#E8B000",padding:"5px 14px",borderRadius:20}}>Plan {planName}</span>
 <LangSelector lang={lang} setLang={setLang} LANGS={LANGS} />
 </div>
 </nav>
@@ -587,7 +587,7 @@ Bonjour <em style={{color:"#C9A84C",fontStyle:"italic"}}>{clientData?.nom||user.
 {showPwdModal && (
 <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.88)",zIndex:200,display:"flex",alignItems:"center",justifyContent:"center",padding:"1rem"}}>
 <div style={{background:"#111",border:"0.5px solid #242424",padding:"2rem",width:"100%",maxWidth:400,borderRadius:4}}>
-<div style={{fontSize:11,letterSpacing:"3px",textTransform:"uppercase",color:"#C9A84C",marginBottom:"1rem"}}>— Changer le mot de passe</div>
+<div style={{fontSize:11,letterSpacing:"3px",textTransform:"uppercase",color:"#E8B000",marginBottom:"1rem"}}>— Changer le mot de passe</div>
 {pwdSuccess ? (
 <div style={{textAlign:"center",padding:"1.5rem 0"}}><div style={{fontSize:32,marginBottom:8}}>✅</div><div style={{color:"#7AE07A",fontSize:14}}>Mot de passe modifié !</div></div>
 ) : (
@@ -601,7 +601,7 @@ Bonjour <em style={{color:"#C9A84C",fontStyle:"italic"}}>{clientData?.nom||user.
 {pwdError && <div style={{background:"#1A0808",border:"0.5px solid #5A1A1A",color:"#E07070",fontSize:12,padding:"10px 14px",marginTop:1,borderRadius:2}}>{pwdError}</div>}
 <div style={{display:"flex",gap:8,marginTop:16}}>
 <button onClick={()=>{setShowPwdModal(false);setPwdError("");setPwdForm({current:"",next:"",confirm:""});}} style={{flex:1,padding:"11px",background:"transparent",border:"0.5px solid #242424",color:"#555",fontFamily:"'Syne',sans-serif",fontSize:11,letterSpacing:"2px",textTransform:"uppercase",cursor:"pointer",borderRadius:2}}>Annuler</button>
-<button onClick={handleChangePassword} disabled={pwdLoading} style={{flex:2,padding:"11px",background:"linear-gradient(135deg,#C9A84C,#A67C2E)",border:"none",color:"#0A0A0A",fontFamily:"'Syne',sans-serif",fontSize:11,fontWeight:700,letterSpacing:"2px",textTransform:"uppercase",cursor:"pointer",borderRadius:2}}>
+<button onClick={handleChangePassword} disabled={pwdLoading} style={{flex:2,padding:"11px",background:"linear-gradient(135deg,#E8B000,#C49200)",border:"none",color:"#0A0A0A",fontFamily:"'Syne',sans-serif",fontSize:11,fontWeight:700,letterSpacing:"2px",textTransform:"uppercase",cursor:"pointer",borderRadius:2}}>
 {pwdLoading?"Modification...":"Confirmer →"}
 </button>
 </div>
@@ -612,9 +612,9 @@ Bonjour <em style={{color:"#C9A84C",fontStyle:"italic"}}>{clientData?.nom||user.
 )}
 
 {showRenew && (
-<div style={{padding:"10px 24px",borderBottom:"0.5px solid rgba(201,168,76,0.15)",background:"rgba(201,168,76,0.04)",display:"flex",alignItems:"center",justifyContent:"space-between",gap:12,flexShrink:0}}>
-<div style={{fontSize:12,color:"#C9A84C"}}>🏁 Ton programme de 4 semaines touche à sa fin — prêt pour la suite ?</div>
-<button onClick={()=>router.push("/bilan")} style={{background:"linear-gradient(135deg,#C9A84C,#A67C2E)",border:"none",color:"#0A0A0A",padding:"7px 16px",fontFamily:"'Syne',sans-serif",fontSize:11,fontWeight:700,letterSpacing:"2px",textTransform:"uppercase",cursor:"pointer",borderRadius:2,flexShrink:0}}>Nouveau bilan →</button>
+<div style={{padding:"10px 24px",borderBottom:"0.5px solid rgba(232,176,0,0.15)",background:"rgba(232,176,0,0.04)",display:"flex",alignItems:"center",justifyContent:"space-between",gap:12,flexShrink:0}}>
+<div style={{fontSize:12,color:"#E8B000"}}>🏁 Ton programme de 4 semaines touche à sa fin — prêt pour la suite ?</div>
+<button onClick={()=>router.push("/bilan")} style={{background:"linear-gradient(135deg,#E8B000,#C49200)",border:"none",color:"#0A0A0A",padding:"7px 16px",fontFamily:"'Syne',sans-serif",fontSize:11,fontWeight:700,letterSpacing:"2px",textTransform:"uppercase",cursor:"pointer",borderRadius:2,flexShrink:0}}>Nouveau bilan →</button>
 </div>
 )}
 
@@ -633,8 +633,8 @@ onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
 <div style={S.cardTitle}>📐 Journal corporel <span style={{...S.tag,marginLeft:"auto"}}>Saisie hebdomadaire</span></div>
 <CorpsJournal uid={user?.uid} addToast={addToast} programmeData={pd} />
 </div>
-<div style={{background:"rgba(201,168,76,0.04)",border:"0.5px solid rgba(201,168,76,0.15)",borderRadius:4,padding:"14px",fontSize:12,color:"#555",lineHeight:1.7}}>
-💡 <strong style={{color:"#C9A84C"}}>Conseil :</strong> Note tes mesures le même jour chaque semaine, le matin à jeun. La balance peut fluctuer de 1-3 kg selon l'hydratation — les mensurations sont plus fiables.
+<div style={{background:"rgba(232,176,0,0.04)",border:"0.5px solid rgba(232,176,0,0.15)",borderRadius:4,padding:"14px",fontSize:12,color:"#555",lineHeight:1.7}}>
+💡 <strong style={{color:"#E8B000"}}>Conseil :</strong> Note tes mesures le même jour chaque semaine, le matin à jeun. La balance peut fluctuer de 1-3 kg selon l'hydratation — les mensurations sont plus fiables.
 </div>
 </div>
 )}
@@ -649,8 +649,8 @@ onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
       <div style={S.cardTitle}>🍽️ Journal alimentaire <span style={{...S.tag,marginLeft:"auto"}}>Analyse IA</span></div>
       <RepasJournal nutrition={nutrition} user={user} clientData={clientData} />
     </div>
-    <div style={{background:"rgba(201,168,76,0.04)",border:"0.5px solid rgba(201,168,76,0.15)",borderRadius:4,padding:"14px",fontSize:12,color:"#555",lineHeight:1.7}}>
-      💡 <strong style={{color:"#C9A84C"}}>Comment ça marche :</strong> Décris ton repas en texte libre — l'IA extrait les macros automatiquement. Plus tu es précis, plus l'estimation est fiable.
+    <div style={{background:"rgba(232,176,0,0.04)",border:"0.5px solid rgba(232,176,0,0.15)",borderRadius:4,padding:"14px",fontSize:12,color:"#555",lineHeight:1.7}}>
+      💡 <strong style={{color:"#E8B000"}}>Comment ça marche :</strong> Décris ton repas en texte libre — l'IA extrait les macros automatiquement. Plus tu es précis, plus l'estimation est fiable.
     </div>
   </div>
 )}

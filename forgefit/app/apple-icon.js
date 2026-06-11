@@ -1,4 +1,4 @@
-import { ImageResponse } from "next/og";
+﻿import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 export const contentType = "image/png";
@@ -22,7 +22,7 @@ export default function AppleIcon() {
         style={{
           fontSize: 96,
           fontWeight: 900,
-          color: "#C9A84C",
+          color: "#E8B000",
           fontFamily: "sans-serif",
           letterSpacing: -4,
           display: "flex",

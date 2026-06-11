@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect, useRef } from "react";
 import { beep, unlockAudio } from "./utils";
 
@@ -39,7 +39,7 @@ export function RestTimer({ duration, exerciseName, onDone, onSkip }) {
   const secs = remaining % 60;
   const isUrgent = remaining <= 5 && remaining > 0;
   const isWarning = remaining <= 10 && remaining > 5;
-  const strokeColor = isUrgent ? "#E07070" : isWarning ? "#E8C87A" : "#C9A84C";
+  const strokeColor = isUrgent ? "#E07070" : isWarning ? "#F5C832" : "#E8B000";
 
   return (
     <>
@@ -49,7 +49,7 @@ export function RestTimer({ duration, exerciseName, onDone, onSkip }) {
         @keyframes urgentGlow{0%,100%{border-color:rgba(224,112,112,0.5)}50%{border-color:rgba(224,112,112,1)}}
         .timer-wrap{position:fixed;bottom:24px;right:24px;z-index:500;background:#0D0D0D;border-radius:12px;padding:18px 20px;
           box-shadow:0 16px 48px rgba(0,0,0,0.7),0 0 0 0.5px rgba(255,255,255,0.06);min-width:230px}
-        .timer-skip:hover{color:#C9A84C !important;border-color:#C9A84C !important}
+        .timer-skip:hover{color:#E8B000 !important;border-color:#E8B000 !important}
         .timer-pause:hover{background:rgba(255,255,255,0.05) !important}
       `}</style>
       <div className="timer-wrap" style={{
@@ -80,7 +80,7 @@ export function RestTimer({ duration, exerciseName, onDone, onSkip }) {
             <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
               <div style={{
                 fontSize: 32, fontWeight: 800, fontFamily: "'Syne', sans-serif",
-                color: isUrgent ? "#E07070" : isWarning ? "#E8C87A" : "#F0EDE8",
+                color: isUrgent ? "#E07070" : isWarning ? "#F5C832" : "#F0EDE8",
                 lineHeight: 1,
                 transition: "color 0.3s ease",
               }}>

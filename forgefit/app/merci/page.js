@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useEffect, useState, useRef, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useLang } from "../useLang";
@@ -96,8 +96,8 @@ function MerciContent() {
                             .replace("{prenom}", prenom)
                             .replace("{email}", email || "ton email");
 
-  const PLAN_COLORS = { starter:"#7AE07A", forge:"#C9A84C", elite:"#E8C87A" };
-  const planColor = PLAN_COLORS[plan.toLowerCase()] || "#C9A84C";
+  const PLAN_COLORS = { starter:"#7AE07A", forge:"#E8B000", elite:"#F5C832" };
+  const planColor = PLAN_COLORS[plan.toLowerCase()] || "#E8B000";
 
   return (
     <div style={{ background:"#0A0A0A", color:"#F0EDE8", minHeight:"100vh",
@@ -109,13 +109,13 @@ function MerciContent() {
         @keyframes spin{to{transform:rotate(360deg)}}
         .a1{animation:fadeUp 0.5s ease 0.1s both}.a2{animation:fadeUp 0.5s ease 0.3s both}
         .a3{animation:fadeUp 0.5s ease 0.5s both}.a4{animation:fadeUp 0.5s ease 0.7s both}
-        .btn-cta{background:linear-gradient(135deg,#C9A84C,#A67C2E);border:none;color:#0A0A0A;padding:16px 40px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer}
+        .btn-cta{background:linear-gradient(135deg,#E8B000,#C49200);border:none;color:#0A0A0A;padding:16px 40px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer}
         .btn-sec{background:transparent;border:0.5px solid #242424;color:#555;padding:14px 28px;font-family:'Syne',sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;cursor:pointer}
       `}</style>
-      <div style={{ position:"absolute", inset:0, background:`radial-gradient(ellipse at 50% 30%, rgba(201,168,76,0.06) 0%, transparent 60%)`, pointerEvents:"none" }}/>
+      <div style={{ position:"absolute", inset:0, background:`radial-gradient(ellipse at 50% 30%, rgba(232,176,0,0.06) 0%, transparent 60%)`, pointerEvents:"none" }}/>
       <div style={{ position:"relative", zIndex:1, maxWidth:540, width:"100%" }}>
         <div className="a1" style={{ display:"inline-flex", alignItems:"center", gap:8, marginBottom:"2rem",
-          background:"rgba(201,168,76,0.1)", border:`0.5px solid ${planColor}`, padding:"6px 18px" }}>
+          background:"rgba(232,176,0,0.1)", border:`0.5px solid ${planColor}`, padding:"6px 18px" }}>
           <div style={{ width:8, height:8, borderRadius:"50%", background:planColor }}/>
           <span style={{ fontSize:10, fontWeight:700, letterSpacing:"3px", textTransform:"uppercase", color:planColor }}>
             {fill(t.badge)}
@@ -134,7 +134,7 @@ function MerciContent() {
             <div key={i} style={{ display:"flex", alignItems:"flex-start", gap:16, padding:"14px 0",
               borderBottom:i<3?"0.5px solid #111":"none", opacity:step>i?1:0.2, transition:"opacity 0.4s" }}>
               <div style={{ width:36, height:36, borderRadius:"50%", flexShrink:0,
-                background:step>i?"rgba(201,168,76,0.12)":"rgba(255,255,255,0.03)",
+                background:step>i?"rgba(232,176,0,0.12)":"rgba(255,255,255,0.03)",
                 border:`1.5px solid ${step>i?planColor:"#1A1A1A"}`,
                 display:"flex", alignItems:"center", justifyContent:"center", fontSize:14, transition:"all 0.4s" }}>
                 {step>i ? icon : i===step ? <div style={{ width:12, height:12, border:`2px solid ${planColor}`, borderTopColor:"transparent", borderRadius:"50%", animation:"spin 0.7s linear infinite" }}/> : <div style={{ width:8, height:8, borderRadius:"50%", background:"#1A1A1A" }}/>}
@@ -166,7 +166,7 @@ function MerciContent() {
 
 export default function MerciPage() {
   return (
-    <Suspense fallback={<div style={{ background:"#0A0A0A", minHeight:"100vh", display:"flex", alignItems:"center", justifyContent:"center" }}><div style={{ width:20, height:20, border:"2px solid rgba(201,168,76,0.2)", borderTopColor:"#C9A84C", borderRadius:"50%", animation:"spin 0.7s linear infinite" }}/></div>}>
+    <Suspense fallback={<div style={{ background:"#0A0A0A", minHeight:"100vh", display:"flex", alignItems:"center", justifyContent:"center" }}><div style={{ width:20, height:20, border:"2px solid rgba(232,176,0,0.2)", borderTopColor:"#E8B000", borderRadius:"50%", animation:"spin 0.7s linear infinite" }}/></div>}>
       <MerciContent />
     </Suspense>
   );

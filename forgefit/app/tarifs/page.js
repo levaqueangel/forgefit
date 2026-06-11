@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -31,7 +31,7 @@ const PLANS = [
     annual: 389.90,
     annualPerMonth: 32.49,
     tag: "Le plus choisi",
-    tagColor: "#C9A84C",
+    tagColor: "#E8B000",
     highlight: true,
     desc: "La formule complète pour progresser avec un suivi régulier et des ajustements.",
     features: [
@@ -143,13 +143,13 @@ export default function TarifsPage() {
         *{box-sizing:border-box;margin:0;padding:0}
         @keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
         @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-        .gold{background:linear-gradient(90deg,#C9A84C,#E8C87A,#F5D98A,#C9A84C);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 2.5s linear infinite}
+        .gold{background:linear-gradient(90deg,#E8B000,#F5C832,#F5C832,#E8B000);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 2.5s linear infinite}
         .plan-card{border:0.5px solid #1E1E1E;border-radius:4px;padding:28px 24px;display:flex;flex-direction:column;gap:20px;transition:border-color 0.2s,transform 0.2s;animation:fadeUp 0.4s ease both}
-        .plan-card.highlight{border-color:rgba(201,168,76,0.4);background:rgba(201,168,76,0.03)}
-        .plan-card:hover{transform:translateY(-2px);border-color:#C9A84C55}
+        .plan-card.highlight{border-color:rgba(232,176,0,0.4);background:rgba(232,176,0,0.03)}
+        .plan-card:hover{transform:translateY(-2px);border-color:#E8B00055}
         .cta-btn{border:none;color:#0A0A0A;padding:13px 24px;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;cursor:pointer;border-radius:2px;width:100%;transition:opacity 0.15s}
         .cta-btn:hover{opacity:0.85}
-        .cta-btn.outline{background:transparent;border:0.5px solid #C9A84C;color:#C9A84C}
+        .cta-btn.outline{background:transparent;border:0.5px solid #E8B000;color:#E8B000}
         .compare-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;align-items:center;padding:10px 16px;border-bottom:0.5px solid #141414}
         .compare-row:hover{background:rgba(255,255,255,0.015)}
         @media(max-width:768px){
@@ -162,10 +162,10 @@ export default function TarifsPage() {
       {/* Nav */}
       <nav style={{ display:"flex", alignItems:"center", justifyContent:"space-between", padding:"18px 28px", borderBottom:"0.5px solid #1A1A1A", position:"sticky", top:0, background:"#0A0A0A", zIndex:100 }}>
         <div style={{ fontSize:20, fontWeight:800, letterSpacing:5, cursor:"pointer" }} onClick={() => router.push("/")}>
-          APXFIT<span style={{ color:"#C9A84C" }}>NESS</span>
+          APXFIT<span style={{ color:"#E8B000" }}>NESS</span>
         </div>
         <div style={{ display:"flex", gap:12 }}>
-          <button onClick={() => router.push("/bilan")} style={{ background:"linear-gradient(135deg,#C9A84C,#A67C2E)", border:"none", color:"#0A0A0A", fontFamily:"'Syne',sans-serif", fontSize:11, fontWeight:700, letterSpacing:"2px", textTransform:"uppercase", padding:"8px 18px", cursor:"pointer", borderRadius:2 }}>
+          <button onClick={() => router.push("/bilan")} style={{ background:"linear-gradient(135deg,#E8B000,#C49200)", border:"none", color:"#0A0A0A", fontFamily:"'Syne',sans-serif", fontSize:11, fontWeight:700, letterSpacing:"2px", textTransform:"uppercase", padding:"8px 18px", cursor:"pointer", borderRadius:2 }}>
             Commencer →
           </button>
           <button onClick={() => router.push("/")} style={{ background:"transparent", border:"0.5px solid #242424", color:"#555", fontFamily:"'Syne',sans-serif", fontSize:11, letterSpacing:"2px", textTransform:"uppercase", padding:"8px 18px", cursor:"pointer", borderRadius:2 }}>
@@ -176,8 +176,8 @@ export default function TarifsPage() {
 
       {/* Hero */}
       <div style={{ padding:"4rem 2rem 3rem", textAlign:"center", borderBottom:"0.5px solid #1A1A1A", position:"relative", overflow:"hidden" }}>
-        <div style={{ position:"absolute", inset:0, background:"radial-gradient(ellipse at 50% 120%,rgba(201,168,76,0.05),transparent 65%)", pointerEvents:"none" }} />
-        <div style={{ fontSize:11, letterSpacing:"4px", textTransform:"uppercase", color:"#C9A84C", marginBottom:"1rem" }}>— Investis en toi</div>
+        <div style={{ position:"absolute", inset:0, background:"radial-gradient(ellipse at 50% 120%,rgba(232,176,0,0.05),transparent 65%)", pointerEvents:"none" }} />
+        <div style={{ fontSize:11, letterSpacing:"4px", textTransform:"uppercase", color:"#E8B000", marginBottom:"1rem" }}>— Investis en toi</div>
         <h1 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(36px,6vw,64px)", fontWeight:600, lineHeight:1.1, marginBottom:"1rem" }}>
           Des plans pensés pour<br /><em className="gold" style={{ fontStyle:"italic" }}>tes résultats</em>
         </h1>
@@ -186,7 +186,7 @@ export default function TarifsPage() {
         </p>
         <div style={{ display:"flex", gap:24, justifyContent:"center", flexWrap:"wrap" }}>
           {["✓ Livraison en 48h", "✓ Garantie 14 jours", "✓ 100% sur mesure"].map(t => (
-            <span key={t} style={{ fontSize:12, letterSpacing:"1px", color:"#C9A84C" }}>{t}</span>
+            <span key={t} style={{ fontSize:12, letterSpacing:"1px", color:"#E8B000" }}>{t}</span>
           ))}
         </div>
       </div>
@@ -202,9 +202,9 @@ export default function TarifsPage() {
               key={opt.value}
               onClick={() => setBilling(opt.value)}
               style={{
-                background: billing === opt.value ? "rgba(201,168,76,0.15)" : "transparent",
-                border: billing === opt.value ? "0.5px solid rgba(201,168,76,0.4)" : "0.5px solid transparent",
-                color: billing === opt.value ? "#C9A84C" : "#555",
+                background: billing === opt.value ? "rgba(232,176,0,0.15)" : "transparent",
+                border: billing === opt.value ? "0.5px solid rgba(232,176,0,0.4)" : "0.5px solid transparent",
+                color: billing === opt.value ? "#E8B000" : "#555",
                 fontFamily: "'Syne',sans-serif",
                 fontSize: 11,
                 fontWeight: 700,
@@ -223,7 +223,7 @@ export default function TarifsPage() {
               {opt.value === "annual" && (
                 <span style={{
                   fontSize: 9,
-                  background: "linear-gradient(135deg,#C9A84C,#A67C2E)",
+                  background: "linear-gradient(135deg,#E8B000,#C49200)",
                   color: "#0A0A0A",
                   padding: "2px 6px",
                   borderRadius: 10,
@@ -255,7 +255,7 @@ export default function TarifsPage() {
                   {plan.tag}
                 </span>
                 {plan.highlight && (
-                  <span style={{ fontSize:10, letterSpacing:"2px", color:"#C9A84C" }}>⭐ Recommandé</span>
+                  <span style={{ fontSize:10, letterSpacing:"2px", color:"#E8B000" }}>⭐ Recommandé</span>
                 )}
               </div>
 
@@ -266,7 +266,7 @@ export default function TarifsPage() {
                 </div>
                 {billing === "monthly" ? (
                   <div style={{ display:"flex", alignItems:"baseline", gap:6 }}>
-                    <span style={{ fontSize:42, fontWeight:800, color: plan.highlight ? "#C9A84C" : "#F0EDE8", lineHeight:1 }}>
+                    <span style={{ fontSize:42, fontWeight:800, color: plan.highlight ? "#E8B000" : "#F0EDE8", lineHeight:1 }}>
                       {plan.monthly.toFixed(2).replace(".",",")}€
                     </span>
                     <span style={{ fontSize:12, color:"#444", letterSpacing:"1px" }}>/mois</span>
@@ -274,7 +274,7 @@ export default function TarifsPage() {
                 ) : (
                   <div>
                     <div style={{ display:"flex", alignItems:"baseline", gap:6 }}>
-                      <span style={{ fontSize:42, fontWeight:800, color: plan.highlight ? "#C9A84C" : "#F0EDE8", lineHeight:1 }}>
+                      <span style={{ fontSize:42, fontWeight:800, color: plan.highlight ? "#E8B000" : "#F0EDE8", lineHeight:1 }}>
                         {plan.annual.toFixed(2).replace(".",",")}€
                       </span>
                       <span style={{ fontSize:12, color:"#444", letterSpacing:"1px" }}>/an</span>
@@ -293,7 +293,7 @@ export default function TarifsPage() {
               <div style={{ display:"flex", flexDirection:"column", gap:8, flex:1 }}>
                 {plan.features.map((f, fi) => (
                   <div key={fi} style={{ display:"flex", gap:10, alignItems:"flex-start" }}>
-                    <span style={{ fontSize:14, color: f.ok ? "#C9A84C" : "#2A2A2A", marginTop:1, flexShrink:0 }}>
+                    <span style={{ fontSize:14, color: f.ok ? "#E8B000" : "#2A2A2A", marginTop:1, flexShrink:0 }}>
                       {f.ok ? "✓" : "×"}
                     </span>
                     <span style={{ fontSize:13, color: f.ok ? "#888" : "#2A2A2A", lineHeight:1.5 }}>
@@ -307,7 +307,7 @@ export default function TarifsPage() {
               <button
                 className={`cta-btn${plan.highlight ? "" : " outline"}`}
                 style={{
-                  ...(plan.highlight ? { background:"linear-gradient(135deg,#C9A84C,#A67C2E)" } : {}),
+                  ...(plan.highlight ? { background:"linear-gradient(135deg,#E8B000,#C49200)" } : {}),
                   opacity: loadingPlan && loadingPlan !== plan.id ? 0.5 : 1,
                   cursor: loadingPlan ? "not-allowed" : "pointer",
                 }}
@@ -331,7 +331,7 @@ export default function TarifsPage() {
       {/* Tableau comparatif */}
       <div style={{ maxWidth:900, margin:"0 auto", padding:"2rem 1.5rem 4rem" }}>
         <div style={{ textAlign:"center", marginBottom:"2.5rem" }}>
-          <div style={{ fontSize:11, letterSpacing:"4px", textTransform:"uppercase", color:"#C9A84C", marginBottom:8 }}>— Détail</div>
+          <div style={{ fontSize:11, letterSpacing:"4px", textTransform:"uppercase", color:"#E8B000", marginBottom:8 }}>— Détail</div>
           <h2 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(28px,4vw,42px)", fontWeight:600 }}>
             Comparaison complète
           </h2>
@@ -341,7 +341,7 @@ export default function TarifsPage() {
         <div className="compare-row" style={{ borderBottom:"0.5px solid #2A2A2A", paddingBottom:12, marginBottom:0 }}>
           <div style={{ fontSize:11, letterSpacing:"2px", color:"#555", textTransform:"uppercase" }}>Fonctionnalité</div>
           {PLANS.map(p => (
-            <div key={p.id} style={{ textAlign:"center", fontSize:12, fontWeight:700, color: p.highlight ? "#C9A84C" : "#F0EDE8", letterSpacing:"1px" }}>
+            <div key={p.id} style={{ textAlign:"center", fontSize:12, fontWeight:700, color: p.highlight ? "#E8B000" : "#F0EDE8", letterSpacing:"1px" }}>
               {p.name}
             </div>
           ))}
@@ -358,7 +358,7 @@ export default function TarifsPage() {
                 {["starter","forge","elite"].map(p => (
                   <div key={p} style={{ textAlign:"center", fontSize:16 }}>
                     {row[p]
-                      ? <span style={{ color:"#C9A84C" }}>✓</span>
+                      ? <span style={{ color:"#E8B000" }}>✓</span>
                       : <span style={{ color:"#222" }}>—</span>
                     }
                   </div>
@@ -375,7 +375,7 @@ export default function TarifsPage() {
           </div>
           {PLANS.map(p => (
             <div key={p.id} style={{ textAlign:"center" }}>
-              <div style={{ fontSize:20, fontWeight:800, color: p.highlight ? "#C9A84C" : "#F0EDE8" }}>
+              <div style={{ fontSize:20, fontWeight:800, color: p.highlight ? "#E8B000" : "#F0EDE8" }}>
                 {billing === "annual"
                   ? `${p.annual.toFixed(2).replace(".",",")}€`
                   : `${p.monthly.toFixed(2).replace(".",",")}€`}
@@ -393,7 +393,7 @@ export default function TarifsPage() {
       {/* FAQ rapide */}
       <div style={{ maxWidth:720, margin:"0 auto", padding:"0 1.5rem 5rem" }}>
         <div style={{ textAlign:"center", marginBottom:"2rem" }}>
-          <div style={{ fontSize:11, letterSpacing:"4px", textTransform:"uppercase", color:"#C9A84C", marginBottom:8 }}>— Questions fréquentes</div>
+          <div style={{ fontSize:11, letterSpacing:"4px", textTransform:"uppercase", color:"#E8B000", marginBottom:8 }}>— Questions fréquentes</div>
           <h2 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(24px,3vw,36px)", fontWeight:600 }}>À savoir avant de commander</h2>
         </div>
         {[
@@ -416,8 +416,8 @@ export default function TarifsPage() {
 
       {/* CTA final */}
       <div style={{ borderTop:"0.5px solid #1A1A1A", padding:"4rem 2rem", textAlign:"center", background:"#080808", position:"relative", overflow:"hidden" }}>
-        <div style={{ position:"absolute", inset:0, background:"radial-gradient(ellipse at 50% 0%,rgba(201,168,76,0.06),transparent 60%)", pointerEvents:"none" }} />
-        <div style={{ fontSize:11, letterSpacing:"4px", textTransform:"uppercase", color:"#C9A84C", marginBottom:"1rem" }}>— Commence maintenant</div>
+        <div style={{ position:"absolute", inset:0, background:"radial-gradient(ellipse at 50% 0%,rgba(232,176,0,0.06),transparent 60%)", pointerEvents:"none" }} />
+        <div style={{ fontSize:11, letterSpacing:"4px", textTransform:"uppercase", color:"#E8B000", marginBottom:"1rem" }}>— Commence maintenant</div>
         <h2 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(28px,4vw,48px)", fontWeight:600, marginBottom:"1rem", lineHeight:1.2 }}>
           Ton programme t'attend
         </h2>
@@ -425,7 +425,7 @@ export default function TarifsPage() {
           Remplis ton bilan en 5 minutes. Reçois ton programme musculation + nutrition en 48h.
         </p>
         <button onClick={() => router.push("/bilan")} style={{
-          background:"linear-gradient(135deg,#C9A84C,#A67C2E)", border:"none", color:"#0A0A0A",
+          background:"linear-gradient(135deg,#E8B000,#C49200)", border:"none", color:"#0A0A0A",
           padding:"16px 40px", fontFamily:"'Syne',sans-serif", fontSize:12, fontWeight:700,
           letterSpacing:"3px", textTransform:"uppercase", cursor:"pointer", borderRadius:2,
         }}>
@@ -435,7 +435,7 @@ export default function TarifsPage() {
 
       {/* Footer */}
       <footer style={{ padding:"1.5rem 2rem", display:"flex", justifyContent:"space-between", alignItems:"center", borderTop:"0.5px solid #1A1A1A", flexWrap:"wrap", gap:12 }}>
-        <div style={{ fontSize:16, fontWeight:800, letterSpacing:5 }}>APXFIT<span style={{ color:"#C9A84C" }}>NESS</span></div>
+        <div style={{ fontSize:16, fontWeight:800, letterSpacing:5 }}>APXFIT<span style={{ color:"#E8B000" }}>NESS</span></div>
         <div style={{ fontSize:11, letterSpacing:"2px", color:"#555", textTransform:"uppercase" }}>© 2026 APXFITNESS</div>
         <span onClick={() => router.push("/mentions-legales")} style={{ fontSize:11, color:"#555", textDecoration:"underline", cursor:"pointer" }}>
           Mentions légales

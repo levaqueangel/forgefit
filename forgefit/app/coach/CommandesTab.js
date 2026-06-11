@@ -1,7 +1,7 @@
-"use client";
+﻿"use client";
 import { useState } from "react";
 
-const PLAN_COLORS = { starter:"#7AE07A", forge:"#C9A84C", elite:"#E8C87A" };
+const PLAN_COLORS = { starter:"#7AE07A", forge:"#E8B000", elite:"#F5C832" };
 
 export function CommandesView({ orders, clients, user, activatingOrder, setActivatingOrder, addToast }) {
   const [filter, setFilter] = useState("all"); // all | pending | activated
@@ -77,14 +77,14 @@ export function CommandesView({ orders, clients, user, activatingOrder, setActiv
       {/* En-tête */}
       <div style={{display:"flex",alignItems:"flex-end",justifyContent:"space-between",gap:16,flexWrap:"wrap"}}>
         <div>
-          <div style={{fontSize:10,letterSpacing:"4px",textTransform:"uppercase",color:"#C9A84C",marginBottom:6}}>— Stripe</div>
+          <div style={{fontSize:10,letterSpacing:"4px",textTransform:"uppercase",color:"#E8B000",marginBottom:6}}>— Stripe</div>
           <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:36,fontWeight:600,color:"#F0EDE8"}}>
             Commandes
           </div>
         </div>
         <div style={{display:"flex",gap:10,alignItems:"center"}}>
           {[
-            {label:"Total",      val:orders.length,     color:"#C9A84C"},
+            {label:"Total",      val:orders.length,     color:"#E8B000"},
             {label:"À activer",  val:pendingCount,      color:pendingCount>0?"#E07070":"#555"},
             {label:"Revenus",    val:`${totalRevenue}€`, color:"#7AE07A"},
           ].map((k,i) => (
@@ -130,9 +130,9 @@ export function CommandesView({ orders, clients, user, activatingOrder, setActiv
       <div style={{display:"flex",gap:6}}>
         {[["all","Toutes"],["pending","À activer"],["activated","Activées"]].map(([val,label]) => (
           <button key={val} onClick={() => setFilter(val)} style={{
-            background:filter===val?"rgba(201,168,76,0.12)":"transparent",
-            border:`0.5px solid ${filter===val?"rgba(201,168,76,0.4)":"#1E1E1E"}`,
-            color:filter===val?"#E8C87A":"#555",
+            background:filter===val?"rgba(232,176,0,0.12)":"transparent",
+            border:`0.5px solid ${filter===val?"rgba(232,176,0,0.4)":"#1E1E1E"}`,
+            color:filter===val?"#F5C832":"#555",
             fontFamily:"'Syne',sans-serif",fontSize:10,fontWeight:700,
             letterSpacing:"1.5px",textTransform:"uppercase",
             padding:"6px 16px",cursor:"pointer",borderRadius:20,transition:"all 0.15s",
@@ -163,7 +163,7 @@ export function CommandesView({ orders, clients, user, activatingOrder, setActiv
               }}>
                 <div style={{
                   fontSize:9,fontWeight:700,letterSpacing:"2px",textTransform:"uppercase",
-                  color:planColor,background:`rgba(${planColor==="#7AE07A"?"122,224,122":planColor==="#C9A84C"?"201,168,76":"232,200,122"},0.1)`,
+                  color:planColor,background:`rgba(${planColor==="#7AE07A"?"122,224,122":planColor==="#E8B000"?"232,176,0":"232,200,122"},0.1)`,
                   padding:"4px 12px",borderRadius:20,flexShrink:0,fontFamily:"'Syne',sans-serif",
                   border:`0.5px solid ${planColor}33`,
                 }}>{order.plan?.toUpperCase() || "—"}</div>
@@ -192,7 +192,7 @@ export function CommandesView({ orders, clients, user, activatingOrder, setActiv
                       onClick={() => activerClient(order)}
                       disabled={!!activatingOrder}
                       style={{
-                        background:isActivating?"#181818":"linear-gradient(135deg,#C9A84C,#A67C2E)",
+                        background:isActivating?"#181818":"linear-gradient(135deg,#E8B000,#C49200)",
                         border:"none",color:"#0A0A0A",
                         fontFamily:"'Syne',sans-serif",fontSize:10,fontWeight:700,
                         letterSpacing:"1.5px",textTransform:"uppercase",

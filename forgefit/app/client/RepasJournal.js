@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect, useCallback } from "react";
 import { auth } from "../firebase";
 import { ScanRepas } from "./ScanRepas";
@@ -40,9 +40,9 @@ function RepasCard({ repas, onDelete }) {
           {repas.nom || repas.description}
         </div>
         <div style={{ display:"flex", gap:10, flexWrap:"wrap" }}>
-          <span style={{ fontSize:10, color:"#C9A84C" }}>⚡ {repas.calories} kcal</span>
+          <span style={{ fontSize:10, color:"#E8B000" }}>⚡ {repas.calories} kcal</span>
           <span style={{ fontSize:10, color:"#7AE07A" }}>P {repas.proteines}g</span>
-          <span style={{ fontSize:10, color:"#E8C87A" }}>G {repas.glucides}g</span>
+          <span style={{ fontSize:10, color:"#F5C832" }}>G {repas.glucides}g</span>
           <span style={{ fontSize:10, color:"#88A0E0" }}>L {repas.lipides}g</span>
           {repas.heure && <span style={{ fontSize:10, color:"#555" }}>{repas.heure}</span>}
         </div>
@@ -157,7 +157,7 @@ export function RepasJournal({ nutrition, user, clientData }) {
   };
 
   const pctCalories = nutrition?.calories_jour ? Math.min(100, Math.round(totaux.calories / nutrition.calories_jour * 100)) : 0;
-  const couleurPct = pctCalories > 110 ? "#E07070" : pctCalories > 90 ? "#7AE07A" : "#C9A84C";
+  const couleurPct = pctCalories > 110 ? "#E07070" : pctCalories > 90 ? "#7AE07A" : "#E8B000";
 
   return (
     <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
@@ -172,7 +172,7 @@ export function RepasJournal({ nutrition, user, clientData }) {
             </div>
           </div>
           <MacroBar label="Protéines" val={Math.round(totaux.proteines)} max={nutrition.proteines_g} color="#7AE07A"/>
-          <MacroBar label="Glucides"  val={Math.round(totaux.glucides)}  max={nutrition.glucides_g}  color="#E8C87A"/>
+          <MacroBar label="Glucides"  val={Math.round(totaux.glucides)}  max={nutrition.glucides_g}  color="#F5C832"/>
           <MacroBar label="Lipides"   val={Math.round(totaux.lipides)}   max={nutrition.lipides_g}   color="#88A0E0"/>
         </div>
       )}
@@ -187,9 +187,9 @@ export function RepasJournal({ nutrition, user, clientData }) {
             { id:"barcode", label:"🏷 Code-barres" },
           ].map(m => (
             <button key={m.id} onClick={() => setSaisieMode(m.id)} style={{
-              background: saisieMode === m.id ? "rgba(201,168,76,0.12)" : "transparent",
+              background: saisieMode === m.id ? "rgba(232,176,0,0.12)" : "transparent",
               border: "none", borderRight: m.id !== "barcode" ? "0.5px solid #1A1A1A" : "none",
-              color: saisieMode === m.id ? "#C9A84C" : "#555",
+              color: saisieMode === m.id ? "#E8B000" : "#555",
               fontFamily:"'Syne',sans-serif", fontSize:10, fontWeight:700,
               letterSpacing:"1.5px", textTransform:"uppercase",
               padding:"8px 16px", cursor:"pointer", transition:"all 0.15s",
@@ -245,9 +245,9 @@ export function RepasJournal({ nutrition, user, clientData }) {
                 }}
               />
               <button onClick={analyser} disabled={!input.trim() || loading} style={{
-                background: input.trim() ? "rgba(201,168,76,0.12)" : "transparent",
-                border: `0.5px solid ${input.trim() ? "rgba(201,168,76,0.4)" : "#1A1A1A"}`,
-                color: input.trim() ? "#C9A84C" : "#333",
+                background: input.trim() ? "rgba(232,176,0,0.12)" : "transparent",
+                border: `0.5px solid ${input.trim() ? "rgba(232,176,0,0.4)" : "#1A1A1A"}`,
+                color: input.trim() ? "#E8B000" : "#333",
                 fontFamily:"'Syne',sans-serif", fontSize:10, fontWeight:700,
                 letterSpacing:"1.5px", textTransform:"uppercase",
                 padding:"0 16px", borderRadius:10, cursor: input.trim() ? "pointer" : "not-allowed",
@@ -261,23 +261,23 @@ export function RepasJournal({ nutrition, user, clientData }) {
 
             {/* Preview texte */}
             {preview && (
-              <div style={{ marginTop:10, background:"rgba(201,168,76,0.04)", border:"0.5px solid rgba(201,168,76,0.2)", borderRadius:10, padding:"12px 14px" }}>
+              <div style={{ marginTop:10, background:"rgba(232,176,0,0.04)", border:"0.5px solid rgba(232,176,0,0.2)", borderRadius:10, padding:"12px 14px" }}>
                 <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:8 }}>
                   <div>
                     <div style={{ fontSize:12, fontWeight:700, color:"#F0EDE8", fontFamily:"'Syne',sans-serif", marginBottom:4 }}>
                       {preview.nom}
                     </div>
                     <div style={{ display:"flex", gap:10, flexWrap:"wrap" }}>
-                      <span style={{ fontSize:11, color:"#C9A84C" }}>⚡ {preview.calories} kcal</span>
+                      <span style={{ fontSize:11, color:"#E8B000" }}>⚡ {preview.calories} kcal</span>
                       <span style={{ fontSize:11, color:"#7AE07A" }}>P {preview.proteines}g</span>
-                      <span style={{ fontSize:11, color:"#E8C87A" }}>G {preview.glucides}g</span>
+                      <span style={{ fontSize:11, color:"#F5C832" }}>G {preview.glucides}g</span>
                       <span style={{ fontSize:11, color:"#88A0E0" }}>L {preview.lipides}g</span>
                     </div>
                     {!preview.fiable && <div style={{ fontSize:9, color:"#555", marginTop:4 }}>* estimation approximative</div>}
                   </div>
                   <div style={{ display:"flex", gap:6 }}>
                     <button onClick={() => setPreview(null)} style={{ background:"transparent", border:"0.5px solid #242424", color:"#555", fontFamily:"'Syne',sans-serif", fontSize:10, letterSpacing:"1px", padding:"6px 10px", borderRadius:8, cursor:"pointer" }}>✕</button>
-                    <button onClick={sauvegarder} disabled={loading} style={{ background:"linear-gradient(135deg,#C9A84C,#A67C2E)", border:"none", color:"#0A0A0A", fontFamily:"'Syne',sans-serif", fontSize:10, fontWeight:700, letterSpacing:"1.5px", textTransform:"uppercase", padding:"6px 14px", borderRadius:8, cursor:"pointer" }}>
+                    <button onClick={sauvegarder} disabled={loading} style={{ background:"linear-gradient(135deg,#E8B000,#C49200)", border:"none", color:"#0A0A0A", fontFamily:"'Syne',sans-serif", fontSize:10, fontWeight:700, letterSpacing:"1.5px", textTransform:"uppercase", padding:"6px 14px", borderRadius:8, cursor:"pointer" }}>
                       {saved ? "✓" : "Enregistrer"}
                     </button>
                   </div>

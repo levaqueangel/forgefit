@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect } from "react";
 
 export function ObjectifsCoach({ clientId, token, addToast }) {
@@ -57,7 +57,7 @@ export function ObjectifsCoach({ clientId, token, addToast }) {
     <div style={{ padding:"8px 14px", borderBottom:"0.5px solid #1A1A1A" }}>
       <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom: open ? 8 : 0 }}>
         <div style={{ fontSize:9, letterSpacing:"3px", textTransform:"uppercase", color:"#555" }}>🎯 Objectifs semaine</div>
-        <button onClick={() => setOpen(p=>!p)} style={{ fontSize:9, letterSpacing:"1px", textTransform:"uppercase", background:"rgba(201,168,76,0.08)", border:"0.5px solid rgba(201,168,76,0.2)", color:"#C9A84C", padding:"3px 10px", cursor:"pointer", borderRadius:10, fontFamily:"'Syne',sans-serif" }}>
+        <button onClick={() => setOpen(p=>!p)} style={{ fontSize:9, letterSpacing:"1px", textTransform:"uppercase", background:"rgba(232,176,0,0.08)", border:"0.5px solid rgba(232,176,0,0.2)", color:"#E8B000", padding:"3px 10px", cursor:"pointer", borderRadius:10, fontFamily:"'Syne',sans-serif" }}>
           {open ? "Fermer" : "Définir"}
         </button>
       </div>
@@ -78,11 +78,11 @@ export function ObjectifsCoach({ clientId, token, addToast }) {
                     placeholder={`Objectif ${objectifs.length+1}/5...`}
                     style={{ flex:1, background:"#0D0D0D", border:"0.5px solid #1A1A1A", borderRadius:8, padding:"6px 10px", color:"#F0EDE8", fontFamily:"'Syne',sans-serif", fontSize:11, outline:"none" }}
                   />
-                  <button onClick={ajouter} disabled={!input.trim()} style={{ background:"rgba(201,168,76,0.1)", border:"0.5px solid rgba(201,168,76,0.3)", color:"#C9A84C", borderRadius:8, width:30, cursor:"pointer" }}>+</button>
+                  <button onClick={ajouter} disabled={!input.trim()} style={{ background:"rgba(232,176,0,0.1)", border:"0.5px solid rgba(232,176,0,0.3)", color:"#E8B000", borderRadius:8, width:30, cursor:"pointer" }}>+</button>
                 </div>
               )}
               {objectifs.length > 0 && (
-                <button onClick={sauvegarder} disabled={saving} style={{ background:"linear-gradient(135deg,#C9A84C,#A67C2E)", border:"none", color:"#0A0A0A", fontFamily:"'Syne',sans-serif", fontSize:10, fontWeight:700, letterSpacing:"1.5px", textTransform:"uppercase", padding:"7px", borderRadius:8, cursor:"pointer" }}>
+                <button onClick={sauvegarder} disabled={saving} style={{ background:"linear-gradient(135deg,#E8B000,#C49200)", border:"none", color:"#0A0A0A", fontFamily:"'Syne',sans-serif", fontSize:10, fontWeight:700, letterSpacing:"1.5px", textTransform:"uppercase", padding:"7px", borderRadius:8, cursor:"pointer" }}>
                   {saving ? "..." : "Envoyer →"}
                 </button>
               )}

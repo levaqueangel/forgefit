@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useRef, useState } from "react";
 
 // ── Compression image côté client ─────────────────────────────────────────────
@@ -54,7 +54,7 @@ function ConfidenceBadge({ confiance, fiable }) {
       ⚠ Estimation approximative
     </span>
   );
-  const color = confiance >= 80 ? "#7AE07A" : confiance >= 55 ? "#C9A84C" : "#E07070";
+  const color = confiance >= 80 ? "#7AE07A" : confiance >= 55 ? "#E8B000" : "#E07070";
   const label = confiance >= 80 ? "Analyse fiable" : confiance >= 55 ? "Estimation modérée" : "Peu fiable";
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
@@ -228,9 +228,9 @@ export function ScanRepas({ user, onSave, clientData }) {
             <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 4 }}>
               <span style={{
                 fontSize: 9, letterSpacing: "1.5px", textTransform: "uppercase", padding: "2px 8px", borderRadius: 10,
-                color: photoRemaining === 0 ? "#E07070" : photoRemaining <= 1 ? "#C9A84C" : "#555",
-                background: photoRemaining === 0 ? "rgba(224,112,112,0.08)" : photoRemaining <= 1 ? "rgba(201,168,76,0.08)" : "transparent",
-                border: `0.5px solid ${photoRemaining === 0 ? "rgba(224,112,112,0.2)" : photoRemaining <= 1 ? "rgba(201,168,76,0.2)" : "transparent"}`,
+                color: photoRemaining === 0 ? "#E07070" : photoRemaining <= 1 ? "#E8B000" : "#555",
+                background: photoRemaining === 0 ? "rgba(224,112,112,0.08)" : photoRemaining <= 1 ? "rgba(232,176,0,0.08)" : "transparent",
+                border: `0.5px solid ${photoRemaining === 0 ? "rgba(224,112,112,0.2)" : photoRemaining <= 1 ? "rgba(232,176,0,0.2)" : "transparent"}`,
               }}>
                 {photoRemaining === 0 ? "Limite atteinte aujourd'hui" : `${photoRemaining} scan${photoRemaining > 1 ? "s" : ""} restant${photoRemaining > 1 ? "s" : ""} aujourd'hui`}
               </span>
@@ -242,16 +242,16 @@ export function ScanRepas({ user, onSave, clientData }) {
             onClick={() => photoRemaining !== 0 ? fileRef.current?.click() : null}
             disabled={photoRemaining === 0}
             style={{
-              background: photoRemaining === 0 ? "rgba(30,30,30,0.5)" : "rgba(201,168,76,0.04)",
-              border: `1px dashed ${photoRemaining === 0 ? "rgba(80,80,80,0.3)" : "rgba(201,168,76,0.25)"}`,
-              color: photoRemaining === 0 ? "#333" : "#C9A84C", fontFamily: "'Syne',sans-serif",
+              background: photoRemaining === 0 ? "rgba(30,30,30,0.5)" : "rgba(232,176,0,0.04)",
+              border: `1px dashed ${photoRemaining === 0 ? "rgba(80,80,80,0.3)" : "rgba(232,176,0,0.25)"}`,
+              color: photoRemaining === 0 ? "#333" : "#E8B000", fontFamily: "'Syne',sans-serif",
               fontSize: 13, fontWeight: 600, letterSpacing: "1px",
               padding: "28px 20px", cursor: photoRemaining === 0 ? "not-allowed" : "pointer", width: "100%",
               display: "flex", flexDirection: "column", alignItems: "center", gap: 10,
               transition: "all 0.2s",
             }}
-            onMouseEnter={e => { if (photoRemaining !== 0) { e.currentTarget.style.background = "rgba(201,168,76,0.08)"; e.currentTarget.style.borderColor = "rgba(201,168,76,0.5)"; } }}
-            onMouseLeave={e => { if (photoRemaining !== 0) { e.currentTarget.style.background = "rgba(201,168,76,0.04)"; e.currentTarget.style.borderColor = "rgba(201,168,76,0.25)"; } }}
+            onMouseEnter={e => { if (photoRemaining !== 0) { e.currentTarget.style.background = "rgba(232,176,0,0.08)"; e.currentTarget.style.borderColor = "rgba(232,176,0,0.5)"; } }}
+            onMouseLeave={e => { if (photoRemaining !== 0) { e.currentTarget.style.background = "rgba(232,176,0,0.04)"; e.currentTarget.style.borderColor = "rgba(232,176,0,0.25)"; } }}
           >
             <span style={{ fontSize: 36 }}>📸</span>
             <span>Prendre une photo de ton repas</span>
@@ -322,7 +322,7 @@ export function ScanRepas({ user, onSave, clientData }) {
                   )}
 
                   <button onClick={analyze} style={{
-                    background: "linear-gradient(135deg,#C9A84C,#A67C2E)",
+                    background: "linear-gradient(135deg,#E8B000,#C49200)",
                     border: "none", color: "#0A0A0A", fontFamily: "'Syne',sans-serif",
                     fontWeight: 800, fontSize: 11, letterSpacing: "1.5px", textTransform: "uppercase",
                     padding: "10px 18px", cursor: "pointer", width: "100%", borderRadius: 4,
@@ -335,7 +335,7 @@ export function ScanRepas({ user, onSave, clientData }) {
               {loading && (
                 <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                    <div style={{ width: 24, height: 24, border: "2px solid #1A1A1A", borderTop: "2px solid #C9A84C", borderRadius: "50%", animation: "spin 0.8s linear infinite", flexShrink: 0 }} />
+                    <div style={{ width: 24, height: 24, border: "2px solid #1A1A1A", borderTop: "2px solid #E8B000", borderRadius: "50%", animation: "spin 0.8s linear infinite", flexShrink: 0 }} />
                     <div style={{ fontSize: 12, color: "#888" }}>
                       Analyse en cours…
                     </div>
@@ -374,8 +374,8 @@ export function ScanRepas({ user, onSave, clientData }) {
                 {result.ingredients.map((ing, i) => (
                   <span key={i} style={{
                     fontSize: 10, color: "#888",
-                    background: "rgba(201,168,76,0.05)",
-                    border: "0.5px solid rgba(201,168,76,0.15)",
+                    background: "rgba(232,176,0,0.05)",
+                    border: "0.5px solid rgba(232,176,0,0.15)",
                     padding: "3px 10px", borderRadius: 20,
                   }}>
                     {ing}
@@ -396,11 +396,11 @@ export function ScanRepas({ user, onSave, clientData }) {
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
                   <button onClick={() => setResult(r => ({ ...r, calories: Math.max(0, r.calories - 50) }))}
                     style={{ background: "transparent", border: "0.5px solid #2A2A2A", color: "#555", width: 28, height: 28, cursor: "pointer", fontSize: 16, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 4 }}>−</button>
-                  <div style={{ fontSize: 40, fontWeight: 800, color: "#C9A84C", lineHeight: 1, minWidth: 100, textAlign: "center" }}>
+                  <div style={{ fontSize: 40, fontWeight: 800, color: "#E8B000", lineHeight: 1, minWidth: 100, textAlign: "center" }}>
                     {result.calories}
                   </div>
                   <button onClick={() => setResult(r => ({ ...r, calories: r.calories + 50 }))}
-                    style={{ background: "transparent", border: "0.5px solid rgba(201,168,76,0.3)", color: "#C9A84C", width: 28, height: 28, cursor: "pointer", fontSize: 16, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 4 }}>+</button>
+                    style={{ background: "transparent", border: "0.5px solid rgba(232,176,0,0.3)", color: "#E8B000", width: 28, height: 28, cursor: "pointer", fontSize: 16, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 4 }}>+</button>
                 </div>
                 <div style={{ fontSize: 10, color: "#555" }}>kcal · modifiable</div>
               </div>
@@ -409,7 +409,7 @@ export function ScanRepas({ user, onSave, clientData }) {
               <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
                 <EditField label="Protéines" value={result.proteines} unit="g" color="#7AE07A"
                   onChange={v => setResult(r => ({ ...r, proteines: v }))} />
-                <EditField label="Glucides" value={result.glucides} unit="g" color="#C9A84C"
+                <EditField label="Glucides" value={result.glucides} unit="g" color="#E8B000"
                   onChange={v => setResult(r => ({ ...r, glucides: v }))} />
                 <EditField label="Lipides" value={result.lipides} unit="g" color="#5DCAA5"
                   onChange={v => setResult(r => ({ ...r, lipides: v }))} />
@@ -417,7 +417,7 @@ export function ScanRepas({ user, onSave, clientData }) {
 
               {/* Correction cohérence */}
               {result._coherenceFixed && (
-                <div style={{ fontSize: 10, color: "#C9A84C", background: "rgba(201,168,76,0.06)", border: "0.5px solid rgba(201,168,76,0.15)", padding: "6px 12px", borderRadius: 4, marginBottom: 12 }}>
+                <div style={{ fontSize: 10, color: "#E8B000", background: "rgba(232,176,0,0.06)", border: "0.5px solid rgba(232,176,0,0.15)", padding: "6px 12px", borderRadius: 4, marginBottom: 12 }}>
                   ⚠ Les calories ont été recalculées d'après les macros pour assurer la cohérence.
                 </div>
               )}
@@ -432,7 +432,7 @@ export function ScanRepas({ user, onSave, clientData }) {
                   ↩ Refaire
                 </button>
                 <button onClick={save} disabled={saving} style={{
-                  background: saving ? "#1A1A1A" : "linear-gradient(135deg,#C9A84C,#A67C2E)",
+                  background: saving ? "#1A1A1A" : "linear-gradient(135deg,#E8B000,#C49200)",
                   border: "none", color: saving ? "#555" : "#0A0A0A",
                   fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 11,
                   letterSpacing: "1.5px", textTransform: "uppercase",

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { Component } from "react";
 
 export default class ErrorBoundary extends Component {
@@ -25,11 +25,11 @@ export default class ErrorBoundary extends Component {
         }}>
           <div style={{
             fontSize: "clamp(60px,12vw,100px)", fontFamily: "'Cormorant Garamond', serif",
-            fontWeight: 600, background: "linear-gradient(90deg,#C9A84C,#E8C87A)",
+            fontWeight: 600, background: "linear-gradient(90deg,#E8B000,#F5C832)",
             WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", lineHeight: 1
           }}>Oops</div>
-          <div style={{ height: 1, width: 60, background: "linear-gradient(90deg,transparent,#C9A84C,transparent)", margin: "1rem auto" }} />
-          <div style={{ fontSize: 11, letterSpacing: "4px", textTransform: "uppercase", color: "#C9A84C", marginBottom: "0.75rem" }}>
+          <div style={{ height: 1, width: 60, background: "linear-gradient(90deg,transparent,#E8B000,transparent)", margin: "1rem auto" }} />
+          <div style={{ fontSize: 11, letterSpacing: "4px", textTransform: "uppercase", color: "#E8B000", marginBottom: "0.75rem" }}>
             — Erreur inattendue
           </div>
           <p style={{
@@ -41,7 +41,7 @@ export default class ErrorBoundary extends Component {
           <button
             onClick={() => { this.setState({ hasError: false, error: null }); window.location.href = "/"; }}
             style={{
-              background: "linear-gradient(135deg,#C9A84C,#A67C2E)", border: "none",
+              background: "linear-gradient(135deg,#E8B000,#C49200)", border: "none",
               color: "#0A0A0A", padding: "13px 32px", fontFamily: "'Syne', sans-serif",
               fontSize: 12, fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase", cursor: "pointer"
             }}>

@@ -1,28 +1,28 @@
-"use client";
+﻿"use client";
 
 const BADGE_DEFS = [
   // Streak séances
-  { type: "streak", seuil: 7,  label: "7 jours",  desc: "7 jours de streak",       icon: "🔥", color: "#E8C87A", rarity: "bronze" },
+  { type: "streak", seuil: 7,  label: "7 jours",  desc: "7 jours de streak",       icon: "🔥", color: "#F5C832", rarity: "bronze" },
   { type: "streak", seuil: 30, label: "30 jours", desc: "30 jours sans relâche",   icon: "💎", color: "#5DCAA5", rarity: "argent" },
-  { type: "streak", seuil: 60, label: "60 jours", desc: "60 jours de discipline",  icon: "👑", color: "#C9A84C", rarity: "or" },
+  { type: "streak", seuil: 60, label: "60 jours", desc: "60 jours de discipline",  icon: "👑", color: "#E8B000", rarity: "or" },
   { type: "streak", seuil: 90, label: "90 jours", desc: "90 jours — Légendaire",   icon: "⚡", color: "#E07070", rarity: "légendaire" },
 
   // Objectifs semaine
   { type: "objectifs_semaine", label: "Semaine parfaite", desc: "Tous les objectifs hebdo atteints", icon: "🎯", color: "#7AE07A", rarity: "bronze" },
 
   // Mensurations
-  { type: "mensuration_objectif", label: "Objectif atteint", desc: "Objectif de poids atteint", icon: "🏆", color: "#C9A84C", rarity: "or" },
+  { type: "mensuration_objectif", label: "Objectif atteint", desc: "Objectif de poids atteint", icon: "🏆", color: "#E8B000", rarity: "or" },
 
   // Journal alimentaire
   { type: "journal_repas", jours: 7,  label: "7 jours logs",  desc: "7 jours de journal alimentaire", icon: "🥗", color: "#7AE07A", rarity: "bronze" },
   { type: "journal_repas", jours: 14, label: "14 jours logs", desc: "14 jours de journal alimentaire", icon: "🥦", color: "#5DCAA5", rarity: "argent" },
-  { type: "journal_repas", jours: 30, label: "30 jours logs", desc: "30 jours de constance",          icon: "⭐", color: "#C9A84C", rarity: "or" },
+  { type: "journal_repas", jours: 30, label: "30 jours logs", desc: "30 jours de constance",          icon: "⭐", color: "#E8B000", rarity: "or" },
 ];
 
 const RARITY_STYLE = {
   bronze:    { border: "rgba(180,120,60,0.4)",  glow: "rgba(180,120,60,0.15)"  },
   argent:    { border: "rgba(150,180,200,0.4)", glow: "rgba(150,180,200,0.15)" },
-  or:        { border: "rgba(201,168,76,0.5)",  glow: "rgba(201,168,76,0.2)"   },
+  or:        { border: "rgba(232,176,0,0.5)",  glow: "rgba(232,176,0,0.2)"   },
   légendaire:{ border: "rgba(224,112,112,0.5)", glow: "rgba(224,112,112,0.2)"  },
 };
 
