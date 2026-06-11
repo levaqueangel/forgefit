@@ -159,72 +159,91 @@ function BilanForm() {
     </div>
   );
 
+  const PLAN_INFO = {
+    starter: { name:"Starter", price:"18,99€/mois", features:["Programme musculation personnalisé","Plan nutrition + macros","Bilan en ligne complet","Livraison par email en 48h"] },
+    forge:   { name:"Forge",   price:"38,99€/mois", features:["Programme musculation personnalisé","Plan nutrition + macros","Bilan en ligne complet","Suivi mensuel & ajustements","Accès espace client privé"] },
+    elite:   { name:"Elite",   price:"68,99€/mois", features:["Programme musculation personnalisé","Plan nutrition + macros","Bilan en ligne complet","Suivi mensuel & ajustements","Accès espace client privé","Messagerie directe coach","Révisions illimitées"] },
+  };
+  const plan = PLAN_INFO[planId] || PLAN_INFO.forge;
+
+  const STEP_META = [
+    { label:"Profil",        hint:"2 min · Informations de base" },
+    { label:"Objectifs",     hint:"1 min · Ce que tu veux atteindre" },
+    { label:"Entraînement",  hint:"1 min · Ton niveau et ton équipement" },
+    { label:"Contraintes",   hint:"1 min · Pour personnaliser au max" },
+    { label:"Résultat",      hint:"Génère ton programme 100% sur mesure" },
+  ];
+
   return (
     <div style={{ background: "#0A0A0A", color: "#F0EDE8", minHeight: "100vh", fontFamily: "'Syne',sans-serif" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Syne:wght@400;600;700;800&display=swap');
         @keyframes spin{to{transform:rotate(360deg)}}
         @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes celebrate{0%,100%{transform:scale(1)}40%{transform:scale(1.12)}70%{transform:scale(0.95)}}
+        @keyframes confettiDrop{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(120px) rotate(720deg);opacity:0}}
         .fade-up{animation:fadeUp 0.4s ease forwards}
         input::placeholder,textarea::placeholder{color:#2E2E2E}
         input:focus,textarea:focus,select:focus{border-color:#E8B000 !important;outline:none}
         *{box-sizing:border-box}
+        .sidebar-sticky{position:sticky;top:80px;align-self:start}
+        .feat-row{display:flex;align-items:flex-start;gap:8px;padding:7px 0;border-bottom:0.5px solid #1A1A1A;font-size:12px;color:#888}
+        .feat-row:last-child{border-bottom:none}
+        .bilan-grid{display:grid;grid-template-columns:1fr 320px;gap:1px;background:#1A1A1A;max-width:1060px;margin:0 auto}
+        @media(max-width:860px){.bilan-grid{grid-template-columns:1fr !important}.sidebar-sticky{display:none}}
+        .step-pill{display:inline-flex;align-items:center;gap:6px;font-size:10px;letter-spacing:"2px";text-transform:uppercase;color:#555;margin-bottom:16px}
       `}</style>
 
       {/* Nav */}
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px 28px", borderBottom: "0.5px solid #242424" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px 28px", borderBottom: "0.5px solid #242424", position:"sticky", top:0, background:"#0A0A0A", zIndex:50 }}>
         <div style={{ fontSize: 20, fontWeight: 800, letterSpacing: 5, cursor: "pointer" }} onClick={() => router.push("/")}>
           APXFIT<span style={{ color: "#E8B000" }}>NESS</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
           <div style={{ fontSize: 11, letterSpacing: "2px", textTransform: "uppercase", background: "rgba(232,176,0,0.1)", border: "0.5px solid #E8B000", color: "#E8B000", padding: "4px 12px" }}>
-            {tb.badge} {planId.charAt(0).toUpperCase() + planId.slice(1)} — {price}€
+            Plan {plan.name} — {plan.price}
           </div>
           <LangSelector lang={lang} setLang={setLang} LANGS={LANGS} />
-          <div style={{ fontSize: 11, color: "#555", fontFamily: "'DM Mono',monospace" }}>{tb.step} {step} {tb.of} 5</div>
         </div>
       </div>
 
-      {/* Barre progression + Stepper */}
+      {/* Barre progression */}
       <div style={{ height: 2, background: "#181818" }}>
-        <div style={{ height: 2, width: `${pct}%`, background: "linear-gradient(90deg,#E8B000,#F5C832)", transition: "width 0.4s ease" }} />
+        <div style={{ height: 2, width: `${pct}%`, background: "linear-gradient(90deg,#E8B000,#F5C832)", transition: "width 0.5s ease" }} />
       </div>
+
+      {/* Stepper */}
       <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:0, padding:"16px 28px 0", maxWidth:640, margin:"0 auto" }}>
-        {[
-          { n:1, label:"Profil" },
-          { n:2, label:"Objectifs" },
-          { n:3, label:"Entraînement" },
-          { n:4, label:"Contraintes" },
-          { n:5, label:"Résultat" },
-        ].map(({ n, label }, i) => {
-          const done = step > n;
-          const active = step === n;
+        {STEP_META.map(({ label }, i) => {
+          const n = i+1; const done = step > n; const active = step === n;
           return (
             <div key={n} style={{ display:"flex", alignItems:"center", flex: i < 4 ? 1 : "none" }}>
               <div style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:4 }}>
                 <div style={{
                   width:28, height:28, borderRadius:"50%", display:"flex", alignItems:"center", justifyContent:"center",
-                  background: done ? "#E8B000" : active ? "transparent" : "transparent",
+                  background: done ? "#E8B000" : "transparent",
                   border: `1.5px solid ${done ? "#E8B000" : active ? "#E8B000" : "#242424"}`,
                   color: done ? "#0A0A0A" : active ? "#E8B000" : "#444",
-                  fontSize:11, fontWeight:700, transition:"all 0.3s",
-                  flexShrink:0,
+                  fontSize:11, fontWeight:700, transition:"all 0.3s", flexShrink:0,
                 }}>
                   {done ? "✓" : n}
                 </div>
-                <div style={{ fontSize:9, letterSpacing:"1.5px", textTransform:"uppercase", color: active ? "#E8B000" : done ? "#666" : "#555", whiteSpace:"nowrap", transition:"color 0.3s" }}>
+                <div style={{ fontSize:9, letterSpacing:"1.5px", textTransform:"uppercase", color: active ? "#E8B000" : done ? "#666" : "#333", whiteSpace:"nowrap", transition:"color 0.3s" }}>
                   {label}
                 </div>
               </div>
-              {i < 4 && (
-                <div style={{ flex:1, height:1, background: step > n ? "#E8B000" : "#1A1A1A", margin:"0 6px", marginBottom:18, transition:"background 0.4s" }} />
-              )}
+              {i < 4 && <div style={{ flex:1, height:1, background: step > n ? "#E8B000" : "#1A1A1A", margin:"0 6px", marginBottom:18, transition:"background 0.4s" }} />}
             </div>
           );
         })}
       </div>
 
-      <div style={{ padding: "28px 28px 60px", maxWidth: 640, margin: "0 auto" }}>
+      {/* Layout 2 colonnes */}
+      <div style={{ padding:"8px 28px 0" }}>
+        <div className="bilan-grid">
+
+          {/* Colonne form */}
+          <div style={{ padding: "28px 28px 60px", background:"#0A0A0A" }}>
 
         {/* ÉTAPE 1 */}
         {step === 1 && (
@@ -356,86 +375,182 @@ function BilanForm() {
         {/* ÉTAPE 5 — Récap */}
         {step === 5 && status !== "done" && (
           <div className="fade-up">
-            <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 34, fontWeight: 600, marginBottom: 6 }}>
-              {tb.recap.title}<em style={{ color: "#E8B000", fontStyle: "italic" }}>{tb.recap.em}</em>
+            {/* Header impact */}
+            <div style={{ borderLeft:"2px solid #E8B000", paddingLeft:"1rem", marginBottom:"1.5rem" }}>
+              <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:34, fontWeight:600, lineHeight:1.1 }}>
+                {tb.recap.title}<em style={{ color:"#E8B000", fontStyle:"italic" }}>{tb.recap.em}</em>
+              </div>
+              <div style={{ fontSize:12, color:"#555", marginTop:6 }}>Génération IA personnalisée en ~30 secondes</div>
             </div>
-            <div style={{ fontSize: 12, color: "#555", marginBottom: 24 }}>{tb.recap.sub}</div>
+
+            {/* Récap visuel */}
             {[
-              { title: tb.recap.sections[0], rows: [[tb.fields.prenom, form.prenom], [tb.fields.age, form.age + " ans"], [tb.fields.email, form.email], [tb.fields.genre, form.genre]] },
-              { title: tb.recap.sections[1], rows: [[tb.labels.obj, sel.obj], [tb.labels.niv, sel.niv], [tb.labels.lieu, sel.lieu], [tb.labels.seances, sel.seances], [tb.labels.duree, sel.duree]] },
-              { title: tb.recap.sections[2], rows: [[tb.labels.regime, sel.regime], [tb.labels.contraintes, form.contraintes || "—"], [tb.labels.motivation, form.motivation || "—"]] },
+              { title:tb.recap.sections[0], icon:"👤", rows:[[tb.fields.prenom,form.prenom],[tb.fields.age,form.age+" ans"],[tb.fields.email,form.email],[tb.fields.genre,form.genre]] },
+              { title:tb.recap.sections[1], icon:"🎯", rows:[[tb.labels.obj,sel.obj],[tb.labels.niv,sel.niv],[tb.labels.lieu,sel.lieu],[tb.labels.seances,sel.seances],[tb.labels.duree,sel.duree]] },
+              { title:tb.recap.sections[2], icon:"🥗", rows:[[tb.labels.regime,sel.regime],[tb.labels.contraintes,form.contraintes||"—"],[tb.labels.motivation,form.motivation||"—"]] },
             ].map(section => (
-              <div key={section.title} style={{ background: "#111", border: "0.5px solid #242424", padding: "16px", marginBottom: 1 }}>
-                <div style={{ fontSize: 10, letterSpacing: "3px", textTransform: "uppercase", color: "#E8B000", marginBottom: 12 }}>{section.title}</div>
-                {section.rows.filter(r => r[1]).map(([k, v]) => (
-                  <div key={k} style={{ display: "flex", justifyContent: "space-between", padding: "6px 0", borderBottom: "0.5px solid #242424", fontSize: 13 }}>
-                    <span style={{ color: "#555" }}>{k}</span>
-                    <span style={{ color: "#F0EDE8", fontWeight: 500, maxWidth: "55%", textAlign: "right" }}>{v}</span>
+              <div key={section.title} style={{ background:"#111", border:"0.5px solid #1A1A1A", padding:"1rem 1.25rem", marginBottom:1 }}>
+                <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:10 }}>
+                  <span style={{ fontSize:14 }}>{section.icon}</span>
+                  <span style={{ fontSize:9, letterSpacing:"3px", textTransform:"uppercase", color:"#E8B000" }}>{section.title}</span>
+                </div>
+                {section.rows.filter(r=>r[1]).map(([k,v]) => (
+                  <div key={k} style={{ display:"flex", justifyContent:"space-between", padding:"5px 0", borderBottom:"0.5px solid #181818", fontSize:12 }}>
+                    <span style={{ color:"#444" }}>{k}</span>
+                    <span style={{ color:"#F0EDE8", fontWeight:600, maxWidth:"55%", textAlign:"right" }}>{v}</span>
                   </div>
                 ))}
               </div>
             ))}
-            <div style={{ background: "#181818", border: "0.5px solid #E8B000", padding: "14px 16px", marginTop: 1, fontSize: 12, color: "#555" }}>
-              📧 {tb.recap.emailNotice} <strong style={{ color: "#F5C832" }}>{form.email}</strong>
+
+            {/* Email notice */}
+            <div style={{ display:"flex", alignItems:"center", gap:10, background:"rgba(232,176,0,0.05)", border:"0.5px solid rgba(232,176,0,0.2)", padding:"12px 16px", marginBottom:1 }}>
+              <span style={{ color:"#E8B000", fontSize:16 }}>✉</span>
+              <span style={{ fontSize:12, color:"#666" }}>Programme envoyé à <strong style={{ color:"#F5C832" }}>{form.email}</strong></span>
             </div>
-            <div style={{ display: "flex", justifyContent: "space-between", marginTop: 20 }}>
-              <GoldBtn ghost onClick={() => setStep(4)}>{tb.modify}</GoldBtn>
-              <GoldBtn onClick={handleGenerate} loading={status === "generating" || status === "sending"}>
-                {status === "generating" ? tb.generating : status === "sending" ? tb.sending : tb.generate}
+
+            {/* CTA générer */}
+            <div style={{ marginTop:1 }}>
+              <GoldBtn onClick={handleGenerate} loading={status==="generating"||status==="sending"}>
+                {status==="generating" ? tb.generating : status==="sending" ? tb.sending : "✦ Générer mon programme"}
               </GoldBtn>
+              <button onClick={()=>setStep(4)} style={{ background:"transparent", border:"none", color:"#333", fontFamily:"'Syne',sans-serif", fontSize:11, letterSpacing:"1px", cursor:"pointer", marginTop:10, display:"block", textDecoration:"underline", textUnderlineOffset:3 }}>
+                ← Modifier mes réponses
+              </button>
             </div>
-            {errMsg && <div style={{ marginTop: 16, padding: "12px 16px", background: "#1A0808", border: "0.5px solid #5A1A1A", color: "#E07070", fontSize: 13, fontFamily: "monospace" }}>✕ {errMsg}</div>}
+            {errMsg && <div style={{ marginTop:16, padding:"12px 16px", background:"#1A0808", border:"0.5px solid #5A1A1A", color:"#E07070", fontSize:13, fontFamily:"monospace" }}>✕ {errMsg}</div>}
           </div>
         )}
 
         {/* SUCCÈS */}
         {step === 5 && status === "done" && (
-          <div className="fade-up" style={{ textAlign: "center", paddingTop: 20 }}>
-            <div style={{ width: 56, height: 56, background: "linear-gradient(135deg,#E8B000,#C49200)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px", fontSize: 24 }}>✓</div>
-            <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 36, fontWeight: 600, marginBottom: 8 }}>
-              {tb.success.title}<em style={{ color: "#E8B000", fontStyle: "italic" }}>{tb.success.em}</em>
-            </div>
-            <div style={{ fontSize: 13, color: "#555", marginBottom: 32, lineHeight: 1.8 }}>
-              {form.prenom}, {tb.success.sentTo}<br /><strong style={{ color: "#F5C832" }}>{form.email}</strong>
+          <div className="fade-up">
+            {/* Header succès */}
+            <div style={{ textAlign:"center", padding:"2rem 0 1.5rem", borderBottom:"0.5px solid #1A1A1A", marginBottom:"1.5rem" }}>
+              <div style={{ width:64, height:64, background:"linear-gradient(135deg,#E8B000,#C49200)", borderRadius:"50%", display:"flex", alignItems:"center", justifyContent:"center", margin:"0 auto 1rem", fontSize:28, animation:"celebrate 0.6s ease both" }}>✓</div>
+              <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:38, fontWeight:600, lineHeight:1.1, marginBottom:8 }}>
+                Programme généré,<br/><em style={{ color:"#E8B000", fontStyle:"italic" }}>{form.prenom} !</em>
+              </div>
+              <div style={{ fontSize:13, color:"#555", lineHeight:1.8 }}>
+                Envoyé à <strong style={{ color:"#F5C832" }}>{form.email}</strong>
+              </div>
             </div>
 
-            {/* Statut compte client */}
-            <div style={{ display: "flex", alignItems: "center", gap: 10, justifyContent: "center", marginBottom: 24,
-              padding: "12px 20px", border: `0.5px solid ${clientCreated === false ? "#5A1A1A" : clientCreated === true ? "#1A3A1A" : "#242424"}`,
-              background: clientCreated === false ? "#1A0808" : clientCreated === true ? "#081A08" : "#111", fontSize: 13 }}>
-              <span style={{ fontSize: 18 }}>{clientCreated === false ? "⚠️" : clientCreated === true ? "✓" : "⏳"}</span>
-              {clientCreated === false ? (
-                <span style={{ color: "#E07070" }}>
-                  Erreur création espace client — <a href="mailto:coach.apxfitness11@gmail.com" style={{ color: "#F5C832" }}>contacte le coach</a>
-                </span>
-              ) : clientCreated === true ? (
-                <span style={{ color: "#7AE07A" }}>
-                  Tes identifiants ont été envoyés à <strong style={{ color: "#F5C832" }}>{form.email}</strong>
-                </span>
+            {/* 3 étapes suivantes */}
+            <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:1, marginBottom:1 }}>
+              {[
+                { n:"01", title:"Vérifie ta boîte mail", desc:"Ton programme complet + tes identifiants t'ont été envoyés" },
+                { n:"02", title:"Accède à ton espace", desc:"Suis ta progression, consulte ton plan et contacte le coach" },
+                { n:"03", title:"Commence dès aujourd'hui", desc:"Ta première séance t'attend — plus d'excuse !" },
+              ].map(s => (
+                <div key={s.n} style={{ background:"#111", padding:"1.25rem 1rem", border:"0.5px solid #1A1A1A" }}>
+                  <div style={{ fontSize:9, letterSpacing:"3px", textTransform:"uppercase", color:"#E8B000", marginBottom:8 }}>{s.n}</div>
+                  <div style={{ fontSize:13, fontWeight:700, color:"#F0EDE8", marginBottom:6, lineHeight:1.3 }}>{s.title}</div>
+                  <div style={{ fontSize:11, color:"#555", lineHeight:1.6 }}>{s.desc}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* Statut compte */}
+            <div style={{ display:"flex", alignItems:"center", gap:10,
+              padding:"12px 16px", border:`0.5px solid ${clientCreated===false?"#5A1A1A":clientCreated===true?"#1A3A1A":"#242424"}`,
+              background:clientCreated===false?"#1A0808":clientCreated===true?"#081A08":"#111", fontSize:12, marginBottom:1 }}>
+              <span>{clientCreated===false?"⚠":clientCreated===true?"✓":"⏳"}</span>
+              {clientCreated===false ? (
+                <span style={{ color:"#E07070" }}>Erreur création espace client — <a href="mailto:coach.apxfitness11@gmail.com" style={{ color:"#F5C832" }}>contacte le coach</a></span>
+              ) : clientCreated===true ? (
+                <span style={{ color:"#7AE07A" }}>Tes identifiants ont été envoyés à <strong style={{ color:"#F5C832" }}>{form.email}</strong></span>
               ) : (
-                <span style={{ color: "#888" }}>Création de ton espace en cours…</span>
+                <span style={{ color:"#888" }}>Création de ton espace en cours…</span>
               )}
             </div>
-            <div style={{ fontSize: 13, color: "#555", marginBottom: 32, lineHeight: 1.8 }}>
+
+            {/* CTA principal */}
+            <button onClick={() => router.push("/client")} style={{
+              width:"100%", background:"linear-gradient(135deg,#E8B000,#C49200)", border:"none", color:"#0A0A0A",
+              fontFamily:"'Syne',sans-serif", fontSize:13, letterSpacing:"3px", textTransform:"uppercase",
+              padding:"16px", cursor:"pointer", fontWeight:800, marginTop:1,
+              boxShadow:"0 4px 24px rgba(232,176,0,0.25)",
+            }}>
+              Accéder à mon espace client →
+            </button>
+
+            {/* Aperçu programme */}
+            <div style={{ marginTop:1 }}>
+              <div style={{ background:"#111", border:"0.5px solid #242424", padding:"1.25rem" }}>
+                <div style={{ fontSize:9, letterSpacing:"3px", textTransform:"uppercase", color:"#E8B000", marginBottom:10 }}>Aperçu de ton programme</div>
+                <div style={{ fontFamily:"monospace", fontSize:11, lineHeight:1.9, color:"#666", whiteSpace:"pre-wrap", maxHeight:260, overflow:"auto" }}>{prog}</div>
+              </div>
             </div>
-            <div style={{ background: "#111", border: "0.5px solid #242424", padding: "20px", textAlign: "left", marginBottom: 24 }}>
-              <div style={{ fontSize: 10, letterSpacing: "3px", textTransform: "uppercase", color: "#E8B000", marginBottom: 12 }}>{tb.success.preview}</div>
-              <div style={{ fontFamily: "monospace", fontSize: 12, lineHeight: 2, color: "#888", whiteSpace: "pre-wrap", maxHeight: 300, overflow: "auto" }}>{prog}</div>
-            </div>
-            <div style={{ display: "flex", gap: 8, justifyContent: "center", flexWrap: "wrap" }}>
-              <button onClick={() => router.push("/client")} style={{
-                background: "linear-gradient(135deg,#E8B000,#C49200)", border: "none", color: "#0A0A0A",
-                fontFamily: "'Syne',sans-serif", fontSize: 12, letterSpacing: "2px", textTransform: "uppercase",
-                padding: "13px 24px", cursor: "pointer", fontWeight: 700 }}>
-                Accéder à mon espace →
-              </button>
-              <button onClick={() => router.push("/")} style={{ background: "transparent", border: "0.5px solid #242424", color: "#555", fontFamily: "'Syne',sans-serif", fontSize: 12, letterSpacing: "2px", textTransform: "uppercase", padding: "11px 24px", cursor: "pointer" }}>
-                {tb.success.backHome}
+
+            <div style={{ textAlign:"center", marginTop:16 }}>
+              <button onClick={() => router.push("/")} style={{ background:"transparent", border:"none", color:"#333", fontFamily:"'Syne',sans-serif", fontSize:11, letterSpacing:"1px", cursor:"pointer", textDecoration:"underline", textUnderlineOffset:3 }}>
+                Retour à l'accueil
               </button>
             </div>
           </div>
         )}
-      </div>
+
+          </div>{/* fin colonne form */}
+
+          {/* ── Sidebar ── */}
+          <div style={{ background:"#0D0D0D", borderLeft:"0.5px solid #1A1A1A" }}>
+            <div className="sidebar-sticky" style={{ padding:"2rem 1.5rem" }}>
+
+              {/* Plan card */}
+              <div style={{ background:"#111", border:"0.5px solid rgba(232,176,0,0.3)", padding:"1.25rem", marginBottom:1, position:"relative", overflow:"hidden" }}>
+                <div style={{ position:"absolute", top:0, left:0, right:0, height:2, background:"linear-gradient(90deg,#E8B000,#F5C832)" }}/>
+                <div style={{ fontSize:9, letterSpacing:"3px", textTransform:"uppercase", color:"#E8B000", marginBottom:8 }}>Plan sélectionné</div>
+                <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:22, color:"#F0EDE8", marginBottom:4 }}>{plan.name}</div>
+                <div style={{ fontSize:13, color:"#E8B000", fontWeight:700 }}>{plan.price}</div>
+              </div>
+
+              {/* Ce qui est inclus */}
+              <div style={{ background:"#111", border:"0.5px solid #1A1A1A", padding:"1.25rem", marginBottom:1 }}>
+                <div style={{ fontSize:9, letterSpacing:"3px", textTransform:"uppercase", color:"#555", marginBottom:12 }}>Inclus dans ton plan</div>
+                {plan.features.map((f,i) => (
+                  <div key={i} className="feat-row">
+                    <span style={{ color:"#E8B000", flexShrink:0, marginTop:1 }}>✓</span>
+                    <span>{f}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Témoignage */}
+              <div style={{ background:"#111", border:"0.5px solid #1A1A1A", padding:"1.25rem", marginBottom:1 }}>
+                <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:14, color:"#888", lineHeight:1.8, fontStyle:"italic", marginBottom:12 }}>
+                  "J'avais essayé plein de programmes YouTube. Là c'est la première fois que j'ai quelque chose adapté à MOI — j'ai pris 4 kg de muscle en 3 mois."
+                </div>
+                <div style={{ fontSize:11, color:"#555" }}>— Thomas M., Plan Forge</div>
+                <div style={{ display:"flex", gap:2, marginTop:6 }}>
+                  {[1,2,3,4,5].map(s => <span key={s} style={{ color:"#E8B000", fontSize:11 }}>★</span>)}
+                </div>
+              </div>
+
+              {/* Garantie */}
+              <div style={{ border:"0.5px solid rgba(122,224,122,0.2)", background:"rgba(122,224,122,0.04)", padding:"1rem", textAlign:"center" }}>
+                <div style={{ fontSize:18, marginBottom:6 }}>🛡</div>
+                <div style={{ fontSize:11, fontWeight:700, color:"#7AE07A", letterSpacing:"1px", textTransform:"uppercase", marginBottom:4 }}>Satisfait ou remboursé</div>
+                <div style={{ fontSize:11, color:"#555", lineHeight:1.6 }}>14 jours pour essayer. Si tu n'es pas satisfait, on te rembourse.</div>
+              </div>
+
+              {/* Social proof */}
+              <div style={{ marginTop:1, padding:"0.75rem 1rem", background:"#111", border:"0.5px solid #1A1A1A", display:"flex", alignItems:"center", gap:10 }}>
+                <div style={{ display:"flex" }}>
+                  {["#5DCAA5","#E8B000","#88A0E0"].map((c,i) => (
+                    <div key={i} style={{ width:24, height:24, borderRadius:"50%", background:c, border:"2px solid #0A0A0A", marginLeft:i>0?-6:0 }}/>
+                  ))}
+                </div>
+                <div style={{ fontSize:11, color:"#555", lineHeight:1.5 }}>
+                  <strong style={{ color:"#888" }}>+340 personnes</strong><br/>ont complété leur bilan ce mois
+                </div>
+              </div>
+
+            </div>
+          </div>{/* fin sidebar */}
+
+        </div>{/* fin bilan-grid */}
+      </div>{/* fin padding wrapper */}
     </div>
   );
 }
