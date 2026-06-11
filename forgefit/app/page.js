@@ -11,6 +11,223 @@ const PLAN_PRICES = [18.99,38.99,68.99];
 const DARK = { bg:'#0A0A0A', bg2:'#0D0D0D', bg3:'#080808', card:'#111', card2:'#181818', fg:'#F0EDE8', muted:'#555', border:'#242424', border2:'#1A1A1A', gap:'#242424' };
 const LIGHT = { bg:'#F5F1EB', bg2:'#EDE9E1', bg3:'#E8E3DA', card:'#FFFFFF', card2:'#F7F3EC', fg:'#0A0A0A', muted:'#888', border:'#D8D2C8', border2:'#E2DDD5', gap:'#C8C3BA' };
 
+// ── Calculateur métabolique inline ──────────────────────────────────────────
+function calcBMR(poids, taille, age, genre) {
+  if (genre === "femme") return 447.593 + (9.247*poids) + (3.098*taille) - (4.330*age);
+  return 88.362 + (13.397*poids) + (4.799*taille) - (5.677*age);
+}
+const CALC_ACTIVITY = [
+  { label: "Sédentaire", mult: 1.2 },
+  { label: "Légèrement actif (1-2/sem)", mult: 1.375 },
+  { label: "Modérément actif (3-4/sem)", mult: 1.55 },
+  { label: "Très actif (5-6/sem)", mult: 1.65 },
+  { label: "Extrêmement actif", mult: 1.725 },
+];
+const CALC_GOALS = [
+  { id:"perte",  label:"Perte de gras",  delta:-400 },
+  { id:"recomp", label:"Remise en forme", delta:0 },
+  { id:"masse",  label:"Prise de masse", delta:250 },
+];
+
+function InlineCalculateur({ T, theme, router }) {
+  const [genre, setGenre] = useState("homme");
+  const [activite, setActivite] = useState(2);
+  const [objectif, setObjectif] = useState("recomp");
+  const [poids, setPoids] = useState(75);
+  const [taille, setTaille] = useState(175);
+  const [age, setAge] = useState(25);
+  const [result, setResult] = useState(null);
+
+  const calculate = () => {
+    const bmr = calcBMR(poids, taille, age, genre);
+    const tdee = Math.round(bmr * CALC_ACTIVITY[activite].mult);
+    const goal = CALC_GOALS.find(g => g.id === objectif);
+    const calories = Math.round((tdee + goal.delta) / 50) * 50;
+    const imc = poids / ((taille/100)**2);
+    let proteines, lipides;
+    if (objectif==="perte")  { proteines=Math.round(poids*2.2); lipides=Math.round(poids*0.8); }
+    else if (objectif==="masse") { proteines=Math.round(poids*2.0); lipides=Math.round(poids*1.0); }
+    else { proteines=Math.round(poids*1.8); lipides=Math.round(poids*0.9); }
+    const glucides = Math.round(Math.max(0, calories - proteines*4 - lipides*9)/4);
+    setResult({ calories, imc: imc.toFixed(1), proteines, glucides, lipides, tdee: Math.round(tdee) });
+  };
+
+  const imcColor = result ? (result.imc<18.5?"#88A0E0":result.imc<25?"#7AE07A":result.imc<30?"#E8C87A":"#E07070") : "#C9A84C";
+  const imcLabel = result ? (result.imc<18.5?"Sous-poids":result.imc<25?"Poids normal":result.imc<30?"Surpoids":"Obésité") : "";
+
+  const SliderRow = ({ label, value, setValue, min, max, unit, step=1 }) => (
+    <div style={{marginBottom:20}}>
+      <div style={{display:"flex",justifyContent:"space-between",marginBottom:8}}>
+        <span style={{fontSize:10,letterSpacing:"2px",textTransform:"uppercase",color:T.muted}}>{label}</span>
+        <span style={{fontSize:14,fontWeight:700,color:"#C9A84C",fontFamily:"'Syne',sans-serif"}}>{value} <span style={{fontSize:10,color:T.muted,fontWeight:400}}>{unit}</span></span>
+      </div>
+      <input type="range" min={min} max={max} step={step} value={value} onChange={e=>setValue(parseFloat(e.target.value))}
+        style={{width:"100%",accentColor:"#C9A84C",height:4,cursor:"pointer"}}/>
+      <div style={{display:"flex",justifyContent:"space-between",marginTop:4}}>
+        <span style={{fontSize:9,color:"#333"}}>{min}</span>
+        <span style={{fontSize:9,color:"#333"}}>{max}</span>
+      </div>
+    </div>
+  );
+
+  return (
+    <div style={{padding:"4rem clamp(1.5rem,5vw,3rem)"}}>
+      {/* Header */}
+      <div style={{maxWidth:1100,margin:"0 auto"}}>
+        <div style={{textAlign:"center",marginBottom:"3rem"}}>
+          <div style={{fontSize:11,letterSpacing:"4px",textTransform:"uppercase",color:"#C9A84C",marginBottom:"0.5rem"}}>— Outil gratuit</div>
+          <h2 style={{fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:"clamp(36px,6vw,80px)",lineHeight:0.9,textTransform:"uppercase",letterSpacing:"-0.02em",color:T.fg}}>
+            CALCULATEUR<br/><span style={{color:"#C9A84C"}}>MÉTABOLIQUE.</span>
+          </h2>
+          <p style={{fontFamily:"'Cormorant Garamond',serif",fontSize:16,color:T.muted,marginTop:"1rem",lineHeight:1.7}}>
+            Découvre tes besoins caloriques réels et tes macros optimales en 30 secondes.
+          </p>
+        </div>
+
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:1,background:T.border}} className="calc-inline-grid">
+          {/* Colonne gauche — inputs */}
+          <div style={{background:T.bg,padding:"2.5rem 2rem",display:"flex",flexDirection:"column",gap:0}}>
+            {/* Genre */}
+            <div style={{marginBottom:24}}>
+              <div style={{fontSize:10,letterSpacing:"2px",textTransform:"uppercase",color:T.muted,marginBottom:10}}>Genre</div>
+              <div style={{display:"flex",gap:8}}>
+                {[["homme","♂ Homme"],["femme","♀ Femme"]].map(([v,l])=>(
+                  <button key={v} onClick={()=>setGenre(v)} style={{
+                    flex:1,padding:"10px",background:genre===v?"rgba(201,168,76,0.1)":T.card,
+                    border:`0.5px solid ${genre===v?"#C9A84C":T.border}`,
+                    color:genre===v?"#C9A84C":T.muted,fontFamily:"'Syne',sans-serif",
+                    fontSize:11,fontWeight:700,letterSpacing:"1px",cursor:"pointer",transition:"all 0.15s",
+                  }}>{l}</button>
+                ))}
+              </div>
+            </div>
+
+            {/* Sliders */}
+            <SliderRow label="Poids" value={poids} setValue={setPoids} min={40} max={150} unit="kg" step={0.5}/>
+            <SliderRow label="Taille" value={taille} setValue={setTaille} min={140} max={220} unit="cm"/>
+            <SliderRow label="Âge" value={age} setValue={setAge} min={14} max={80} unit="ans"/>
+
+            {/* Activité */}
+            <div style={{marginBottom:20}}>
+              <div style={{fontSize:10,letterSpacing:"2px",textTransform:"uppercase",color:T.muted,marginBottom:10}}>Niveau d'activité</div>
+              <div style={{display:"flex",flexDirection:"column",gap:5}}>
+                {CALC_ACTIVITY.map((a,i)=>(
+                  <button key={i} onClick={()=>setActivite(i)} style={{
+                    padding:"8px 12px",background:activite===i?"rgba(201,168,76,0.08)":T.card,
+                    border:`0.5px solid ${activite===i?"#C9A84C":T.border}`,
+                    color:activite===i?"#C9A84C":T.muted,fontFamily:"'Syne',sans-serif",
+                    fontSize:11,letterSpacing:"0.5px",cursor:"pointer",transition:"all 0.15s",textAlign:"left",
+                  }}>{a.label}</button>
+                ))}
+              </div>
+            </div>
+
+            {/* Objectif */}
+            <div style={{marginBottom:24}}>
+              <div style={{fontSize:10,letterSpacing:"2px",textTransform:"uppercase",color:T.muted,marginBottom:10}}>Objectif</div>
+              <div style={{display:"flex",gap:8}}>
+                {CALC_GOALS.map(g=>(
+                  <button key={g.id} onClick={()=>setObjectif(g.id)} style={{
+                    flex:1,padding:"10px 6px",background:objectif===g.id?"rgba(201,168,76,0.1)":T.card,
+                    border:`0.5px solid ${objectif===g.id?"#C9A84C":T.border}`,
+                    color:objectif===g.id?"#C9A84C":T.muted,fontFamily:"'Syne',sans-serif",
+                    fontSize:10,fontWeight:700,letterSpacing:"0.5px",cursor:"pointer",transition:"all 0.15s",
+                  }}>{g.label}</button>
+                ))}
+              </div>
+            </div>
+
+            <button onClick={calculate} style={{
+              background:"linear-gradient(135deg,#C9A84C,#A67C2E)",border:"none",color:"#0A0A0A",
+              padding:"15px",fontFamily:"'Syne',sans-serif",fontSize:12,fontWeight:800,
+              letterSpacing:"3px",textTransform:"uppercase",cursor:"pointer",
+              boxShadow:"0 4px 20px rgba(201,168,76,0.25)",transition:"all 0.3s",
+            }}>
+              Calculer →
+            </button>
+          </div>
+
+          {/* Colonne droite — résultats */}
+          <div style={{background:T.bg2,padding:"2.5rem 2rem",display:"flex",flexDirection:"column",justifyContent:result?"flex-start":"center",alignItems:result?"stretch":"center",minHeight:500}}>
+            {!result ? (
+              <div style={{textAlign:"center"}}>
+                <div style={{fontSize:11,letterSpacing:"3px",textTransform:"uppercase",color:"#333",marginBottom:"1rem"}}>← Configure et calcule</div>
+                <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:72,fontWeight:600,color:T.border,lineHeight:1}}>?</div>
+                <p style={{fontFamily:"'Cormorant Garamond',serif",fontSize:15,color:"#333",marginTop:"1rem",lineHeight:1.7}}>
+                  Tes besoins caloriques et macros personnalisés s'afficheront ici.
+                </p>
+              </div>
+            ) : (
+              <div style={{display:"flex",flexDirection:"column",gap:16,animation:"fadeUp 0.4s ease both"}}>
+                {/* Calories */}
+                <div style={{background:T.bg,border:`0.5px solid rgba(201,168,76,0.3)`,padding:"1.5rem",position:"relative",overflow:"hidden"}}>
+                  <div style={{position:"absolute",top:0,left:0,right:0,height:2,background:"linear-gradient(90deg,#C9A84C,#E8C87A,#C9A84C)"}}/>
+                  <div style={{fontSize:10,letterSpacing:"3px",textTransform:"uppercase",color:"#C9A84C",marginBottom:8}}>Calories / jour · {CALC_GOALS.find(g=>g.id===objectif)?.label}</div>
+                  <div style={{fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:"clamp(42px,5vw,64px)",color:"#C9A84C",lineHeight:1}}>{result.calories.toLocaleString()}</div>
+                  <div style={{fontSize:11,color:T.muted,marginTop:4}}>TDEE : {result.tdee.toLocaleString()} kcal · {CALC_GOALS.find(g=>g.id===objectif)?.delta > 0 ? `+${CALC_GOALS.find(g=>g.id===objectif)?.delta}` : CALC_GOALS.find(g=>g.id===objectif)?.delta} kcal</div>
+                </div>
+
+                {/* Macros */}
+                <div style={{background:T.bg,border:`0.5px solid ${T.border}`,padding:"1.25rem"}}>
+                  <div style={{fontSize:10,letterSpacing:"3px",textTransform:"uppercase",color:T.muted,marginBottom:12}}>Macronutriments</div>
+                  {[
+                    {label:"Protéines",val:result.proteines,unit:"g",color:"#7AE07A"},
+                    {label:"Glucides", val:result.glucides, unit:"g",color:"#C9A84C"},
+                    {label:"Lipides",  val:result.lipides,  unit:"g",color:"#5DCAA5"},
+                  ].map((m,i)=>{
+                    const pct = Math.round((m.val*(m.label==="Lipides"?9:4))/result.calories*100);
+                    return (
+                      <div key={i} style={{marginBottom:i<2?10:0}}>
+                        <div style={{display:"flex",justifyContent:"space-between",marginBottom:5}}>
+                          <span style={{fontSize:12,color:T.muted}}>{m.label}</span>
+                          <span style={{fontSize:13,fontWeight:700,color:m.color,fontFamily:"'Syne',sans-serif"}}>{m.val}g <span style={{fontSize:10,color:"#444",fontWeight:400}}>· {pct}%</span></span>
+                        </div>
+                        <div style={{height:5,background:T.bg2,borderRadius:3,overflow:"hidden"}}>
+                          <div style={{height:"100%",width:`${pct}%`,background:m.color,borderRadius:3,transition:"width 0.8s ease"}}/>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* IMC */}
+                <div style={{background:T.bg,border:`0.5px solid ${T.border}`,padding:"1.25rem"}}>
+                  <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+                    <div style={{fontSize:10,letterSpacing:"3px",textTransform:"uppercase",color:T.muted}}>IMC</div>
+                    <div>
+                      <span style={{fontSize:22,fontWeight:700,color:imcColor,fontFamily:"'Syne',sans-serif"}}>{result.imc}</span>
+                      <span style={{fontSize:11,color:imcColor,marginLeft:8}}>{imcLabel}</span>
+                    </div>
+                  </div>
+                  <div style={{height:6,background:T.bg2,borderRadius:3,overflow:"visible",marginTop:10,position:"relative"}}>
+                    <div style={{display:"flex",height:"100%",borderRadius:3,overflow:"hidden"}}>
+                      <div style={{flex:1,background:"#5DCAA5"}}/><div style={{flex:1.3,background:"#7AE07A"}}/><div style={{flex:1,background:"#E8C87A"}}/><div style={{flex:2,background:"#E07070"}}/>
+                    </div>
+                    <div style={{position:"absolute",top:-5,left:`${Math.min(Math.max(((result.imc-10)/30)*100,0),100)}%`,transform:"translateX(-50%)",width:16,height:16,borderRadius:"50%",background:imcColor,border:`2px solid ${T.bg}`}}/>
+                  </div>
+                </div>
+
+                {/* CTA */}
+                <div style={{background:"rgba(201,168,76,0.06)",border:"0.5px solid rgba(201,168,76,0.25)",padding:"1.25rem",textAlign:"center"}}>
+                  <p style={{fontFamily:"'Cormorant Garamond',serif",fontSize:14,color:T.muted,lineHeight:1.7,marginBottom:"1rem"}}>
+                    Un programme sur mesure intègre bien plus — historique, équipement, contraintes réelles.
+                  </p>
+                  <button onClick={()=>router.push("/bilan")} style={{
+                    background:"linear-gradient(135deg,#C9A84C,#A67C2E)",border:"none",color:"#0A0A0A",
+                    padding:"12px 24px",fontFamily:"'Syne',sans-serif",fontSize:11,fontWeight:700,
+                    letterSpacing:"2px",textTransform:"uppercase",cursor:"pointer",
+                  }}>Obtenir mon programme →</button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+        <style>{`.calc-inline-grid{grid-template-columns:1fr 1fr !important} @media(max-width:768px){.calc-inline-grid{grid-template-columns:1fr !important}}`}</style>
+      </div>
+    </div>
+  );
+}
+
 export default function Home() {
   // ── Theme ──────────────────────────────────────────────────────────────
   const [theme, setTheme] = useState(() => { try { return localStorage.getItem('apx_theme') || 'dark'; } catch { return 'dark'; } });
@@ -304,47 +521,65 @@ export default function Home() {
       <div style={{height:1,background:"linear-gradient(90deg,transparent,#C9A84C,transparent)",animation:"lineGrow 1.5s ease 0.5s both",width:"100%"}}/>
 
       {/* ── Hero ── */}
-      <section className="hero-grid" style={{display:"grid",gridTemplateColumns:"1fr 1fr",minHeight:"520px",borderBottom:`0.5px solid ${T.border}`}}>
-        <div className="scan-line-el" />
-        <div className="hero-left" style={{padding:"5rem 3rem",display:"flex",flexDirection:"column",justifyContent:"center",borderRight:`0.5px solid ${T.border}`}}>
-          <div className="a1" style={{fontSize:11,letterSpacing:"4px",textTransform:"uppercase",color:"#C9A84C",marginBottom:"1.5rem"}}>{t.hero.tag}</div>
-          <h1 className="a2 hero-title" style={{fontFamily:"'Cormorant Garamond',serif",fontSize:72,fontWeight:600,lineHeight:0.95,marginBottom:"1.5rem"}}>
-            {t.hero.title1}<br/>
-            <em className="gold-text" style={{fontStyle:"italic",fontSize:64}}><span className="typewriter">{t.hero.title2}</span></em><br/>
-            {t.hero.title3}
+      <section style={{position:"relative",minHeight:"92vh",display:"flex",alignItems:"flex-end",overflow:"hidden",borderBottom:`0.5px solid ${T.border}`}}>
+        {/* Vidéo fond */}
+        <video style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",opacity:theme==="dark"?0.28:0.15,zIndex:0}} autoPlay muted loop playsInline>
+          <source src="/videos/v1.mp4" type="video/mp4"/>
+        </video>
+        {/* Overlay gradient */}
+        <div style={{position:"absolute",inset:0,background:theme==="dark"
+          ?"linear-gradient(to top, #0A0A0A 0%, rgba(10,10,10,0.72) 55%, rgba(10,10,10,0.18) 100%)"
+          :"linear-gradient(to top, #F5F1EB 0%, rgba(245,241,235,0.75) 55%, rgba(245,241,235,0.1) 100%)",
+          zIndex:1}}/>
+        {/* Grille déco */}
+        <svg style={{position:"absolute",inset:0,opacity:0.04,width:"100%",height:"100%",zIndex:2}} viewBox="0 0 300 260" preserveAspectRatio="xMidYMid slice">
+          <defs><pattern id="g" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M 30 0 L 0 0 0 30" fill="none" stroke="#C9A84C" strokeWidth="0.5"/></pattern></defs>
+          <rect width="300" height="260" fill="url(#g)"/>
+        </svg>
+        {/* Particules */}
+        <canvas ref={canvasRef} style={{position:"absolute",inset:0,width:"100%",height:"100%",pointerEvents:"none",zIndex:3}}/>
+        <div className="scan-line-el" style={{zIndex:4}}/>
+        {/* Contenu */}
+        <div style={{position:"relative",zIndex:5,padding:"0 clamp(1.5rem,5vw,5rem) clamp(3rem,6vh,5rem)",width:"100%"}}>
+          <div className="a1" style={{fontSize:11,letterSpacing:"5px",textTransform:"uppercase",color:"#C9A84C",marginBottom:"1.5rem"}}>{t.hero.tag}</div>
+          <h1 className="a2" style={{
+            fontFamily:"'Syne',sans-serif",
+            fontSize:"clamp(64px,10vw,148px)",
+            fontWeight:800,
+            lineHeight:0.88,
+            marginBottom:"2rem",
+            textTransform:"uppercase",
+            letterSpacing:"-0.02em",
+            maxWidth:900,
+          }}>
+            <span style={{display:"block",color:T.fg}}>{t.hero.title1}</span>
+            <span className="gold-text" style={{display:"block"}}>{t.hero.title2}</span>
+            <span style={{display:"block",color:T.fg}}>{t.hero.title3}<span style={{color:"#C9A84C"}}>.</span></span>
           </h1>
-          <div style={{width:0,height:1,background:"linear-gradient(90deg,#C9A84C,transparent)",margin:"0.5rem 0 1.5rem",animation:"lineGrow 1s ease 1s both"}}/>
-          <p className="a3" style={{fontFamily:"'Cormorant Garamond',serif",fontSize:18,color:T.muted,lineHeight:1.7,maxWidth:380,marginBottom:"2.5rem"}}>{t.hero.sub}</p>
-          <div className="a4 hero-btns" style={{display:"flex",gap:"1rem",alignItems:"center"}}>
+          <div style={{width:0,height:2,background:"linear-gradient(90deg,#C9A84C,transparent)",margin:"0 0 1.5rem",animation:"lineGrow 1s ease 1.2s both"}}/>
+          <p className="a3" style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"clamp(15px,2vw,19px)",color:T.muted,lineHeight:1.7,maxWidth:480,marginBottom:"2.5rem"}}>{t.hero.sub}</p>
+          <div className="a4 hero-btns" style={{display:"flex",gap:"1rem",alignItems:"center",marginBottom:"3.5rem"}}>
             <button className="btn-primary" onClick={()=>document.getElementById("offres").scrollIntoView({behavior:"smooth"})} style={{
               background:"linear-gradient(135deg,#C9A84C,#A67C2E)",border:"none",color:"#0A0A0A",
-              padding:"14px 32px",fontFamily:"'Syne',sans-serif",fontSize:13,fontWeight:700,
-              letterSpacing:"2px",textTransform:"uppercase",cursor:"pointer"}}>
+              padding:"16px 40px",fontFamily:"'Syne',sans-serif",fontSize:13,fontWeight:700,
+              letterSpacing:"3px",textTransform:"uppercase",cursor:"pointer"}}>
               {t.hero.cta1}
             </button>
-            <button className="btn-ghost" onClick={()=>document.getElementById("methode").scrollIntoView({behavior:"smooth"})} style={{
-              background:"none",border:"none",color:T.muted,fontFamily:"'Syne',sans-serif",
-              fontSize:12,letterSpacing:"1px",cursor:"pointer",transition:"all 0.3s"}}>
-              {t.hero.cta2}
+            <button className="btn-ghost" onClick={()=>document.getElementById("calc-section").scrollIntoView({behavior:"smooth"})} style={{
+              background:"none",border:`0.5px solid ${T.border}`,color:T.muted,fontFamily:"'Syne',sans-serif",
+              fontSize:12,letterSpacing:"2px",textTransform:"uppercase",cursor:"pointer",padding:"16px 28px",transition:"all 0.3s"}}>
+              Calculateur gratuit ↓
             </button>
           </div>
-        </div>
-        <div className="hero-stats" style={{display:"grid",gridTemplateRows:"1fr 1fr",background:T.bg2,position:"relative",overflow:"hidden"}}>
-          <video className="hero-video" autoPlay muted loop playsInline>
-            <source src="/videos/v1.mp4" type="video/mp4"/>
-          </video>
-          <div style={{position:"absolute",inset:0,background:"radial-gradient(circle at 50% 50%,rgba(201,168,76,0.06),transparent 70%)",pointerEvents:"none",zIndex:1}}/>
-          <canvas ref={canvasRef} style={{position:"absolute",inset:0,width:"100%",height:"100%",pointerEvents:"none",zIndex:2}} />
-          <svg style={{position:"absolute",inset:0,opacity:0.03,width:"100%",height:"100%",zIndex:1}} viewBox="0 0 300 260" preserveAspectRatio="xMidYMid slice">
-            <defs><pattern id="g" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M 30 0 L 0 0 0 30" fill="none" stroke="#C9A84C" strokeWidth="0.5"/></pattern></defs>
-            <rect width="300" height="260" fill="url(#g)"/>
-          </svg>
-          {[["100%",t.stats[0]],["+340",t.stats[1]]].map(([num,label],i)=>(
-            <div key={i} className="stat-box a5" style={{padding:"2.5rem",borderBottom:i===0?`0.5px solid ${T.border2}`:"none",display:"flex",flexDirection:"column",justifyContent:"flex-end",background:"transparent",animationDelay:`${0.5+i*0.2}s`,position:"relative",zIndex:3}}>
-              <div className="stat-num gold-text" style={{fontFamily:"'Cormorant Garamond',serif",fontSize:80,fontWeight:600,lineHeight:1}}>{num}</div>
-              <div style={{fontSize:11,letterSpacing:"3px",textTransform:"uppercase",color:"#888",marginTop:8}}>{label}</div>
-            </div>
-          ))}
+          {/* Stats inline */}
+          <div style={{display:"flex",gap:"clamp(1.5rem,4vw,3.5rem)",paddingTop:"2rem",borderTop:`0.5px solid rgba(${theme==="dark"?"255,255,255":"0,0,0"},0.08)`}}>
+            {[["100%",t.stats[0]],["+340",t.stats[1]],["4.9★","Note moyenne"]].map(([num,label],i)=>(
+              <div key={i} className="stat-box">
+                <div className="stat-num gold-text" style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"clamp(28px,4vw,48px)",fontWeight:600,lineHeight:1}}>{num}</div>
+                <div style={{fontSize:10,letterSpacing:"2px",textTransform:"uppercase",color:T.muted,marginTop:4}}>{label}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -369,6 +604,11 @@ export default function Home() {
           </div>
         ))}
       </div>
+
+      {/* ── Calculateur inline ── */}
+      <section id="calc-section" className="reveal" style={{borderBottom:`0.5px solid ${T.border}`,background:T.bg2}}>
+        <InlineCalculateur T={T} theme={theme} router={router} />
+      </section>
 
       {/* ── Méthode ── */}
       <section id="methode" className="methode-grid" style={{display:"grid",gridTemplateColumns:"1fr 1fr",borderBottom:`0.5px solid ${T.border}`}}>
