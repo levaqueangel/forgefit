@@ -578,15 +578,10 @@ export default function Home() {
     const ctx = cv.getContext("2d");
     const N = 140;
     const pts = Array.from({length:N}, ()=>({x:Math.random()*cv.width,y:Math.random()*cv.height,vx:(Math.random()-.5)*.22,vy:(Math.random()-.5)*.22,r:Math.random()*2.4+0.5,a:Math.random()*.5+0.14,ph:Math.random()*Math.PI*2}));
-    let mx=cv.width/2, my=cv.height/2;
-    const onMove = e => { const r=cv.getBoundingClientRect(); mx=e.clientX-r.left; my=e.clientY-r.top; };
-    par.addEventListener("mousemove",onMove);
     const draw = () => {
       ctx.clearRect(0,0,cv.width,cv.height);
       for(let i=0;i<N;i++){
         const p=pts[i]; p.ph+=.025;
-        const dx=mx-p.x,dy=my-p.y,d=Math.hypot(dx,dy);
-        if(d<200){p.vx+=dx/d*.005;p.vy+=dy/d*.005;}
         const sp=Math.hypot(p.vx,p.vy); if(sp>.48){p.vx=p.vx/sp*.48;p.vy=p.vy/sp*.48;}
         p.x+=p.vx; p.y+=p.vy;
         if(p.x<0)p.x=cv.width; if(p.x>cv.width)p.x=0;
@@ -599,7 +594,7 @@ export default function Home() {
     };
     draw();
     window.addEventListener("resize",resize);
-    return () => { cancelAnimationFrame(animId); par.removeEventListener("mousemove",onMove); window.removeEventListener("resize",resize); };
+    return () => { cancelAnimationFrame(animId); window.removeEventListener("resize",resize); };
   }, []);
 
   const { lang, setLang, t, LANGS } = useLang();
