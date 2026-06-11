@@ -544,7 +544,7 @@ export default function Home() {
           <div className="a1" style={{fontSize:11,letterSpacing:"5px",textTransform:"uppercase",color:"#C9A84C",marginBottom:"1.5rem"}}>{t.hero.tag}</div>
           <h1 className="a2" style={{
             fontFamily:"'Syne',sans-serif",
-            fontSize:"clamp(64px,10vw,148px)",
+            fontSize:"clamp(40px,6.5vw,96px)",
             fontWeight:800,
             lineHeight:0.88,
             marginBottom:"2rem",
