@@ -55,175 +55,182 @@ function InlineCalculateur({ T, theme, router }) {
   const imcColor = result ? (result.imc<18.5?"#88A0E0":result.imc<25?"#7AE07A":result.imc<30?"#E8C87A":"#E07070") : "#C9A84C";
   const imcLabel = result ? (result.imc<18.5?"Sous-poids":result.imc<25?"Poids normal":result.imc<30?"Surpoids":"Obésité") : "";
 
-  const SliderRow = ({ label, value, setValue, min, max, unit, step=1 }) => (
-    <div style={{marginBottom:20}}>
-      <div style={{display:"flex",justifyContent:"space-between",marginBottom:8}}>
-        <span style={{fontSize:10,letterSpacing:"2px",textTransform:"uppercase",color:T.muted}}>{label}</span>
-        <span style={{fontSize:14,fontWeight:700,color:"#C9A84C",fontFamily:"'Syne',sans-serif"}}>{value} <span style={{fontSize:10,color:T.muted,fontWeight:400}}>{unit}</span></span>
-      </div>
-      <input type="range" min={min} max={max} step={step} value={value} onChange={e=>setValue(parseFloat(e.target.value))}
-        style={{width:"100%",accentColor:"#C9A84C",height:4,cursor:"pointer"}}/>
-      <div style={{display:"flex",justifyContent:"space-between",marginTop:4}}>
-        <span style={{fontSize:9,color:"#333"}}>{min}</span>
-        <span style={{fontSize:9,color:"#333"}}>{max}</span>
-      </div>
-    </div>
-  );
-
   return (
-    <div style={{padding:"4rem clamp(1.5rem,5vw,3rem)"}}>
+    <div style={{padding:"5rem clamp(2rem,6vw,5rem)", maxWidth:1400, margin:"0 auto"}}>
       {/* Header */}
-      <div style={{maxWidth:1100,margin:"0 auto"}}>
-        <div style={{textAlign:"center",marginBottom:"3rem"}}>
-          <div style={{fontSize:11,letterSpacing:"4px",textTransform:"uppercase",color:"#C9A84C",marginBottom:"0.5rem"}}>— Outil gratuit</div>
-          <h2 style={{fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:"clamp(36px,6vw,80px)",lineHeight:0.9,textTransform:"uppercase",letterSpacing:"-0.02em",color:T.fg}}>
+      <div style={{display:"flex",alignItems:"flex-end",justifyContent:"space-between",flexWrap:"wrap",gap:"1.5rem",marginBottom:"3rem"}}>
+        <div>
+          <div style={{fontSize:10,letterSpacing:"5px",textTransform:"uppercase",color:"#C9A84C",marginBottom:"1rem"}}>— Outil gratuit</div>
+          <h2 style={{fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:"clamp(32px,5vw,72px)",lineHeight:0.88,textTransform:"uppercase",letterSpacing:"-0.02em",color:T.fg}}>
             CALCULATEUR<br/><span style={{color:"#C9A84C"}}>MÉTABOLIQUE.</span>
           </h2>
-          <p style={{fontFamily:"'Cormorant Garamond',serif",fontSize:16,color:T.muted,marginTop:"1rem",lineHeight:1.7}}>
-            Découvre tes besoins caloriques réels et tes macros optimales en 30 secondes.
-          </p>
+        </div>
+        <p style={{fontFamily:"'Cormorant Garamond',serif",fontSize:15,color:T.muted,maxWidth:300,lineHeight:1.9}}>
+          Découvre tes besoins caloriques réels et tes macros optimales en 30 secondes.
+        </p>
+      </div>
+
+      {/* 3-col inputs */}
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:1,background:T.border}} className="calc-inputs-grid">
+
+        {/* Bloc 1 — Profil */}
+        <div style={{background:T.bg,padding:"2rem"}}>
+          <div style={{fontSize:9,letterSpacing:"3px",textTransform:"uppercase",color:"#C9A84C",marginBottom:"1.5rem"}}>01 — Profil</div>
+          <div style={{marginBottom:"1.5rem"}}>
+            <div style={{fontSize:9,letterSpacing:"2px",textTransform:"uppercase",color:T.muted,marginBottom:8}}>Genre</div>
+            <div style={{display:"flex",gap:6}}>
+              {[["homme","Homme"],["femme","Femme"]].map(([v,l])=>(
+                <button key={v} onClick={()=>setGenre(v)} style={{
+                  flex:1,padding:"10px 6px",
+                  background:genre===v?"rgba(201,168,76,0.12)":T.card,
+                  border:`0.5px solid ${genre===v?"#C9A84C":T.border}`,
+                  color:genre===v?"#C9A84C":T.muted,
+                  fontFamily:"'Syne',sans-serif",fontSize:11,fontWeight:700,letterSpacing:"1px",cursor:"pointer",transition:"all 0.2s",
+                }}>{l}</button>
+              ))}
+            </div>
+          </div>
+          <div>
+            <div style={{fontSize:9,letterSpacing:"2px",textTransform:"uppercase",color:T.muted,marginBottom:8}}>Objectif</div>
+            <div style={{display:"flex",flexDirection:"column",gap:5}}>
+              {CALC_GOALS.map(g=>(
+                <button key={g.id} onClick={()=>setObjectif(g.id)} style={{
+                  padding:"11px 12px",textAlign:"left",
+                  background:objectif===g.id?"rgba(201,168,76,0.1)":T.card,
+                  border:`0.5px solid ${objectif===g.id?"#C9A84C":T.border}`,
+                  color:objectif===g.id?"#C9A84C":T.muted,
+                  fontFamily:"'Syne',sans-serif",fontSize:11,fontWeight:700,letterSpacing:"0.5px",
+                  cursor:"pointer",transition:"all 0.2s",
+                  display:"flex",justifyContent:"space-between",alignItems:"center",
+                }}>
+                  {g.label}
+                  {objectif===g.id&&<span style={{fontSize:9,color:"#C9A84C"}}>✓</span>}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
 
-        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:1,background:T.border}} className="calc-inline-grid">
-          {/* Colonne gauche — inputs */}
-          <div style={{background:T.bg,padding:"2.5rem 2rem",display:"flex",flexDirection:"column",gap:0}}>
-            {/* Genre */}
-            <div style={{marginBottom:24}}>
-              <div style={{fontSize:10,letterSpacing:"2px",textTransform:"uppercase",color:T.muted,marginBottom:10}}>Genre</div>
-              <div style={{display:"flex",gap:8}}>
-                {[["homme","♂ Homme"],["femme","♀ Femme"]].map(([v,l])=>(
-                  <button key={v} onClick={()=>setGenre(v)} style={{
-                    flex:1,padding:"10px",background:genre===v?"rgba(201,168,76,0.1)":T.card,
-                    border:`0.5px solid ${genre===v?"#C9A84C":T.border}`,
-                    color:genre===v?"#C9A84C":T.muted,fontFamily:"'Syne',sans-serif",
-                    fontSize:11,fontWeight:700,letterSpacing:"1px",cursor:"pointer",transition:"all 0.15s",
-                  }}>{l}</button>
-                ))}
+        {/* Bloc 2 — Mesures */}
+        <div style={{background:T.bg2,padding:"2rem"}}>
+          <div style={{fontSize:9,letterSpacing:"3px",textTransform:"uppercase",color:"#C9A84C",marginBottom:"1.5rem"}}>02 — Mesures</div>
+          {[
+            {label:"Poids",  value:poids,  setValue:setPoids,  min:40, max:150, unit:"kg", step:0.5},
+            {label:"Taille", value:taille, setValue:setTaille, min:140, max:220, unit:"cm"},
+            {label:"Âge",    value:age,    setValue:setAge,    min:14, max:80,  unit:"ans"},
+          ].map(({label,value,setValue,min,max,unit,step=1})=>(
+            <div key={label} style={{marginBottom:"1.5rem"}}>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",marginBottom:6}}>
+                <span style={{fontSize:9,letterSpacing:"2px",textTransform:"uppercase",color:T.muted}}>{label}</span>
+                <span style={{fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:24,color:"#C9A84C",lineHeight:1}}>
+                  {value}<span style={{fontSize:10,color:T.muted,fontWeight:400,marginLeft:3}}>{unit}</span>
+                </span>
+              </div>
+              <input type="range" min={min} max={max} step={step} value={value}
+                onChange={e=>setValue(parseFloat(e.target.value))}
+                style={{width:"100%",accentColor:"#C9A84C",cursor:"pointer",margin:"4px 0"}}/>
+              <div style={{display:"flex",justifyContent:"space-between"}}>
+                <span style={{fontSize:9,color:"#333"}}>{min}</span>
+                <span style={{fontSize:9,color:"#333"}}>{max}</span>
               </div>
             </div>
+          ))}
+        </div>
 
-            {/* Sliders */}
-            <SliderRow label="Poids" value={poids} setValue={setPoids} min={40} max={150} unit="kg" step={0.5}/>
-            <SliderRow label="Taille" value={taille} setValue={setTaille} min={140} max={220} unit="cm"/>
-            <SliderRow label="Âge" value={age} setValue={setAge} min={14} max={80} unit="ans"/>
+        {/* Bloc 3 — Activité */}
+        <div style={{background:T.bg,padding:"2rem"}}>
+          <div style={{fontSize:9,letterSpacing:"3px",textTransform:"uppercase",color:"#C9A84C",marginBottom:"1.5rem"}}>03 — Activité</div>
+          <div style={{display:"flex",flexDirection:"column",gap:5}}>
+            {CALC_ACTIVITY.map((a,i)=>(
+              <button key={i} onClick={()=>setActivite(i)} style={{
+                padding:"12px 14px",textAlign:"left",
+                background:activite===i?"rgba(201,168,76,0.1)":T.card,
+                border:`0.5px solid ${activite===i?"#C9A84C":T.border}`,
+                color:activite===i?"#C9A84C":T.muted,
+                fontFamily:"'Syne',sans-serif",fontSize:11,letterSpacing:"0.3px",
+                cursor:"pointer",transition:"all 0.2s",
+                display:"flex",justifyContent:"space-between",alignItems:"center",gap:8,
+              }}>
+                <span>{a.label}</span>
+                <span style={{fontSize:10,color:activite===i?"rgba(201,168,76,0.6)":"#333",flexShrink:0}}>×{a.mult}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
 
-            {/* Activité */}
-            <div style={{marginBottom:20}}>
-              <div style={{fontSize:10,letterSpacing:"2px",textTransform:"uppercase",color:T.muted,marginBottom:10}}>Niveau d'activité</div>
-              <div style={{display:"flex",flexDirection:"column",gap:5}}>
-                {CALC_ACTIVITY.map((a,i)=>(
-                  <button key={i} onClick={()=>setActivite(i)} style={{
-                    padding:"8px 12px",background:activite===i?"rgba(201,168,76,0.08)":T.card,
-                    border:`0.5px solid ${activite===i?"#C9A84C":T.border}`,
-                    color:activite===i?"#C9A84C":T.muted,fontFamily:"'Syne',sans-serif",
-                    fontSize:11,letterSpacing:"0.5px",cursor:"pointer",transition:"all 0.15s",textAlign:"left",
-                  }}>{a.label}</button>
-                ))}
+      {/* Bouton calcul */}
+      <button onClick={calculate} style={{
+        width:"100%",padding:"18px",
+        background:"linear-gradient(135deg,#C9A84C,#A67C2E)",
+        border:"none",color:"#0A0A0A",
+        fontFamily:"'Syne',sans-serif",fontSize:13,fontWeight:800,
+        letterSpacing:"4px",textTransform:"uppercase",cursor:"pointer",
+        boxShadow:"0 4px 24px rgba(201,168,76,0.2)",transition:"all 0.3s",
+        marginTop:1,
+      }}>
+        Calculer mes besoins →
+      </button>
+
+      {/* Résultats */}
+      {result && (
+        <div style={{marginTop:1,animation:"fadeUp 0.5s ease both"}}>
+          {/* Band résultats */}
+          <div style={{display:"grid",gridTemplateColumns:"2fr 1fr 1fr 1fr 1fr",gap:1,background:T.border}} className="calc-results-grid">
+            {/* Calories */}
+            <div style={{background:T.card,padding:"2rem",position:"relative",overflow:"hidden"}}>
+              <div style={{position:"absolute",top:0,left:0,right:0,height:2,background:"linear-gradient(90deg,#C9A84C,#E8C87A)"}}/>
+              <div style={{fontSize:9,letterSpacing:"3px",textTransform:"uppercase",color:"#C9A84C",marginBottom:"0.75rem"}}>Calories / jour</div>
+              <div style={{fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:"clamp(48px,5vw,80px)",color:"#C9A84C",lineHeight:0.9,marginBottom:8}}>
+                {result.calories.toLocaleString()}
               </div>
+              <div style={{fontSize:11,color:T.muted}}>TDEE {result.tdee.toLocaleString()} kcal</div>
+              <div style={{fontSize:10,color:"rgba(201,168,76,0.7)",marginTop:4}}>{CALC_GOALS.find(g=>g.id===objectif)?.label}</div>
             </div>
-
-            {/* Objectif */}
-            <div style={{marginBottom:24}}>
-              <div style={{fontSize:10,letterSpacing:"2px",textTransform:"uppercase",color:T.muted,marginBottom:10}}>Objectif</div>
-              <div style={{display:"flex",gap:8}}>
-                {CALC_GOALS.map(g=>(
-                  <button key={g.id} onClick={()=>setObjectif(g.id)} style={{
-                    flex:1,padding:"10px 6px",background:objectif===g.id?"rgba(201,168,76,0.1)":T.card,
-                    border:`0.5px solid ${objectif===g.id?"#C9A84C":T.border}`,
-                    color:objectif===g.id?"#C9A84C":T.muted,fontFamily:"'Syne',sans-serif",
-                    fontSize:10,fontWeight:700,letterSpacing:"0.5px",cursor:"pointer",transition:"all 0.15s",
-                  }}>{g.label}</button>
-                ))}
+            {/* Macros + IMC */}
+            {[
+              {label:"Protéines",val:result.proteines,sub:"grammes",color:"#7AE07A"},
+              {label:"Glucides", val:result.glucides, sub:"grammes",color:"#C9A84C"},
+              {label:"Lipides",  val:result.lipides,  sub:"grammes",color:"#5DCAA5"},
+              {label:"IMC",      val:result.imc,      sub:imcLabel, color:imcColor},
+            ].map((m,i)=>(
+              <div key={i} style={{background:T.bg2,padding:"2rem",display:"flex",flexDirection:"column",justifyContent:"space-between"}}>
+                <div style={{fontSize:9,letterSpacing:"3px",textTransform:"uppercase",color:T.muted,marginBottom:"0.5rem"}}>{m.label}</div>
+                <div>
+                  <div style={{fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:36,color:m.color,lineHeight:0.9}}>{m.val}</div>
+                  <div style={{fontSize:9,color:m.label==="IMC"?m.color:T.muted,marginTop:6}}>{m.sub}</div>
+                </div>
               </div>
+            ))}
+          </div>
+          {/* CTA row */}
+          <div style={{background:T.bg2,borderTop:`0.5px solid rgba(201,168,76,0.15)`,padding:"2rem",display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:"1.5rem"}}>
+            <div>
+              <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:18,color:T.fg,lineHeight:1.5}}>
+                Ces chiffres sont un point de départ — un programme sur mesure va bien plus loin.
+              </div>
+              <div style={{fontSize:11,color:T.muted,marginTop:4}}>Historique, équipement, contraintes, progressions sur 12 semaines.</div>
             </div>
-
-            <button onClick={calculate} style={{
+            <button onClick={()=>router.push("/bilan")} style={{
               background:"linear-gradient(135deg,#C9A84C,#A67C2E)",border:"none",color:"#0A0A0A",
-              padding:"15px",fontFamily:"'Syne',sans-serif",fontSize:12,fontWeight:800,
-              letterSpacing:"3px",textTransform:"uppercase",cursor:"pointer",
-              boxShadow:"0 4px 20px rgba(201,168,76,0.25)",transition:"all 0.3s",
+              padding:"14px 32px",fontFamily:"'Syne',sans-serif",fontSize:12,fontWeight:800,
+              letterSpacing:"3px",textTransform:"uppercase",cursor:"pointer",flexShrink:0,
+              boxShadow:"0 4px 16px rgba(201,168,76,0.2)",
             }}>
-              Calculer →
+              Obtenir mon programme →
             </button>
           </div>
-
-          {/* Colonne droite — résultats */}
-          <div style={{background:T.bg2,padding:"2.5rem 2rem",display:"flex",flexDirection:"column",justifyContent:result?"flex-start":"center",alignItems:result?"stretch":"center",minHeight:500}}>
-            {!result ? (
-              <div style={{textAlign:"center"}}>
-                <div style={{fontSize:11,letterSpacing:"3px",textTransform:"uppercase",color:"#333",marginBottom:"1rem"}}>← Configure et calcule</div>
-                <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:72,fontWeight:600,color:T.border,lineHeight:1}}>?</div>
-                <p style={{fontFamily:"'Cormorant Garamond',serif",fontSize:15,color:"#333",marginTop:"1rem",lineHeight:1.7}}>
-                  Tes besoins caloriques et macros personnalisés s'afficheront ici.
-                </p>
-              </div>
-            ) : (
-              <div style={{display:"flex",flexDirection:"column",gap:16,animation:"fadeUp 0.4s ease both"}}>
-                {/* Calories */}
-                <div style={{background:T.bg,border:`0.5px solid rgba(201,168,76,0.3)`,padding:"1.5rem",position:"relative",overflow:"hidden"}}>
-                  <div style={{position:"absolute",top:0,left:0,right:0,height:2,background:"linear-gradient(90deg,#C9A84C,#E8C87A,#C9A84C)"}}/>
-                  <div style={{fontSize:10,letterSpacing:"3px",textTransform:"uppercase",color:"#C9A84C",marginBottom:8}}>Calories / jour · {CALC_GOALS.find(g=>g.id===objectif)?.label}</div>
-                  <div style={{fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:"clamp(42px,5vw,64px)",color:"#C9A84C",lineHeight:1}}>{result.calories.toLocaleString()}</div>
-                  <div style={{fontSize:11,color:T.muted,marginTop:4}}>TDEE : {result.tdee.toLocaleString()} kcal · {CALC_GOALS.find(g=>g.id===objectif)?.delta > 0 ? `+${CALC_GOALS.find(g=>g.id===objectif)?.delta}` : CALC_GOALS.find(g=>g.id===objectif)?.delta} kcal</div>
-                </div>
-
-                {/* Macros */}
-                <div style={{background:T.bg,border:`0.5px solid ${T.border}`,padding:"1.25rem"}}>
-                  <div style={{fontSize:10,letterSpacing:"3px",textTransform:"uppercase",color:T.muted,marginBottom:12}}>Macronutriments</div>
-                  {[
-                    {label:"Protéines",val:result.proteines,unit:"g",color:"#7AE07A"},
-                    {label:"Glucides", val:result.glucides, unit:"g",color:"#C9A84C"},
-                    {label:"Lipides",  val:result.lipides,  unit:"g",color:"#5DCAA5"},
-                  ].map((m,i)=>{
-                    const pct = Math.round((m.val*(m.label==="Lipides"?9:4))/result.calories*100);
-                    return (
-                      <div key={i} style={{marginBottom:i<2?10:0}}>
-                        <div style={{display:"flex",justifyContent:"space-between",marginBottom:5}}>
-                          <span style={{fontSize:12,color:T.muted}}>{m.label}</span>
-                          <span style={{fontSize:13,fontWeight:700,color:m.color,fontFamily:"'Syne',sans-serif"}}>{m.val}g <span style={{fontSize:10,color:"#444",fontWeight:400}}>· {pct}%</span></span>
-                        </div>
-                        <div style={{height:5,background:T.bg2,borderRadius:3,overflow:"hidden"}}>
-                          <div style={{height:"100%",width:`${pct}%`,background:m.color,borderRadius:3,transition:"width 0.8s ease"}}/>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-
-                {/* IMC */}
-                <div style={{background:T.bg,border:`0.5px solid ${T.border}`,padding:"1.25rem"}}>
-                  <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-                    <div style={{fontSize:10,letterSpacing:"3px",textTransform:"uppercase",color:T.muted}}>IMC</div>
-                    <div>
-                      <span style={{fontSize:22,fontWeight:700,color:imcColor,fontFamily:"'Syne',sans-serif"}}>{result.imc}</span>
-                      <span style={{fontSize:11,color:imcColor,marginLeft:8}}>{imcLabel}</span>
-                    </div>
-                  </div>
-                  <div style={{height:6,background:T.bg2,borderRadius:3,overflow:"visible",marginTop:10,position:"relative"}}>
-                    <div style={{display:"flex",height:"100%",borderRadius:3,overflow:"hidden"}}>
-                      <div style={{flex:1,background:"#5DCAA5"}}/><div style={{flex:1.3,background:"#7AE07A"}}/><div style={{flex:1,background:"#E8C87A"}}/><div style={{flex:2,background:"#E07070"}}/>
-                    </div>
-                    <div style={{position:"absolute",top:-5,left:`${Math.min(Math.max(((result.imc-10)/30)*100,0),100)}%`,transform:"translateX(-50%)",width:16,height:16,borderRadius:"50%",background:imcColor,border:`2px solid ${T.bg}`}}/>
-                  </div>
-                </div>
-
-                {/* CTA */}
-                <div style={{background:"rgba(201,168,76,0.06)",border:"0.5px solid rgba(201,168,76,0.25)",padding:"1.25rem",textAlign:"center"}}>
-                  <p style={{fontFamily:"'Cormorant Garamond',serif",fontSize:14,color:T.muted,lineHeight:1.7,marginBottom:"1rem"}}>
-                    Un programme sur mesure intègre bien plus — historique, équipement, contraintes réelles.
-                  </p>
-                  <button onClick={()=>router.push("/bilan")} style={{
-                    background:"linear-gradient(135deg,#C9A84C,#A67C2E)",border:"none",color:"#0A0A0A",
-                    padding:"12px 24px",fontFamily:"'Syne',sans-serif",fontSize:11,fontWeight:700,
-                    letterSpacing:"2px",textTransform:"uppercase",cursor:"pointer",
-                  }}>Obtenir mon programme →</button>
-                </div>
-              </div>
-            )}
-          </div>
         </div>
-        <style>{`.calc-inline-grid{grid-template-columns:1fr 1fr !important} @media(max-width:768px){.calc-inline-grid{grid-template-columns:1fr !important}}`}</style>
-      </div>
+      )}
+
+      <style>{`
+        .calc-inputs-grid{grid-template-columns:1fr 1fr 1fr !important}
+        .calc-results-grid{grid-template-columns:2fr 1fr 1fr 1fr 1fr !important}
+        @media(max-width:900px){
+          .calc-inputs-grid{grid-template-columns:1fr !important}
+          .calc-results-grid{grid-template-columns:1fr 1fr !important}
+        }
+      `}</style>
     </div>
   );
 }
@@ -585,8 +592,6 @@ export default function Home() {
 
       {/* ── Strip ── */}
       <div className="reveal" style={{overflow:"hidden",borderBottom:`0.5px solid ${T.border}`,background:"#C9A84C",padding:"12px 0",position:"relative"}}>
-        <div style={{position:"absolute",left:0,top:0,bottom:0,width:40,background:"linear-gradient(90deg,#C9A84C,transparent)",zIndex:1}}/>
-        <div style={{position:"absolute",right:0,top:0,bottom:0,width:40,background:"linear-gradient(270deg,#C9A84C,transparent)",zIndex:1}}/>
         <div style={{display:"flex",gap:"3rem",animation:"marquee 12s linear infinite",whiteSpace:"nowrap"}}>
           {[...t.strip,"·",...t.strip,"·"].map((s,i)=>(
             <span key={i} style={{fontSize:12,fontWeight:700,letterSpacing:"3px",textTransform:"uppercase",color:"#0A0A0A"}}>{s}</span>
@@ -604,11 +609,6 @@ export default function Home() {
           </div>
         ))}
       </div>
-
-      {/* ── Calculateur inline ── */}
-      <section id="calc-section" className="reveal" style={{borderBottom:`0.5px solid ${T.border}`,background:T.bg2}}>
-        <InlineCalculateur T={T} theme={theme} router={router} />
-      </section>
 
       {/* ── Méthode ── */}
       <section id="methode" className="methode-grid" style={{display:"grid",gridTemplateColumns:"1fr 1fr",borderBottom:`0.5px solid ${T.border}`}}>
@@ -735,6 +735,11 @@ export default function Home() {
           letterSpacing:"3px",textTransform:"uppercase",border:"none",cursor:"pointer",position:"relative"}}>
           {t.cta.btn}
         </button>
+      </section>
+
+      {/* ── Calculateur inline ── */}
+      <section id="calc-section" className="reveal" style={{borderTop:`0.5px solid ${T.border}`,borderBottom:`0.5px solid ${T.border}`,background:T.bg}}>
+        <InlineCalculateur T={T} theme={theme} router={router} />
       </section>
 
       {/* ── Footer enrichi ── */}
