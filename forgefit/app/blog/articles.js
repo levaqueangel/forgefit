@@ -2111,4 +2111,455 @@ Le sommeil n'est pas du temps perdu — c'est le moment où le travail accompli 
 Optimise les trois piliers de façon équilibrée. Un pratiquant qui dort 8h et s'entraîne 3 fois par semaine progressera plus vite qu'un pratiquant qui s'entraîne 5 fois par semaine en dormant 5h30.
     `,
   },
+  {
+    slug: "whey-proteine-guide-complet",
+    titre: "Whey protéine : le guide complet pour bien choisir et bien l'utiliser",
+    description: "Whey concentrate, isolate ou hydrolysate ? Quel moment la prendre ? Est-ce utile si on mange suffisamment ? Toutes les réponses basées sur la science.",
+    categorie: "Nutrition",
+    date: "2026-06-18",
+    lecture: 9,
+    image: null,
+    contenu: `La whey est le complément le plus vendu au monde en musculation. Mais est-elle indispensable, et comment l'utiliser correctement ?
+
+## Qu'est-ce que la whey ?
+
+La whey (lactosérum) est une protéine extraite du lait lors de la fabrication du fromage. Elle contient tous les acides aminés essentiels et présente un profil riche en leucine — l'acide aminé qui déclenche la synthèse protéique musculaire.
+
+Ce n'est pas un produit chimique ou dopant. C'est une protéine alimentaire concentrée, au même titre que le blanc d'œuf ou le blanc de poulet en poudre.
+
+## Les trois types de whey
+
+**Whey concentrate (WPC)** : 70 à 80% de protéines, contient un peu de lactose et de graisses. Goût légèrement plus riche. La moins chère. Idéale pour 90% des pratiquants.
+
+**Whey isolate (WPI)** : 90%+ de protéines, très peu de lactose, quasi sans graisses. Recommandée si tu es intolérant au lactose ou en phase de sèche stricte. 20 à 40% plus chère que la concentrate.
+
+**Whey hydrolysate** : Protéines pré-digérées, absorption plus rapide. Prix très élevé pour un bénéfice marginal vs isolate. Utile surtout en contexte médical ou compétition. À éviter pour un pratiquant normal.
+
+## La whey est-elle indispensable ?
+
+Non. Si tu atteins tes apports protéiques journaliers (1,6 à 2,2 g/kg) avec ta nourriture, la whey n'apportera pas de résultats supplémentaires.
+
+Elle est utile quand :
+- Tu as du mal à atteindre tes apports avec la nourriture seule
+- Tu manques de temps pour cuisiner
+- Tu cherches une source de protéines pratique post-entraînement
+- Ton budget alimentaire est limité (la whey est l'une des protéines les moins chères au gramme)
+
+## Quand la prendre ?
+
+La "fenêtre anabolique" de 30 minutes post-entraînement est très exagérée dans la littérature populaire. Ce qui compte, c'est la distribution des protéines sur la journée, pas le timing précis.
+
+**Moments pertinents :**
+- Post-entraînement si ton prochain repas est à plus de 2h
+- Petit-déjeuner si tu n'aimes pas les aliments protéinés le matin
+- Collation entre repas si tes protéines sont concentrées sur 2 repas seulement
+- Avant de dormir (whey ou caséine) si ton dernier repas protéiné est loin
+
+## Dosage
+
+20 à 40g par prise, 1 à 2 fois par jour selon tes besoins. Au-delà de 40g en une prise, l'excès est oxydé et non utilisé pour la synthèse musculaire.
+
+## Comment choisir une marque ?
+
+Critères importants :
+- **Certifiée Informed Sport ou NSF** : absence de substances bannies testée
+- **Protéines par portion ≥ 20g** : méfie-toi des poudres avec beaucoup de glucides cachés
+- **Sans amino spiking** : certaines marques ajoutent des acides aminés bon marché (taurine, glycine) pour gonfler le taux de protéines affiché. Vérifie que les acides aminés listés séparément ne représentent pas plus de 5% du total
+- **Prix** : entre 15 et 30€/kg pour une whey de qualité correcte. Au-delà, tu paies la marque
+
+## Effets secondaires
+
+Aucun effet nocif démontré sur les reins chez des personnes en bonne santé, même à des doses élevées sur de longues périodes.
+
+Ballonnements possibles avec la concentrate si tu es sensible au lactose → passe à l'isolate.
+
+## Conclusion
+
+La whey est un outil pratique, pas une nécessité. Si tu manges bien et que tes protéines sont couvertes, elle ne fera pas de miracle. Si tu galères à atteindre tes apports, une whey concentrate basique à 20€/kg suffit amplement.`,
+  },
+  {
+    slug: "hiit-musculation-combiner",
+    titre: "HIIT et musculation : comment combiner les deux sans perdre du muscle",
+    description: "Le HIIT brûle des calories et améliore le cardio, mais mal dosé il peut freiner les gains musculaires. Voici comment intégrer le HIIT intelligemment dans un programme musculation.",
+    categorie: "Programme",
+    date: "2026-06-19",
+    lecture: 8,
+    image: null,
+    contenu: `Le HIIT (High Intensity Interval Training) est présenté partout comme la solution miracle pour perdre du gras. La réalité est plus nuancée, surtout quand on pratique la musculation en parallèle.
+
+## Ce qu'est vraiment le HIIT
+
+Le HIIT alterne des phases d'effort maximal (15 à 40 secondes) et des phases de récupération (ratio effort/repos souvent 1:1 ou 1:2). Une séance dure généralement 15 à 30 minutes.
+
+Ce n'est pas du cardio modéré accéléré. Une vraie séance HIIT laisse incapable de parler pendant les phases d'effort. Si tu peux tenir une conversation, c'est du HIIT dégradé.
+
+## Le conflit avec la musculation
+
+Le principal problème : le HIIT et la musculation lourde stimulent des adaptations partiellement incompatibles.
+
+La musculation stimule la voie mTOR (construction musculaire). Le HIIT intensif stimule la voie AMPK (adaptation à l'endurance, économie d'énergie). Ces deux voies s'inhibent mutuellement à dose élevée — c'est ce qu'on appelle l'**interférence concurrent**.
+
+Concrètement : trop de HIIT + musculation lourde = récupération incomplète, gains ralentis, risque de surentraînement.
+
+## Quand le HIIT est adapté
+
+- Phase de sèche : le HIIT accélère la dépense calorique totale sans ajouter beaucoup de temps d'entraînement
+- Amélioration du cardio sans sacrifier trop de muscle (vs cardio LISS prolongé)
+- Pratiquants avancés avec une base de récupération solide
+
+## Quand le HIIT est contre-productif
+
+- Prise de masse pure : le déficit énergétique induit et le stress catabolique rajouté freinent les gains
+- Débutants : la récupération est déjà limitée par l'adaptation à la musculation
+- Plus de 3 séances HIIT par semaine : au-delà, le rapport bénéfice/coût devient négatif
+
+## Comment intégrer le HIIT correctement
+
+**Règle 1 — Séparer les séances**
+Ne jamais faire HIIT + musculation lourde dans la même session. Si obligé, faire la musculation d'abord, le HIIT ensuite — jamais l'inverse.
+
+**Règle 2 — Limiter la fréquence**
+2 séances HIIT par semaine maximum en prise de masse, 3 maximum en sèche.
+
+**Règle 3 — Séparer les groupes musculaires**
+Ne pas faire du HIIT squats/courses le lendemain d'une séance jambes lourde. La récupération des jambes est compromise.
+
+**Règle 4 — Adapter les volumes de musculation**
+Si tu ajoutes 2 séances HIIT, tu dois réduire le volume total de musculation de 10 à 20%. Le corps a un budget de récupération global.
+
+## Protocoles recommandés
+
+**Pour la sèche (2 à 3 fois/semaine)**
+- 30 secondes sprint / 90 secondes marche rapide × 8 répétitions
+- Vélo ou rameur pour limiter l'impact articulaire
+
+**Pour le maintien cardio en prise de masse (1 à 2 fois/semaine)**
+- Tabata : 20 secondes effort / 10 secondes repos × 8 cycles (4 minutes totales)
+- Kettlebell swings, sauts ou exercices au poids de corps
+
+## Alternatives au HIIT
+
+Pour la sèche sans interférence : marche rapide 30-45 min (LISS). Moins intense, moins catabolique, préserve mieux le muscle. Moins excitant, mais souvent plus efficace en contexte de musculation sérieuse.
+
+## Conclusion
+
+Le HIIT est un outil puissant mais son association avec la musculation demande du dosage. 1 à 2 séances par semaine bien placées dans le programme = outil efficace. 4 à 5 séances HIIT + 4 jours de musculation = recette pour stagner ou régresser.`,
+  },
+  {
+    slug: "comment-calculer-ses-macros",
+    titre: "Comment calculer ses macros : protéines, glucides, lipides selon son objectif",
+    description: "Guide pratique pour calculer ses macronutriments selon son objectif (prise de masse, sèche, maintenance). Formules, exemples chiffrés et erreurs à éviter.",
+    categorie: "Nutrition",
+    date: "2026-06-20",
+    lecture: 10,
+    image: null,
+    contenu: `Calculer ses macros permet de manger avec intention plutôt qu'au hasard. Voici la méthode complète, étape par étape.
+
+## Étape 1 : Calculer son TDEE
+
+Le TDEE (Total Daily Energy Expenditure) est le nombre de calories que tu brûles chaque jour. C'est ta base de départ.
+
+**Formule Harris-Benedict (révisée Mifflin-St Jeor) :**
+
+Homme : 88,36 + (13,4 × poids kg) + (4,8 × taille cm) - (5,7 × âge)
+Femme : 447,6 + (9,25 × poids kg) + (3,1 × taille cm) - (4,3 × âge)
+
+Ce résultat donne le BMR (métabolisme de base). Multiplie par ton niveau d'activité :
+- Sédentaire (peu de sport) : × 1,2
+- Légèrement actif (1-2 séances/sem) : × 1,375
+- Modérément actif (3-4 séances/sem) : × 1,55
+- Très actif (5-6 séances/sem) : × 1,65
+- Extrêmement actif : × 1,725
+
+## Étape 2 : Ajuster selon l'objectif
+
+**Prise de masse** : TDEE + 200 à 300 kcal (surplus modéré). Un surplus trop agressif (> 500 kcal) augmente le ratio gras/muscle pris.
+
+**Sèche** : TDEE - 300 à 500 kcal (déficit modéré). Un déficit trop fort (> 700 kcal) accélère la perte musculaire et réduit la performance.
+
+**Maintien / Recomposition** : TDEE ± 0 à 100 kcal.
+
+## Étape 3 : Fixer les protéines
+
+Les protéines sont la macro la plus importante. Elles préservent le muscle en sèche et optimisent la synthèse protéique en prise de masse.
+
+**Cibles recommandées :**
+- Prise de masse : 1,8 à 2,2 g/kg de poids de corps
+- Sèche : 2,2 à 2,6 g/kg (plus élevé pour préserver le muscle en déficit)
+- Maintenance : 1,6 à 2,0 g/kg
+
+Exemple pour 80 kg en prise de masse : 80 × 2 = 160g de protéines/jour = 640 kcal.
+
+## Étape 4 : Fixer les lipides
+
+Les lipides sont essentiels pour la production hormonale (testostérone notamment). Ne pas descendre en dessous de 0,7 g/kg.
+
+**Cibles recommandées :**
+- Général : 0,8 à 1,2 g/kg de poids de corps
+- Sèche : 0,7 à 1,0 g/kg (on réduit les lipides pour garder les glucides et la performance)
+
+Exemple pour 80 kg : 80 × 1 = 80g de lipides/jour = 720 kcal.
+
+## Étape 5 : Les glucides par défaut
+
+Les glucides complètent les calories restantes. Ce sont le carburant de la performance.
+
+Calories totales - calories protéines - calories lipides = calories glucides
+Calories glucides ÷ 4 = grammes de glucides
+
+Exemple complet pour 80 kg en prise de masse :
+- TDEE estimé : 2800 kcal + 250 = 3050 kcal cible
+- Protéines : 160g × 4 = 640 kcal
+- Lipides : 80g × 9 = 720 kcal
+- Glucides : (3050 - 640 - 720) ÷ 4 = **1690 ÷ 4 = 422g**
+
+## Les erreurs classiques
+
+**Être trop précis** : les calculs sont des estimations. Une erreur de ±10% sur le TDEE est normale. Ne pas ajuster chaque semaine — attendre 3 à 4 semaines avant de modifier.
+
+**Négliger les fibres** : vise 25 à 40g de fibres par jour. Les fibres font partie des glucides totaux mais ont des effets différents.
+
+**Ignorer l'alcool** : l'alcool apporte 7 kcal/g et bloque partiellement la synthèse protéique. Il ne rentre dans aucune macro mais doit être compté.
+
+**Changer trop vite** : si le poids ne bouge pas après 1 semaine, c'est normal. La rétention d'eau peut masquer les changements de masse grasse pendant 2 à 3 semaines.
+
+## Comment suivre ses macros
+
+**My Fitness Pal** ou **Cronometer** : scanner les codes-barres, base de données étendue. Peser les aliments crus les premières semaines, puis estimer à l'œil.
+
+Après 2 à 3 mois de suivi strict, la plupart des pratiquants peuvent estimer leurs macros à l'œil avec une précision suffisante.
+
+## Conclusion
+
+Le calcul des macros n'est pas une science exacte — c'est un point de départ à affiner. L'objectif n'est pas la perfection quotidienne, mais la cohérence hebdomadaire. Une semaine à ±100 kcal de la cible quotidienne produit les mêmes résultats qu'une semaine parfaite.`,
+  },
+  {
+    slug: "nutrition-avant-apres-seance",
+    titre: "Que manger avant et après la musculation ? Le guide pratique",
+    description: "Quoi manger avant l'entraînement pour la performance, et après pour la récupération. Timing, exemples de repas et erreurs fréquentes.",
+    categorie: "Nutrition",
+    date: "2026-06-21",
+    lecture: 7,
+    image: null,
+    contenu: `La nutrition autour des séances est souvent compliquée inutilement. Voici l'essentiel, sans dogme.
+
+## Avant la séance : carburant et confort digestif
+
+L'objectif est d'arriver en séance avec de l'énergie disponible, sans inconforts digestifs.
+
+### Repas complet 2h à 3h avant
+
+C'est la fenêtre idéale. Tu as le temps de digérer et les glucides sont disponibles.
+
+**Exemples :**
+- Riz + poulet + légumes (classique, efficace)
+- Pâtes + thon + huile d'olive
+- Pain de seigle + œufs brouillés + avocat
+
+Quantité : repas normal, pas excessif. Une digestion lourde nuit aux performances.
+
+### Collation légère 30 à 60 min avant
+
+Si le repas précédent est loin (> 4h) ou si tu t'entraînes tôt le matin.
+
+**Exemples :**
+- Banane + poignée de noix
+- Riz complet nature (100g cuit) + 10g whey mélangée dedans
+- Pain de riz + beurre de cacahuète
+
+Éviter : aliments gras en grande quantité, fibres en excès, lait entier. Ils ralentissent la digestion.
+
+### Faut-il s'entraîner à jeun ?
+
+Le mythe de la sèche à jeun persiste. La réalité : l'entraînement à jeun augmente l'oxydation des graisses pendant la séance, mais la différence sur la composition corporelle sur 24h est quasi nulle. En revanche, les performances chutent significativement à jeun, ce qui réduit le stimulus musculaire.
+
+Exception : si tu pratiques le jeûne intermittent par préférence personnelle et que tes performances s'en accommodent, ce n'est pas un problème.
+
+## Après la séance : reconstruction
+
+### La "fenêtre anabolique" : démystification
+
+L'idée qu'il faut absolument consommer des protéines dans les 30 minutes suivant l'entraînement est exagérée. La synthèse protéique reste élevée pendant 24 à 48h après une séance — la fenêtre est bien plus large.
+
+Ce qui compte vraiment : avoir un repas protéiné dans les 2 à 3h qui suivent la séance, pas dans les 30 premières minutes.
+
+### Le repas post-séance idéal
+
+Protéines + glucides + un minimum de graisses (pas zéro, juste modéré — les graisses ralentissent l'absorption).
+
+**Exemples pratiques :**
+- Riz blanc + blanc de poulet + légumes vapeur (repas complet classique)
+- Fromage blanc 0% + fruits + granola faible en matières grasses
+- Patate douce + œufs entiers + épinards
+- Shake whey + banane si tu n'as pas le temps de cuisiner
+
+Quantité de protéines : 30 à 40g. Au-delà, le surplus est oxydé.
+
+### Glucides post-séance
+
+Après l'effort, les muscles sont plus sensibles à l'insuline et rechargent le glycogène plus efficacement. C'est le meilleur moment pour les glucides, même en sèche.
+
+En sèche, placer une partie de l'apport glucidique autour des séances (avant et après) et réduire sur les repas éloignés de l'entraînement.
+
+## Hydratation : souvent négligée
+
+Une déshydratation de 2% du poids corporel réduit les performances de 10 à 20%. Boire 500ml à 1L d'eau pendant la séance selon la durée et la transpiration.
+
+Urine jaune foncée = sous-hydratation. Urine claire ou légèrement jaune = bonne hydratation.
+
+## Les électrolytes
+
+Si tes séances durent plus de 75 minutes ou que tu transpires abondamment : ajouter du sel (300 à 600mg de sodium), potassium et magnésium. Les boissons isotoniques du commerce fonctionnent mais sont chères — une alternative : eau + sel + jus de fruit.
+
+## Résumé pratique
+
+- 2h avant : repas complet avec glucides, protéines, peu de graisses
+- 30-60 min avant si besoin : collation légère et digestible
+- Après la séance (dans les 2-3h) : protéines + glucides, modérer les graisses
+- Hydratation constante avant, pendant et après
+
+La nutrition autour de l'entraînement ne remplace pas la cohérence sur l'ensemble de la journée. Si ton total calorique et protéique est atteint, le timing précis n'a qu'un impact marginal.`,
+  },
+  {
+    slug: "programme-musculation-5-jours",
+    titre: "Programme musculation 5 jours par semaine : structure, volume et récupération",
+    description: "Comment organiser 5 séances par semaine en musculation sans se sursurentraîner. Structure Push/Pull/Legs, répartition du volume et conseils de récupération.",
+    categorie: "Programme",
+    date: "2026-06-22",
+    lecture: 9,
+    image: null,
+    contenu: `5 séances par semaine représente un volume d'entraînement élevé. C'est adapté aux pratiquants intermédiaires à avancés — et mal organisé, c'est la voie rapide vers le surentraînement.
+
+## Qui peut s'entraîner 5 jours/semaine ?
+
+Avant tout, une question honnête : en as-tu besoin ?
+
+Un débutant progresse très bien avec 3 séances. Un intermédiaire (1 à 3 ans de pratique sérieuse) peut bénéficier de 4 séances. Un avancé (3+ ans) peut avoir besoin de 5 séances pour continuer à progresser, car ses muscles récupèrent plus vite et tolèrent plus de volume.
+
+Si tu n'es pas encore intermédiaire, 5 séances ne t'apporteront pas plus de résultats que 3 — et probablement moins, à cause de la récupération insuffisante.
+
+## Structure Push / Pull / Legs
+
+La structure PPL est la plus adaptée à 5 jours. Elle répartit le volume par pattern de mouvement et donne à chaque groupe musculaire ~72h de récupération.
+
+**Exemple de semaine 5 jours PPL :**
+
+- Lundi : Push (poitrine, épaules, triceps)
+- Mardi : Pull (dos, biceps, arrière d'épaules)
+- Mercredi : Legs (quadriceps, ischio-jambiers, mollets)
+- Jeudi : Push (variante — emphasis épaules)
+- Vendredi : Pull/Legs combiné ou déhanche (fessiers, ischios, dos léger)
+- Samedi/Dimanche : repos complet
+
+Chaque groupe musculaire est touché 2 fois/semaine avec des exercices différents — optimal pour la croissance selon la littérature sur la fréquence d'entraînement.
+
+## Volume recommandé par séance
+
+Avec 5 séances, le volume doit être réparti — pas accumulé. Une erreur classique est de faire autant de séries par muscle qu'avec 3 séances, mais 5 fois par semaine.
+
+**Cibles hebdomadaires par groupe musculaire :**
+- Grands groupes (dos, quadriceps, poitrine) : 14 à 20 séries
+- Petits groupes (biceps, triceps, épaules latérales) : 10 à 14 séries
+- Fessiers, mollets, abdos : 10 à 16 séries
+
+**Par séance :** 3 à 5 exercices, 3 à 4 séries par exercice. Une séance de push bien structurée dure 60 à 75 minutes.
+
+## Exemple de séance Push (lundi)
+
+1. Développé couché haltères — 4 × 6-8 (charge lourde)
+2. Développé militaire haltères — 3 × 8-10
+3. Élévations latérales — 4 × 12-15
+4. Dips lestés ou push-up pondéré — 3 × 10-12
+5. Extensions triceps poulie haute — 3 × 12-15
+
+## Récupération : le facteur limitant
+
+Avec 5 séances, la récupération devient le facteur le plus critique — bien plus que le programme lui-même.
+
+**Signaux de surentraînement :**
+- Force qui baisse sur plusieurs séances consécutives
+- Douleurs musculaires persistantes (> 72h)
+- Sommeil perturbé, irritabilité
+- Perte d'appétit
+- Fréquence cardiaque au repos anormalement élevée le matin
+
+Si 2 signaux ou plus sont présents, passer à 4 jours ou intégrer une semaine de décharge.
+
+## La semaine de décharge
+
+Toutes les 6 à 8 semaines, réduire le volume de 40 à 50% pendant une semaine. Maintenir les charges, juste moins de séries. Le corps en profite pour supercompenser et tu repars avec plus de force.
+
+## Nutrition pour soutenir 5 séances/semaine
+
+5 séances représentent ~2000 à 3000 kcal de dépense supplémentaire par semaine. Sans calories suffisantes, la progression stagne et le risque de perte musculaire augmente.
+
+Être en déficit calorique avec 5 séances est possible mais demande une précision nutritionnelle plus stricte que 3 séances.
+
+## Conclusion
+
+5 jours par semaine est efficace pour un pratiquant intermédiaire ou avancé qui maîtrise sa récupération. Pour y arriver : structure PPL, volume bien réparti, sommeil 7 à 9h, nutrition au rendez-vous. Si un de ces piliers manque, réduire à 4 séances sera plus productif.`,
+  },
+  {
+    slug: "proteines-vegetales-musculation",
+    titre: "Protéines végétales et musculation : peut-on progresser sans viande ?",
+    description: "Les protéines végétales sont-elles suffisantes pour prendre du muscle ? Qualité des acides aminés, sources à privilégier et stratégies pour atteindre ses objectifs sans produits animaux.",
+    categorie: "Nutrition",
+    date: "2026-06-23",
+    lecture: 8,
+    image: null,
+    contenu: `La musculation végane ou végétarienne est tout à fait possible. Mais elle demande plus de stratégie que la nutrition omnivore standard.
+
+## Le problème des protéines végétales : la complétude
+
+Les protéines animales sont dites "complètes" car elles contiennent les 9 acides aminés essentiels dans des proportions optimales. La plupart des protéines végétales sont "incomplètes" — il leur manque un ou plusieurs acides aminés essentiels en quantité suffisante.
+
+La leucine est particulièrement importante — c'est elle qui déclenche la synthèse protéique musculaire. Les protéines végétales ont généralement 20 à 40% moins de leucine que les protéines animales pour la même quantité.
+
+**Conséquence pratique :** il faut consommer plus de protéines végétales pour obtenir le même signal anabolique qu'avec des protéines animales. La cible passe de 1,8-2,2 g/kg à 2,2-2,8 g/kg.
+
+## Les meilleures sources de protéines végétales
+
+**Soja et dérivés** : la seule protéine végétale "complète" avec un profil d'acides aminés comparable aux protéines animales. Tofu (16g/100g), edamame (11g/100g), tempeh (19g/100g), lait de soja. Le soja n'augmente pas les œstrogènes chez l'homme — c'est un mythe démenti par de nombreuses études.
+
+**Légumineuses** : lentilles (9g/100g cuites), pois chiches (9g), haricots noirs (9g), haricots blancs (8g). Riches en lysine mais pauvres en méthionine.
+
+**Céréales** : riz (2,7g/100g cuit), avoine (17g/100g sèche), quinoa (4,4g/100g cuit — profil plus complet). Riches en méthionine mais pauvres en lysine.
+
+**Complémentarité** : associer légumineuses + céréales = profil complet. Riz + lentilles, pain + houmous, pâtes + pesto aux pois — pas besoin de le faire au même repas, la complémentarité sur la journée suffit.
+
+**Protéines en poudre végétales** : protéine de pois (riche en leucine), protéine de riz, protéine de chanvre. Les mélanges pois + riz sont les plus efficaces et offrent un profil quasi complet.
+
+## Stratégies pour atteindre ses apports
+
+**Stratégie 1 — Augmenter les quantités**
+À 80 kg, viser 220g de protéines/jour (2,75 g/kg). Ça paraît beaucoup mais avec une alimentation bien construite, c'est atteignable.
+
+**Stratégie 2 — Tofu/Tempeh à chaque repas principal**
+Le soja étant la seule source végétale complète, l'intégrer systématiquement simplifie le calcul. 150g de tempeh au dîner = 28g de protéines complètes.
+
+**Stratégie 3 — Compléments ciblés**
+Protéine de pois ou mélange pois+riz pour les pratiquants qui n'atteignent pas leurs cibles avec la nourriture seule.
+
+**Stratégie 4 — Œufs et produits laitiers pour les végétariens non végans**
+Un ovo-lacto-végétarien n'a quasiment aucune contrainte supplémentaire en musculation. Blancs d'œufs, fromage blanc, skyr, whey — tous ces aliments couvrent largement les besoins.
+
+## Les micronutriments à surveiller
+
+**Vitamine B12** : uniquement dans les produits animaux. Supplémentation obligatoire pour les véganes (500 à 1000 mcg/semaine ou 250 mcg/jour).
+
+**Zinc et fer** : moins bien absorbés depuis les végétaux (fer non héminique). Consommer avec de la vitamine C pour améliorer l'absorption. Les légumineuses et les graines de courge sont de bonnes sources.
+
+**Créatine** : quasi absente des sources végétales. Les véganes répondent encore mieux à la supplémentation en créatine que les omnivores (réserves de base plus basses). 3g/jour de monohydrate.
+
+**Oméga-3 (EPA/DHA)** : les sources végétales (lin, chia, noix) apportent de l'ALA, pas de l'EPA/DHA directement. Supplémentation en huile d'algue recommandée.
+
+## Résultats attendus
+
+Des méta-analyses récentes montrent que véganes et omnivores présentent des gains musculaires similaires à apports protéiques équivalents sur le long terme. La différence de résultats observée dans la pratique vient généralement d'apports protéiques totaux plus bas chez les véganes, pas d'une infériorité intrinsèque des protéines végétales.
+
+## Conclusion
+
+Prendre du muscle sans viande est tout à fait possible — des champions de bodybuilding naturel véganes le prouvent. Cela demande plus de rigueur sur les apports et la complémentarité des sources. Viser 2,5 g/kg de protéines, miser sur le soja comme source principale, compléter avec protéine de pois, et supplémenter en B12, créatine et oméga-3.`,
+  },
 ];
+

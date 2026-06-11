@@ -67,6 +67,11 @@ const nextConfig = {
     ],
   },
 
+  // Tree-shaking des gros packages — réduit le bundle Firebase
+  experimental: {
+    optimizePackageImports: ["firebase/app", "firebase/auth", "firebase/firestore", "firebase/messaging"],
+  },
+
   // Variables d'environnement accessibles côté client
   env: {
     NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL || "https://apxfitness-brown.vercel.app",

@@ -17,9 +17,33 @@ export default function VideoGallery() {
   const [current, setCurrent] = useState(0);
   const videoRefs = useRef([]);
   const modalRef = useRef(null);
+  const sectionRef = useRef(null);
+  const [sectionVisible, setSectionVisible] = useState(false);
 
   const prev = () => setCurrent(c => (c - 1 + VIDEOS.length) % VIDEOS.length);
   const next = () => setCurrent(c => (c + 1) % VIDEOS.length);
+
+  // Pause/play toute la galerie selon visibilité dans le viewport
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      ([entry]) => setSectionVisible(entry.isIntersecting),
+      { threshold: 0.1 }
+    );
+    if (sectionRef.current) obs.observe(sectionRef.current);
+    return () => obs.disconnect();
+  }, []);
+
+  // Play/pause chaque vidéo visible selon l'état section
+  useEffect(() => {
+    videoRefs.current.forEach((vid, i) => {
+      if (!vid) return;
+      if (sectionVisible) {
+        vid.play().catch(() => {});
+      } else {
+        vid.pause();
+      }
+    });
+  }, [sectionVisible, current]);
 
   useEffect(() => {
     const onKey = e => {
@@ -63,7 +87,7 @@ export default function VideoGallery() {
       @media(max-width:768px){.vg-grid{grid-template-columns:1fr 1fr !important}}
     `}</style>
 
-    <section style={{padding:"4rem 3rem",borderBottom:"0.5px solid #242424",background:"#080808"}}>
+    <section ref={sectionRef} style={{padding:"4rem 3rem",borderBottom:"0.5px solid #242424",background:"#080808"}}>
       <div style={{textAlign:"center",marginBottom:"3rem"}}>
         <div style={{fontSize:11,letterSpacing:"4px",textTransform:"uppercase",color:"#E8B000",marginBottom:"0.5rem"}}>— En action</div>
         <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:44,fontWeight:600,lineHeight:1}}>
@@ -79,8 +103,8 @@ export default function VideoGallery() {
               <video
                 ref={el => videoRefs.current[idx] = el}
                 src={VIDEOS[idx].src}
-                muted autoPlay loop playsInline
-                preload={pos === 1 ? "auto" : "none"}
+                muted loop playsInline
+                preload="none"
                 style={{width:"100%",height:"100%",objectFit:"cover"}}
               />
               <div className="vg-overlay">

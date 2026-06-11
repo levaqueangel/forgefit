@@ -1,5 +1,5 @@
 ﻿"use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useLang } from "../useLang";
 import { LangSelector } from "../LangSelector";
@@ -86,6 +86,16 @@ function IMCBar({ imc }) {
 export default function CalculateurPage() {
   const router = useRouter();
   const { lang, setLang, LANGS } = useLang();
+
+  // Scroll reveal
+  useEffect(() => {
+    const els = document.querySelectorAll(".cr,.cr-l,.cr-r");
+    const obs = new IntersectionObserver(entries => entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add("cv"); obs.unobserve(e.target); }
+    }), { threshold: 0.06 });
+    els.forEach(el => obs.observe(el));
+    return () => obs.disconnect();
+  }, []);
   const [form, setForm] = useState({ poids: "", taille: "", age: "", genre: "homme", activite: 2, objectif: "recomp" });
   const [result, setResult] = useState(null);
   const [calcLoading, setCalcLoading] = useState(false);
@@ -171,6 +181,9 @@ export default function CalculateurPage() {
         *{box-sizing:border-box;margin:0;padding:0}
         @keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
         @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes crUp{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes crLeft{from{opacity:0;transform:translateX(-24px)}to{opacity:1;transform:translateX(0)}}
+        @keyframes crRight{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:translateX(0)}}
         .gold{background:linear-gradient(90deg,#E8B000,#F5C832,#F5C832,#E8B000);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 2.5s linear infinite}
         .fade-in{animation:fadeUp 0.3s ease forwards}
         .option-btn{background:transparent;border:0.5px solid #242424;color:#555;font-family:'Syne',sans-serif;font-size:11px;letter-spacing:1px;padding:8px 14px;cursor:pointer;transition:all 0.15s;border-radius:2px;text-align:left}
@@ -180,6 +193,12 @@ export default function CalculateurPage() {
         .macro-bar{height:6px;background:#1A1A1A;border-radius:3px;overflow:hidden;margin-top:5px}
         .macro-fill{height:100%;border-radius:3px;transition:width 0.8s ease}
         @media(max-width:640px){.calc-grid{grid-template-columns:1fr !important}}
+        .cr{opacity:0;transform:translateY(32px)}
+        .cr.cv{animation:crUp 0.65s cubic-bezier(0.16,1,0.3,1) both}
+        .cr-l{opacity:0;transform:translateX(-24px)}
+        .cr-l.cv{animation:crLeft 0.6s cubic-bezier(0.16,1,0.3,1) both}
+        .cr-r{opacity:0;transform:translateX(24px)}
+        .cr-r.cv{animation:crRight 0.6s cubic-bezier(0.16,1,0.3,1) both}
       `}</style>
 
       {/* Nav */}
@@ -196,7 +215,7 @@ export default function CalculateurPage() {
       </nav>
 
       {/* Hero */}
-      <div style={{ padding: "3rem 2rem 2rem", textAlign: "center", borderBottom: "0.5px solid #1A1A1A", position: "relative", overflow: "hidden" }}>
+      <div className="cr" style={{ padding: "3rem 2rem 2rem", textAlign: "center", borderBottom: "0.5px solid #1A1A1A", position: "relative", overflow: "hidden" }}>
         <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at 50% 100%,rgba(232,176,0,0.04),transparent 70%)", pointerEvents: "none" }} />
         <div style={{ fontSize: 11, letterSpacing: "4px", textTransform: "uppercase", color: "#E8B000", marginBottom: "0.75rem" }}>— Outil gratuit</div>
         <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(32px,5vw,52px)", fontWeight: 600, lineHeight: 1.1, marginBottom: "0.75rem" }}>
@@ -212,7 +231,7 @@ export default function CalculateurPage() {
         <div className="calc-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
 
           {/* Formulaire */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+          <div className="cr-l" style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             <div style={{ fontSize: 11, letterSpacing: "3px", textTransform: "uppercase", color: "#E8B000", marginBottom: 4 }}>— Tes données</div>
 
             {/* Données physiques */}
@@ -292,7 +311,7 @@ export default function CalculateurPage() {
           </div>
 
           {/* Résultats */}
-          <div>
+          <div className="cr-r" style={{ animationDelay: "0.12s" }}>
             <div style={{ fontSize: 11, letterSpacing: "3px", textTransform: "uppercase", color: "#E8B000", marginBottom: "1rem" }}>— Tes résultats</div>
 
             {!result ? (

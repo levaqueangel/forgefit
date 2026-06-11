@@ -20,16 +20,18 @@ import { LoginScreen } from "./LoginScreen";
 import { Bubble } from "./Bubble";
 // Push notifications
 import { usePushNotifications } from "../usePushNotifications";
-// Sous-composants Tabs
+// Onglets critiques — chargés immédiatement
 import { DashboardTab } from "./DashboardTab";
 import { ProgrammeTab } from "./ProgrammeTab";
-import { NutritionTab } from "./NutritionTab";
 import { MessagesTab } from "./MessagesTab";
-import { AssistantTab } from "./AssistantTab";
-import { CommunauteTab } from "./CommunauteTab";
-import { RepasJournal } from "./RepasJournal";
-import { RecettesTab } from "./RecettesTab";
-import { ProgressionTab } from "./ProgressionTab";
+// Onglets secondaires — lazy chargés au premier accès
+import dynamic from "next/dynamic";
+const NutritionTab   = dynamic(() => import("./NutritionTab").then(m => ({ default: m.NutritionTab })),   { ssr: false });
+const AssistantTab   = dynamic(() => import("./AssistantTab").then(m => ({ default: m.AssistantTab })),   { ssr: false });
+const CommunauteTab  = dynamic(() => import("./CommunauteTab").then(m => ({ default: m.CommunauteTab })), { ssr: false });
+const RepasJournal   = dynamic(() => import("./RepasJournal").then(m => ({ default: m.RepasJournal })),   { ssr: false });
+const RecettesTab    = dynamic(() => import("./RecettesTab").then(m => ({ default: m.RecettesTab })),     { ssr: false });
+const ProgressionTab = dynamic(() => import("./ProgressionTab").then(m => ({ default: m.ProgressionTab })), { ssr: false });
 
 export default function ClientPage() {
 const router = useRouter();

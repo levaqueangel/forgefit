@@ -2,7 +2,7 @@ const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://apxfitness-brown.verce
 
 export const metadata = {
   title: "Tarifs Coaching Fitness — Plans Starter, Forge, Elite | APXFITNESS",
-  description: "Comparez nos 3 plans de coaching personnalisé : Starter 49€, Forge 129€, Elite 249€. Programme musculation + nutrition sur mesure, livré en 48h.",
+  description: "Comparez nos 3 plans de coaching personnalisé : Starter 18,99€/mois, Forge 38,99€/mois, Elite 68,99€/mois. Programme musculation + nutrition sur mesure, livré en 48h.",
   openGraph: {
     title: "Tarifs Coaching Fitness | APXFITNESS",
     description: "3 plans sur mesure dès 49€. Programme + nutrition + suivi, livré en 48h.",
@@ -22,21 +22,21 @@ const tarifsJsonLd = {
       "@type": "ListItem", "position": 1,
       "item": {
         "@type": "Product", "name": "Plan Starter", "description": "Programme musculation + nutrition personnalisé, livré par email en 48h.",
-        "offers": { "@type": "Offer", "price": "49", "priceCurrency": "EUR", "availability": "https://schema.org/InStock", "url": SITE + "/bilan?plan=starter" },
+        "offers": { "@type": "Offer", "price": "18.99", "priceCurrency": "EUR", "priceSpecification": { "@type": "RecurringChargeSpecification", "billingDuration": 1, "billingIncrement": "month" }, "availability": "https://schema.org/InStock", "url": SITE + "/bilan?plan=starter" },
       },
     },
     {
       "@type": "ListItem", "position": 2,
       "item": {
         "@type": "Product", "name": "Plan Forge", "description": "Programme complet avec suivi mensuel, ajustements et accès espace client.",
-        "offers": { "@type": "Offer", "price": "129", "priceCurrency": "EUR", "availability": "https://schema.org/InStock", "url": SITE + "/bilan?plan=forge" },
+        "offers": { "@type": "Offer", "price": "38.99", "priceCurrency": "EUR", "priceSpecification": { "@type": "RecurringChargeSpecification", "billingDuration": 1, "billingIncrement": "month" }, "availability": "https://schema.org/InStock", "url": SITE + "/bilan?plan=forge" },
       },
     },
     {
       "@type": "ListItem", "position": 3,
       "item": {
         "@type": "Product", "name": "Plan Elite", "description": "Accompagnement complet avec messagerie directe coach, révisions illimitées et accès recettes.",
-        "offers": { "@type": "Offer", "price": "249", "priceCurrency": "EUR", "availability": "https://schema.org/InStock", "url": SITE + "/bilan?plan=elite" },
+        "offers": { "@type": "Offer", "price": "68.99", "priceCurrency": "EUR", "priceSpecification": { "@type": "RecurringChargeSpecification", "billingDuration": 1, "billingIncrement": "month" }, "availability": "https://schema.org/InStock", "url": SITE + "/bilan?plan=elite" },
       },
     },
   ],

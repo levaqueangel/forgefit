@@ -20,8 +20,8 @@ const aggregateRatingJsonLd = {
   "brand": { "@type": "Brand", "name": "APXFITNESS" },
   "offers": {
     "@type": "AggregateOffer",
-    "lowPrice": "49",
-    "highPrice": "249",
+    "lowPrice": "18.99",
+    "highPrice": "68.99",
     "priceCurrency": "EUR",
     "offerCount": "3",
   },

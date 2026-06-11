@@ -192,15 +192,23 @@ function BilanForm() {
         .bilan-grid{display:grid;grid-template-columns:1fr 320px;gap:1px;background:#1A1A1A;max-width:1060px;margin:0 auto}
         @media(max-width:860px){.bilan-grid{grid-template-columns:1fr !important}.sidebar-sticky{display:none}}
         .step-pill{display:inline-flex;align-items:center;gap:6px;font-size:10px;letter-spacing:"2px";text-transform:uppercase;color:#555;margin-bottom:16px}
+        @media(max-width:600px){
+          .bilan-nav{padding:14px 16px !important}
+          .bilan-plan-badge{font-size:9px !important;padding:3px 8px !important;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+          .bilan-form-col{padding:20px 16px 60px !important}
+          .bilan-step-label{display:none}
+          .bilan-step-stepper{gap:0 !important;padding:12px 16px 0 !important}
+          .form-2col{grid-template-columns:1fr !important}
+        }
       `}</style>
 
       {/* Nav */}
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px 28px", borderBottom: "0.5px solid #242424", position:"sticky", top:0, background:"#0A0A0A", zIndex:50 }}>
+      <div className="bilan-nav" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px 28px", borderBottom: "0.5px solid #242424", position:"sticky", top:0, background:"#0A0A0A", zIndex:50 }}>
         <div style={{ fontSize: 20, fontWeight: 800, letterSpacing: 5, cursor: "pointer" }} onClick={() => router.push("/")}>
           APXFIT<span style={{ color: "#E8B000" }}>NESS</span>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <div style={{ fontSize: 11, letterSpacing: "2px", textTransform: "uppercase", background: "rgba(232,176,0,0.1)", border: "0.5px solid #E8B000", color: "#E8B000", padding: "4px 12px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <div className="bilan-plan-badge" style={{ fontSize: 11, letterSpacing: "2px", textTransform: "uppercase", background: "rgba(232,176,0,0.1)", border: "0.5px solid #E8B000", color: "#E8B000", padding: "4px 12px" }}>
             Plan {plan.name} — {plan.price}
           </div>
           <LangSelector lang={lang} setLang={setLang} LANGS={LANGS} />
@@ -213,7 +221,7 @@ function BilanForm() {
       </div>
 
       {/* Stepper */}
-      <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:0, padding:"16px 28px 0", maxWidth:640, margin:"0 auto" }}>
+      <div className="bilan-step-stepper" style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:0, padding:"16px 28px 0", maxWidth:640, margin:"0 auto" }}>
         {STEP_META.map(({ label }, i) => {
           const n = i+1; const done = step > n; const active = step === n;
           return (
@@ -228,7 +236,7 @@ function BilanForm() {
                 }}>
                   {done ? "✓" : n}
                 </div>
-                <div style={{ fontSize:9, letterSpacing:"1.5px", textTransform:"uppercase", color: active ? "#E8B000" : done ? "#666" : "#333", whiteSpace:"nowrap", transition:"color 0.3s" }}>
+                <div className="bilan-step-label" style={{ fontSize:9, letterSpacing:"1.5px", textTransform:"uppercase", color: active ? "#E8B000" : done ? "#666" : "#333", whiteSpace:"nowrap", transition:"color 0.3s" }}>
                   {label}
                 </div>
               </div>
@@ -243,7 +251,7 @@ function BilanForm() {
         <div className="bilan-grid">
 
           {/* Colonne form */}
-          <div style={{ padding: "28px 28px 60px", background:"#0A0A0A" }}>
+          <div className="bilan-form-col" style={{ padding: "28px 28px 60px", background:"#0A0A0A" }}>
 
         {/* ÉTAPE 1 */}
         {step === 1 && (
@@ -252,7 +260,7 @@ function BilanForm() {
               {tb.identity.title}<em style={{ color: "#E8B000", fontStyle: "italic" }}>{tb.identity.em}</em>
             </div>
             <div style={{ fontSize: 12, color: "#555", marginBottom: 24 }}>{tb.identity.sub}</div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1, marginBottom: 1 }}>
+            <div className="form-2col" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1, marginBottom: 1 }}>
               <div style={{ background: "#111", padding: "14px 16px", border: "0.5px solid #242424" }}>
                 <Label>{tb.fields.prenom}</Label>
                 <input style={{...inputStyle, borderColor: fieldErrors.prenom ? "#E07070" : "#242424"}} placeholder={tb.placeholders.prenom} value={form.prenom} onChange={e => { inp("prenom")(e); setFieldErrors(f => ({...f, prenom: ""})); }} />
@@ -267,7 +275,7 @@ function BilanForm() {
                 <input style={{...inputStyle, borderColor: fieldErrors.email ? "#E07070" : "#242424"}} type="email" placeholder={tb.placeholders.email} value={form.email} onChange={e => { inp("email")(e); setFieldErrors(f => ({...f, email: ""})); }} />
                 {fieldErrors.email && <div style={{fontSize:11,color:"#E07070",marginTop:4}}>{fieldErrors.email}</div>}
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1, marginBottom: 1 }}>
+            <div className="form-2col" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1, marginBottom: 1 }}>
               <div style={{ background: "#111", padding: "14px 16px", border: "0.5px solid #242424" }}>
                 <Label>{tb.fields.genre}</Label>
                 <select style={{ ...inputStyle, cursor: "pointer" }} value={form.genre} onChange={inp("genre")}>
@@ -308,7 +316,7 @@ function BilanForm() {
             <div style={{ fontSize: 12, color: "#555", marginBottom: 24 }}>{tb.objectif.sub}</div>
             <div style={{ display: "flex", flexDirection: "column", gap: 1 }}>
               {chipBlock("obj", tb.labels.obj)}
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1 }}>
+              <div className="form-2col" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1 }}>
                 {chipBlock("seances", tb.labels.seances)}
                 {chipBlock("duree", tb.labels.duree)}
               </div>

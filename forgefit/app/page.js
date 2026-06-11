@@ -3,7 +3,8 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useLang } from "./useLang";
 import { LangSelector } from "./LangSelector";
-import VideoGallery from "./components/VideoGallery";
+import dynamic from "next/dynamic";
+const VideoGallery = dynamic(() => import("./components/VideoGallery"), { ssr: false });
 
 const PLAN_NAMES = ["Starter","Forge","Elite"];
 const PLAN_PRICES = [18.99,38.99,68.99];
@@ -29,7 +30,228 @@ const CALC_GOALS = [
   { id:"masse",  label:"Prise de masse", delta:250 },
 ];
 
+// ── Quiz diagnostic ─────────────────────────────────────────────────────────
+const QUIZ_STEPS = [
+  {
+    id: "objectif", question: "Quel est ton objectif principal ?",
+    options: [
+      { label: "Prise de masse", icon: "💪", value: "masse" },
+      { label: "Perte de poids", icon: "🔥", value: "seche" },
+      { label: "Remise en forme", icon: "⚡", value: "forme" },
+      { label: "Performance", icon: "🏆", value: "perf" },
+    ],
+  },
+  {
+    id: "niveau", question: "Quel est ton niveau actuel ?",
+    options: [
+      { label: "Débutant", icon: "🌱", value: "debutant", sub: "< 6 mois" },
+      { label: "Intermédiaire", icon: "📈", value: "inter", sub: "6 mois – 2 ans" },
+      { label: "Avancé", icon: "🎯", value: "avance", sub: "> 2 ans" },
+      { label: "Athlète", icon: "🏅", value: "athlete", sub: "Compétition" },
+    ],
+  },
+  {
+    id: "dispo", question: "Combien de jours peux-tu t'entraîner par semaine ?",
+    options: [
+      { label: "2 jours", icon: "📅", value: "2j" },
+      { label: "3 – 4 jours", icon: "📆", value: "4j" },
+      { label: "5 jours", icon: "🗓️", value: "5j" },
+      { label: "6 – 7 jours", icon: "💯", value: "7j" },
+    ],
+  },
+  {
+    id: "equipement", question: "Quel équipement as-tu à disposition ?",
+    options: [
+      { label: "Salle complète", icon: "🏋️", value: "salle" },
+      { label: "Haltères / banc", icon: "🏠", value: "home" },
+      { label: "Poids du corps", icon: "🤸", value: "corpo" },
+      { label: "Mixte", icon: "🔀", value: "mixte" },
+    ],
+  },
+];
+
+const QUIZ_RESULTS = {
+  "masse-debutant":  { plan: "Starter", color: "#F0EDE8", desc: "Un programme progressif pour poser des bases solides et gagner tes premiers kilos de muscle." },
+  "masse-inter":     { plan: "Forge",   color: "#E8B000", desc: "Tu es prêt pour un programme intermédiaire avec périodisation et surcharge progressive." },
+  "masse-avance":    { plan: "Elite",   color: "#E8B000", desc: "Programme avancé, nutrition précise, récupération optimisée — le niveau Elite te correspond." },
+  "masse-athlete":   { plan: "Elite",   color: "#E8B000", desc: "Protocole haute intensité avec suivi coach hebdomadaire pour franchir tes plafonds." },
+  "seche-debutant":  { plan: "Starter", color: "#F0EDE8", desc: "Déficit calorique progressif + cardio intégré pour perdre du gras sans perdre le muscle." },
+  "seche-inter":     { plan: "Forge",   color: "#E8B000", desc: "Nutrition cyclée, cardio HIIT et entraînement hybride pour une transformation visible." },
+  "seche-avance":    { plan: "Elite",   color: "#E8B000", desc: "Protocole shred avancé avec macros calculées à la précision et suivi hebdomadaire." },
+  "seche-athlete":   { plan: "Elite",   color: "#E8B000", desc: "Peak week, water manipulation, cardio stratégique — on est sur la même longueur d'onde." },
+  "forme-debutant":  { plan: "Starter", color: "#F0EDE8", desc: "Programme équilibré 3 séances/semaine pour retrouver énergie et bien-être durable." },
+  "forme-inter":     { plan: "Forge",   color: "#E8B000", desc: "Remise en forme complète avec force, cardio et nutrition — visible en 4 semaines." },
+  "forme-avance":    { plan: "Forge",   color: "#E8B000", desc: "Maintien et optimisation physique avec objectifs hebdomadaires ciblés." },
+  "forme-athlete":   { plan: "Elite",   color: "#E8B000", desc: "Programme de maintien haute performance avec gestion de la récupération." },
+  "perf-debutant":   { plan: "Starter", color: "#F0EDE8", desc: "Construire les fondations athlétiques avant de viser la performance." },
+  "perf-inter":      { plan: "Forge",   color: "#E8B000", desc: "Force, explosivité, endurance — programme multi-objectif avec cycles de 4 semaines." },
+  "perf-avance":     { plan: "Elite",   color: "#E8B000", desc: "Périodisation avancée, test de force mensuel, suivi coach dédié." },
+  "perf-athlete":    { plan: "Elite",   color: "#E8B000", desc: "Préparation physique de haut niveau avec protocoles de peak performance." },
+};
+
+function getResult(answers) {
+  const key = `${answers.objectif}-${answers.niveau}`;
+  return QUIZ_RESULTS[key] || { plan: "Forge", color: "#E8B000", desc: "Un programme sur mesure adapté à ton profil et tes objectifs." };
+}
+
+function QuizDiagnostic({ T, router }) {
+  const [step, setStep] = useState(0);
+  const [answers, setAnswers] = useState({});
+  const [done, setDone] = useState(false);
+  const [selected, setSelected] = useState(null);
+
+  const current = QUIZ_STEPS[step];
+  const result = done ? getResult(answers) : null;
+
+  const choose = (value) => {
+    setSelected(value);
+    const next = { ...answers, [current.id]: value };
+    setTimeout(() => {
+      setAnswers(next);
+      setSelected(null);
+      if (step < QUIZ_STEPS.length - 1) {
+        setStep(s => s + 1);
+      } else {
+        setDone(true);
+      }
+    }, 260);
+  };
+
+  const reset = () => { setStep(0); setAnswers({}); setDone(false); setSelected(null); };
+
+  const planParam = result?.plan?.toLowerCase();
+
+  return (
+    <section className="reveal" style={{ padding: "5rem 3rem", borderBottom: `0.5px solid ${T.border}`, background: T.bg }}>
+      <style>{`
+        .quiz-opt{background:transparent;border:0.5px solid #1E1E1E;cursor:pointer;transition:all 0.2s;padding:14px 16px;display:flex;align-items:center;gap:12px;width:100%;text-align:left;border-radius:4px}
+        .quiz-opt:hover{border-color:rgba(232,176,0,0.5);background:rgba(232,176,0,0.04)}
+        .quiz-opt.selected{border-color:#E8B000;background:rgba(232,176,0,0.1)}
+        @keyframes quizFade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+        .quiz-anim{animation:quizFade 0.35s ease both}
+      `}</style>
+
+      <div style={{ maxWidth: 560, margin: "0 auto" }}>
+        {/* Header */}
+        <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
+          <div style={{ fontSize: 10, letterSpacing: "4px", textTransform: "uppercase", color: "#E8B000", marginBottom: "0.75rem" }}>— Diagnostic gratuit</div>
+          <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(28px,4vw,42px)", fontWeight: 600, lineHeight: 1.15, color: T.fg }}>
+            Quel programme<br /><em style={{ fontStyle: "italic", color: T.muted }}>te correspond vraiment ?</em>
+          </div>
+        </div>
+
+        {!done ? (
+          <div key={step} className="quiz-anim">
+            {/* Progress */}
+            <div style={{ display: "flex", gap: 4, marginBottom: "2rem" }}>
+              {QUIZ_STEPS.map((_, i) => (
+                <div key={i} style={{
+                  flex: 1, height: 3, borderRadius: 2,
+                  background: i < step ? "#E8B000" : i === step ? "rgba(232,176,0,0.4)" : "#1A1A1A",
+                  transition: "background 0.3s",
+                }} />
+              ))}
+            </div>
+
+            {/* Question */}
+            <div style={{ fontSize: 10, letterSpacing: "2px", textTransform: "uppercase", color: "#555", marginBottom: "0.75rem" }}>
+              Question {step + 1}/{QUIZ_STEPS.length}
+            </div>
+            <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 18, fontWeight: 700, color: T.fg, marginBottom: "1.5rem", lineHeight: 1.4 }}>
+              {current.question}
+            </div>
+
+            {/* Options */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              {current.options.map(opt => (
+                <button
+                  key={opt.value}
+                  className={`quiz-opt${selected === opt.value ? " selected" : ""}`}
+                  onClick={() => choose(opt.value)}
+                >
+                  <span style={{ fontSize: 22, flexShrink: 0 }}>{opt.icon}</span>
+                  <div>
+                    <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 13, fontWeight: 700, color: T.fg }}>{opt.label}</div>
+                    {opt.sub && <div style={{ fontSize: 11, color: "#555", marginTop: 2 }}>{opt.sub}</div>}
+                  </div>
+                  <div style={{ marginLeft: "auto", fontSize: 14, color: "#333" }}>›</div>
+                </button>
+              ))}
+            </div>
+
+            {step > 0 && (
+              <button onClick={() => { setStep(s => s - 1); setSelected(null); }}
+                style={{ background: "transparent", border: "none", color: "#444", fontFamily: "'Syne',sans-serif", fontSize: 10, letterSpacing: "1.5px", textTransform: "uppercase", cursor: "pointer", marginTop: "1.25rem", display: "block" }}>
+                ← Retour
+              </button>
+            )}
+          </div>
+        ) : (
+          <div key="result" className="quiz-anim">
+            {/* Résultat */}
+            <div style={{
+              background: "rgba(232,176,0,0.05)", border: "0.5px solid rgba(232,176,0,0.3)",
+              borderRadius: 4, padding: "2rem", marginBottom: "1.5rem", textAlign: "center",
+            }}>
+              <div style={{ fontSize: 10, letterSpacing: "3px", textTransform: "uppercase", color: "#E8B000", marginBottom: "0.75rem" }}>— Ton profil</div>
+              <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(26px,4vw,38px)", fontWeight: 600, color: T.fg, marginBottom: "1rem", lineHeight: 1.2 }}>
+                Plan recommandé :<br />
+                <span style={{ color: "#E8B000" }}>{result.plan}</span>
+              </div>
+              <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 17, color: T.muted, lineHeight: 1.75, maxWidth: 420, margin: "0 auto" }}>
+                {result.desc}
+              </p>
+            </div>
+
+            {/* Réponses résumées */}
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: "1.5rem", justifyContent: "center" }}>
+              {QUIZ_STEPS.map(s => {
+                const opt = s.options.find(o => o.value === answers[s.id]);
+                return opt ? (
+                  <div key={s.id} style={{
+                    background: "#111", border: "0.5px solid #1A1A1A",
+                    borderRadius: 20, padding: "4px 12px",
+                    fontSize: 11, color: "#555", display: "flex", alignItems: "center", gap: 5,
+                  }}>
+                    <span>{opt.icon}</span> {opt.label}
+                  </div>
+                ) : null;
+              })}
+            </div>
+
+            <button
+              onClick={() => router.push(`/bilan?plan=${planParam}`)}
+              style={{
+                width: "100%", background: "linear-gradient(135deg,#E8B000,#C49200)",
+                border: "none", color: "#0A0A0A", padding: "15px 28px",
+                fontFamily: "'Syne',sans-serif", fontSize: 13, fontWeight: 700,
+                letterSpacing: "3px", textTransform: "uppercase", cursor: "pointer",
+                borderRadius: 2, marginBottom: "0.75rem",
+              }}
+            >
+              Démarrer mon bilan gratuit →
+            </button>
+            <button onClick={reset} style={{ background: "transparent", border: "none", color: "#444", fontFamily: "'Syne',sans-serif", fontSize: 10, letterSpacing: "1.5px", textTransform: "uppercase", cursor: "pointer", width: "100%", textDecoration: "underline" }}>
+              Recommencer le quiz
+            </button>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
 function InlineCalculateur({ T, theme, router }) {
+  // Scroll reveal local
+  useEffect(() => {
+    const els = document.querySelectorAll('.calc-reveal,.calc-reveal-l,.calc-reveal-r,.calc-reveal-scale');
+    const obs = new IntersectionObserver(entries => entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('calc-visible'); obs.unobserve(e.target); }
+    }), { threshold: 0.08, rootMargin: "0px 0px -40px 0px" });
+    els.forEach(el => obs.observe(el));
+    return () => obs.disconnect();
+  }, []);
+
   const [genre, setGenre] = useState("homme");
   const [activite, setActivite] = useState(2);
   const [objectif, setObjectif] = useState("recomp");
@@ -58,7 +280,7 @@ function InlineCalculateur({ T, theme, router }) {
   return (
     <div style={{padding:"5rem clamp(2rem,6vw,5rem)", maxWidth:1400, margin:"0 auto"}}>
       {/* Header */}
-      <div style={{display:"flex",alignItems:"flex-end",justifyContent:"space-between",flexWrap:"wrap",gap:"1.5rem",marginBottom:"3rem"}}>
+      <div className="calc-reveal" style={{display:"flex",alignItems:"flex-end",justifyContent:"space-between",flexWrap:"wrap",gap:"1.5rem",marginBottom:"3rem"}}>
         <div>
           <div style={{fontSize:10,letterSpacing:"5px",textTransform:"uppercase",color:"#E8B000",marginBottom:"1rem"}}>— Outil gratuit</div>
           <h2 style={{fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:"clamp(32px,5vw,72px)",lineHeight:0.88,textTransform:"uppercase",letterSpacing:"-0.02em",color:T.fg}}>
@@ -71,10 +293,10 @@ function InlineCalculateur({ T, theme, router }) {
       </div>
 
       {/* 3-col inputs */}
-      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:1,background:T.border}} className="calc-inputs-grid">
+      <div className="calc-inputs-grid calc-reveal-scale" style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:1,background:T.border}}>
 
         {/* Bloc 1 — Profil */}
-        <div style={{background:T.bg,padding:"2rem"}}>
+        <div className="calc-reveal-l" style={{background:T.bg,padding:"2rem",animationDelay:"0.1s"}}>
           <div style={{fontSize:9,letterSpacing:"3px",textTransform:"uppercase",color:"#E8B000",marginBottom:"1.5rem"}}>01 — Profil</div>
           <div style={{marginBottom:"1.5rem"}}>
             <div style={{fontSize:9,letterSpacing:"2px",textTransform:"uppercase",color:T.muted,marginBottom:8}}>Genre</div>
@@ -112,7 +334,7 @@ function InlineCalculateur({ T, theme, router }) {
         </div>
 
         {/* Bloc 2 — Mesures */}
-        <div style={{background:T.bg2,padding:"2rem"}}>
+        <div className="calc-reveal" style={{background:T.bg2,padding:"2rem",animationDelay:"0.2s"}}>
           <div style={{fontSize:9,letterSpacing:"3px",textTransform:"uppercase",color:"#E8B000",marginBottom:"1.5rem"}}>02 — Mesures</div>
           {[
             {label:"Poids",  value:poids,  setValue:setPoids,  min:40, max:150, unit:"kg", step:0.5},
@@ -138,7 +360,7 @@ function InlineCalculateur({ T, theme, router }) {
         </div>
 
         {/* Bloc 3 — Activité */}
-        <div style={{background:T.bg,padding:"2rem"}}>
+        <div className="calc-reveal-r" style={{background:T.bg,padding:"2rem",animationDelay:"0.3s"}}>
           <div style={{fontSize:9,letterSpacing:"3px",textTransform:"uppercase",color:"#E8B000",marginBottom:"1.5rem"}}>03 — Activité</div>
           <div style={{display:"flex",flexDirection:"column",gap:5}}>
             {CALC_ACTIVITY.map((a,i)=>(
@@ -160,7 +382,7 @@ function InlineCalculateur({ T, theme, router }) {
       </div>
 
       {/* Bouton calcul */}
-      <button onClick={calculate} style={{
+      <button onClick={calculate} className="calc-reveal" style={{
         width:"100%",padding:"18px",
         background:"linear-gradient(135deg,#E8B000,#C49200)",
         border:"none",color:"#0A0A0A",
@@ -174,7 +396,7 @@ function InlineCalculateur({ T, theme, router }) {
 
       {/* Résultats */}
       {result && (
-        <div style={{marginTop:1,animation:"fadeUp 0.5s ease both"}}>
+        <div className="calc-reveal-scale" style={{marginTop:1,animation:"fadeUp 0.5s ease both"}}>
           {/* Band résultats */}
           <div style={{display:"grid",gridTemplateColumns:"2fr 1fr 1fr 1fr 1fr",gap:1,background:T.border}} className="calc-results-grid">
             {/* Calories */}
@@ -230,6 +452,18 @@ function InlineCalculateur({ T, theme, router }) {
           .calc-inputs-grid{grid-template-columns:1fr !important}
           .calc-results-grid{grid-template-columns:1fr 1fr !important}
         }
+        @keyframes calcFadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes calcFadeLeft{from{opacity:0;transform:translateX(-24px)}to{opacity:1;transform:translateX(0)}}
+        @keyframes calcFadeRight{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:translateX(0)}}
+        @keyframes calcScaleIn{from{opacity:0;transform:scaleX(0.92) translateY(12px)}to{opacity:1;transform:scaleX(1) translateY(0)}}
+        .calc-reveal{opacity:0;transform:translateY(28px)}
+        .calc-reveal.calc-visible{animation:calcFadeUp 0.6s cubic-bezier(0.16,1,0.3,1) both}
+        .calc-reveal-l{opacity:0;transform:translateX(-24px)}
+        .calc-reveal-l.calc-visible{animation:calcFadeLeft 0.6s cubic-bezier(0.16,1,0.3,1) both}
+        .calc-reveal-r{opacity:0;transform:translateX(24px)}
+        .calc-reveal-r.calc-visible{animation:calcFadeRight 0.6s cubic-bezier(0.16,1,0.3,1) both}
+        .calc-reveal-scale{opacity:0;transform:scaleX(0.92) translateY(12px)}
+        .calc-reveal-scale.calc-visible{animation:calcScaleIn 0.7s cubic-bezier(0.16,1,0.3,1) both}
       `}</style>
     </div>
   );
@@ -305,6 +539,21 @@ export default function Home() {
     const t = setTimeout(() => setShowPopup(true), 35000);
     return () => clearTimeout(t);
   }, []);
+  // ── Exit-intent popup ─────────────────────────────────────────────────
+  const [showExitPopup, setShowExitPopup] = useState(false);
+  useEffect(() => {
+    const handler = (e) => {
+      if (e.clientY < 20 && !showPopup) {
+        try { if (localStorage.getItem("apx_exit_popup_done")) return; } catch {}
+        setShowExitPopup(true);
+        try { localStorage.setItem("apx_exit_popup_done","1"); } catch {}
+      }
+    };
+    document.addEventListener("mouseleave", handler);
+    return () => document.removeEventListener("mouseleave", handler);
+  }, [showPopup]);
+  const closeExitPopup = () => setShowExitPopup(false);
+
   const handlePopupSubmit = async () => {
     if (!popupEmail.trim()) return;
     setPopupLoading(true);
@@ -360,6 +609,31 @@ export default function Home() {
     {/* ── Custom cursor ── */}
     <div className={`cur-dot${hovering?' hovering':''}`} style={{transform:`translate(${cur.x-4}px,${cur.y-4}px)`}}/>
     <div className={`cur-ring${hovering?' hovering':''}`} style={{transform:`translate(${cur.x-18}px,${cur.y-18}px)`}}/>
+
+    {/* ── Exit-intent popup ── */}
+    {showExitPopup && (
+      <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.88)",zIndex:1000,display:"flex",alignItems:"center",justifyContent:"center",padding:"1rem"}}>
+        <div style={{background:"#0D0D0D",border:"0.5px solid rgba(232,176,0,0.35)",borderRadius:4,padding:"2.5rem 2rem",width:"100%",maxWidth:440,position:"relative",fontFamily:"'Syne',sans-serif",textAlign:"center"}}>
+          <button onClick={closeExitPopup} style={{position:"absolute",top:12,right:14,background:"transparent",border:"none",color:"#444",fontSize:22,cursor:"pointer",lineHeight:1}}>×</button>
+          <div style={{fontSize:10,letterSpacing:"3px",textTransform:"uppercase",color:"#E8B000",marginBottom:"1rem"}}>— Attends une seconde</div>
+          <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"clamp(24px,4vw,32px)",fontWeight:600,lineHeight:1.2,color:"#F0EDE8",marginBottom:"0.75rem"}}>
+            Tu pars déjà ?
+          </div>
+          <p style={{fontFamily:"'Cormorant Garamond',serif",fontSize:17,color:"#777",lineHeight:1.7,marginBottom:"1.75rem"}}>
+            Commence ton <strong style={{color:"#F0EDE8"}}>bilan gratuit</strong> maintenant — ton programme personnalisé est livré en <strong style={{color:"#E8B000"}}>moins de 48h</strong>.
+          </p>
+          <button
+            onClick={()=>{closeExitPopup();router.push("/bilan");}}
+            style={{width:"100%",background:"linear-gradient(135deg,#E8B000,#C49200)",border:"none",color:"#0A0A0A",padding:"14px 28px",fontFamily:"'Syne',sans-serif",fontSize:12,fontWeight:700,letterSpacing:"3px",textTransform:"uppercase",cursor:"pointer",borderRadius:2,marginBottom:"0.75rem"}}
+          >
+            Démarrer mon bilan gratuit →
+          </button>
+          <button onClick={closeExitPopup} style={{background:"transparent",border:"none",color:"#444",fontFamily:"'Syne',sans-serif",fontSize:11,letterSpacing:"1px",cursor:"pointer",textDecoration:"underline"}}>
+            Non merci, je pars sans programme
+          </button>
+        </div>
+      </div>
+    )}
 
     {/* ── Pop-up ── */}
     {showPopup && (
@@ -492,6 +766,18 @@ export default function Home() {
           .footer-wrap{flex-direction:column !important;gap:12px !important;text-align:center !important;padding:1.5rem !important}
           .steps-grid{grid-template-columns:1fr 1fr !important}
           .cur-dot,.cur-ring{display:none}
+          .footer-grid{grid-template-columns:1fr 1fr !important;gap:1.5rem !important}
+          .footer-brand{grid-column:span 2}
+          .stats-grid-4{grid-template-columns:1fr 1fr !important}
+          .calc-inputs-grid{grid-template-columns:1fr !important}
+          .calc-results-grid{grid-template-columns:1fr 1fr !important}
+          .popup-inner{padding:1.5rem !important}
+        }
+        @media(max-width:480px){
+          .footer-grid{grid-template-columns:1fr !important}
+          .footer-brand{grid-column:span 1}
+          .steps-grid{grid-template-columns:1fr !important}
+          .stats-grid-4{grid-template-columns:1fr 1fr !important}
         }
       `}</style>
 
@@ -640,7 +926,7 @@ export default function Home() {
 
       {/* ── Chiffres clés ── */}
       <section className="reveal" style={{borderBottom:`0.5px solid ${T.border2}`,background:T.bg3}}>
-        <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:1,background:T.gap}}>
+        <div className="stats-grid-4" style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:1,background:T.gap}}>
           {[
             {n:"+200",label:"Clients accompagnés",    color:"#E8B000"},
             {n:"92%", label:"Objectif atteint 12 sem.",color:"#7AE07A"},
@@ -720,6 +1006,9 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── Quiz diagnostic ── */}
+      <QuizDiagnostic T={T} router={router} />
+
       {/* ── CTA ── */}
       <section className="cta-section reveal" style={{padding:"5rem 3rem",textAlign:"center",background:"#E8B000",position:"relative",overflow:"hidden"}}>
         <div style={{position:"absolute",width:300,height:300,top:"50%",left:"50%",transform:"translate(-50%,-50%)",borderRadius:"50%",border:"1px solid rgba(10,10,10,0.1)",animation:"pulse 3s ease infinite"}}/>
@@ -744,9 +1033,9 @@ export default function Home() {
 
       {/* ── Footer enrichi ── */}
       <footer style={{borderTop:`0.5px solid ${T.border}`,background:T.bg2}}>
-        <div style={{display:"grid",gridTemplateColumns:"2fr 1fr 1fr 1fr",gap:"2rem",padding:"3rem",maxWidth:1200,margin:"0 auto"}}>
+        <div className="footer-grid" style={{display:"grid",gridTemplateColumns:"2fr 1fr 1fr 1fr",gap:"2rem",padding:"3rem",maxWidth:1200,margin:"0 auto"}}>
           {/* Colonne marque */}
-          <div>
+          <div className="footer-brand">
             <div style={{fontSize:20,fontWeight:800,letterSpacing:5,marginBottom:12}}>APXFIT<span style={{color:"#E8B000"}}>NESS</span></div>
             <p style={{fontSize:12,color:T.muted,lineHeight:1.9,maxWidth:260,marginBottom:20}}>Coaching fitness personnalisé en ligne. Programmes musculation et nutrition 100% sur mesure générés par IA.</p>
             <a href="mailto:coach.apxfitness11@gmail.com" style={{fontSize:11,color:"#E8B000",letterSpacing:"1px",textDecoration:"none",display:"flex",alignItems:"center",gap:6}}>

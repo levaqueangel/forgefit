@@ -53,6 +53,13 @@ const jsonLd = {
       "areaServed": { "@type": "Country", "name": "France" },
       "priceRange": "€€",
       "serviceType": "Coaching fitness en ligne",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "reviewCount": "340",
+        "bestRating": "5",
+        "worstRating": "1",
+      },
     },
     {
       "@type": "Service",
@@ -87,9 +94,12 @@ export default function RootLayout({ children }) {
         <link rel="apple-touch-icon" href="/api/pwa-icon?size=192" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://firestore.googleapis.com" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=optional"
+          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap"
           rel="stylesheet"
+          fetchPriority="high"
         />
       </head>
       <body suppressHydrationWarning={true}>
