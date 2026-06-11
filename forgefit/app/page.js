@@ -832,6 +832,16 @@ export default function Home() {
         {/* Particules */}
         <canvas ref={canvasRef} style={{position:"absolute",inset:0,width:"100%",height:"100%",pointerEvents:"none",zIndex:3}}/>
         <div className="scan-line-el" style={{zIndex:4}}/>
+        {/* Image gym B&W */}
+        <div style={{position:"absolute",right:0,top:0,width:"55%",height:"100%",zIndex:2,overflow:"hidden"}}>
+          <img src="/gym.png" alt="" aria-hidden="true" style={{
+            width:"100%",height:"100%",objectFit:"cover",objectPosition:"50% 0%",
+            filter:"grayscale(100%) contrast(1.08)",
+            WebkitMaskImage:"linear-gradient(to right, transparent 0%, rgba(0,0,0,0.5) 30%, rgba(0,0,0,0.92) 80%)",
+            maskImage:"linear-gradient(to right, transparent 0%, rgba(0,0,0,0.5) 30%, rgba(0,0,0,0.92) 80%)",
+            opacity:0.88,
+          }}/>
+        </div>
         {/* Contenu */}
         <div style={{position:"relative",zIndex:5,padding:"0 clamp(1.5rem,5vw,5rem) clamp(3rem,6vh,5rem)",width:"100%"}}>
           <div className="a1" style={{fontSize:11,letterSpacing:"5px",textTransform:"uppercase",color:"#E8B000",marginBottom:"1.5rem"}}>{t.hero.tag}</div>
