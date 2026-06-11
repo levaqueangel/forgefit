@@ -29,6 +29,7 @@ import { AssistantTab } from "./AssistantTab";
 import { CommunauteTab } from "./CommunauteTab";
 import { RepasJournal } from "./RepasJournal";
 import { RecettesTab } from "./RecettesTab";
+import { OnboardingWizard } from "./OnboardingWizard";
 
 export default function ClientPage() {
 const router = useRouter();
@@ -380,8 +381,17 @@ if (authLoading) return (
 if (!user) return <LoginScreen lang={lang} setLang={setLang} LANGS={LANGS} />;
 
 // ── Rendu principal ──────────────────────────────────────────
+const showOnboarding = !!user && !!clientData && clientData.onboardingCompleted !== true;
+
 return (
 <div style={{background:"#0A0A0A",color:"#F0EDE8",height:"100vh",fontFamily:"'Syne',sans-serif",display:"flex",flexDirection:"row",overflow:"hidden"}}>
+{showOnboarding && (
+  <OnboardingWizard
+    user={user}
+    clientData={clientData}
+    onComplete={() => setClientData(prev => ({ ...prev, onboardingCompleted: true }))}
+  />
+)}
 <style>{`
 *{box-sizing:border-box;margin:0;padding:0}
 textarea:focus,input:focus{border-color:#C9A84C !important;outline:none}
