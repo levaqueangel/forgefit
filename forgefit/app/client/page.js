@@ -30,6 +30,7 @@ import { CommunauteTab } from "./CommunauteTab";
 import { RepasJournal } from "./RepasJournal";
 import { RecettesTab } from "./RecettesTab";
 import { OnboardingWizard } from "./OnboardingWizard";
+import { ProgressionTab } from "./ProgressionTab";
 
 export default function ClientPage() {
 const router = useRouter();
@@ -153,7 +154,7 @@ setDataLoading(false);
 }, [user, addToast]);
 
 // ── Swipe ────────────────────────────────────────────────────
-const TABS_ORDER = ["dashboard","programme","nutrition","repas","recettes","corps","messages","ia","communaute"];
+const TABS_ORDER = ["dashboard","programme","nutrition","repas","recettes","corps","progression","messages","ia","communaute"];
 const handleTouchStart = useCallback((e) => {
 touchStartX.current = e.touches[0].clientX;
 touchStartY.current = e.touches[0].clientY;
@@ -666,6 +667,7 @@ onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
 
 {activeTab==="recettes" && <RecettesTab clientData={clientData} user={user} />}
 {activeTab==="communaute" && <CommunauteTab S={S} clientData={clientData} user={user} />}
+{activeTab==="progression" && <ProgressionTab user={user} clientData={clientData} setClientData={setClientData} addToast={addToast} />}
 
 </div>
 {/* ── Navigation mobile (bottom bar) ── */}
@@ -678,6 +680,7 @@ onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
   {id:"ia",         label:"IA",        icon:<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3z"/></svg>},
   {id:"repas",      label:"Repas",     icon:<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 2v5c0 2.8-2.2 5-5 5s-5-2.2-5-5V2"/></svg>},
   {id:"corps",      label:"Corps",     icon:<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>},
+  {id:"progression",label:"Progrès",   icon:<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/><path d="M7 3.34A9 9 0 1 0 20.66 7"/></svg>},
   {id:"recettes",   label:"Recettes",  icon:<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>},
   {id:"communaute", label:"Social",    icon:<svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>},
 ].map(tab=>(
