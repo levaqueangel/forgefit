@@ -71,8 +71,21 @@ function ConfidenceBadge({ confiance, fiable }) {
   );
 }
 
+// ── Quota journalier ─────────────────────────────────────────────────────────
+const PHOTO_LIMITS = { starter: 0, forge: 4, elite: 6 };
+
+function getInitialPhotoRemaining(clientData) {
+  if (!clientData) return null;
+  const plan = (clientData.plan || "forge").toLowerCase();
+  const limit = PHOTO_LIMITS[plan] ?? 4;
+  const today = new Date().toDateString();
+  const usage = clientData.dailyUsage || {};
+  const count = usage.date === today ? (usage.photoCount || 0) : 0;
+  return Math.max(0, limit - count);
+}
+
 // ── Composant principal ───────────────────────────────────────────────────────
-export function ScanRepas({ user, onSave }) {
+export function ScanRepas({ user, onSave, clientData }) {
   const fileRef   = useRef(null);
   const [preview, setPreview]     = useState(null);
   const [b64, setB64]             = useState(null);
@@ -84,6 +97,7 @@ export function ScanRepas({ user, onSave }) {
   const [error, setError]         = useState("");
   const [saving, setSaving]       = useState(false);
   const [saved, setSaved]         = useState(false);
+  const [photoRemaining, setPhotoRemaining] = useState(() => getInitialPhotoRemaining(clientData));
 
   // ── Sélection d'image ──────────────────────────────────────────────────────
   const handleFile = async (e) => {
@@ -121,7 +135,12 @@ export function ScanRepas({ user, onSave }) {
       });
       const data = await res.json();
 
-      if (!res.ok) { setError(data.error || "Erreur analyse."); return; }
+      if (!res.ok) {
+        if (data.quotaExceeded) setPhotoRemaining(0);
+        setError(data.error || "Erreur analyse.");
+        return;
+      }
+      if (data.remaining !== undefined) setPhotoRemaining(data.remaining);
       if (!data.fiable) {
         setError("Repas non reconnu sur la photo. Essaie de rapprocher l'appareil ou d'ajouter une description.");
         setResult(data);
@@ -204,20 +223,35 @@ export function ScanRepas({ user, onSave }) {
       {/* ── Zone de drop / bouton ── */}
       {!preview && (
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          {/* Quota */}
+          {photoRemaining !== null && (
+            <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 4 }}>
+              <span style={{
+                fontSize: 9, letterSpacing: "1.5px", textTransform: "uppercase", padding: "2px 8px", borderRadius: 10,
+                color: photoRemaining === 0 ? "#E07070" : photoRemaining <= 1 ? "#C9A84C" : "#555",
+                background: photoRemaining === 0 ? "rgba(224,112,112,0.08)" : photoRemaining <= 1 ? "rgba(201,168,76,0.08)" : "transparent",
+                border: `0.5px solid ${photoRemaining === 0 ? "rgba(224,112,112,0.2)" : photoRemaining <= 1 ? "rgba(201,168,76,0.2)" : "transparent"}`,
+              }}>
+                {photoRemaining === 0 ? "Limite atteinte aujourd'hui" : `${photoRemaining} scan${photoRemaining > 1 ? "s" : ""} restant${photoRemaining > 1 ? "s" : ""} aujourd'hui`}
+              </span>
+            </div>
+          )}
+
           {/* Bouton principal */}
           <button
-            onClick={() => fileRef.current?.click()}
+            onClick={() => photoRemaining !== 0 ? fileRef.current?.click() : null}
+            disabled={photoRemaining === 0}
             style={{
-              background: "rgba(201,168,76,0.04)",
-              border: "1px dashed rgba(201,168,76,0.25)",
-              color: "#C9A84C", fontFamily: "'Syne',sans-serif",
+              background: photoRemaining === 0 ? "rgba(30,30,30,0.5)" : "rgba(201,168,76,0.04)",
+              border: `1px dashed ${photoRemaining === 0 ? "rgba(80,80,80,0.3)" : "rgba(201,168,76,0.25)"}`,
+              color: photoRemaining === 0 ? "#333" : "#C9A84C", fontFamily: "'Syne',sans-serif",
               fontSize: 13, fontWeight: 600, letterSpacing: "1px",
-              padding: "28px 20px", cursor: "pointer", width: "100%",
+              padding: "28px 20px", cursor: photoRemaining === 0 ? "not-allowed" : "pointer", width: "100%",
               display: "flex", flexDirection: "column", alignItems: "center", gap: 10,
               transition: "all 0.2s",
             }}
-            onMouseEnter={e => { e.currentTarget.style.background = "rgba(201,168,76,0.08)"; e.currentTarget.style.borderColor = "rgba(201,168,76,0.5)"; }}
-            onMouseLeave={e => { e.currentTarget.style.background = "rgba(201,168,76,0.04)"; e.currentTarget.style.borderColor = "rgba(201,168,76,0.25)"; }}
+            onMouseEnter={e => { if (photoRemaining !== 0) { e.currentTarget.style.background = "rgba(201,168,76,0.08)"; e.currentTarget.style.borderColor = "rgba(201,168,76,0.5)"; } }}
+            onMouseLeave={e => { if (photoRemaining !== 0) { e.currentTarget.style.background = "rgba(201,168,76,0.04)"; e.currentTarget.style.borderColor = "rgba(201,168,76,0.25)"; } }}
           >
             <span style={{ fontSize: 36 }}>📸</span>
             <span>Prendre une photo de ton repas</span>

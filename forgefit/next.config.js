@@ -22,7 +22,7 @@ const nextConfig = {
           { key: "X-Content-Type-Options",    value: "nosniff" },
           { key: "X-Frame-Options",           value: "DENY" },
           { key: "Referrer-Policy",           value: "strict-origin-when-cross-origin" },
-          { key: "Permissions-Policy",        value: "camera=(), microphone=(), geolocation=(), payment=(), usb=(), bluetooth=()" },
+          { key: "Permissions-Policy",        value: "camera=(self), microphone=(), geolocation=(), payment=(), usb=(), bluetooth=()" },
           // HSTS — force HTTPS pour 2 ans (activer après vérification du domaine en HTTPS)
           { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
           // CSP — restreint les origines de scripts, styles, connexions réseau

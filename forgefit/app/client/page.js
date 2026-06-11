@@ -646,7 +646,7 @@ onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
   <div className="fade-in" style={{display:"flex",flexDirection:"column",gap:16}}>
     <div style={S.card}>
       <div style={S.cardTitle}>🍽️ Journal alimentaire <span style={{...S.tag,marginLeft:"auto"}}>Analyse IA</span></div>
-      <RepasJournal nutrition={nutrition} user={user} />
+      <RepasJournal nutrition={nutrition} user={user} clientData={clientData} />
     </div>
     <div style={{background:"rgba(201,168,76,0.04)",border:"0.5px solid rgba(201,168,76,0.15)",borderRadius:4,padding:"14px",fontSize:12,color:"#555",lineHeight:1.7}}>
       💡 <strong style={{color:"#C9A84C"}}>Comment ça marche :</strong> Décris ton repas en texte libre — l'IA extrait les macros automatiquement. Plus tu es précis, plus l'estimation est fiable.

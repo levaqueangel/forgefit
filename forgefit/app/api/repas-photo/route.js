@@ -1,6 +1,7 @@
 ﻿import Anthropic from "@anthropic-ai/sdk";
 import { checkRateLimit } from "../rateLimit";
 import { verifyAuthToken } from "../firebase-admin";
+import { checkAndIncrementDailyQuota } from "../dailyQuota";
 export const dynamic = "force-dynamic";
 
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
@@ -16,6 +17,15 @@ export async function POST(req) {
   try {
     const decoded = await verifyAuthToken(req);
     if (!decoded) return Response.json({ error: "Non autorisé." }, { status: 401 });
+
+    const quota = await checkAndIncrementDailyQuota(decoded.uid, "photo");
+    if (!quota.allowed) {
+      return Response.json({
+        error: `Limite journalière atteinte (${quota.limit} scans/jour). Tes quotas se réinitialisent à minuit.`,
+        quotaExceeded: true,
+        limit: quota.limit,
+      }, { status: 429 });
+    }
 
     const { image, mediaType, description } = await req.json();
 
@@ -115,7 +125,7 @@ Règles strictes :
       _coherenceFixed: !coherent,
     };
 
-    return Response.json(result);
+    return Response.json({ ...result, remaining: quota.remaining });
   } catch (e) {
     console.error("repas-photo error:", e.message);
     if (e instanceof SyntaxError)

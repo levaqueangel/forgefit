@@ -185,6 +185,19 @@ function ChatBubble({ msg, isStreaming }) {
   );
 }
 
+// ── Quota journalier ─────────────────────────────────────────────────────────
+const CHAT_LIMITS = { starter: 0, forge: 10, elite: 20 };
+
+function getInitialChatRemaining(clientData) {
+  if (!clientData) return null;
+  const plan = (clientData.plan || "forge").toLowerCase();
+  const limit = CHAT_LIMITS[plan] ?? 10;
+  const today = new Date().toDateString();
+  const usage = clientData.dailyUsage || {};
+  const count = usage.date === today ? (usage.chatCount || 0) : 0;
+  return Math.max(0, limit - count);
+}
+
 // ── Composant principal ───────────────────────────────────────────────────────
 const STORAGE_KEY = "apx_chat_history";
 const MAX_HISTORY = 30;
@@ -206,6 +219,7 @@ export function AssistantTab({ S, clientData, user }) {
   const [streamingIdx, setStreamingIdx] = useState(null);
   const [showSuggestions, setShowSuggestions] = useState(true);
   const [followUps, setFollowUps] = useState([]);
+  const [chatRemaining, setChatRemaining] = useState(() => getInitialChatRemaining(clientData));
 
   const bottomRef = useRef(null);
   const inputRef = useRef(null);
@@ -285,9 +299,13 @@ export function AssistantTab({ S, clientData, user }) {
 
       if (!res.ok || !res.body) {
         const err = await res.json().catch(() => ({ error: "Erreur inconnue" }));
+        if (err.quotaExceeded) setChatRemaining(0);
         setHistory(h => h.map((m, i) => i === h.length - 1 ? { ...m, content: err.error || "Erreur de connexion.", error: true } : m));
         return;
       }
+
+      const quotaHeader = res.headers.get("X-Quota-Remaining");
+      if (quotaHeader !== null) setChatRemaining(parseInt(quotaHeader));
 
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
@@ -357,6 +375,16 @@ export function AssistantTab({ S, clientData, user }) {
               {hasProgramme && (
                 <span style={{ marginLeft: 8, fontSize: 8, letterSpacing: "1.5px", textTransform: "uppercase", color: "#7AE07A", background: "rgba(122,224,122,0.08)", border: "0.5px solid rgba(122,224,122,0.2)", padding: "2px 7px", borderRadius: 10 }}>
                   Ton programme chargé
+                </span>
+              )}
+              {chatRemaining !== null && (
+                <span style={{
+                  marginLeft: 8, fontSize: 8, letterSpacing: "1.5px", textTransform: "uppercase", padding: "2px 7px", borderRadius: 10,
+                  color: chatRemaining === 0 ? "#E07070" : chatRemaining <= 3 ? "#C9A84C" : "#555",
+                  background: chatRemaining === 0 ? "rgba(224,112,112,0.08)" : chatRemaining <= 3 ? "rgba(201,168,76,0.08)" : "transparent",
+                  border: `0.5px solid ${chatRemaining === 0 ? "rgba(224,112,112,0.2)" : chatRemaining <= 3 ? "rgba(201,168,76,0.2)" : "transparent"}`,
+                }}>
+                  {chatRemaining === 0 ? "Limite atteinte" : `${chatRemaining} msg restants`}
                 </span>
               )}
             </div>
@@ -455,13 +483,13 @@ export function AssistantTab({ S, clientData, user }) {
             onFocus={() => setShowSuggestions(false)}
             placeholder="Pose ta question... (Entrée pour envoyer)"
             rows={1}
-            disabled={streaming}
+            disabled={streaming || chatRemaining === 0}
             style={{
               flex: 1, background: "#111", border: "0.5px solid #1A1A1A",
               color: "#F0EDE8", fontFamily: "'Syne',sans-serif", fontSize: 13,
               padding: "10px 14px", resize: "none", minHeight: 42, maxHeight: 120,
               outline: "none", borderRadius: 14, lineHeight: 1.5,
-              transition: "border-color 0.2s", opacity: streaming ? 0.5 : 1,
+              transition: "border-color 0.2s", opacity: (streaming || chatRemaining === 0) ? 0.5 : 1,
             }}
           />
           {streaming ? (
@@ -489,9 +517,15 @@ export function AssistantTab({ S, clientData, user }) {
 
         {/* ── Footer ── */}
         <div style={{ padding: "6px 18px 10px", textAlign: "center" }}>
-          <p style={{ fontSize: 10, color: "#222", letterSpacing: "0.3px" }}>
-            L'IA répond aux questions générales · Pour un suivi personnalisé, écris au coach dans Messages
-          </p>
+          {chatRemaining === 0 ? (
+            <p style={{ fontSize: 11, color: "#E07070", letterSpacing: "0.3px" }}>
+              Limite journalière atteinte · Tes messages se réinitialisent à minuit
+            </p>
+          ) : (
+            <p style={{ fontSize: 10, color: "#222", letterSpacing: "0.3px" }}>
+              L'IA répond aux questions générales · Pour un suivi personnalisé, écris au coach dans Messages
+            </p>
+          )}
         </div>
       </div>
     </div>
