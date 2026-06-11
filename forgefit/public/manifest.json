@@ -1,14 +1,28 @@
 {
   "name": "APXFITNESS — Coaching personnalisé",
   "short_name": "APXFITNESS",
-  "description": "Programmes de musculation et remise en forme 100% sur mesure.",
+  "description": "Programmes de musculation et nutrition 100% sur mesure générés par IA.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#0A0A0A",
   "theme_color": "#C9A84C",
   "orientation": "portrait",
+  "lang": "fr",
+  "categories": ["health", "fitness", "sports"],
   "icons": [
-    { "src": "/api/pwa-icon?size=192", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
-    { "src": "/api/pwa-icon?size=512", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+    { "src": "/api/pwa-icon?size=192", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/api/pwa-icon?size=512", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/api/pwa-icon?size=192", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "/api/pwa-icon?size=512", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "screenshots": [
+    {
+      "src": "/images/screenshot-mobile.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Dashboard client APXFITNESS"
+    }
   ]
 }

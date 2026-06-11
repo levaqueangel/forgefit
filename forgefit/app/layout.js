@@ -1,5 +1,6 @@
 import { GoogleAnalytics } from "./GoogleAnalytics";
 import ServiceWorkerRegistration from "./ServiceWorkerRegistration";
+import PWAInstallPrompt from "./PWAInstallPrompt";
 import ErrorBoundary from "./ErrorBoundary";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://apxfitness-brown.vercel.app";
@@ -10,7 +11,7 @@ export const metadata = {
     default: "APXFITNESS — Coaching Fitness Personnalisé en Ligne",
     template: "%s | APXFITNESS",
   },
-  description: "Programme musculation 100% sur mesure généré par IA en 48h. Nutrition calculée, séances adaptées à ton niveau. Coach personnel en ligne dès 49€.",
+  description: "Programme musculation 100% sur mesure généré par IA en 48h. Nutrition calculée, séances adaptées à ton niveau. Coach personnel en ligne dès 18,99€/mois.",
   keywords: ["coaching fitness","programme musculation","coach personnel en ligne","nutrition sportive","prise de masse","perte de poids"],
   authors: [{ name: "Angel Levaque", url: `${SITE_URL}/a-propos` }],
   creator: "APXFITNESS",
@@ -59,9 +60,9 @@ const jsonLd = {
       "provider": { "@id": `${SITE_URL}/#business` },
       "description": "Programme musculation et nutrition 100% personnalisé, généré par IA en moins de 48h selon ton profil et tes objectifs.",
       "offers": [
-        { "@type": "Offer", "name": "Plan Starter", "price": "49", "priceCurrency": "EUR" },
-        { "@type": "Offer", "name": "Plan Forge",   "price": "129", "priceCurrency": "EUR" },
-        { "@type": "Offer", "name": "Plan Elite",   "price": "249", "priceCurrency": "EUR" },
+        { "@type": "Offer", "name": "Plan Starter", "price": "18.99", "priceCurrency": "EUR", "priceSpecification": { "@type": "RecurringChargeSpecification", "billingDuration": 1, "billingIncrement": "month" } },
+        { "@type": "Offer", "name": "Plan Forge",   "price": "38.99", "priceCurrency": "EUR", "priceSpecification": { "@type": "RecurringChargeSpecification", "billingDuration": 1, "billingIncrement": "month" } },
+        { "@type": "Offer", "name": "Plan Elite",   "price": "68.99", "priceCurrency": "EUR", "priceSpecification": { "@type": "RecurringChargeSpecification", "billingDuration": 1, "billingIncrement": "month" } },
       ],
     },
   ],
@@ -75,6 +76,15 @@ export default function RootLayout({ children }) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        {/* PWA */}
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#C9A84C" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        {/* iOS / Safari — ignore manifest.json, besoin de ses propres tags */}
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="APXFITNESS" />
+        <link rel="apple-touch-icon" href="/api/pwa-icon?size=192" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
@@ -88,6 +98,7 @@ export default function RootLayout({ children }) {
         </ErrorBoundary>
         <GoogleAnalytics />
         <ServiceWorkerRegistration />
+        <PWAInstallPrompt />
       </body>
     </html>
   );
