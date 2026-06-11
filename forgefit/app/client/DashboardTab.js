@@ -11,6 +11,7 @@ import { RapportHebdo } from "./RapportHebdo";
 import { PartagerCard } from "./PartagerCard";
 import { ProgressPhotos } from "./ProgressPhotos";
 import { RappelsSection } from "./RappelsSection";
+import { UpsellAnnuelCard } from "./UpsellAnnuelCard";
 
 export function DashboardTab({
   S, doneSeances, doneExos, exercices, pd, realStreak,
@@ -43,6 +44,9 @@ export function DashboardTab({
 
   return (
     <div className="fade-in" style={{display:"flex",flexDirection:"column",gap:18}}>
+
+      {/* ── Upsell annuel (mensuel uniquement) ── */}
+      <UpsellAnnuelCard user={user} clientData={clientData} />
 
       {/* ── Métriques — style app avec accent coloré ── */}
       <div className="metrics-grid" style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:10}}>
