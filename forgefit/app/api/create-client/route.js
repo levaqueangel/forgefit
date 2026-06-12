@@ -24,6 +24,7 @@ export async function POST(req) {
   }
   const body = await req.json();
   const { email, nom, plan } = body;
+  const billingPref = body.billing === "annual" ? "annual" : "monthly";
   // Cap strict sur les champs texte longs pour éviter les abus Firestore
   const programme     = typeof body.programme     === "string" ? body.programme.slice(0, 50_000)     : "";
   const programmeData = body.programmeData && typeof body.programmeData === "object" ? body.programmeData : null;
@@ -67,6 +68,7 @@ export async function POST(req) {
 
     await getAdminDb().collection("clients").doc(uid).set({
       nom: nom.trim(), email: safeEmail, plan: safePlan,
+      billingPref,
       programme, programmeData: programmeData || null,
       createdAt: new Date().toISOString(),
     }, { merge: true });

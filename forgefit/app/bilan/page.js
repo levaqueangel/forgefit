@@ -51,6 +51,7 @@ function BilanForm() {
   const tb = t.bilan;
 
   const [step, setStep] = useState(1);
+  const [billing, setBilling] = useState("annual");
   const [form, setForm] = useState({ prenom: "", age: "", email: "", genre: "", poids: "", taille: "", contraintes: "", motivation: "" });
   const [sel, setSel] = useState({});
   const [prog, setProg] = useState("");
@@ -128,7 +129,7 @@ function BilanForm() {
       try {
         const clientRes = await fetch("/api/create-client", {
           method: "POST", headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email: form.email, nom: form.prenom, plan: planId, programme: genData.programme, programmeData: genData.programmeData || null }),
+          body: JSON.stringify({ email: form.email, nom: form.prenom, plan: planId, billing, programme: genData.programme, programmeData: genData.programmeData || null }),
         });
         const clientData = await clientRes.json();
         setClientCreated(clientData.success === true);
@@ -160,11 +161,15 @@ function BilanForm() {
   );
 
   const PLAN_INFO = {
-    starter: { name:"Starter", price:"18,99€/mois", features:["Programme musculation personnalisé","Plan nutrition + macros","Bilan en ligne complet","Livraison par email en 48h"] },
-    forge:   { name:"Forge",   price:"38,99€/mois", features:["Programme musculation personnalisé","Plan nutrition + macros","Bilan en ligne complet","Suivi mensuel & ajustements","Accès espace client privé"] },
-    elite:   { name:"Elite",   price:"68,99€/mois", features:["Programme musculation personnalisé","Plan nutrition + macros","Bilan en ligne complet","Suivi mensuel & ajustements","Accès espace client privé","Messagerie directe coach","Révisions illimitées"] },
+    starter: { name:"Starter", monthly:18.99, annual:189.90, features:["Programme musculation personnalisé","Plan nutrition + macros","Bilan en ligne complet","Livraison par email en 48h"] },
+    forge:   { name:"Forge",   monthly:38.99, annual:389.90, features:["Programme musculation personnalisé","Plan nutrition + macros","Bilan en ligne complet","Suivi mensuel & ajustements","Accès espace client privé"] },
+    elite:   { name:"Elite",   monthly:68.99, annual:689.90, features:["Programme musculation personnalisé","Plan nutrition + macros","Bilan en ligne complet","Suivi mensuel & ajustements","Accès espace client privé","Messagerie directe coach","Révisions illimitées"] },
   };
   const plan = PLAN_INFO[planId] || PLAN_INFO.forge;
+  const planSavings = (plan.monthly * 12 - plan.annual).toFixed(2).replace(".", ",");
+  const displayPrice = billing === "annual"
+    ? `${(plan.annual / 12).toFixed(2).replace(".", ",")}€/mois`
+    : `${plan.monthly.toFixed(2).replace(".", ",")}€/mois`;
 
   const STEP_META = [
     { label:"Profil",        hint:"2 min · Informations de base" },
@@ -209,7 +214,7 @@ function BilanForm() {
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <div className="bilan-plan-badge" style={{ fontSize: 11, letterSpacing: "2px", textTransform: "uppercase", background: "rgba(232,176,0,0.1)", border: "0.5px solid #E8B000", color: "#E8B000", padding: "4px 12px" }}>
-            Plan {plan.name} — {plan.price}
+            Plan {plan.name} — {displayPrice}{billing === "annual" && " · annuel"}
           </div>
           <LangSelector lang={lang} setLang={setLang} LANGS={LANGS} />
         </div>
@@ -505,12 +510,43 @@ function BilanForm() {
           <div style={{ background:"#0D0D0D", borderLeft:"0.5px solid #1A1A1A" }}>
             <div className="sidebar-sticky" style={{ padding:"2rem 1.5rem" }}>
 
+              {/* Toggle mensuel / annuel */}
+              <div style={{ background:"#111", border:"0.5px solid #1A1A1A", padding:"1.25rem", marginBottom:1 }}>
+                <div style={{ fontSize:9, letterSpacing:"3px", textTransform:"uppercase", color:"#555", marginBottom:12 }}>Fréquence de facturation</div>
+                <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:1 }}>
+                  {[
+                    { key:"monthly", label:"Mensuel", sub:`${plan.monthly.toFixed(2).replace(".",",")}€/mois` },
+                    { key:"annual",  label:"Annuel",  sub:`${(plan.annual/12).toFixed(2).replace(".",",")}€/mois` },
+                  ].map(opt => (
+                    <button key={opt.key} onClick={() => setBilling(opt.key)} style={{
+                      background: billing === opt.key ? "rgba(232,176,0,0.1)" : "transparent",
+                      border: `0.5px solid ${billing === opt.key ? "#E8B000" : "#242424"}`,
+                      padding:"10px 8px", cursor:"pointer", textAlign:"center", transition:"all 0.2s",
+                    }}>
+                      <div style={{ fontSize:10, fontWeight:700, letterSpacing:"1.5px", textTransform:"uppercase", color: billing === opt.key ? "#E8B000" : "#555", fontFamily:"'Syne',sans-serif" }}>{opt.label}</div>
+                      <div style={{ fontSize:11, color: billing === opt.key ? "#E8B000" : "#333", marginTop:3, fontFamily:"'Syne',sans-serif" }}>{opt.sub}</div>
+                    </button>
+                  ))}
+                </div>
+                {billing === "annual" && (
+                  <div style={{ marginTop:10, background:"rgba(122,224,122,0.07)", border:"0.5px solid rgba(122,224,122,0.2)", padding:"8px 12px", display:"flex", alignItems:"center", gap:8 }}>
+                    <span style={{ color:"#7AE07A", fontSize:13 }}>✓</span>
+                    <span style={{ fontSize:11, color:"#7AE07A" }}>
+                      <strong>{planSavings}€ économisés</strong> — 2 mois offerts
+                    </span>
+                  </div>
+                )}
+              </div>
+
               {/* Plan card */}
               <div style={{ background:"#111", border:"0.5px solid rgba(232,176,0,0.3)", padding:"1.25rem", marginBottom:1, position:"relative", overflow:"hidden" }}>
                 <div style={{ position:"absolute", top:0, left:0, right:0, height:2, background:"linear-gradient(90deg,#E8B000,#F5C832)" }}/>
                 <div style={{ fontSize:9, letterSpacing:"3px", textTransform:"uppercase", color:"#E8B000", marginBottom:8 }}>Plan sélectionné</div>
                 <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:22, color:"#F0EDE8", marginBottom:4 }}>{plan.name}</div>
-                <div style={{ fontSize:13, color:"#E8B000", fontWeight:700 }}>{plan.price}</div>
+                <div style={{ fontSize:13, color:"#E8B000", fontWeight:700 }}>{displayPrice}</div>
+                {billing === "annual" && (
+                  <div style={{ fontSize:10, color:"#666", marginTop:4 }}>facturé {plan.annual.toFixed(2).replace(".",",")}€/an</div>
+                )}
               </div>
 
               {/* Ce qui est inclus */}

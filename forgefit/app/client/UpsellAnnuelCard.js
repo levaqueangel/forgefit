@@ -70,8 +70,8 @@ export function UpsellAnnuelCard({ user, clientData }) {
   const planLabel = plan.charAt(0).toUpperCase() + plan.slice(1);
 
   useEffect(() => {
-    // Ne montrer que si abonnement mensuel actif
-    if (billing !== "monthly") return;
+    // Montrer si abonnement mensuel actif OU si pas encore de billing (client gratuit)
+    if (billing === "annual") return;
     const raw = localStorage.getItem(DISMISS_KEY);
     if (raw) {
       const { until } = JSON.parse(raw);
@@ -104,7 +104,7 @@ export function UpsellAnnuelCard({ user, clientData }) {
     }
   };
 
-  if (!visible || billing !== "monthly") return null;
+  if (!visible || billing === "annual") return null;
 
   return (
     <>
@@ -154,7 +154,7 @@ export function UpsellAnnuelCard({ user, clientData }) {
                   fontSize: 15, fontWeight: 800, color: "#F0EDE8",
                   fontFamily: "'Syne',sans-serif", lineHeight: 1.25,
                 }}>
-                  Passe à l'annuel,{" "}
+                  {billing === "monthly" ? "Passe à l'annuel," : "Démarre directement à l'annuel,"}{" "}
                   <span style={{ color: "#E8B000" }}>
                     économise <AnimatedSaving value={savings} />
                   </span>
@@ -260,7 +260,9 @@ export function UpsellAnnuelCard({ user, clientData }) {
               onMouseEnter={e => { if (!loading) e.target.style.backgroundPosition = "right center"; }}
               onMouseLeave={e => { if (!loading) e.target.style.backgroundPosition = "left center"; }}
             >
-              {loading ? "Redirection…" : `Passer à l'annuel — économiser ${savings.toFixed(2).replace(".", ",")}€ →`}
+              {loading ? "Redirection…" : billing === "monthly"
+                ? `Passer à l'annuel — économiser ${savings.toFixed(2).replace(".", ",")}€ →`
+                : `Démarrer l'annuel — économiser ${savings.toFixed(2).replace(".", ",")}€ →`}
             </button>
 
             <div style={{ fontSize: 9, color: "#333", textAlign: "center", marginTop: 8, fontFamily: "'Cormorant Garamond',serif" }}>
