@@ -31,14 +31,20 @@ export async function GET(req) {
 
     for (const client of eligible) {
       try {
-        // Calculer le streak actuel
         const streak = client.streakDays || 0;
-        const seancesDone = Object.values(client.seanceDone || {}).filter(Boolean).length;
+        // Compte les séances réellement loggées (même approche que relance-j14)
+        const start = new Date(client.createdAt).getTime();
+        const hist = Array.isArray(client.seanceHistorique) ? client.seanceHistorique : [];
+        const seancesDone = hist.filter(s => {
+          const t = s?.dateTs || (s?.date ? Date.parse(s.date) : NaN);
+          return t >= start;
+        }).length;
 
         await resend.emails.send({
           from: "APXFITNESS <onboarding@resend.dev>",
+          replyTo: "coach.apxfitness11@gmail.com",
           to: [client.email],
-          subject: `🏆 ${client.nom?.split(" ")[0] || "Ton"} bilan 4 semaines APXFITNESS`,
+          subject: `${client.nom?.split(" ")[0] || "Ton"} bilan 4 semaines APXFITNESS 🏆`,
           html: generateRecapHtml(
             client.nom?.split(" ")[0] || "là",
             client.plan || "forge",
