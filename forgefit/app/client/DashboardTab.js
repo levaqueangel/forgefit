@@ -12,6 +12,7 @@ import { PartagerCard } from "./PartagerCard";
 import { ProgressPhotos } from "./ProgressPhotos";
 import { RappelsSection } from "./RappelsSection";
 import { UpsellAnnuelCard } from "./UpsellAnnuelCard";
+import { ActivationCard } from "./ActivationCard";
 
 export function DashboardTab({
   S, doneSeances, doneExos, exercices, pd, realStreak,
@@ -45,6 +46,9 @@ export function DashboardTab({
   return (
     <div className="fade-in" style={{display:"flex",flexDirection:"column",gap:18}}>
 
+      {/* ── Activation 14 jours (nouveaux clients, <3 séances) ── */}
+      <ActivationCard clientData={clientData} />
+
       {/* ── Upsell annuel (mensuel uniquement) ── */}
       <UpsellAnnuelCard user={user} clientData={clientData} />
 
@@ -68,7 +72,7 @@ export function DashboardTab({
       <div className="grid2" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16}}>
 
         {/* ── Séances semaine ── */}
-        <div style={S.card}>
+        <div style={S.card} id="dash-seances">
           <div style={S.cardTitle}>
             <span>📅</span> Séances
             <span style={{marginLeft:"auto",fontSize:10,letterSpacing:"2px",textTransform:"uppercase",color:"#555"}}>{doneSeances}/{nbSeances}</span>
