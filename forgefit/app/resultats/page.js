@@ -34,8 +34,7 @@ export default function ResultatsPage() {
   return (
     <div style={{ background:"#0A0A0A", color:"#F0EDE8", minHeight:"100vh", fontFamily:"'Syne',sans-serif" }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Syne:wght@400;600;700;800&display=swap');
-        *{box-sizing:border-box;margin:0;padding:0}
+*{box-sizing:border-box;margin:0;padding:0}
         @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
         .result-card{background:#0D0D0D;border:0.5px solid #1A1A1A;transition:all 0.25s}
         .result-card:hover{border-color:#E8B000;transform:translateY(-3px)}
