@@ -9,6 +9,10 @@
       "schedule": "0 8 * * *"
     },
     {
+      "path": "/api/cron/relance-j14",
+      "schedule": "0 10 * * *"
+    },
+    {
       "path": "/api/cron/relance-abandon",
       "schedule": "0 9 * * *"
     },
