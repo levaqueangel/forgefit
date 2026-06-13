@@ -187,7 +187,7 @@ export default function Home() {
             <div style={{textAlign:"center",padding:"1rem 0"}}>
               <div style={{fontSize:32,marginBottom:12}}>🎉</div>
               <div style={{fontSize:14,fontWeight:700,color:"#7AE07A",marginBottom:8}}>Guide envoyé !</div>
-              <div style={{fontSize:12,color:"#555"}}>Vérifie ta boîte mail dans quelques instants.</div>
+              <div style={{fontSize:12,color:"#888"}}>Vérifie ta boîte mail dans quelques instants.</div>
             </div>
           ) : (
             <>
@@ -224,6 +224,7 @@ export default function Home() {
         @keyframes typing{from{width:0}to{width:3.8em}}
         @keyframes borderPulse{0%,100%{border-color:#242424}50%{border-color:#E8B000}}
         @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+        @keyframes pulseDot{0%,100%{opacity:1;box-shadow:0 0 6px rgba(122,224,122,0.7)}50%{opacity:0.5;box-shadow:0 0 12px rgba(122,224,122,0.4)}}
         @keyframes scanDown{0%{opacity:0;transform:translateY(-100%)}6%{opacity:.8}93%{opacity:.8}100%{opacity:0;transform:translateY(2000%)}}
         @keyframes shimmerSlide{0%{left:-100%}100%{left:200%}}
         @keyframes countPop{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
@@ -518,6 +519,12 @@ export default function Home() {
           <div style={{fontSize:11,letterSpacing:"4px",textTransform:"uppercase",color:"#E8B000",marginBottom:"0.5rem"}}>{t.plans.tag}</div>
           <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:48,fontWeight:600,lineHeight:1}}>
             {t.plans.title}<br/><em style={{fontStyle:"italic",color:T.muted}}>{t.plans.subtitle}</em>
+          </div>
+          <div style={{display:"inline-flex",alignItems:"center",gap:8,marginTop:"1.25rem",padding:"8px 18px",border:"0.5px solid rgba(232,176,0,0.3)",background:"rgba(232,176,0,0.05)"}}>
+            <span style={{width:7,height:7,borderRadius:"50%",background:"#7AE07A",boxShadow:"0 0 6px rgba(122,224,122,0.7)",display:"inline-block",animation:"pulseDot 2s ease infinite"}}/>
+            <span style={{fontFamily:"'Syne',sans-serif",fontSize:11,letterSpacing:"1.5px",color:T.muted}}>
+              <span style={{color:"#E8B000",fontWeight:700}}>12 personnes</span> consultent ces offres en ce moment
+            </span>
           </div>
         </div>
         <div className="plans-grid" style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:1,background:T.gap}}>

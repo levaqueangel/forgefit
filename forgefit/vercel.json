@@ -23,6 +23,22 @@
     {
       "path": "/api/cron/rappel-seance",
       "schedule": "0 7 * * *"
+    },
+    {
+      "path": "/api/cron/sms-relance",
+      "schedule": "0 8 * * *"
+    },
+    {
+      "path": "/api/cron/winback-j30",
+      "schedule": "0 9 * * *"
+    },
+    {
+      "path": "/api/cron/winback-j60",
+      "schedule": "0 9 * * *"
+    },
+    {
+      "path": "/api/cron/winback-j90",
+      "schedule": "0 9 * * *"
     }
   ],
   "headers": [

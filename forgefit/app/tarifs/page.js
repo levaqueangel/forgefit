@@ -1,6 +1,6 @@
 ﻿"use client";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const PLANS = [
   {
@@ -98,8 +98,27 @@ const TESTIMONIALS = [
 export default function TarifsPage() {
   const router = useRouter();
   const [loadingPlan, setLoadingPlan] = useState(null);
-  const [billing, setBilling] = useState("monthly");
+  const [billing, setBilling] = useState("annual");
   const [openFaq, setOpenFaq] = useState(null);
+  const [countdown, setCountdown] = useState({ h: 0, m: 0, s: 0 });
+
+  // Compte à rebours jusqu'à minuit (fin de l'offre du jour)
+  useEffect(() => {
+    function tick() {
+      const now = new Date();
+      const midnight = new Date(now);
+      midnight.setHours(23, 59, 59, 999);
+      const diff = midnight - now;
+      setCountdown({
+        h: Math.floor(diff / 3600000),
+        m: Math.floor((diff % 3600000) / 60000),
+        s: Math.floor((diff % 60000) / 1000),
+      });
+    }
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, []);
 
   async function handleCheckout(planId) {
     setLoadingPlan(planId);
@@ -150,6 +169,7 @@ export default function TarifsPage() {
         *{box-sizing:border-box;margin:0;padding:0}
 @keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
         @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes pulseDot{0%,100%{opacity:1;box-shadow:0 0 6px rgba(122,224,122,0.7)}50%{opacity:0.5;box-shadow:0 0 12px rgba(122,224,122,0.4)}}
         @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(232,176,0,0.2)}70%{box-shadow:0 0 0 12px rgba(232,176,0,0)}}
         .gold-text{background:linear-gradient(90deg,#E8B000,#F5C832,#F5C832,#E8B000);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 2.5s linear infinite}
         .plan-cta{border:none;color:#0A0A0A;padding:14px 24px;font-family:'Syne',sans-serif;font-size:11px;font-weight:800;letter-spacing:3px;text-transform:uppercase;cursor:pointer;width:100%;transition:all 0.2s}
@@ -213,10 +233,20 @@ export default function TarifsPage() {
         </div>
       </div>
 
+      {/* ── Urgency ── */}
+      <div style={{ display:"flex", justifyContent:"center", padding:"2.5rem 1.5rem 0" }}>
+        <div style={{ display:"inline-flex", alignItems:"center", gap:8, padding:"7px 18px", border:"0.5px solid rgba(232,176,0,0.3)", background:"rgba(232,176,0,0.05)" }}>
+          <span style={{ width:7, height:7, borderRadius:"50%", background:"#7AE07A", boxShadow:"0 0 6px rgba(122,224,122,0.7)", display:"inline-block", animation:"pulseDot 2s ease infinite" }}/>
+          <span style={{ fontFamily:"'Syne',sans-serif", fontSize:11, letterSpacing:"1.5px", color:"#666" }}>
+            <span style={{ color:"#E8B000", fontWeight:700 }}>12 personnes</span> consultent ces offres en ce moment
+          </span>
+        </div>
+      </div>
+
       {/* ── Toggle billing ── */}
-      <div style={{ display:"flex", justifyContent:"center", alignItems:"center", gap:16, padding:"2.5rem 1.5rem 0" }}>
+      <div style={{ display:"flex", justifyContent:"center", alignItems:"center", gap:16, padding:"1.5rem 1.5rem 0" }}>
         <div style={{ display:"inline-flex", background:"#111", border:"0.5px solid #242424", padding:3, gap:2 }}>
-          {[{ value:"monthly", label:"Mensuel" },{ value:"annual", label:"Annuel" }].map(opt => (
+          {[{ value:"annual", label:"Annuel" },{ value:"monthly", label:"Mensuel" }].map(opt => (
             <button key={opt.value} onClick={() => setBilling(opt.value)} style={{
               background:billing===opt.value?"rgba(232,176,0,0.15)":"transparent",
               border:`0.5px solid ${billing===opt.value?"rgba(232,176,0,0.4)":"transparent"}`,
@@ -230,6 +260,28 @@ export default function TarifsPage() {
           ))}
         </div>
         {billing==="annual" && <span style={{ fontSize:12, color:"#5DCAA5", fontFamily:"'Cormorant Garamond',serif", fontStyle:"italic" }}>2 mois offerts chaque année</span>}
+      </div>
+
+      {/* ── Countdown urgence ── */}
+      <div style={{ display:"flex", justifyContent:"center", padding:"1rem 1.5rem 0" }}>
+        <div style={{ display:"inline-flex", alignItems:"center", gap:12, padding:"8px 20px", background:"rgba(232,176,0,0.06)", border:"0.5px solid rgba(232,176,0,0.2)" }}>
+          <span style={{ fontSize:10, letterSpacing:"2px", textTransform:"uppercase", color:"#666", fontFamily:"'Syne',sans-serif" }}>Offre expire dans</span>
+          <div style={{ display:"flex", gap:6, alignItems:"center" }}>
+            {[
+              { val: String(countdown.h).padStart(2,"0"), label:"h" },
+              { val: String(countdown.m).padStart(2,"0"), label:"m" },
+              { val: String(countdown.s).padStart(2,"0"), label:"s" },
+            ].map(({ val, label }, i) => (
+              <div key={label} style={{ display:"flex", alignItems:"center", gap:i < 2 ? 6 : 0 }}>
+                <div style={{ background:"#111", border:"0.5px solid #242424", padding:"4px 8px", minWidth:32, textAlign:"center" }}>
+                  <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:14, color:"#E8B000" }}>{val}</span>
+                </div>
+                <span style={{ fontSize:9, color:"#444", letterSpacing:"1px", marginLeft:2 }}>{label}</span>
+                {i < 2 && <span style={{ color:"#333", fontSize:12, marginLeft:2 }}>:</span>}
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* ── Plans ── */}

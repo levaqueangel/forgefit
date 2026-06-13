@@ -74,6 +74,17 @@ function BilanForm() {
     }
   }, [step]);
 
+  // Charger le script reCAPTCHA v3 une seule fois
+  useEffect(() => {
+    const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+    if (!siteKey || document.getElementById("recaptcha-script")) return;
+    const script = document.createElement("script");
+    script.id = "recaptcha-script";
+    script.src = `https://www.google.com/recaptcha/api.js?render=${siteKey}`;
+    script.async = true;
+    document.head.appendChild(script);
+  }, []);
+
   // ── Persistance locale du formulaire ─────────────────────────────
   // Restaurer la progression au montage
   useEffect(() => {
@@ -106,12 +117,28 @@ function BilanForm() {
     padding: "10px 14px", outline: "none", borderRadius: 0,
   };
 
+  async function getRecaptchaToken() {
+    const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+    if (!siteKey) return null;
+    return new Promise((resolve) => {
+      if (window.grecaptcha?.ready) {
+        window.grecaptcha.ready(() =>
+          window.grecaptcha.execute(siteKey, { action: "bilan_generate" })
+            .then(resolve).catch(() => resolve(null))
+        );
+      } else {
+        resolve(null);
+      }
+    });
+  }
+
   async function handleGenerate() {
     setStatus("generating"); setErrMsg(""); setProg("");
     try {
+      const recaptchaToken = await getRecaptchaToken();
       const genRes = await fetch("/api/generate", {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, ...sel, plan: planId, lang }),
+        body: JSON.stringify({ ...form, ...sel, plan: planId, lang, recaptchaToken }),
       });
       const genData = await genRes.json();
       if (genData.error) throw new Error(genData.error);
@@ -129,7 +156,7 @@ function BilanForm() {
       try {
         const clientRes = await fetch("/api/create-client", {
           method: "POST", headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email: form.email, nom: form.prenom, plan: planId, billing, programme: genData.programme, programmeData: genData.programmeData || null }),
+          body: JSON.stringify({ email: form.email, nom: form.prenom, plan: planId, billing, programme: genData.programme, programmeData: genData.programmeData || null, telephone: form.telephone || null }),
         });
         const clientData = await clientRes.json();
         setClientCreated(clientData.success === true);
@@ -263,7 +290,7 @@ function BilanForm() {
             <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 34, fontWeight: 600, marginBottom: 6 }}>
               {tb.identity.title}<em style={{ color: "#E8B000", fontStyle: "italic" }}>{tb.identity.em}</em>
             </div>
-            <div style={{ fontSize: 12, color: "#555", marginBottom: 24 }}>{tb.identity.sub}</div>
+            <div style={{ fontSize: 12, color: "#888", marginBottom: 24 }}>{tb.identity.sub}</div>
             <div className="form-2col" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1, marginBottom: 1 }}>
               <div style={{ background: "#111", padding: "14px 16px", border: "0.5px solid #242424" }}>
                 <Label>{tb.fields.prenom}</Label>
@@ -278,6 +305,10 @@ function BilanForm() {
               <Label>{tb.fields.email}</Label>
                 <input style={{...inputStyle, borderColor: fieldErrors.email ? "#E07070" : "#242424"}} type="email" placeholder={tb.placeholders.email} value={form.email} onChange={e => { inp("email")(e); setFieldErrors(f => ({...f, email: ""})); }} />
                 {fieldErrors.email && <div style={{fontSize:11,color:"#E07070",marginTop:4}}>{fieldErrors.email}</div>}
+            </div>
+            <div style={{ background: "#111", padding: "14px 16px", border: "0.5px solid #242424", marginBottom: 1 }}>
+              <Label>Téléphone <span style={{color:"#333",fontSize:9,letterSpacing:"1px"}}>(optionnel · SMS de suivi)</span></Label>
+              <input style={inputStyle} type="tel" placeholder="06 12 34 56 78" value={form.telephone || ""} onChange={inp("telephone")} />
             </div>
             <div className="form-2col" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1, marginBottom: 1 }}>
               <div style={{ background: "#111", padding: "14px 16px", border: "0.5px solid #242424" }}>
@@ -317,7 +348,7 @@ function BilanForm() {
             <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 34, fontWeight: 600, marginBottom: 6 }}>
               {tb.objectif.title}<em style={{ color: "#E8B000", fontStyle: "italic" }}>{tb.objectif.em}</em>
             </div>
-            <div style={{ fontSize: 12, color: "#555", marginBottom: 24 }}>{tb.objectif.sub}</div>
+            <div style={{ fontSize: 12, color: "#888", marginBottom: 24 }}>{tb.objectif.sub}</div>
             <div style={{ display: "flex", flexDirection: "column", gap: 1 }}>
               {chipBlock("obj", tb.labels.obj)}
               <div className="form-2col" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1 }}>
@@ -325,9 +356,10 @@ function BilanForm() {
                 {chipBlock("duree", tb.labels.duree)}
               </div>
             </div>
+            {!sel.obj && <div style={{ fontSize: 11, color: "#E07070", marginTop: 12, letterSpacing: "0.5px" }}>Sélectionne ton objectif principal pour continuer.</div>}
             <div style={{ display: "flex", justifyContent: "space-between", marginTop: 20 }}>
               <GoldBtn ghost onClick={() => setStep(1)}>{tb.back}</GoldBtn>
-              <GoldBtn onClick={() => setStep(3)}>{tb.next}</GoldBtn>
+              <GoldBtn onClick={() => { if (!sel.obj) return; setStep(3); }}>{tb.next}</GoldBtn>
             </div>
           </div>
         )}
@@ -338,7 +370,7 @@ function BilanForm() {
             <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 34, fontWeight: 600, marginBottom: 6 }}>
               {tb.entrainement.title}<em style={{ color: "#E8B000", fontStyle: "italic" }}>{tb.entrainement.em}</em>
             </div>
-            <div style={{ fontSize: 12, color: "#555", marginBottom: 24 }}>{tb.entrainement.sub}</div>
+            <div style={{ fontSize: 12, color: "#888", marginBottom: 24 }}>{tb.entrainement.sub}</div>
             <div style={{ display: "flex", flexDirection: "column", gap: 1 }}>
               {chipBlock("niv", tb.labels.niv)}
               {chipBlock("lieu", tb.labels.lieu)}
@@ -369,7 +401,7 @@ function BilanForm() {
             <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 34, fontWeight: 600, marginBottom: 6 }}>
               {tb.lifestyle.title}<em style={{ color: "#E8B000", fontStyle: "italic" }}>{tb.lifestyle.em}</em>
             </div>
-            <div style={{ fontSize: 12, color: "#555", marginBottom: 24 }}>{tb.lifestyle.sub}</div>
+            <div style={{ fontSize: 12, color: "#888", marginBottom: 24 }}>{tb.lifestyle.sub}</div>
             <div style={{ display: "flex", flexDirection: "column", gap: 1 }}>
               {chipBlock("regime", tb.labels.regime)}
               <div style={{ background: "#111", padding: "14px 16px", border: "0.5px solid #242424" }}>
@@ -392,7 +424,7 @@ function BilanForm() {
               <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:34, fontWeight:600, lineHeight:1.1 }}>
                 {tb.recap.title}<em style={{ color:"#E8B000", fontStyle:"italic" }}>{tb.recap.em}</em>
               </div>
-              <div style={{ fontSize:12, color:"#555", marginTop:6 }}>Génération IA personnalisée en ~30 secondes</div>
+              <div style={{ fontSize:12, color:"#888", marginTop:6 }}>Génération IA personnalisée en ~30 secondes</div>
             </div>
 
             {/* Récap visuel */}
@@ -443,7 +475,7 @@ function BilanForm() {
               <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:38, fontWeight:600, lineHeight:1.1, marginBottom:8 }}>
                 Programme généré,<br/><em style={{ color:"#E8B000", fontStyle:"italic" }}>{form.prenom} !</em>
               </div>
-              <div style={{ fontSize:13, color:"#555", lineHeight:1.8 }}>
+              <div style={{ fontSize:13, color:"#888", lineHeight:1.8 }}>
                 Envoyé à <strong style={{ color:"#F5C832" }}>{form.email}</strong>
               </div>
             </div>
@@ -458,7 +490,7 @@ function BilanForm() {
                 <div key={s.n} style={{ background:"#111", padding:"1.25rem 1rem", border:"0.5px solid #1A1A1A" }}>
                   <div style={{ fontSize:9, letterSpacing:"3px", textTransform:"uppercase", color:"#E8B000", marginBottom:8 }}>{s.n}</div>
                   <div style={{ fontSize:13, fontWeight:700, color:"#F0EDE8", marginBottom:6, lineHeight:1.3 }}>{s.title}</div>
-                  <div style={{ fontSize:11, color:"#555", lineHeight:1.6 }}>{s.desc}</div>
+                  <div style={{ fontSize:11, color:"#888", lineHeight:1.6 }}>{s.desc}</div>
                 </div>
               ))}
             </div>
